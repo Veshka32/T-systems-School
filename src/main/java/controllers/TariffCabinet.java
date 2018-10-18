@@ -7,13 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import services.TariffServiceI;
 
 import java.util.List;
 
 @Controller
-public class CreateTariff {
+public class TariffCabinet {
 
     @Autowired
     TariffServiceI tariffService;
@@ -26,11 +27,11 @@ public class CreateTariff {
         return "tariff-management";
     }
 
+    @RequestMapping("/tariffs")
     @GetMapping("/createTariff")
-    public String showAll(ModelMap model){
-    List<Tariff> all=tariffService.getAll();
-    model.addAttribute("allTariffs",all);
-    System.out.println(model.get("allTariffs"));
+    public String show(ModelMap model){
+        List<Tariff> all=tariffService.getAll();
+        model.addAttribute("allTariffs",all);
         return "tariff-management";
     }
 }
