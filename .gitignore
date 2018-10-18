@@ -1,5 +1,6 @@
-.idea
-/out
-*.ser
-/target
+.idea
+/out
+/Tests
+*.ser
+/target
 /lib
