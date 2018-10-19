@@ -30,7 +30,7 @@ public class Tariff implements Serializable {
     @Min(0)
     private int price;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<TariffOption> baseOptions =new ArrayList<>();
 
     @ManyToMany

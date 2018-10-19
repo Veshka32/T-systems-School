@@ -18,7 +18,7 @@ public class OptionService implements OptionServiceI {
     IGenericDAO<TariffOption> optionDAO;
 
     @Autowired
-    public void setoptionDAO(GenericDAO<TariffOption> optionDAO ) {
+    public void setOptionDAO(GenericDAO<TariffOption> optionDAO ) {
         this.optionDAO=optionDAO;
         optionDAO.setClass(TariffOption.class);
     }
@@ -40,6 +40,7 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    @Transactional
     public TariffOption findByName(String name) {
         return optionDAO.findByNaturalId(name);
     }

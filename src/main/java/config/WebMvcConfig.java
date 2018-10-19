@@ -1,20 +1,28 @@
 package config;
 
-import entities.convertors.OptionToString;
-import entities.convertors.StringToOption;
+import converters.OptionToString;
+import converters.StringToOption;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import java.util.List;
+
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "controllers","repositories","services","entities","config" })
+@ComponentScan(basePackages = { "controllers","repositories","services","entities","config","converters" })
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    StringToOption so;
+    @Autowired
+    OptionToString os;
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -27,11 +35,16 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new StringToOption());
-        registry.addConverter(new OptionToString());
+        registry.addConverter(so);
+        registry.addConverter(os);
     }
 
-//    @Bean
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+    }
+
+    //    @Bean
 //    public UserDetailsService getUserDetailsService(){
 //        return new UserDetailServiceImpl();
 //    }

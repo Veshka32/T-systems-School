@@ -25,9 +25,9 @@ public class TariffCabinet {
     OptionServiceI optionService;
 
     @PostMapping("/createTariff")
-    public String create(@ModelAttribute("baseOptions") List<String> options){
-        //String name=tariff.getName();
-        //tariffService.create(name);
+    public String create(Tariff tariff){
+        String name=tariff.getName();
+        tariffService.create(name);
         return "redirect:/createTariff";
     }
 
@@ -45,7 +45,6 @@ public class TariffCabinet {
     public List<TariffOption> getAvailableIceCreams(){
         return optionService.getAll();
         //return optionService.getAll().stream().collect(Collectors.toMap(TariffOption::getName,c->c));
-
     }
 
     @RequestMapping("/tariffs")
