@@ -56,7 +56,7 @@ public class TariffCabinet {
     }
 
     @RequestMapping("/newTariff")
-    public String newTarriff(){
+    public String newTariff(){
         return "create-tariff";
     }
 }

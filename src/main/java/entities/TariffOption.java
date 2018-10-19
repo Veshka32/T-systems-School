@@ -25,6 +25,8 @@ public class TariffOption implements Serializable {
     @Min(0)
     private int subscribeCost;
 
+    private boolean archived;
+
     private String description;
     private boolean archived;
 
