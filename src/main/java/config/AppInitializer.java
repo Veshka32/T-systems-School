@@ -6,7 +6,8 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { HbernateConfiguration.class };
+        //return new Class[] { HbernateConfiguration.class };
+        return null;
     }
 
     @Override
@@ -18,4 +19,5 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     protected String[] getServletMappings() {
         return new String[] { "/" };
     }
+
 }

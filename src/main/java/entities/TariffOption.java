@@ -25,14 +25,16 @@ public class TariffOption implements Serializable {
     @Min(0)
     private int subscribeCost;
 
+    private String description;
+    private boolean archived;
+
     @ManyToMany
     private Set<TariffOption> incompatibleOptions=new HashSet<>();
 
     public TariffOption(){}
 
-    public TariffOption(String name, int price){
+    public TariffOption(String name){
         this.name=name;
-        this.price=price;
     }
 
     public String getName() {
@@ -77,5 +79,22 @@ public class TariffOption implements Serializable {
 
     public void addIncompatibleOptions(TariffOption option) {
         incompatibleOptions.add(option);
+    }
+
+    public void removeIncompatibleOptions(TariffOption option) {
+        incompatibleOptions.remove(option);
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setArchived(){
+        archived=true;
     }
 }

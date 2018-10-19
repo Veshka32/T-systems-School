@@ -6,7 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,7 @@ public class Tariff implements Serializable {
 
     @Column(unique = true,nullable = false)
     @NotEmpty
-    private String name="";
+    private String name;
 
     boolean isArchived=false;
 
@@ -29,7 +31,7 @@ public class Tariff implements Serializable {
     private int price;
 
     @ManyToMany
-    private Set<TariffOption> baseOptions =new HashSet<>();
+    private List<TariffOption> baseOptions =new ArrayList<>();
 
     @ManyToMany
     private Set<TariffOption> incompatibleOptions =new HashSet<>();
@@ -68,13 +70,17 @@ public class Tariff implements Serializable {
         this.price = price;
     }
 
-    public Set<TariffOption> getBaseOptions() {
+    public List<TariffOption> getBaseOptions() {
         return baseOptions;
     }
 
     public void addBaseOption(TariffOption baseOption) {
             this.baseOptions.add(baseOption);
             description=baseOptions.stream().map(TariffOption::getName).collect(Collectors.joining(","));
+    }
+
+    public void setBaseOptions(List<TariffOption> options){
+        baseOptions.addAll(options);
     }
 
     public void deleteBaseOption(TariffOption option){

@@ -14,11 +14,7 @@
 <c:forEach items="${allTariffs}" var="tariff">
     ${tariff.toString()}</br>
 </c:forEach>
-<h2>Create new tariff</h2>
-<form method="post" action="createTariff">
-    ${createTariffError}<br/>
-    name: <input type="text" name="name"><br />
-    <button type="submit">Create</button><br/>
-</form>
+
+<a href="createTariff">Create new tariff</a>
 </body>
 </html>
