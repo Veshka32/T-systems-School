@@ -28,15 +28,14 @@ public class TariffOption implements Serializable {
     private boolean archived;
 
     private String description;
-    private boolean archived;
 
     @ManyToMany
     private Set<TariffOption> incompatibleOptions=new HashSet<>();
 
     public TariffOption(){}
 
-    public TariffOption(String name){
-        this.name=name;
+    public TariffOption(String name,int price){
+        this.name=name; this.price=price;
     }
 
     public String getName() {
