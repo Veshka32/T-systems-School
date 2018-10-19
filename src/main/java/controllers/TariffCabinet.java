@@ -6,15 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import services.OptionServiceI;
 import services.TariffServiceI;
 
-import java.util.HashSet;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class TariffCabinet {
@@ -25,10 +24,11 @@ public class TariffCabinet {
     OptionServiceI optionService;
 
     @PostMapping("/createTariff")
-    public String create(Tariff tariff){
+    public String create(@Valid Tariff tariff, BindingResult result){
+        if (result.hasErrors()) return "create-tariff";
         String name=tariff.getName();
         tariffService.create(name);
-        return "redirect:/createTariff";
+        return "tariff-management"; //wrong
     }
 
     @GetMapping("/createTariff")
@@ -36,16 +36,12 @@ public class TariffCabinet {
         return "create-tariff";
     }
 
-    @ModelAttribute("tariff")
-    public Tariff formBackingObject() {
-        return new Tariff();
+    @RequestMapping("/editTariff")
+    public String editTariff(@RequestParam("id") int id,Model model){
+        model.addAttribute("id",id);
+        return "edit-tariff";
     }
 
-    @ModelAttribute("allOptions")
-    public List<TariffOption> getAvailableIceCreams(){
-        return optionService.getAll();
-        //return optionService.getAll().stream().collect(Collectors.toMap(TariffOption::getName,c->c));
-    }
 
     @RequestMapping("/tariffs")
     public String show(ModelMap model){
@@ -57,5 +53,15 @@ public class TariffCabinet {
     @RequestMapping("/newTariff")
     public String newTariff(){
         return "create-tariff";
+    }
+
+    @ModelAttribute("tariff")
+    public Tariff formBackingObject() {
+        return new Tariff();
+    }
+
+    @ModelAttribute("allOptions")
+    public List<TariffOption> getAvailableIceCreams(){
+        return optionService.getAll();
     }
 }

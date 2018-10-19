@@ -1,10 +1,9 @@
 package entities;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +19,7 @@ public class Tariff implements Serializable {
     private int id;
 
     @Column(unique = true,nullable = false)
-    @NotEmpty
+    @NotNull @Size(min=3,max=50)
     private String name;
 
     boolean isArchived=false;
@@ -81,6 +80,7 @@ public class Tariff implements Serializable {
 
     public void setBaseOptions(List<TariffOption> options){
         baseOptions.addAll(options);
+        description=baseOptions.stream().map(TariffOption::getName).collect(Collectors.joining(","));
     }
 
     public void deleteBaseOption(TariffOption option){

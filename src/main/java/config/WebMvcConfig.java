@@ -39,11 +39,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addConverter(os);
     }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-
-    }
-
     //    @Bean
 //    public UserDetailsService getUserDetailsService(){
 //        return new UserDetailServiceImpl();

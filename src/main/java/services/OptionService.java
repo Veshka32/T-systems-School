@@ -1,6 +1,4 @@
 package services;
-
-import entities.Tariff;
 import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,7 @@ import java.util.List;
 @EnableTransactionManagement
 public class OptionService implements OptionServiceI {
 
-    IGenericDAO<TariffOption> optionDAO;
+    private IGenericDAO<TariffOption> optionDAO;
 
     @Autowired
     public void setOptionDAO(GenericDAO<TariffOption> optionDAO ) {
@@ -78,7 +76,7 @@ public class OptionService implements OptionServiceI {
     public void removeIncompatibleOptions(int id, int... optionId) {
         TariffOption option = optionDAO.findOne(id);
         for (int o : optionId) {
-            option.removeIncompatibleOptions(optionDAO.findOne(id));
+            option.removeIncompatibleOptions(optionDAO.findOne(o));
         }
         optionDAO.update(option);
     }
