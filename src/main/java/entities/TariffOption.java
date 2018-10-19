@@ -1,5 +1,7 @@
 package entities;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -16,6 +18,7 @@ public class TariffOption implements Serializable {
     private int id;
 
     @NotEmpty
+    @NaturalId
     @Column(unique = true)
     private String name;
 
