@@ -52,8 +52,8 @@ public class GenericDAO<T extends Serializable> implements IGenericDAO<T> {
     }
 
     @Override
-    public void create(T entity) {
-        sessionFactory.getCurrentSession().persist(entity);
+    public int create(T entity) {
+        return (int)sessionFactory.getCurrentSession().save(entity);
     }
 
     @Override

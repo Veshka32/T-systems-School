@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Tariff implements Serializable {
 
     @Column(unique = true,nullable = false)
     @NotNull @Size(min=3,max=50)
+    @NaturalId
     private String name;
 
     private boolean isArchived=false;
@@ -34,7 +36,7 @@ public class Tariff implements Serializable {
     @Min(0)
     private int price;
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "tariff_option",
@@ -44,7 +46,7 @@ public class Tariff implements Serializable {
     @UniqueElements
     private List<TariffOption> options =new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "tariff_IncompatibleOption",
@@ -54,7 +56,7 @@ public class Tariff implements Serializable {
     @UniqueElements
     private List<TariffOption> incompatibleOptions =new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @UniqueElements
     @JoinTable(name="tariff_tariff",

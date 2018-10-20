@@ -25,9 +25,9 @@ public class TariffCabinet {
 
     @PostMapping("/createTariff")
     public String create(@Valid Tariff tariff, BindingResult result){
-        if (result.hasErrors()) return "create-tariff";
-        String name=tariff.getName();
-        tariffService.create(name);
+        if (result.hasErrors())
+            return "create-tariff";
+        tariffService.create(tariff);
         return "redirect:/tariffs";
     }
 
@@ -65,9 +65,7 @@ public class TariffCabinet {
     }
 
     @RequestMapping("/tariffs")
-    public String show(ModelMap model){
-//        List<Tariff> all=tariffService.getAll();
-//        model.addAttribute("allTariffs",all);
+    public String show(){
         return "tariff-management";
     }
 

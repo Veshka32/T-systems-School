@@ -19,6 +19,11 @@
                 <input type="hidden" name="id" value=${tariff.id}>
                 <input type="submit" value="Edit tariff"></form>
             </td>
+            <td>
+            <form action="deleteTariff" method="get">
+                <input type="hidden" name="id" value=${tariff.id}>
+                <input type="submit" value="Delete tariff"></form>
+            </td>
         </tr>
     </c:forEach>
 </table>

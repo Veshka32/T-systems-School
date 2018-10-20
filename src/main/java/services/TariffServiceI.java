@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TariffServiceI {
 
-    void create(String name);
+    int create(Tariff tariff);
 
     void delete(int id);
 

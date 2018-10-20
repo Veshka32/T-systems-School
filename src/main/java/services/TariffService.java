@@ -28,8 +28,8 @@ public class TariffService implements TariffServiceI {
 
     @Override
     @Transactional
-    public void create(String name) {
-        tariffDAO.create(new Tariff(name));
+    public int create(Tariff tariff) {
+        return tariffDAO.create(tariff);
     }
 
     @Override
