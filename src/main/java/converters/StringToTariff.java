@@ -1,19 +1,21 @@
 package converters;
 
+import entities.Tariff;
 import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import services.OptionServiceI;
+import services.TariffServiceI;
 
 @Component
-public class StringToOption implements Converter<String, TariffOption> {
+public class StringToTariff implements Converter<String, Tariff> {
 
     @Autowired
-    OptionServiceI optionService;
+    TariffServiceI service;
 
     @Override
-    public TariffOption convert(String name){
-        return optionService.findByName(name);
+    public Tariff convert(String name){
+        return service.findByName(name);
     }
 }

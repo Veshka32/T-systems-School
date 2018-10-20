@@ -1,14 +1,15 @@
 package converters;
 
+import entities.Tariff;
 import entities.TariffOption;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OptionToString implements Converter<TariffOption,String> {
+public class TariffToString implements Converter<Tariff,String> {
 
     @Override
-    public String convert(TariffOption option){
-    return option.getName();
+    public String convert(Tariff tariff){
+    return tariff.getName();
 }
 }

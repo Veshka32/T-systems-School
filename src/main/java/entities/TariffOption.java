@@ -41,13 +41,17 @@ public class TariffOption implements Serializable {
         this.name=name; this.price=price;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
 
     @Override
     public String toString(){
-        return "TariffOption: "+name+", price: "+price+", cost of subscribe: "+subscribeCost;
+        return name+": price: "+price+", cost of subscribe: "+subscribeCost;
     }
 
     @Override
@@ -69,7 +73,7 @@ public class TariffOption implements Serializable {
         this.price = price;
     }
 
-    public int getSubscriveCost() {
+    public int getSubscribeCost() {
         return subscribeCost;
     }
 

@@ -1,7 +1,6 @@
 package services;
 
 import entities.Tariff;
-import entities.TariffOption;
 
 import java.util.List;
 
@@ -17,6 +16,8 @@ public interface TariffServiceI {
 
     List<Tariff> getAll();
 
+    void update(Tariff tariff);
+
     void addBaseOptions(int tariffId,int... optionId);
 
     void deleteBaseOptions(int tariffId,int... optionId);
@@ -27,7 +28,7 @@ public interface TariffServiceI {
 
     void removeIncompatibleOptions(int tariffId, int... optionId);
 
-    void setIncompatibleTafiff(int tafiffId,int... tariff2Id);
+    void setIncompatibleTariff(int tafiffId, int... tariff2Id);
 
     void removeIncompatibleTariff(int tariffId, int... tariff2Id);
 

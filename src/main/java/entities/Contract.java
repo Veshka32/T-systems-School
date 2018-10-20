@@ -28,8 +28,8 @@ public class Contract {
         this.owner=owner;
     }
 
-    public boolean changeTariff(Tariff newTarrif){
-        tariff=newTarrif;
+    public boolean changeTariff(Tariff newTarriff){
+        tariff=newTarriff;
         return true;
     }
 

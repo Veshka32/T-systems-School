@@ -1,5 +1,8 @@
 package entities;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -22,17 +25,27 @@ public class Tariff implements Serializable {
     @NotNull @Size(min=3,max=50)
     private String name;
 
-    boolean isArchived=false;
+    private boolean isArchived=false;
 
     private String description;
 
     @Min(0)
     private int price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tariff_tariffoption",
+            joinColumns = { @JoinColumn(name = "tariff_id") },
+            inverseJoinColumns = { @JoinColumn(name = "option_id") }
+    )
     private List<TariffOption> baseOptions =new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tariff_IcompatibleOption",
+            joinColumns = { @JoinColumn(name = "tariff_id") },
+            inverseJoinColumns = { @JoinColumn(name = "option_id") }
+    )
     private Set<TariffOption> incompatibleOptions =new HashSet<>();
 
     @ManyToMany
@@ -43,7 +56,6 @@ public class Tariff implements Serializable {
     public Tariff(String name){
         this.name=name;
     }
-
 
     public int getId() {
         return id;
@@ -75,17 +87,14 @@ public class Tariff implements Serializable {
 
     public void addBaseOption(TariffOption baseOption) {
             this.baseOptions.add(baseOption);
-            description=baseOptions.stream().map(TariffOption::getName).collect(Collectors.joining(","));
     }
 
     public void setBaseOptions(List<TariffOption> options){
         baseOptions.addAll(options);
-        description=baseOptions.stream().map(TariffOption::getName).collect(Collectors.joining(","));
     }
 
     public void deleteBaseOption(TariffOption option){
         baseOptions.remove(option);
-        description=baseOptions.stream().map(TariffOption::getName).collect(Collectors.joining(","));
     }
 
     public Set<TariffOption> getIncompatibleOptions() {
@@ -118,8 +127,24 @@ public class Tariff implements Serializable {
         isArchived=true;
     }
 
+    public void setArchived(boolean archived) {
+        isArchived = archived;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setDescription(String s){
+        description=s;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString(){
-        return "id: "+id+", tariff: "+name+", price: "+price+", base options: "+description;
+        return "id: "+id+", tariff: "+name+", price: "+price+", description: "+description+", options: "+baseOptions.toString();
     }
 }

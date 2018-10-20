@@ -1,6 +1,5 @@
 package services;
 
-import entities.Tariff;
 import entities.TariffOption;
 
 import java.util.List;

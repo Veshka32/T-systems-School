@@ -2,27 +2,31 @@ package config;
 
 import converters.OptionToString;
 import converters.StringToOption;
+import converters.StringToTariff;
+import converters.TariffToString;
+import entities.Tariff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import java.util.List;
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "controllers","repositories","services","entities","config","converters" })
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     StringToOption so;
     @Autowired
     OptionToString os;
+    @Autowired
+    TariffToString ts;
+    @Autowired
+    StringToTariff st;
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -37,6 +41,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(so);
         registry.addConverter(os);
+        registry.addConverter(ts);
+        registry.addConverter(st);
     }
 
     //    @Bean

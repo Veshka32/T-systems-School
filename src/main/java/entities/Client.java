@@ -25,7 +25,7 @@ public class Client {
     private String email;
 
     @Column(nullable = false)
-    private String adress;
+    private String address;
 
     private byte[] password;
     @Column(length = 8)
@@ -33,7 +33,7 @@ public class Client {
 
     @Column(nullable = false)
     @OneToMany(mappedBy ="owner")
-    private Set<Contract> contracts=new HashSet<Contract>(); //not empty?
+    private Set<Contract> contracts=new HashSet<>(); //not empty?
 
     public Client(){}
 
@@ -90,12 +90,12 @@ public class Client {
         this.email = email;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     public byte[] getPassword() {

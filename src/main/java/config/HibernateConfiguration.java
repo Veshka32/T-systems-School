@@ -13,7 +13,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-public class HbernateConfiguration {
+public class HibernateConfiguration {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -46,7 +46,7 @@ public class HbernateConfiguration {
         hibernateProperties.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
         hibernateProperties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty("hibernate.show_sql","true");
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }
 }
