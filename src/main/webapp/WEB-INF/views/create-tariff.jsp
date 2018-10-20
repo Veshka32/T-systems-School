@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td>Set options :</td>
-            <td><form:checkboxes items="${allOptions}" path="baseOptions" /></td>
+            <td><form:checkboxes items="${allOptions}" path="options" /></td>
         </tr>
 
         <tr>

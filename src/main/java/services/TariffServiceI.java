@@ -18,20 +18,8 @@ public interface TariffServiceI {
 
     void update(Tariff tariff);
 
-    void addBaseOptions(int tariffId,int... optionId);
+    void deleteOption(int tariffId, int optionId);
 
-    void deleteBaseOptions(int tariffId,int... optionId);
-
-    void updatePrice(int tariffId,int price);
-
-    void setIncompatibleOptions(int tariffId, int... optionId);
-
-    void removeIncompatibleOptions(int tariffId, int... optionId);
-
-    void setIncompatibleTariff(int tafiffId, int... tariff2Id);
-
-    void removeIncompatibleTariff(int tariffId, int... tariff2Id);
-
-    void archive(int tariffId);
+    void deleteIncompatibleOption(int tariffId, int optionId);
 
 }

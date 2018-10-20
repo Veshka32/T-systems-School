@@ -28,7 +28,7 @@
         </tr>
         <tr>
             <td>Choose options:</td>
-            <td><form:checkboxes items="${allOptions}" path="baseOptions" /></td>
+            <td><form:checkboxes items="${allOptions}" path="options" /></td>
         </tr>
 
         <tr>
@@ -54,7 +54,7 @@
 
 Options:
 <table>
-    <c:forEach items="${editedTariff.baseOptions}" var="option">
+    <c:forEach items="${editedTariff.options}" var="option">
         <tr>
             <td>${option.toString()}</td>
             <td>
@@ -81,5 +81,7 @@ Incompatible options:
         </tr>
     </c:forEach>
 </table>
+
+<a href="tariffs">Back to tariffs</a>
 </body>
 </html>

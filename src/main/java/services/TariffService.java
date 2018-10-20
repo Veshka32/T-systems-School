@@ -15,8 +15,8 @@ import java.util.List;
 @EnableTransactionManagement
 public class TariffService implements TariffServiceI {
 
-    IGenericDAO<Tariff> tariffDAO;
-    IGenericDAO<TariffOption> optionDAO;
+    private IGenericDAO<Tariff> tariffDAO;
+    private IGenericDAO<TariffOption> optionDAO;
 
     @Autowired
     public void setTariffDAO(GenericDAO<Tariff> tariffDAO,GenericDAO<TariffOption> optionDAO ) {
@@ -64,78 +64,21 @@ public class TariffService implements TariffServiceI {
 
     @Override
     @Transactional
-    public void addBaseOptions(int tariffId, int... optionId) {
+    public void deleteOption(int tariffId, int optionId) {
         Tariff tariff = tariffDAO.findOne(tariffId);
-        for (int id : optionId) {
-            tariff.addBaseOption(optionDAO.findOne(id));
-        }
+
+            tariff.deleteOption(optionDAO.findOne(optionId));
+
         tariffDAO.update(tariff);
     }
 
     @Override
     @Transactional
-    public void deleteBaseOptions(int tariffId, int... optionId) {
+    public void deleteIncompatibleOption(int tariffId, int optionId) {
         Tariff tariff = tariffDAO.findOne(tariffId);
-        for (int id : optionId
-                ) {
-            tariff.deleteBaseOption(optionDAO.findOne(id));
-        }
-        tariffDAO.update(tariff);
-    }
 
-    @Override
-    @Transactional
-    public void updatePrice(int tariffId, int price) {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        tariff.setPrice(price);
-        tariffDAO.update(tariff);
-    }
+            tariff.deleteIncompatibleOption(optionDAO.findOne(optionId));
 
-    @Override
-    @Transactional
-    public void setIncompatibleOptions(int tariffId, int... optionId) {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        for (int id : optionId) {
-            tariff.setIncompatibleOption(optionDAO.findOne(id));
-        }
-        tariffDAO.update(tariff);
-    }
-
-    @Override
-    @Transactional
-    public void removeIncompatibleOptions(int tariffId, int... optionId) {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        for (int id : optionId) {
-            tariff.deleteIncompatibleOption(optionDAO.findOne(id));
-        }
-        tariffDAO.update(tariff);
-    }
-
-    @Override
-    @Transactional
-    public void setIncompatibleTariff(int tariffId, int... tariff2Id) {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        for (int id : tariff2Id) {
-            tariff.setIncompatibleTariffs(tariffDAO.findOne(id));
-        }
-        tariffDAO.update(tariff);
-    }
-
-    @Override
-    @Transactional
-    public void removeIncompatibleTariff(int tariffId, int... tariff2Id) {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        for (int id : tariff2Id) {
-            tariff.deleteIncompatibleTariff(tariffDAO.findOne(id));
-        }
-        tariffDAO.update(tariff);
-    }
-
-    @Override
-    @Transactional
-    public void archive(int tariffId) {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        tariff.archive();
         tariffDAO.update(tariff);
     }
 }

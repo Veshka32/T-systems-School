@@ -59,7 +59,7 @@ public class OptionService implements OptionServiceI {
     @Override
     public void updateSubscribeCost(int id,int cost) {
         TariffOption option = optionDAO.findOne(id);
-        option.setSubscriveCost(cost);
+        option.setSubscribeCost(cost);
         optionDAO.update(option);
     }
 

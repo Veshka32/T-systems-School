@@ -52,14 +52,14 @@ public class TariffCabinet {
 
     @GetMapping("/deleteOption")
     public String deleteOption(@RequestParam("id") int id,@RequestParam("option_id") int option_id,RedirectAttributes attr){
-        tariffService.deleteBaseOptions(id,option_id);
+        tariffService.deleteOption(id,option_id);
         attr.addAttribute("id",id);
         return "redirect:/editTariff";
     }
 
     @GetMapping("/deleteIncompatibleOption")
     public String deleteIncompatibleOption(@RequestParam("id") int id,@RequestParam("option_id") int option_id,RedirectAttributes attr){
-        tariffService.removeIncompatibleOptions(id,option_id);
+        tariffService.deleteIncompatibleOption(id,option_id);
         attr.addAttribute("id",id);
         return "redirect:/editTariff";
     }

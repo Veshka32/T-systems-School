@@ -33,6 +33,9 @@ public class TariffOption implements Serializable {
 
     @ManyToMany
     @UniqueElements
+    @JoinTable(name="option_option",
+            joinColumns={@JoinColumn(name="option_id")},
+            inverseJoinColumns={@JoinColumn(name="incompatibleOption_id")})
     private List<TariffOption> incompatibleOptions=new ArrayList<>();
 
     public TariffOption(){}
@@ -77,8 +80,8 @@ public class TariffOption implements Serializable {
         return subscribeCost;
     }
 
-    public void setSubscriveCost(int subscriveCost) {
-        this.subscribeCost = subscriveCost;
+    public void setSubscribeCost(int subscribeCost) {
+        this.subscribeCost = subscribeCost;
     }
 
     public List<TariffOption> getIncompatibleTariffOptions() {
