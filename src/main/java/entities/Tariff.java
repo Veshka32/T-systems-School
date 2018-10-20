@@ -1,7 +1,10 @@
 package entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -33,23 +36,29 @@ public class Tariff implements Serializable {
     private int price;
 
     @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "tariff_tariffoption",
             joinColumns = { @JoinColumn(name = "tariff_id") },
             inverseJoinColumns = { @JoinColumn(name = "option_id") }
     )
+    @UniqueElements
     private List<TariffOption> baseOptions =new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "tariff_IcompatibleOption",
             joinColumns = { @JoinColumn(name = "tariff_id") },
             inverseJoinColumns = { @JoinColumn(name = "option_id") }
     )
-    private Set<TariffOption> incompatibleOptions =new HashSet<>();
+    @UniqueElements
+    private List<TariffOption> incompatibleOptions =new ArrayList<>();
 
-    @ManyToMany
-    private Set<Tariff> incompatibleTariffs=new HashSet<>();
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @UniqueElements
+    private List<Tariff> incompatibleTariffs=new ArrayList<>();
 
     public Tariff(){}
 
@@ -97,7 +106,7 @@ public class Tariff implements Serializable {
         baseOptions.remove(option);
     }
 
-    public Set<TariffOption> getIncompatibleOptions() {
+    public List<TariffOption> getIncompatibleOptions() {
         return incompatibleOptions;
     }
 
@@ -105,11 +114,20 @@ public class Tariff implements Serializable {
             this.incompatibleOptions.add(incompatibleOption);
     }
 
+    public void setIncompatibleTariffs(List<Tariff> incompatibleTariffs) {
+        this.incompatibleTariffs = incompatibleTariffs;
+    }
+
+    public void setIncompatibleOptions(List<TariffOption> options){
+        this.incompatibleOptions=options;
+
+    }
+
     public void deleteIncompatibleOption(TariffOption option){
         incompatibleOptions.remove(option);
     }
 
-    public Set<Tariff> getIncompatibleTariffs() {
+    public List<Tariff> getIncompatibleTariffs() {
         return incompatibleTariffs;
     }
 
@@ -145,6 +163,6 @@ public class Tariff implements Serializable {
 
     @Override
     public String toString(){
-        return "id: "+id+", tariff: "+name+", price: "+price+", description: "+description+", options: "+baseOptions.toString();
+        return "id: "+id+", tariff: "+name+", price: "+price+", description: "+description+", is archived:"+isArchived;
     }
 }

@@ -1,14 +1,13 @@
 package entities;
 
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -33,7 +32,8 @@ public class TariffOption implements Serializable {
     private String description;
 
     @ManyToMany
-    private Set<TariffOption> incompatibleOptions=new HashSet<>();
+    @UniqueElements
+    private List<TariffOption> incompatibleOptions=new ArrayList<>();
 
     public TariffOption(){}
 
@@ -81,7 +81,7 @@ public class TariffOption implements Serializable {
         this.subscribeCost = subscriveCost;
     }
 
-    public Set<TariffOption> getIncompatibleTariffOptions() {
+    public List<TariffOption> getIncompatibleTariffOptions() {
         return incompatibleOptions;
     }
 
@@ -92,7 +92,6 @@ public class TariffOption implements Serializable {
     public void removeIncompatibleOptions(TariffOption option) {
         incompatibleOptions.remove(option);
     }
-
 
     public String getDescription() {
         return description;
