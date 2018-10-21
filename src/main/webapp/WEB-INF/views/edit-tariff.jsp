@@ -36,10 +36,10 @@
             <td><form:checkboxes items="${allOptions}" path="incompatibleOptions" /></td>
         </tr>
 
-        <%--<tr>--%>
-            <%--<td>Choose incompatible tariffs:</td>--%>
-            <%--<td><form:checkboxes items="${allTariffs}" path="incompatibleTariffs" /></td>--%>
-        <%--</tr>--%>
+        <tr>
+            <td>Choose incompatible tariffs:</td>
+            <td><form:checkboxes items="${allTariffs}" path="incompatibleTariffs" /></td>
+        </tr>
 
         <tr>
             <td>Archived:</td>
@@ -76,6 +76,21 @@ Incompatible options:
                 <form action="deleteIncompatibleOption" method="get">
                     <input type="hidden" name="id" value=${editedTariff.id}>
                     <input type="hidden" name="option_id" value=${option.id}>
+                    <input type="submit" value="Delete"></form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+Incompatible tariffs:
+<table>
+    <c:forEach items="${editedTariff.incompatibleTariffs}" var="tariff">
+        <tr>
+            <td>${option.toString()}</td>
+            <td>
+                <form action="deleteIncompatibleTariff" method="get">
+                    <input type="hidden" name="id" value=${editedTariff.id}>
+                    <input type="hidden" name="tariff_id" value=${tariff.id}>
                     <input type="submit" value="Delete"></form>
             </td>
         </tr>

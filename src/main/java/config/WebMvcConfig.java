@@ -37,6 +37,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return resolver;
     }
 
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/login.jsp"); //no need in @Controller for this page
+//    }
+
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(so);

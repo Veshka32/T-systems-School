@@ -64,6 +64,12 @@ public class TariffCabinet {
         return "redirect:/editTariff";
     }
 
+    @GetMapping("/deleteTariff")
+    public String deleteTariff(@RequestParam("id") int id,RedirectAttributes attr){
+        tariffService.delete(id);
+        return    "redirect:/tariffs";
+    }
+
     @RequestMapping("/tariffs")
     public String show(){
         return "tariff-management";

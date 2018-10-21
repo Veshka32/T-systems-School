@@ -11,8 +11,5 @@ public class ManagerCabinet {
         return "manager-cabinet";
     }
 
-    @RequestMapping("/")
-    public String root(){
-        return "index";
-    }
+
 }
