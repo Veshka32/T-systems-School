@@ -41,10 +41,6 @@
         </tr>
 
         <tr>
-            <td>Set incompatible tariffs:</td>
-            <td><form:checkboxes items="${allTariffs}" path="incompatibleTariffs" /></td>
-        </tr>
-        <tr>
             <td colspan="3"><input type="submit"/></td>
         </tr>
     </table>

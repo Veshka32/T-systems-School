@@ -80,7 +80,7 @@ public class TariffCabinet {
     }
 
     @ModelAttribute("allOptions")
-    public List<TariffOption> getAvailableIceCreams(){
+    public List<TariffOption> getAllOptions(){
         return optionService.getAll();
     }
 

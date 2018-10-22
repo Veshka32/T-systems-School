@@ -56,14 +56,6 @@ public class Tariff implements Serializable {
     @UniqueElements
     private List<TariffOption> incompatibleOptions =new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @UniqueElements
-    @JoinTable(name="tariff_tariff",
-            joinColumns={@JoinColumn(name="tariff_id")},
-            inverseJoinColumns={@JoinColumn(name="incompatibleTariff_id")})
-    private List<Tariff> incompatibleTariffs=new ArrayList<>();
-
     public Tariff(){}
 
     public Tariff(String name){

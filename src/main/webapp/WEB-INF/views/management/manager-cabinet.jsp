@@ -7,7 +7,7 @@
     <title>Manager cabinet</title>
 </head>
 <body>
-<a href="tariffs">Tariffs</a>
+<a href="management/tariffs">Tariffs</a>
 <a href="clients">Clients</a>
 <a href="tariffOptions">Tariff Options</a>
 
