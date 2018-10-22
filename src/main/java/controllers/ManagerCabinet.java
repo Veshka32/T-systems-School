@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ManagerCabinet {
 
-    @RequestMapping("/manager")
+    @RequestMapping("/management")
     public String create(){
-        return "manager-cabinet";
+        return "management/manager-cabinet";
     }
 
 

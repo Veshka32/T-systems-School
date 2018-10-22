@@ -5,7 +5,6 @@ import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,56 +22,56 @@ public class TariffCabinet {
     @Autowired
     OptionServiceI optionService;
 
-    @PostMapping("/createTariff")
+    @PostMapping("/management/createTariff")
     public String create(@Valid Tariff tariff, BindingResult result){
         if (result.hasErrors())
-            return "create-tariff";
+            return "management/create-tariff";
         tariffService.create(tariff);
-        return "redirect:/tariffs";
+        return "redirect:/management/tariffs";
     }
 
-    @GetMapping("/createTariff")
+    @GetMapping("/management/createTariff")
     public String createShow(){
-        return "create-tariff";
+        return "management/create-tariff";
     }
 
-    @GetMapping("/editTariff")
+    @GetMapping("/management/editTariff")
     public String editTariff(@RequestParam("id") int id,Model model){
         model.addAttribute("editedTariff",tariffService.get(id));
-        return "edit-tariff";
+        return "management/edit-tariff";
     }
 
-    @PostMapping("/editTariff")
+    @PostMapping("/management/editTariff")
     public String updateTariff(@Valid Tariff tariff, BindingResult result, RedirectAttributes attributes){
-        if (result.hasErrors()) return "edit-tariff";
+        if (result.hasErrors()) return "management/edit-tariff";
         tariffService.update(tariff);
         attributes.addAttribute("id",tariff.getId());
-        return "redirect:/editTariff";
+        return "redirect:/management/editTariff";
     }
 
-    @GetMapping("/deleteOption")
+    @GetMapping("/management/deleteOption")
     public String deleteOption(@RequestParam("id") int id,@RequestParam("option_id") int option_id,RedirectAttributes attr){
         tariffService.deleteOption(id,option_id);
         attr.addAttribute("id",id);
-        return "redirect:/editTariff";
+        return "redirect:/management/editTariff";
     }
 
-    @GetMapping("/deleteIncompatibleOption")
+    @GetMapping("/management/deleteIncompatibleOption")
     public String deleteIncompatibleOption(@RequestParam("id") int id,@RequestParam("option_id") int option_id,RedirectAttributes attr){
         tariffService.deleteIncompatibleOption(id,option_id);
         attr.addAttribute("id",id);
-        return "redirect:/editTariff";
+        return "redirect:/management/editTariff";
     }
 
-    @GetMapping("/deleteTariff")
+    @GetMapping("/management/deleteTariff")
     public String deleteTariff(@RequestParam("id") int id,RedirectAttributes attr){
         tariffService.delete(id);
-        return    "redirect:/tariffs";
+        return    "redirect:/management/tariffs";
     }
 
-    @RequestMapping("/tariffs")
+    @RequestMapping("/management/tariffs")
     public String show(){
-        return "tariff-management";
+        return "management/tariff-management";
     }
 
     @ModelAttribute("tariff")

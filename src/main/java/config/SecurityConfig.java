@@ -34,13 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin().loginPage("/login")
-                    .defaultSuccessUrl("/manager",true)
+                    .defaultSuccessUrl("/",false)
                     .failureUrl("/login?error")
                     .and()
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/manager","/editTariff","/createTariff").hasRole("MANAGER")
+                    .antMatchers("/management*","/editTariff","/createTariff").hasRole("MANAGER")
                     .anyRequest().authenticated() //all remaining must be auth
                     .and()
                     .logout().logoutSuccessUrl("/login?logout");
