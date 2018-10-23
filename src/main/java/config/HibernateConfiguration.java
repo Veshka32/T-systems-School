@@ -46,6 +46,7 @@ public class HibernateConfiguration {
         hibernateProperties.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
         hibernateProperties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty("hibernate.show_sql","true");
+        hibernateProperties.setProperty("hibernate.use_sql_comments","true");
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }

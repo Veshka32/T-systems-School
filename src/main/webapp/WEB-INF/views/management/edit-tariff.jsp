@@ -28,12 +28,12 @@
         </tr>
         <tr>
             <td>Choose options:</td>
-            <td><form:checkboxes items="${allOptions}" path="options" /></td>
+            <td><form:select items="${allOptions}" path="options" multiple="true"/></td>
         </tr>
 
         <tr>
             <td>Choose incompatible options:</td>
-            <td><form:checkboxes items="${allOptions}" path="incompatibleOptions" /></td>
+            <td><form:select items="${allOptions}" path="incompatibleOptions" multiple="true"/></td>
         </tr>
 
         <tr>

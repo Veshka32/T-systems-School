@@ -25,8 +25,6 @@ public class GenericDAO<T extends Serializable> implements IGenericDAO<T> {
 
     @Override
     public final void setClass(Class<T> clazzToSet) {
-
-        //this.clazz =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.clazz = clazzToSet;
     }
 
