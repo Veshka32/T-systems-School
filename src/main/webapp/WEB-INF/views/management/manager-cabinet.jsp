@@ -8,7 +8,7 @@
 </head>
 <body>
 <a href="management/tariffs">Tariffs</a>
-<a href="clients">Clients</a>
+<a href="management/clients">Clients</a>
 <a href="management/options">Tariff Options</a>
 
 <c:url value="/logout" var="logoutUrl" />

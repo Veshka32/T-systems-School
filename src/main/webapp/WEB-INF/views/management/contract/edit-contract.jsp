@@ -15,7 +15,7 @@
 <form:form method="POST" modelAttribute="contract">
     <table>
         <tr>
-            <td>Owner: ${contract.owner}</td>
+            <td>Owner: ${contract.owner.name}</td>
         </tr>
         <tr>
             <td>Number:${contract.number}</td>

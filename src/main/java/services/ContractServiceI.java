@@ -6,5 +6,5 @@ public interface ContractServiceI {
 
     Contract findByPhone(int phone);
 
-    void create(Contract contract);
+    Contract create(Contract contract);
 }

@@ -22,7 +22,7 @@ public class Contract implements Serializable {
     private int number;
 
     @ManyToOne
-    private Client owner;
+    private final Client owner;
 
     @ManyToOne
     private Tariff tariff;
@@ -33,6 +33,9 @@ public class Contract implements Serializable {
     private boolean isBlocked=false;
     private boolean isBlockedByAdmin=false;
 
+    public Contract(Client client){
+        owner=client;
+    }
     @Override
     public int hashCode(){
         return number;

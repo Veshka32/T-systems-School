@@ -26,5 +26,8 @@ public class ContractService implements ContractServiceI {
 
     @Override
     @Transactional
-    public void create(Contract contract){contractDAO.create(contract);}
+    public Contract create(Contract contract){
+        int id=contractDAO.create(contract);
+        return contractDAO.findOne(id);
+    }
 }
