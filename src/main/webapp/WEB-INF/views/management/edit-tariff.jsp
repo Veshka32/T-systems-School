@@ -27,12 +27,12 @@
             <td><form:input value="${editedTariff.description}" path="description" /></td>
         </tr>
         <tr>
-            <td>Choose options:</td>
+            <td>Add options:</td>
             <td><form:select items="${allOptions}" path="options" multiple="true"/></td>
         </tr>
 
         <tr>
-            <td>Choose incompatible options:</td>
+            <td>Add incompatible options:</td>
             <td><form:select items="${allOptions}" path="incompatibleOptions" multiple="true"/></td>
         </tr>
 

@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -27,7 +28,7 @@ public class Tariff implements Serializable {
     private int id;
 
     @Column(unique = true,nullable = false)
-    @NotNull @Size(min=3,max=50)
+    @NotBlank @Size(min=3,max=50,message = "tariff.name.invalid")
     @NaturalId
     private String name;
 
@@ -35,7 +36,7 @@ public class Tariff implements Serializable {
 
     private String description;
 
-    @Min(0)
+    @Min(value = 0,message = "tariff.price.invalid")
     private int price;
 
     @ManyToMany(fetch = FetchType.EAGER)

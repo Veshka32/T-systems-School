@@ -33,11 +33,13 @@
         <tr>
             <td>Set options :</td>
             <td><form:checkboxes items="${allOptions}" path="options" /></td>
+
         </tr>
 
         <tr>
             <td>Set incompatible options :</td>
             <td><form:checkboxes items="${allOptions}" path="incompatibleOptions" /></td>
+            <td><form:errors path="incompatibleOptions" /></td>
         </tr>
 
         <tr>
