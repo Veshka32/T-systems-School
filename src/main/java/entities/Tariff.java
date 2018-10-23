@@ -21,7 +21,6 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-@NamedQuery(name="getAllTariffs", query="from Tariff")
 public class Tariff implements Serializable {
     @Id
     @GeneratedValue

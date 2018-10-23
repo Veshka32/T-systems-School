@@ -33,6 +33,7 @@
         <tr>
             <td>Set options :</td>
             <td><form:checkboxes items="${allOptions}" path="options" /></td>
+            <td><form:errors path="options" /></td>
 
         </tr>
 

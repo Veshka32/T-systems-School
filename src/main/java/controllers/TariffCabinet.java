@@ -53,10 +53,12 @@ public class TariffCabinet {
     }
 
     @PostMapping("/management/editTariff")
-    public String updateTariff(@Valid Tariff tariff, BindingResult result, RedirectAttributes attributes){
-        if (result.hasErrors()) return "management/edit-tariff";
-        tariffService.update(tariff);
-        attributes.addAttribute("id",tariff.getId());
+    public String updateTariff(@Valid Tariff editedTariff, BindingResult result, RedirectAttributes attributes){
+        if (result.hasErrors()){
+            return "management/edit-tariff";
+        }
+        tariffService.update(editedTariff);
+        attributes.addAttribute("id",editedTariff.getId());
         return "redirect:/management/editTariff";
     }
 
