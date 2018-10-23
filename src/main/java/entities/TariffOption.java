@@ -10,9 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -24,15 +22,15 @@ public class TariffOption implements Serializable {
     @GeneratedValue
     private int id;
 
-    @NotBlank @Size(min = 3,max = 50)
+    @NotBlank @Size(min = 3,max = 50,message = "option.name.invalid")
     @NaturalId
     @Column(unique = true)
     private String name;
 
-    @Min(0)
+    @Min(value = 0,message = "option.price.invalid")
     private int price;
 
-    @Min(0)
+    @Min(value = 0,message = "option.price.invalid")
     private int subscribeCost;
 
     private boolean archived;
@@ -44,11 +42,7 @@ public class TariffOption implements Serializable {
     @JoinTable(name="option_option",
             joinColumns={@JoinColumn(name="option_id")},
             inverseJoinColumns={@JoinColumn(name="incompatibleOption_id")})
-    private List<TariffOption> incompatibleOptions=new ArrayList<>();
-
-    public void deleteIncompatibleOption(TariffOption option){
-        incompatibleOptions.remove(option);
-    }
+    private Set<TariffOption> incompatibleOptions=new HashSet<>();
 
     public void addIncompatibleOption(TariffOption option){
         incompatibleOptions.add(option);

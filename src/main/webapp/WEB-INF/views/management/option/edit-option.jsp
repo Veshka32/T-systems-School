@@ -10,22 +10,25 @@
 </head>
 
 <body>
-<h2>Edit tariff ${editedOption.name}</h2>
+<h2>Edit option ${editedOption.name}</h2>
 
 <form:form method="POST" modelAttribute="editedOption">
     <table>
         <tr>
-            <td>Tariff name:</td>
+            <td>Option name:</td>
             <td><form:input path="name" value="${editedOption.name}"/></td>
+            <td><form:errors path="name" /></td>
         </tr>
         <tr>
             <td>Price:</td>
-            <td><form:input path="price" value="${editedOption.price}" /></td>
+            <td><form:input path="price" value="${editedOption.price}" /></td
+            <td><form:errors path="price" /></td>
         </tr>
 
         <tr>
             <td>Subscribe cost:</td>
             <td><form:input value="${editedOption.subscribeCost}" path="subscribeCost" /></td>
+            <td><form:errors path="price" /></td>
         </tr>
         <tr>
             <td>Description:</td>
@@ -55,7 +58,7 @@ Incompatible options:
         <tr>
             <td>${option.toString()}</td>
             <td>
-                <form action="deleteIncompatibleOption" method="get">
+                <form action="option/deleteIncompatibleOption" method="get">
                     <input type="hidden" name="id" value=${editedOption.id}>
                     <input type="hidden" name="option_id" value=${option.id}>
                     <input type="submit" value="Delete"></form>

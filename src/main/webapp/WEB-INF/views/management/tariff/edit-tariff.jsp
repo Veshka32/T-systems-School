@@ -17,10 +17,12 @@
         <tr>
             <td>Tariff name:</td>
             <td><form:input path="name" value="${editedTariff.name}"/></td>
+            <td><form:errors path="name" /></td>
         </tr>
         <tr>
             <td>Price:</td>
             <td><form:input path="price" value="${editedTariff.price}" /></td>
+            <td><form:errors path="price" /></td>
         </tr>
         <tr>
             <td>Description:</td>
@@ -30,7 +32,6 @@
             <td>Add options:</td>
             <td><form:select items="${allOptions}" path="options" multiple="true"/></td>
             <td><form:errors path="options" /></td>
-
         </tr>
 
         <tr>

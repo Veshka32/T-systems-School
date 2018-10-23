@@ -30,7 +30,7 @@ public class TariffValidator implements Validator {
         }
 
         for (TariffOption option:tariffOptions) {
-            List<TariffOption> bad=option.getIncompatibleOptions();
+            Set<TariffOption> bad=option.getIncompatibleOptions();
             Optional<TariffOption> badOption=bad.stream().filter(x->tariffOptions.contains(x)).findFirst();
             if (bad.stream().anyMatch(x->tariffOptions.contains(x))){
                 String[] s={badOption.get().getName(),option.getName()};
