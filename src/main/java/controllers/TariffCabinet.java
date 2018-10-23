@@ -5,7 +5,6 @@ import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -37,29 +36,29 @@ public class TariffCabinet {
     @PostMapping("/management/createTariff")
     public String create(@Valid Tariff tariff, BindingResult result){
         if (result.hasErrors())
-            return "management/create-tariff";
+            return "management/tariff/create-tariff";
         tariffService.create(tariff);
         return "redirect:/management/tariffs";
     }
 
     @GetMapping("/management/createTariff")
     public String createShow(){
-        return "management/create-tariff";
+        return "management/tariff/create-tariff";
     }
 
     @GetMapping("/management/editTariff")
     public String editTariff(@RequestParam("id") int id,Model model){
         model.addAttribute("editedTariff",tariffService.get(id));
-        return "management/edit-tariff";
+        return "management/tariff/edit-tariff";
     }
 
     @PostMapping("/management/editTariff")
     public String updateTariff(@ModelAttribute("editedTariff") @Valid Tariff editedTariff, BindingResult result, RedirectAttributes attributes){
         if (result.hasErrors()){
-            return "management/edit-tariff";
+            return "management/tariff/edit-tariff";
         }
         tariffService.update(editedTariff);
-        return "management/edit-tariff";
+        return "management/tariff/edit-tariff";
     }
 
     @GetMapping("/management/deleteOption")
@@ -84,7 +83,7 @@ public class TariffCabinet {
 
     @RequestMapping("/management/tariffs")
     public String show(){
-        return "management/tariff-management";
+        return "management/tariff/tariff-management";
     }
 
     @ModelAttribute("tariff")
