@@ -31,9 +31,11 @@ public class TariffValidator implements Validator {
 
         for (TariffOption option:tariffOptions) {
             List<TariffOption> bad=option.getIncompatibleTariffOptions();
-            Optional<TariffOption> t=bad.stream().filter(x->tariffOptions.contains(x)).findFirst();
-            if (bad.stream().anyMatch(x->tariffOptions.contains(x)))
-                errors.rejectValue("options","tariff.options.intersection");
+            Optional<TariffOption> badOption=bad.stream().filter(x->tariffOptions.contains(x)).findFirst();
+            if (bad.stream().anyMatch(x->tariffOptions.contains(x))){
+                String[] s={badOption.get().getName(),option.getName()};
+
+                errors.rejectValue("options","tariff.options.intersection",s,"Options are incompatible: ");}
         }
 
     }
