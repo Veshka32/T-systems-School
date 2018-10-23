@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-public class TariffCabinet {
+public class TariffController {
 
     @Autowired
     TariffServiceI tariffService;
@@ -25,11 +25,11 @@ public class TariffCabinet {
     OptionServiceI optionService;
 
     @Autowired
-    private TariffValidator userValidator;
+    private TariffValidator tariffValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(userValidator);
+        binder.addValidators(tariffValidator);
     }
 
 
@@ -61,16 +61,9 @@ public class TariffCabinet {
         return "management/tariff/edit-tariff";
     }
 
-    @GetMapping("/management/deleteOption")
+    @GetMapping("/management/tariff/deleteOption")
     public String deleteOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
         tariffService.deleteOption(id,optionId);
-        attr.addAttribute("id",id);
-        return "redirect:/management/editTariff";
-    }
-
-    @GetMapping("/management/deleteIncompatibleOption")
-    public String deleteIncompatibleOption(@RequestParam("id") int id,@RequestParam("option_id") int option_id,RedirectAttributes attr){
-        tariffService.deleteIncompatibleOption(id,option_id);
         attr.addAttribute("id",id);
         return "redirect:/management/editTariff";
     }

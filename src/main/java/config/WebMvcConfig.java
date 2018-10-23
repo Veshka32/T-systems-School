@@ -4,7 +4,6 @@ import converters.OptionToString;
 import converters.StringToOption;
 import converters.StringToTariff;
 import converters.TariffToString;
-import entities.Tariff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -54,11 +53,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         source.setBasename("messages");
         return source;
     }
-//
-//    @Override
-//    public Validator getValidator() {
-//        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-//        validator.setValidationMessageSource(messageSource());
-//        return validator;
-//    }
 }

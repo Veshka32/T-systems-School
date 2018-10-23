@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) {
 
         MyUser user = userDAO.findByNaturalId(username);
         List<GrantedAuthority> authorities =

@@ -1,7 +1,6 @@
 package converters;
 
 import entities.Tariff;
-import entities.TariffOption;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

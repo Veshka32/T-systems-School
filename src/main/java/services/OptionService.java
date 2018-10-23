@@ -23,16 +23,18 @@ public class OptionService implements OptionServiceI {
 
     @Override
     @Transactional
-    public void create(String name,int price) {
-        optionDAO.create(new TariffOption(name,price));
+    public void create(TariffOption option) {
+        optionDAO.create(option);
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         optionDAO.deleteById(id);
     }
 
     @Override
+    @Transactional
     public TariffOption get(int id) {
         return optionDAO.findOne(id);
     }
@@ -50,6 +52,13 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    @Transactional
+    public void update(TariffOption option) {
+        optionDAO.update(option);
+    }
+
+    @Override
+    @Transactional
     public void updatePrice(int id, int price) {
         TariffOption option = optionDAO.findOne(id);
         option.setPrice(price);
@@ -57,6 +66,7 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    @Transactional
     public void updateSubscribeCost(int id,int cost) {
         TariffOption option = optionDAO.findOne(id);
         option.setSubscribeCost(cost);
@@ -64,27 +74,18 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void setIncompatibleOptions(int id, int... optionId) {
-        TariffOption tariff = optionDAO.findOne(id);
-        for (int o : optionId) {
-            tariff.addIncompatibleOptions(optionDAO.findOne(o));
-        }
-        optionDAO.update(tariff);
-    }
-
-    @Override
-    public void removeIncompatibleOptions(int id, int... optionId) {
+    @Transactional
+    public void removeIncompatibleOption(int id, int optionId) {
         TariffOption option = optionDAO.findOne(id);
-        for (int o : optionId) {
-            option.removeIncompatibleOptions(optionDAO.findOne(o));
-        }
+        option.addIncompatibleOption(optionDAO.findOne(optionId));
         optionDAO.update(option);
     }
 
     @Override
+    @Transactional
     public void archive(int tariffId) {
         TariffOption option = optionDAO.findOne(tariffId);
-        option.setArchived();
+        option.setArchived(true);
         optionDAO.update(option);
     }
 }

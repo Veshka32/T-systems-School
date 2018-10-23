@@ -9,7 +9,7 @@
 <body>
 <a href="management/tariffs">Tariffs</a>
 <a href="clients">Clients</a>
-<a href="tariffOptions">Tariff Options</a>
+<a href="management/options">Tariff Options</a>
 
 <c:url value="/logout" var="logoutUrl" />
 <form id="logout" action="${logoutUrl}" method="post" >

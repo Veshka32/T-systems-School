@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OptionServiceI {
 
-        void create(String name,int price);
+        void create(TariffOption option);
 
         void delete(int id);
 
@@ -16,13 +16,12 @@ public interface OptionServiceI {
 
         List<TariffOption> getAll();
         
+        void update(TariffOption option);
         void updatePrice(int id,int price);
 
         void updateSubscribeCost(int id,int cost);
 
-        void setIncompatibleOptions(int id, int... optionId);
-
-        void removeIncompatibleOptions(int id, int... optionId);
+        void removeIncompatibleOption(int id, int optionId);
 
         void archive(int id);
 
