@@ -5,6 +5,7 @@ import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -53,13 +54,12 @@ public class TariffCabinet {
     }
 
     @PostMapping("/management/editTariff")
-    public String updateTariff(@Valid Tariff editedTariff, BindingResult result, RedirectAttributes attributes){
+    public String updateTariff(@ModelAttribute("editedTariff") @Valid Tariff editedTariff, BindingResult result, RedirectAttributes attributes){
         if (result.hasErrors()){
             return "management/edit-tariff";
         }
         tariffService.update(editedTariff);
-        attributes.addAttribute("id",editedTariff.getId());
-        return "redirect:/management/editTariff";
+        return "management/edit-tariff";
     }
 
     @GetMapping("/management/deleteOption")

@@ -31,7 +31,7 @@ public class TariffOption implements Serializable {
 
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @UniqueElements
     @JoinTable(name="option_option",
             joinColumns={@JoinColumn(name="option_id")},

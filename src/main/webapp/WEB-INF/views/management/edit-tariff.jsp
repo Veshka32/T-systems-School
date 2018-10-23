@@ -29,11 +29,14 @@
         <tr>
             <td>Add options:</td>
             <td><form:select items="${allOptions}" path="options" multiple="true"/></td>
+            <td><form:errors path="options" /></td>
+
         </tr>
 
         <tr>
             <td>Add incompatible options:</td>
             <td><form:select items="${allOptions}" path="incompatibleOptions" multiple="true"/></td>
+            <td><form:errors path="incompatibleOptions" /></td>
         </tr>
 
         <tr>
@@ -54,21 +57,6 @@ Options:
             <td>${option.toString()}</td>
             <td>
                 <form action="deleteOption" method="get">
-                    <input type="hidden" name="id" value=${editedTariff.id}>
-                    <input type="hidden" name="option_id" value=${option.id}>
-                    <input type="submit" value="Delete"></form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-
-Incompatible options:
-<table>
-    <c:forEach items="${editedTariff.incompatibleOptions}" var="option">
-        <tr>
-            <td>${option.toString()}</td>
-            <td>
-                <form action="deleteIncompatibleOption" method="get">
                     <input type="hidden" name="id" value=${editedTariff.id}>
                     <input type="hidden" name="option_id" value=${option.id}>
                     <input type="submit" value="Delete"></form>

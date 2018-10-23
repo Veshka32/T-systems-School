@@ -7,6 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -30,6 +31,7 @@ public class TariffValidator implements Validator {
 
         for (TariffOption option:tariffOptions) {
             List<TariffOption> bad=option.getIncompatibleTariffOptions();
+            Optional<TariffOption> t=bad.stream().filter(x->tariffOptions.contains(x)).findFirst();
             if (bad.stream().anyMatch(x->tariffOptions.contains(x)))
                 errors.rejectValue("options","tariff.options.intersection");
         }
