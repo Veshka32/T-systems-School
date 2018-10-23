@@ -13,7 +13,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -43,8 +45,7 @@ public class Tariff implements Serializable {
             joinColumns = { @JoinColumn(name = "tariff_id") },
             inverseJoinColumns = { @JoinColumn(name = "option_id") }
     )
-    @UniqueElements
-    private List<TariffOption> options =new ArrayList<>();
+    private Set<TariffOption> options =new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
@@ -53,8 +54,7 @@ public class Tariff implements Serializable {
             joinColumns = { @JoinColumn(name = "tariff_id") },
             inverseJoinColumns = { @JoinColumn(name = "option_id") }
     )
-    @UniqueElements
-    private List<TariffOption> incompatibleOptions =new ArrayList<>();
+    private Set<TariffOption> incompatibleOptions =new HashSet<>();
 
     public Tariff(){}
 
