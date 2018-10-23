@@ -62,8 +62,8 @@ public class TariffCabinet {
     }
 
     @GetMapping("/management/deleteOption")
-    public String deleteOption(@RequestParam("id") int id,@RequestParam("option_id") int option_id,RedirectAttributes attr){
-        tariffService.deleteOption(id,option_id);
+    public String deleteOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
+        tariffService.deleteOption(id,optionId);
         attr.addAttribute("id",id);
         return "redirect:/management/editTariff";
     }
