@@ -6,7 +6,7 @@ public interface IGenericDAO<T extends Serializable> {
 
         T findOne(final int id);
 
-        T findByNaturalId(final String naturalKey);
+        T findByNaturalId(final Object naturalKey);
 
         List<T> findAll();
 

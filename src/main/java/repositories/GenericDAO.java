@@ -34,7 +34,7 @@ public class GenericDAO<T extends Serializable> implements IGenericDAO<T> {
     }
 
     @Override
-    public T findByNaturalId(String naturalKey) {
+    public T findByNaturalId(Object naturalKey) {
         return sessionFactory.getCurrentSession().bySimpleNaturalId(clazz).load(naturalKey);
     }
 

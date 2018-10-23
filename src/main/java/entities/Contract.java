@@ -1,12 +1,24 @@
 package entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
-public class Contract {
+public class Contract implements Serializable {
     @Id
+    @GeneratedValue
+    private int id;
+
+    @NaturalId
+    @GeneratedValue
     private int number;
 
     @ManyToOne
@@ -16,23 +28,10 @@ public class Contract {
     private Tariff tariff;
 
     @ManyToMany
-    private Set<TariffOption> tariffOptions =new HashSet<>();
+    private Set<TariffOption> options =new HashSet<>();
 
     private boolean isBlocked=false;
     private boolean isBlockedByAdmin=false;
-
-    public Contract(){}
-
-    public Contract(int number, Client owner){
-        this.number=number;
-        this.owner=owner;
-    }
-
-    public boolean changeTariff(Tariff tariff){
-        this.tariff =tariff;
-        return true;
-    }
-
 
     @Override
     public int hashCode(){

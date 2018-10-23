@@ -6,16 +6,16 @@
 
 <html>
 <head>
-    <title>New option</title>
+    <title>Tariffs</title>
 </head>
 
 <body>
-<h2>Create option</h2>
+<h2>Create tariff</h2>
 
-<form:form method="POST" modelAttribute="option">
+<form:form method="POST" modelAttribute="tariff">
     <table>
         <tr>
-            <td>Option name:</td>
+            <td>Tariff name:</td>
             <td><form:input path="name" /></td>
             <td><form:errors path="name" /></td>
         </tr>
@@ -26,15 +26,15 @@
         </tr>
 
         <tr>
-            <td>Subscribe cost:</td>
-            <td><form:input path="subscribeCost" /></td>
-            <td><form:errors path="subscribeCost" /></td>
-        </tr>
-
-        <tr>
             <td>Description:</td>
             <td><form:input path="description" /></td>
             <td><form:errors path="description" /></td>
+        </tr>
+        <tr>
+            <td>Set options :</td>
+            <td><form:checkboxes items="${allOptions}" path="options" /></td>
+            <td><form:errors path="options" /></td>
+
         </tr>
 
         <tr>
