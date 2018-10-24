@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Client;
 import entities.Contract;
 import entities.Tariff;
 import entities.TariffOption;
@@ -17,7 +18,7 @@ import java.util.List;
 @Controller
 public class ContractController {
     @Autowired
-    ContractServiceI contractService;
+    ContractService contractService;
     @Autowired
     TariffServiceI tariffService;
     @Autowired
@@ -38,22 +39,26 @@ public class ContractController {
         return "management/contract/contract-management";
     }
 
-    @GetMapping("/management/editContract")
+    @GetMapping("/management/createContract")
     public String create(@RequestParam("clientId") int clientId, Model model) {
         long phone = phoneNumberService.getNext();
-        Contract contract = new Contract(phone, clientServiceI.get(clientId));
-        model.addAttribute("contract",contract);
         model.addAttribute("clientId",clientId);
+        model.addAttribute("phone",phone);
         return "management/contract/edit-contract";
     }
 
-    @PostMapping("management/editContract")
-    public String edit(@ModelAttribute("contract") @Valid Contract contract, BindingResult result,RedirectAttributes attributes) {
+    @PostMapping("management/createContract")
+    public String edit(@ModelAttribute("contract") @Valid Contract contract,
+                       BindingResult result,
+                       @RequestParam("clientId") int clientId,
+                       @RequestParam("phone") long phone,
+                       RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "management/contract/edit-contract";
         }
-        contractService.create(contract);
-        attributes.addAttribute("clientId",contract.getOwner().getId());
+        contract.setNumber(phone);
+        clientServiceI.addContract(clientId,contract);
+        attr.addAttribute("clientId",clientId);
         return "redirect:/management/editClient";
     }
 
@@ -65,6 +70,11 @@ public class ContractController {
     @ModelAttribute("allTariffs")
     public List<Tariff> getAllTariffs() {
         return tariffService.getAll();
+    }
+
+    @ModelAttribute("contract")
+    public Contract getNewContract() {
+        return new Contract();
     }
 
 

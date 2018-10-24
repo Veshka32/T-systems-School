@@ -69,5 +69,4 @@ public class GenericDAO<T extends Serializable> implements IGenericDAO<T> {
     public void deleteById(int entityId) {
         T entity = findOne(entityId);
         delete(entity);
-    }
-}
+    }}

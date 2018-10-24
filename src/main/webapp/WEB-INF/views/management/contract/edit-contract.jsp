@@ -10,17 +10,12 @@
 </head>
 
 <body>
-<h2>Phone number ${contract.number}</h2>
+<h2>Phone number ${phone}</h2>
 
-<form method="POST" modelAttribute="contract">
+<form:form method="POST" modelAttribute="contract">
     <table>
         <tr>
-            <td>Owner: ${contract.owner.name}</td>
-            <form:hidden path="owner" value="${clientId}"/>
-        </tr>
-        <tr>
-            <td>Number:${contract.number}</td>
-            <form:hidden path="number" value="${contract.number}"/>
+            <td><form:hidden path="number" value="${phone}"/></td>
         </tr>
 
         <tr>
@@ -46,11 +41,12 @@
         </tr>
 
         <tr>
-            <input type="hidden" name="id" value=${contract.id}>
+            <input type="hidden" name="clientId" value=${clientId}>
+            <input type="hidden" name="phone" value="${phone}">
             <td colspan="3"><input type="submit" value="Save"/></td>
         </tr>
     </table>
-</form>
+</form:form>
 
 Options:
 <table>

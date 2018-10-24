@@ -1,24 +1,15 @@
 package controllers;
 
 import entities.Client;
-import entities.Contract;
-import entities.Tariff;
-import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ClientServiceI;
-import services.ContractServiceI;
-import services.OptionServiceI;
-import services.TariffServiceI;
-import validators.TariffValidator;
+import services.ContractService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class ClientController {
@@ -30,6 +21,9 @@ public class ClientController {
 
     @Autowired
     ClientServiceI clientService;
+
+    @Autowired
+    ContractService contractService;
 
     @RequestMapping("/management/clients")
     public String show(){
@@ -54,6 +48,7 @@ public class ClientController {
     @GetMapping("/management/editClient")
     public String editClient(@RequestParam("clientId") int id, Model model){
         model.addAttribute("editedClient",clientService.get(id));
+        model.addAttribute("contracts",contractService.getAllClientContracts(id));
         return "management/client/edit-client";
     }
 
@@ -61,7 +56,4 @@ public class ClientController {
     public Client formBackingObject() {
         return new Client();
     }
-
-
-
 }

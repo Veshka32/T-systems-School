@@ -16,11 +16,22 @@
 
 </form:form>
 
-<form action="editContract" method="get">
+<form action="createContract" method="get">
     <input type="hidden" name="clientId" value=${editedClient.id}>
     <input type="submit" value="Create contract"></form>
 </body>
 
-Contracts: ${editedClient.contracts};
+Contracts:<br>
+<c:forEach items="${contracts}" var="contract">
+    <tr>
+        <td>${contract.toString()}</td>
+        <td>
+            <form action="/editContract" method="get">
+                <input type="hidden" name="id" value=${contract.id}>
+                <input type="submit" value="Edit"></form>
+        </td>
+    </tr>
+</c:forEach>
+
 
 </html>

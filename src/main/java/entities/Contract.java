@@ -17,16 +17,18 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@NamedQuery(name = "get_client_contracts",query = "from Contract c where c.owner.id=:clientId")
 public class Contract implements Serializable {
     @Id
     @GeneratedValue
     private int id;
 
     @NaturalId
-    @Range(min = 1000000000L,max=9999999999L)
+    @Column(updatable = false)
     private long number;
 
     @ManyToOne
+    @JoinColumn(updatable = false)
     private Client owner;
 
     @ManyToOne

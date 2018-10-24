@@ -43,11 +43,15 @@ public class Client implements Serializable {
     private String address;
 
     @Column
-    @OneToMany(mappedBy ="owner",orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy ="owner",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Contract> contracts=new HashSet<>();
 
     @Override
     public String toString(){
         return name+" "+surname;
+    }
+
+    public void addContract(Contract contract){
+        contracts.add(contract);
     }
 }

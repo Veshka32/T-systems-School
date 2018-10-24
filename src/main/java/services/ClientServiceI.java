@@ -1,6 +1,7 @@
 package services;
 
 import entities.Client;
+import entities.Contract;
 
 public interface ClientServiceI {
 
@@ -9,4 +10,6 @@ public interface ClientServiceI {
     Client get(int id);
 
     int create(Client client);
+    
+    void addContract(int clientId, Contract contract);
 }

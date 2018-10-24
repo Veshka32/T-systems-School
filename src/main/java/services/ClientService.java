@@ -38,4 +38,13 @@ public class ClientService implements ClientServiceI {
     public int create(Client client){
         return clientDAO.create(client);
     }
+
+    @Override
+    @Transactional
+    public void addContract(int clientId, Contract contract) {
+        Client client=clientDAO.findOne(clientId);
+        contract.setOwner(client);
+        client.addContract(contract);
+        clientDAO.create(client);
+    }
 }

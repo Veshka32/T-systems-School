@@ -5,35 +5,32 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import repositories.ContractDAO;
 import repositories.GenericDAO;
 import repositories.IGenericDAO;
 
+import java.util.List;
+
 @Service
-public class ContractService implements ContractServiceI {
-    IGenericDAO<Contract>  contractDAO;
-
+@Transactional
+public class ContractService {
     @Autowired
-    public void setOptionDAO(GenericDAO<Contract> optionDAO ) {
-        this.contractDAO=optionDAO;
-        optionDAO.setClass(Contract.class);
-    }
+    ContractDAO  contractDAO;
 
-    @Override
-    @Transactional
     public Contract findByPhone(int phone) {
         return contractDAO.findByNaturalId(phone);
     }
 
-    @Override
-    @Transactional
     public Contract create(Contract contract){
         int id=contractDAO.create(contract);
         return contractDAO.findOne(id);
     }
 
-    @Override
-    @Transactional
     public void update(Contract contract) {
         contractDAO.update(contract);
+    }
+
+    public List<Contract> getAllClientContracts(int clientId) {
+        return contractDAO.getClientContracts(clientId);
     }
 }

@@ -25,8 +25,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     TariffToString ts;
     @Autowired
     StringToTariff st;
-    @Autowired
-    StringToClinet sc;
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -43,9 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addConverter(os);
         registry.addConverter(ts);
         registry.addConverter(st);
-        registry.addConverter(sc);
     }
-
 
     @Bean
     public MessageSource messageSource() {
