@@ -30,11 +30,11 @@
             <td><form:input path="passportId" /></td>
             <td><form:errors path="passportId" /></td>
         </tr>
-        <tr>
-            <td>Birthday :</td>
-            <td><form:input type="date" path="birthday" /></td>
-            <td><form:errors path="birthday" /></td>
-        </tr>
+        <%--<tr>--%>
+            <%--<td>Birthday :</td>--%>
+            <%--<td><form:input type="date" path="birthday" /></td>--%>
+            <%--<td><form:errors path="birthday" /></td>--%>
+        <%--</tr>--%>
         <tr>
             <td>Email :</td>
             <td><form:input path="email" /></td>

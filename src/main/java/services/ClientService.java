@@ -28,14 +28,14 @@ public class ClientService implements ClientServiceI {
     }
 
     @Override
+    @Transactional
     public Client get(int id) {
         return clientDAO.findOne(id);
     }
 
     @Override
     @Transactional
-    public Client create(Client client){
-        int id=clientDAO.create(client);
-        return clientDAO.findOne(id);
+    public int create(Client client){
+        return clientDAO.create(client);
     }
 }

@@ -7,4 +7,6 @@ public interface ContractServiceI {
     Contract findByPhone(int phone);
 
     Contract create(Contract contract);
+
+    void update(Contract contract);
 }

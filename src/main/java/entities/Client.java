@@ -2,6 +2,9 @@ package entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -20,9 +23,9 @@ public class Client implements Serializable {
     @GeneratedValue
     private int id;
 
-    @NotBlank
-    @Digits(integer = 10,fraction = 0)
-    private int passportId;
+    @Column(unique = true)
+    @Pattern(regexp = "^[0-9]{10}")
+    private String passportId;
 
     @NotBlank
     private String name;
@@ -30,25 +33,21 @@ public class Client implements Serializable {
     @NotBlank
     private String surname;
 
-    private LocalDate birthday;
+//    @Past
+//    @DateTimeFormat
+//    private LocalDate birthday;
 
-    @Column(nullable = false)
     @Email
     private String email;
 
     private String address;
 
     @Column
-    @OneToMany(mappedBy ="owner")
-    @JoinTable(
-            name = "client_contract",
-            joinColumns = { @JoinColumn(name = "client_id") },
-            inverseJoinColumns = { @JoinColumn(name = "contract_id") }
-    )
+    @OneToMany(mappedBy ="owner",orphanRemoval = true,fetch = FetchType.EAGER)
     private Set<Contract> contracts=new HashSet<>();
 
     @Override
     public String toString(){
-        return name+" "+surname+", number "+contracts.stream().map(Contract::getNumber).collect(Collectors.toList());
+        return name+" "+surname;
     }
 }

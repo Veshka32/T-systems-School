@@ -1,9 +1,6 @@
 package config;
 
-import converters.OptionToString;
-import converters.StringToOption;
-import converters.StringToTariff;
-import converters.TariffToString;
+import converters.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +25,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     TariffToString ts;
     @Autowired
     StringToTariff st;
+    @Autowired
+    StringToClinet sc;
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -44,6 +43,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addConverter(os);
         registry.addConverter(ts);
         registry.addConverter(st);
+        registry.addConverter(sc);
     }
 
 

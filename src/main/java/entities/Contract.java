@@ -1,16 +1,21 @@
 package entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 public class Contract implements Serializable {
     @Id
@@ -18,27 +23,27 @@ public class Contract implements Serializable {
     private int id;
 
     @NaturalId
-    @GeneratedValue
-    private int number;
+    @Range(min = 1000000000L,max=9999999999L)
+    private long number;
 
     @ManyToOne
-    private final Client owner;
+    private Client owner;
 
     @ManyToOne
     private Tariff tariff;
 
-    @ManyToMany
+    @ManyToMany()
     private Set<TariffOption> options =new HashSet<>();
 
     private boolean isBlocked=false;
     private boolean isBlockedByAdmin=false;
 
-    public Contract(Client client){
-        owner=client;
+    public Contract(long phone,Client client){
+        owner=client;number=phone;
     }
     @Override
     public int hashCode(){
-        return number;
+        return (int)number;
     }
 
     @Override

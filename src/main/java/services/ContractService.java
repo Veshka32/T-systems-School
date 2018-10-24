@@ -30,4 +30,10 @@ public class ContractService implements ContractServiceI {
         int id=contractDAO.create(contract);
         return contractDAO.findOne(id);
     }
+
+    @Override
+    @Transactional
+    public void update(Contract contract) {
+        contractDAO.update(contract);
+    }
 }

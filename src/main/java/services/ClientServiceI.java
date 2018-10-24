@@ -8,5 +8,5 @@ public interface ClientServiceI {
 
     Client get(int id);
 
-    Client create(Client client);
+    int create(Client client);
 }

@@ -6,24 +6,26 @@
 
 <html>
 <head>
-    <title>Edit Option</title>
+    <title>Edit Contract</title>
 </head>
 
 <body>
-<h2>Edit option ${contract.number}</h2>
+<h2>Phone number ${contract.number}</h2>
 
-<form:form method="POST" modelAttribute="contract">
+<form method="POST" modelAttribute="contract">
     <table>
         <tr>
             <td>Owner: ${contract.owner.name}</td>
+            <form:hidden path="owner" value="${clientId}"/>
         </tr>
         <tr>
             <td>Number:${contract.number}</td>
+            <form:hidden path="number" value="${contract.number}"/>
         </tr>
 
         <tr>
             <td>Tariff:</td>
-            <td><form:input value="${contract.tariff}" path="tariff" /></td>
+            <td><form:select items="${allTariffs}" path="tariff" /></td>
             <td><form:errors path="tariff" /></td>
         </tr>
 
@@ -48,7 +50,7 @@
             <td colspan="3"><input type="submit" value="Save"/></td>
         </tr>
     </table>
-</form:form>
+</form>
 
 Options:
 <table>
