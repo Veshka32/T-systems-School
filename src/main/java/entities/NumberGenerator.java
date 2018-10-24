@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
-public class NumberGenerator implements Serializable {
+public class NumberGenerator{
 
     @Id
     private int id;

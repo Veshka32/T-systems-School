@@ -15,10 +15,7 @@ import java.util.Set;
 
 @Entity @Getter @Setter
 @Table(name = "user")
-public class MyUser implements Serializable {
-
-    @Id @GeneratedValue
-    private int id;
+public class MyUser extends AbstractEntity {
 
     @NotBlank
     @Column(nullable = false)

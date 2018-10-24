@@ -17,11 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
-public class Client implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class Client extends AbstractEntity{
 
     @Column(unique = true)
     @Pattern(regexp = "^[0-9]{10}")

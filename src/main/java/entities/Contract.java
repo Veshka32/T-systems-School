@@ -18,10 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @NamedQuery(name = "get_client_contracts",query = "from Contract c where c.owner.id=:clientId")
-public class Contract implements Serializable {
-    @Id
-    @GeneratedValue
-    private int id;
+public class Contract extends AbstractEntity{
 
     @NaturalId
     @Column(updatable = false)

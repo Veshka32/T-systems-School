@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @Scope( BeanDefinition.SCOPE_PROTOTYPE )
-public class GenericDAO<T extends Serializable> implements IGenericDAO<T> {
+public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Autowired
     SessionFactory sessionFactory;

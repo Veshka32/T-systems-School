@@ -2,7 +2,7 @@ package repositories;
 
 import java.io.Serializable;
 import java.util.List;
-public interface IGenericDAO<T extends Serializable> {
+public interface IGenericDAO<T> {
 
         T findOne(final int id);
 

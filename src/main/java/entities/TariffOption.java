@@ -17,10 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
-public class TariffOption implements Serializable {
-    @Id
-    @GeneratedValue
-    private int id;
+public class TariffOption extends AbstractEntity{
 
     @NotBlank @Size(min = 3,max = 50,message = "option.name.invalid")
     @NaturalId

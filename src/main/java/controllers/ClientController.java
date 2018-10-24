@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import services.ClientServiceI;
+import services.ClientService;
 import services.ContractService;
 
 import javax.validation.Valid;
@@ -20,7 +20,7 @@ public class ClientController {
      */
 
     @Autowired
-    ClientServiceI clientService;
+    ClientService clientService;
 
     @Autowired
     ContractService contractService;

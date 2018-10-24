@@ -17,10 +17,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-public class Tariff implements Serializable {
-    @Id
-    @GeneratedValue
-    private int id;
+public class Tariff extends AbstractEntity{
 
     @Column(unique = true,nullable = false)
     @NotBlank @Size(min=3,max=50,message = "tariff.name.invalid")
