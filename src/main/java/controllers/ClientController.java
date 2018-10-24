@@ -10,6 +10,7 @@ import services.ClientService;
 import services.ContractService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ClientController {
@@ -26,8 +27,7 @@ public class ClientController {
     ContractService contractService;
 
     @RequestMapping("/management/clients")
-    public String show(){
-        return "management/client/client-management";
+    public String show(){return "management/client/client-management";
     }
 
     @PostMapping("/management/createClient")
@@ -55,5 +55,10 @@ public class ClientController {
     @ModelAttribute("client")
     public Client formBackingObject() {
         return new Client();
+    }
+
+    @ModelAttribute("clients")
+    public List<Client> showAllClients() {
+        return clientService.getAll();
     }
 }

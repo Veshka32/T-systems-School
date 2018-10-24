@@ -41,13 +41,7 @@ public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Override
     public List<T> findAll() {
-        Session session=sessionFactory.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<T> cr = cb.createQuery(clazz);
-        Root<T> root = cr.from(clazz);
-        cr.select(root);
-        Query<T> query = session.createQuery(cr);
-        return query.getResultList();
+        return sessionFactory.getCurrentSession().createQuery("from "+clazz.getName()).list();
     }
 
     @Override

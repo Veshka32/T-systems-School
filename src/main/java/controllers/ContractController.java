@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.Client;
 import entities.Contract;
 import entities.Tariff;
 import entities.TariffOption;
@@ -24,7 +23,7 @@ public class ContractController {
     @Autowired
     OptionServiceI optionService;
     @Autowired
-    ClientServiceI clientServiceI;
+    ClientService clientService;
     @Autowired
     PhoneNumberService phoneNumberService;
 
@@ -57,7 +56,7 @@ public class ContractController {
             return "management/contract/edit-contract";
         }
         contract.setNumber(phone);
-        clientServiceI.addContract(clientId,contract);
+        clientService.addContract(clientId,contract);
         attr.addAttribute("clientId",clientId);
         return "redirect:/management/editClient";
     }

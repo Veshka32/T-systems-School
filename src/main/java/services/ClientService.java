@@ -8,8 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.GenericDAO;
 import repositories.IGenericDAO;
 
+import java.util.List;
+
 @Service
-public class ClientService implements ClientServiceI {
+@Transactional
+public class ClientService {
     IGenericDAO<Client>  clientDAO;
 
     @Autowired
@@ -18,8 +21,6 @@ public class ClientService implements ClientServiceI {
         optionDAO.setClass(Client.class);
     }
 
-    @Override
-    @Transactional
     public Client findByPhone(int phone) {
         /**
          * TODO
@@ -27,20 +28,18 @@ public class ClientService implements ClientServiceI {
         return null;
     }
 
-    @Override
-    @Transactional
     public Client get(int id) {
         return clientDAO.findOne(id);
     }
 
-    @Override
-    @Transactional
     public int create(Client client){
         return clientDAO.create(client);
     }
 
-    @Override
-    @Transactional
+    public List<Client> getAll() {
+        return clientDAO.findAll();
+    }
+
     public void addContract(int clientId, Contract contract) {
         Client client=clientDAO.findOne(clientId);
         contract.setOwner(client);

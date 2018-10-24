@@ -26,7 +26,7 @@ Contracts:<br>
     <tr>
         <td>${contract.toString()}</td>
         <td>
-            <form action="/editContract" method="get">
+            <form action="editContract" method="get">
                 <input type="hidden" name="id" value=${contract.id}>
                 <input type="submit" value="Edit"></form>
         </td>

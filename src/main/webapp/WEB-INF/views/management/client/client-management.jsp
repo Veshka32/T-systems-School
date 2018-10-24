@@ -10,7 +10,17 @@
 
 <body>
 <h2>Clients</h2>
-
+All clients:<br>
+<c:forEach items="${clients}" var="client">
+    <tr>
+        <td>${client.toString()}</td>
+        <td>
+            <form action="editClient" method="get">
+                <input type="hidden" name="clientId" value=${client.id}>
+                <input type="submit" value="Edit"></form>
+        </td>
+    </tr>
+</c:forEach>
 
 <a href="createClient">Create new client</a>
 </body>
