@@ -33,5 +33,5 @@ Contracts:<br>
     </tr>
 </c:forEach>
 
-
+<a href="clients">Back to clients</a>
 </html>

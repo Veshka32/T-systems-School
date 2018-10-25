@@ -10,6 +10,15 @@
 
 <body>
 <h2>Clients</h2>
+Find client by phone:
+<form:form method="POST" action="findClientByPhone" modelAttribute="phone">
+    <form:input path="phoneNumber"/><input type="submit" value="Find"/><br>
+    <form:errors path="phoneNumber"/>
+
+
+</form:form>
+
+
 All clients:<br>
 <c:forEach items="${clients}" var="client">
     <tr>

@@ -1,13 +1,16 @@
 package controllers;
 
 import entities.Client;
+import entities.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ClientService;
 import services.ContractService;
+import services.Phone;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -28,6 +31,15 @@ public class ClientController {
 
     @RequestMapping("/management/clients")
     public String show(){return "management/client/client-management";
+    }
+
+    @PostMapping("/management/findClientByPhone")
+    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr){
+        if (result.hasErrors())
+            return "management/client/client-management";
+        int clientId=contractService.findClientByPhone(phone.getPhoneNumber());
+        attr.addAttribute("clientId",clientId);
+        return "redirect:/management/editClient";
     }
 
     @PostMapping("/management/createClient")
@@ -60,5 +72,10 @@ public class ClientController {
     @ModelAttribute("clients")
     public List<Client> showAllClients() {
         return clientService.getAll();
+    }
+
+    @ModelAttribute("phone")
+    public Phone getPhone() {
+        return new Phone();
     }
 }

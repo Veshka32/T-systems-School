@@ -1,6 +1,5 @@
 package repositories;
 
-import entities.Client;
 import entities.Contract;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +11,11 @@ public class ContractDAO extends GenericDAO<Contract>{
         return sessionFactory.getCurrentSession().createNamedQuery("get_client_contracts", Contract.class)
         .setParameter("clientId",clientId)
         .getResultList();
+    }
+
+    public int findClientByPhone(long phone){
+        return sessionFactory.getCurrentSession().createNamedQuery("get_client_by_phone",Integer.class)
+                .setParameter("phone",phone)
+                .getSingleResult();
     }
 }

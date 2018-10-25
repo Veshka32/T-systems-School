@@ -39,7 +39,7 @@ public class Client extends AbstractEntity{
     private String address;
 
     @Column
-    @OneToMany(mappedBy ="owner",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy ="owner",fetch=FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Contract> contracts=new HashSet<>();
 
     @Override

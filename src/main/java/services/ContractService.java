@@ -17,9 +17,11 @@ public class ContractService {
     @Autowired
     ContractDAO  contractDAO;
 
-    public Contract findByPhone(int phone) {
-        return contractDAO.findByNaturalId(phone);
+    public int findClientByPhone(long phone) {
+        return contractDAO.findClientByPhone(phone);
     }
+
+    public Contract findByPhone(long phone){return contractDAO.findByNaturalId(phone);}
 
     public Contract create(Contract contract){
         int id=contractDAO.create(contract);

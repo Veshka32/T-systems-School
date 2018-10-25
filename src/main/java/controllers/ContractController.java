@@ -29,6 +29,7 @@ public class ContractController {
 
     @PostMapping("/management/findContract")
     public String find(@RequestParam("number") int number, Model model) {
+
         model.addAttribute("contract", contractService.findByPhone(number));
         return "management/contract/edit-contract";
     }
