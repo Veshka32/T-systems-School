@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 public class TariffOption extends AbstractEntity{
 
     @NotBlank @Size(min = 3,max = 50,message = "option.name.invalid")
-    @NaturalId
+    @NaturalId(mutable = true)
     @Column(unique = true)
     private String name;
 
     @Min(value = 0,message = "option.price.invalid")
     private int price;
 
-    @Min(value = 0,message = "option.price.invalid")
+    @Min(value = 0,message = "option.subscribeCost.invalid")
     private int subscribeCost;
 
     private boolean archived;
@@ -43,6 +43,10 @@ public class TariffOption extends AbstractEntity{
 
     public void addIncompatibleOption(TariffOption option){
         incompatibleOptions.add(option);
+    }
+
+    public void removeIncompatibleOption(TariffOption option){
+        incompatibleOptions.remove(option);
     }
 
     @Override

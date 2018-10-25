@@ -51,4 +51,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         source.setBasename("messages");
         return source;
     }
+
+    @Override
+    public Validator getValidator() {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource());
+        return validator;
+    }
 }

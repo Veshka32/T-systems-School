@@ -6,20 +6,22 @@
 
 <html>
 <head>
-    <title>New option</title>
+    <title>Option</title>
 </head>
 
 <body>
-<h2>Option saved</h2>
-Name: "${newOption.name}"<<br>
-Price: "${newOption.price}"<<br>
-SubscribeCost: "${newOption.subscribeCost}"<<br>
-Archived: "${newOption.archived}"<br>
-Description: "${newOption.description}"<<br>
-IncompatibleOptions: "${badOptions}"<br>
+Name: ${newOption.name}<br>
+Price: ${newOption.price}<br>
+SubscribeCost: ${newOption.subscribeCost}<br>
+Archived: ${newOption.archived}<br>
+Description: ${newOption.description}<br>
+Incompatible options: ${badOptions}<br>
+<form action="editOption" method="get">
+    <input type="hidden" name="id" value=${newOption.id}>
+    <input type="submit" value="Edit"></form>
+
 <form action="/management/options" method="get">
-    <input value="Back to options" type="submit"/>
-</form>
+    <input type="submit" value="Back to options"></form>
 
 </body>
 </html>

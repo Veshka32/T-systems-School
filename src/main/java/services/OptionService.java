@@ -1,5 +1,6 @@
 package services;
 import entities.TariffOption;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -8,6 +9,7 @@ import repositories.GenericDAO;
 import repositories.IGenericDAO;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @EnableTransactionManagement
@@ -48,8 +50,14 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void update(TariffOption option) {
-        optionDAO.update(option);
+    public void update(TariffOption dto) {
+        TariffOption based=optionDAO.findOne(dto.getId());
+        based.setName(dto.getName());
+        based.setPrice(dto.getPrice());
+        based.setSubscribeCost(dto.getSubscribeCost());
+        based.setArchived(dto.isArchived());
+        based.setDescription(dto.getDescription());
+        optionDAO.update(based);
     }
 
     @Override
@@ -69,6 +77,13 @@ public class OptionService implements OptionServiceI {
     @Override
     public void removeIncompatibleOption(int id, int optionId) {
         TariffOption option = optionDAO.findOne(id);
+        option.removeIncompatibleOption(optionDAO.findOne(optionId));
+        optionDAO.update(option);
+    }
+
+    @Override
+    public void addIncompatibleOption(int id, int optionId) {
+        TariffOption option = optionDAO.findOne(id);
         option.addIncompatibleOption(optionDAO.findOne(optionId));
         optionDAO.update(option);
     }
@@ -78,5 +93,15 @@ public class OptionService implements OptionServiceI {
         TariffOption option = optionDAO.findOne(tariffId);
         option.setArchived(true);
         optionDAO.update(option);
+    }
+
+    @Override
+    public Set<TariffOption> getIncompatible(int id){
+        TariffOption option = optionDAO.findOne(id);
+        /**
+         * TODO replace with named Query
+         */
+        Hibernate.initialize(option.getIncompatibleOptions());
+        return option.getIncompatibleOptions();
     }
 }

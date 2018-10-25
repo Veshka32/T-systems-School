@@ -47,7 +47,8 @@
             <td colspan="3"><input type="submit" value="Save"/></td>
         </tr>
     </table>
-</form:form>
+</form:form><br>
+<a href="options">Back to options</a>
 
 </body>
 </html>

@@ -13,16 +13,25 @@
 <table>
     <c:forEach items="${allOptions}" var="option">
         <tr>
-            <td>${option.toString()}</td>
+            <td>${option.name} </td>
+
             <td>
                 <form action="editOption" method="get">
-                <input type="hidden" name="id" value=${option.id}>
-                <input type="submit" value="Edit"></form>
+                    <input type="hidden" name="id" value=${option.id}>
+                    <input type="submit" value="Edit"></form>
+            </td>
+
+            <td>
+                <form action="showOption" method="get">
+                    <input type="hidden" name="id" value=${option.id}>
+                    <input type="submit" value="Show"></form>
             </td>
         </tr>
     </c:forEach>
 </table>
 
-<a href="createOption">Create new option</a>
+<a href="createOption">Create new option</a><br>
+
+<a href="./">Back to cabinet</a>
 </body>
 </html>
