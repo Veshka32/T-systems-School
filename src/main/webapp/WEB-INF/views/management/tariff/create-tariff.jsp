@@ -49,5 +49,7 @@
     </table>
 </form:form>
 
+<a href="tariffs">Back to tariffs</a>
+
 </body>
 </html>

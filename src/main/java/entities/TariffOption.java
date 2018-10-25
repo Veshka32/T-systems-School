@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 @Entity
 public class TariffOption extends AbstractEntity{
 
-    @NotBlank @Size(min = 3,max = 50,message = "option.name.invalid")
+    @NotBlank(message = "option.name.invalid")
+   @Size(min = 3,max = 50,message = "option.name.invalid")
     @NaturalId(mutable = true)
     @Column(unique = true)
     private String name;

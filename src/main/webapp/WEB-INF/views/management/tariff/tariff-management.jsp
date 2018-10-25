@@ -29,5 +29,7 @@
 </table>
 
 <a href="createTariff">Create new tariff</a>
+<a href="cabinet">Back to cabinet</a>
+
 </body>
 </html>

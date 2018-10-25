@@ -32,5 +32,7 @@ Find contract by phone:
 </c:forEach>
 
 <a href="createClient">Create new client</a>
+<a href="cabinet">Back to cabinet</a>
+
 </body>
 </html>

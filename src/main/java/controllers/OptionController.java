@@ -21,13 +21,13 @@ public class OptionController {
     @Autowired
     OptionServiceI optionService;
 
-    @Autowired
-    private OptionValidator optionValidator;
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(optionValidator);
-    }
+//    @Autowired
+//    private OptionValidator optionValidator;
+//
+//    @InitBinder
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.addValidators(optionValidator);
+//    }
 
     @RequestMapping("/management/options")
     public String showAll(){
@@ -45,7 +45,7 @@ public class OptionController {
     }
 
     @PostMapping("/management/createOption")
-    public String create(@Valid TariffOption option, BindingResult result, Model model){
+    public String create(@ModelAttribute("option") @Valid TariffOption option, BindingResult result, Model model){
         if (result.hasErrors()){
             model.addAttribute("option",option);
             return "management/option/create-option";}
