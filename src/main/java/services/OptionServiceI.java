@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OptionServiceI {
 
-        void create(TariffOption option);
+        void save(TariffOption option);
 
         void delete(int id);
 

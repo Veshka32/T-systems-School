@@ -18,8 +18,8 @@
 
 <form action="createContract" method="get">
     <input type="hidden" name="clientId" value=${editedClient.id}>
-    <input type="submit" value="Create contract"></form>
-</body>
+    <input type="submit" value="Create contract">
+</form>
 
 Contracts:<br>
 <c:forEach items="${contracts}" var="contract">
@@ -34,4 +34,5 @@ Contracts:<br>
 </c:forEach>
 
 <a href="clients">Back to clients</a>
+</body>
 </html>

@@ -12,6 +12,8 @@ import services.OptionServiceI;
 import validators.OptionValidator;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class OptionController {
@@ -19,37 +21,39 @@ public class OptionController {
     @Autowired
     OptionServiceI optionService;
 
-    /**
-     * TODO
-     */
     @Autowired
     private OptionValidator optionValidator;
 
-    /**
-     * TODO
-     */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(optionValidator);
     }
 
-
-    @PostMapping("/management/createOption")
-    public String create(@Valid TariffOption option, BindingResult result){
-        if (result.hasErrors())
-            return "management/option/create-option";
-        optionService.create(option);
-        return "redirect:/management/options";
+    @RequestMapping("/management/options")
+    public String show(){
+        return "management/option/option-management";
     }
 
     @GetMapping("/management/createOption")
-    public String createShow(){
-        return "management/option/create-option";
+    public String createShow(){ return "management/option/create-option";
+    }
+
+    @PostMapping("/management/createOption")
+    public String create(@Valid TariffOption option, BindingResult result, Model model){
+        if (result.hasErrors())
+            return "management/option/create-option";
+        optionService.save(option);
+        model.addAttribute("newOption",option);
+        model.addAttribute("badOptions",option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        return "/management/option/save-result";
     }
 
     @GetMapping("/management/editOption")
     public String editOption(@RequestParam("id") int id,Model model){
-        model.addAttribute("editedOption",optionService.get(id));
+        TariffOption option=optionService.get(id);
+        model.addAttribute("editedOption",option);
+        model.addAttribute("addIncompatible",newIncompatible(option));
+        model.addAttribute("currentIncompatible",option.getIncompatibleOptions());
         return "management/option/edit-option";
     }
 
@@ -62,8 +66,9 @@ public class OptionController {
         return "management/option/edit-option";
     }
 
-    @GetMapping("/management/deleteIncompatibleOption")
+    @GetMapping("/management/option/deleteIncompatibleOption")
     public String deleteIncompatibleOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
+
         optionService.removeIncompatibleOption(id,optionId);
         attr.addAttribute("id",id);
         return "redirect:/management/editOption";
@@ -75,11 +80,6 @@ public class OptionController {
         return    "redirect:/management/options";
     }
 
-    @RequestMapping("/management/options")
-    public String show(){
-        return "management/option/option-management";
-    }
-
     @ModelAttribute("option")
     public TariffOption formBackingObject() {
         return new TariffOption();
@@ -88,5 +88,13 @@ public class OptionController {
     @ModelAttribute("allOptions")
     public List<TariffOption> getAllOptions(){
         return optionService.getAll();
+    }
+
+    private List<String> newIncompatible(TariffOption option){
+        Set<TariffOption> incompatible=option.getIncompatibleOptions();
+        return optionService.getAll().stream()
+                .filter(o->!(incompatible.contains(o) || o.equals(option)))
+                .map(TariffOption::getName)
+                .collect(Collectors.toList());
     }
 }

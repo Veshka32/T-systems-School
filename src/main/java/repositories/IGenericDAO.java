@@ -10,7 +10,7 @@ public interface IGenericDAO<T> {
 
         List<T> findAll();
 
-        int create(final T entity);
+        int save(final T entity);
 
         void update(final T entity);
 

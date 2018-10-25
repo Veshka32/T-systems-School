@@ -29,7 +29,7 @@ public class TariffService implements TariffServiceI {
     @Override
     @Transactional
     public int create(Tariff tariff) {
-        return tariffDAO.create(tariff);
+        return tariffDAO.save(tariff);
     }
 
     @Override

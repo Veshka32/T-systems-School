@@ -28,7 +28,7 @@ public class ClientService {
     }
 
     public int create(Client client){
-        return clientDAO.create(client);
+        return clientDAO.save(client);
     }
 
     public List<Client> getAll() {
@@ -39,6 +39,6 @@ public class ClientService {
         Client client=clientDAO.findOne(clientId);
         contract.setOwner(client);
         client.addContract(contract);
-        clientDAO.create(client);
+        clientDAO.save(client);
     }
 }

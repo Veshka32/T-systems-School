@@ -17,10 +17,5 @@ public class OptionValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-
-        TariffOption option=(TariffOption) o;
-        Set<TariffOption> options=option.getIncompatibleOptions();
-        if (options.contains(option))
-            errors.rejectValue("incompatibleOptions","option.incompatibleOptions.invalid");
     }
 }

@@ -17,12 +17,7 @@
             <td>
                 <form action="editOption" method="get">
                 <input type="hidden" name="id" value=${option.id}>
-                <input type="submit" value="Edit option"></form>
-            </td>
-            <td>
-            <form action="deleteOption" method="get">
-                <input type="hidden" name="id" value=${option.id}>
-                <input type="submit" value="Delete option"></form>
+                <input type="submit" value="Edit"></form>
             </td>
         </tr>
     </c:forEach>

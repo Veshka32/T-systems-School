@@ -14,12 +14,17 @@ Find client by phone:
 <form:form method="POST" action="findClientByPhone" modelAttribute="phone">
     <form:input path="phoneNumber"/><input type="submit" value="Find"/><br>
     <form:errors path="phoneNumber"/>
-
-
 </form:form>
 
 
-All clients:<br>
+<form action="showAllClients" method="post">
+    <input type="submit" value="Show all clients">
+</form>
+
+<form action="showAllContracts" method="post">
+    <input type="submit" value="Show all contracts">
+</form>
+
 <c:forEach items="${clients}" var="client">
     <tr>
         <td>${client.toString()}</td>

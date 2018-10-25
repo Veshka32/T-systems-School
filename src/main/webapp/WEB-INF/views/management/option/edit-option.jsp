@@ -37,7 +37,7 @@
 
         <tr>
             <td>Add incompatible options:</td>
-            <td><form:select items="${allOptions}" path="incompatibleOptions" multiple="true"/></td>
+            <td><form:select items="${addIncompatible}" path="incompatibleOptions" multiple="true"/></td>
             <td><form:errors path="incompatibleOptions" /></td>
         </tr>
 
@@ -45,6 +45,7 @@
             <td>Archived:</td>
             <td><form:checkbox path="archived"/>Yes</td>
         </tr>
+
         <tr>
             <input type="hidden" name="id" value=${editedOption.id}>
             <td colspan="3"><input type="submit" value="Save"/></td>
@@ -54,7 +55,7 @@
 
 Incompatible options:
 <table>
-    <c:forEach items="${editedOption.incompatibleOptions}" var="option">
+    <c:forEach items="${currentIncompatible}" var="option">
         <tr>
             <td>${option.toString()}</td>
             <td>
@@ -66,6 +67,9 @@ Incompatible options:
         </tr>
     </c:forEach>
 </table>
+<form action="deleteOption" method="get">
+    <input type="hidden" name="id" value=${editedOption.id}>
+    <input type="submit" value="Delete"></form>
 
 <a href="options">Back to options</a>
 </body>

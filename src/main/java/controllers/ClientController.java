@@ -17,7 +17,6 @@ import java.util.List;
 
 @Controller
 public class ClientController {
-
     /**
      * TODO ClientValidator (initBinder)
      *
@@ -31,6 +30,18 @@ public class ClientController {
 
     @RequestMapping("/management/clients")
     public String show(){return "management/client/client-management";
+    }
+
+    @GetMapping("/management/showAllClients")
+    public String showAllClients(Model model){
+        model.addAttribute("clients",clientService.getAll());
+        return "/management/client/client-management";
+    }
+
+    @GetMapping("/management/showAllContracts")
+    public String showAllContracts(Model model){
+        model.addAttribute("clients",contractService.getAll());
+        return "/management/client/client-management";
     }
 
     @PostMapping("/management/findClientByPhone")
@@ -67,11 +78,6 @@ public class ClientController {
     @ModelAttribute("client")
     public Client formBackingObject() {
         return new Client();
-    }
-
-    @ModelAttribute("clients")
-    public List<Client> showAllClients() {
-        return clientService.getAll();
     }
 
     @ModelAttribute("phone")

@@ -1,13 +1,10 @@
 package services;
 
 import entities.Contract;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.ContractDAO;
-import repositories.GenericDAO;
-import repositories.IGenericDAO;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class ContractService {
     public Contract findByPhone(long phone){return contractDAO.findByNaturalId(phone);}
 
     public Contract create(Contract contract){
-        int id=contractDAO.create(contract);
+        int id=contractDAO.save(contract);
         return contractDAO.findOne(id);
     }
 
@@ -35,4 +32,8 @@ public class ContractService {
     public List<Contract> getAllClientContracts(int clientId) {
         return contractDAO.getClientContracts(clientId);
     }
+    public List<Contract> getAll() {
+        return contractDAO.findAll();
+    }
+
 }

@@ -34,7 +34,7 @@ public class TariffOption extends AbstractEntity{
 
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @UniqueElements
     @JoinTable(name="option_option",
             joinColumns={@JoinColumn(name="option_id")},
@@ -47,7 +47,7 @@ public class TariffOption extends AbstractEntity{
 
     @Override
     public String toString(){
-        return name+": price: "+price+", cost of subscribe: "+subscribeCost+", is archived: "+archived+", incompatible options: "+incompatibleOptions.stream().map(TariffOption::getName).collect(Collectors.toList());
+        return name+": "+description;
     }
 
     @Override

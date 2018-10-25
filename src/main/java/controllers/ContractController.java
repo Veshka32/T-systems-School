@@ -28,10 +28,12 @@ public class ContractController {
     PhoneNumberService phoneNumberService;
 
     @PostMapping("/management/findContract")
-    public String find(@RequestParam("number") int number, Model model) {
-
-        model.addAttribute("contract", contractService.findByPhone(number));
-        return "management/contract/edit-contract";
+    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr){
+        if (result.hasErrors())
+            return "management/contract/contract-management";
+        Contract contract=contractService.findByPhone(phone.getPhoneNumber());
+        attr.addAttribute("contract",contract);
+        return "/management/contract/edit-contract";
     }
 
     @RequestMapping("/management/contracts")
@@ -44,7 +46,7 @@ public class ContractController {
         long phone = phoneNumberService.getNext();
         model.addAttribute("clientId",clientId);
         model.addAttribute("phone",phone);
-        return "management/contract/edit-contract";
+        return "management/contract/create-contract";
     }
 
     @PostMapping("management/createContract")
@@ -54,7 +56,7 @@ public class ContractController {
                        @RequestParam("phone") long phone,
                        RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return "management/contract/edit-contract";
+            return "management/contract/create-contract";
         }
         contract.setNumber(phone);
         clientService.addContract(clientId,contract);
@@ -75,6 +77,11 @@ public class ContractController {
     @ModelAttribute("contract")
     public Contract getNewContract() {
         return new Contract();
+    }
+
+    @ModelAttribute("phone")
+    public Phone getPhone(){
+        return new Phone();
     }
 
 

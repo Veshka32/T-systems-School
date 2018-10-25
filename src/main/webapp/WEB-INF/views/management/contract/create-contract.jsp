@@ -6,17 +6,20 @@
 
 <html>
 <head>
-    <title>Edit Contract</title>
+    <title>New Contract</title>
 </head>
 
 <body>
-<h2>Phone number ${contract.number}}</h2>
-<h3>Owner: ${contract.owner.toString()}</h3>
+<h2>Phone number ${phone}</h2>
 
 <form:form method="POST" modelAttribute="contract">
     <table>
         <tr>
-            <td>Change tariff:</td>
+            <td><form:hidden path="number" value="${phone}"/></td>
+        </tr>
+
+        <tr>
+            <td>Tariff:</td>
             <td><form:select items="${allTariffs}" path="tariff" /></td>
             <td><form:errors path="tariff" /></td>
         </tr>
@@ -36,7 +39,10 @@
             <td>Blocked by admin:</td>
             <td><form:checkbox path="blockedByAdmin"/>Yes</td>
         </tr>
+
         <tr>
+            <input type="hidden" name="clientId" value=${clientId}>
+            <input type="hidden" name="phone" value="${phone}">
             <td colspan="3"><input type="submit" value="Save"/></td>
         </tr>
     </table>
