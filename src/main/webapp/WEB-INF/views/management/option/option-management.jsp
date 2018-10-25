@@ -32,6 +32,6 @@
 
 <a href="createOption">Create new option</a><br>
 
-<a href="./">Back to cabinet</a>
+<a href="cabinet">Back to cabinet</a>
 </body>
 </html>

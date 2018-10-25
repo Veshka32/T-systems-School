@@ -7,9 +7,9 @@
     <title>Manager cabinet</title>
 </head>
 <body>
-<a href="management/tariffs">Tariffs</a>
-<a href="management/clients">Clients</a>
-<a href="management/options">Tariff Options</a>
+<a href="tariffs">Tariffs</a>
+<a href="clients">Clients</a>
+<a href="options">Tariff Options</a>
 
 <c:url value="/logout" var="logoutUrl" />
 <form id="logout" action="${logoutUrl}" method="post" >
