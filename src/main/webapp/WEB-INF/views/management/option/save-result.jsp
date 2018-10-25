@@ -20,8 +20,7 @@ Incompatible options: ${badOptions}<br>
     <input type="hidden" name="id" value=${newOption.id}>
     <input type="submit" value="Edit"></form>
 
-<form action="/management/options" method="get">
-    <input type="submit" value="Back to options"></form>
+<a href="options">Back to options</a>
 
 </body>
 </html>

@@ -24,9 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-               .withUser("admin").password(passwordEncoder().encode("pass")).roles("MANAGER"); //temp in-memory auth
-    //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        //auth.inMemoryAuthentication()
+          //     .withUser("admin").password(passwordEncoder().encode("pass")).roles("MANAGER"); //temp in-memory auth
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/management*","/editTariff","/createTariff").hasRole("MANAGER")
+                    .antMatchers("/management*").hasRole("MANAGER")
                     .anyRequest().authenticated() //all remaining must be auth
                     .and()
                     .logout().logoutSuccessUrl("/login?logout");
