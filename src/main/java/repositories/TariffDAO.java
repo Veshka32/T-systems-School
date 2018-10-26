@@ -14,4 +14,6 @@ public class TariffDAO extends GenericDAO<Tariff>{
         .setParameter("id",tariffId)
         .getResultList();
     }
+
+
 }

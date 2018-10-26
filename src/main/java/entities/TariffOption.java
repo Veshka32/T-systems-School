@@ -21,7 +21,6 @@ public class TariffOption extends AbstractEntity{
 
     @NotBlank(message = "option.name.invalid")
    @Size(min = 3,max = 50,message = "option.name.invalid")
-    @NaturalId(mutable = true)
     @Column(unique = true)
     private String name;
 
@@ -55,6 +54,14 @@ public class TariffOption extends AbstractEntity{
 
     public void removeIncompatibleOption(TariffOption option){
         incompatibleOptions.remove(option);
+    }
+
+    public void addMandatoryOption(TariffOption option){
+        mandatoryOptions.add(option);
+    }
+
+    public void removeMandatoryOption(TariffOption option){
+        mandatoryOptions.remove(option);
     }
 
     @Override

@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.GenericDAO;
-import repositories.IGenericDAO;
+import repositories.TariffOptionDAO;
 
 import java.util.List;
 import java.util.Set;
@@ -18,21 +17,31 @@ import java.util.Set;
 @Transactional
 public class OptionService implements OptionServiceI {
 
-    private IGenericDAO<TariffOption> optionDAO;
+    private TariffOptionDAO optionDAO;
     private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
+    private static final String ERROR_MESSAGE="Option must not be both mandatory and incompatible";
 
     @Autowired
-    public void setOptionDAO(GenericDAO<TariffOption> optionDAO ) {
+    public void setOptionDAO(TariffOptionDAO optionDAO ) {
         this.optionDAO=optionDAO;
         optionDAO.setClass(TariffOption.class);
         logger.info("set up optionDAO");
     }
 
     @Override
+    public void create(TariffOption option) throws OptionException {
+        if (optionDAO.isNameExist(option.getName()))
+            throw new OptionException("name is reserved");
+        if (option.getIncompatibleOptions().stream().anyMatch(o->option.getMandatoryOptions().contains(o)))
+            throw new OptionException(ERROR_MESSAGE);
+        save(option);
+    }
+
+    @Override
     public void save(TariffOption option) {
         option.getIncompatibleOptions().stream()
-        .map(o->optionDAO.findOne(o.getId()))
-        .forEach(o->o.addIncompatibleOption(option));
+            .map(o->optionDAO.findOne(o.getId()))
+            .forEach(o->o.addIncompatibleOption(option));
         optionDAO.save(option);
     }
 
@@ -68,7 +77,14 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void update(TariffOption dto) {
+    public List<String> getAllNames() {
+        return optionDAO.getAllNames();
+    }
+
+    @Override
+    public void update(TariffOption dto) throws OptionException{
+        if (optionDAO.isNameExist(dto.getName()))
+            throw new OptionException("name is reserved");
         TariffOption based=optionDAO.findOne(dto.getId());
         based.setName(dto.getName());
         based.setPrice(dto.getPrice());
@@ -101,11 +117,30 @@ public class OptionService implements OptionServiceI {
         optionDAO.update(option);}
 
     @Override
-    public void addIncompatibleOption(int id, int optionId) {
+    public void addIncompatibleOption(int id, String optionName) throws OptionException{
         TariffOption option = optionDAO.findOne(id);
-        TariffOption incompatible=optionDAO.findOne(optionId);
+        TariffOption incompatible=optionDAO.findByName(optionName);
+        if (option.getMandatoryOptions().contains(incompatible) || incompatible.getIncompatibleOptions().contains(option))
+            throw new OptionException(ERROR_MESSAGE);
         option.addIncompatibleOption(incompatible);
         incompatible.addIncompatibleOption(option);
+        optionDAO.update(option);
+    }
+
+    @Override
+    public void removeMandatoryOption(int id, int optionId) {
+        TariffOption option = optionDAO.findOne(id);
+        TariffOption mandatory=optionDAO.findOne(optionId);
+        option.removeMandatoryOption(mandatory);
+        optionDAO.update(option);}
+
+    @Override
+    public void addMandatoryOption(int id, String optionName) throws OptionException{
+        TariffOption option = optionDAO.findOne(id);
+        TariffOption mandatory=optionDAO.findByName(optionName);
+        if (option.getIncompatibleOptions().contains(mandatory) || mandatory.getIncompatibleOptions().contains(option))
+            throw new OptionException(ERROR_MESSAGE);
+        option.addMandatoryOption(mandatory);
         optionDAO.update(option);
     }
 

@@ -12,6 +12,7 @@
 
 <h2>Edit option ${editedOption.name}</h2><br>
 <span>${updated}</span><br><br>
+<span>${error}</span><br><br>
 
 <form:form method="POST" modelAttribute="editedOption">
     <table>
@@ -63,15 +64,44 @@ Incompatible options:
     </c:forEach>
 </table>
 
-Add incompatible options:
+Mandatory options:
 <table>
-    <c:forEach items="${newIncompatible}" var="option">
+    <c:forEach items="${currentMandatory}" var="option">
         <tr>
             <td>${option.name}</td>
             <td>
-                <form action="option/addIncompatibleOption" method="get">
+                <form action="option/deleteMandatoryOption" method="get">
                     <input type="hidden" name="id" value=${editedOption.id}>
                     <input type="hidden" name="option_id" value=${option.id}>
+                    <input type="submit" value="Delete"></form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+Add incompatible options:
+<table>
+    <c:forEach items="${all}" var="option">
+        <tr>
+            <td>${option}</td>
+            <td>
+                <form action="option/addIncompatibleOption" method="get">
+                    <input type="hidden" name="id" value=${editedOption.id}>
+                    <input type="hidden" name="option_name" value=${option}>
+                    <input type="submit" value="Add"></form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+Add mandatory options:
+<table>
+    <c:forEach items="${all}" var="option">
+        <tr>
+            <td>${option}</td>
+            <td>
+                <form action="option/addMandatoryOption" method="get">
+                    <input type="hidden" name="id" value=${editedOption.id}>
+                    <input type="hidden" name="option_id" value=${option}>
                     <input type="submit" value="Add"></form>
             </td>
         </tr>
