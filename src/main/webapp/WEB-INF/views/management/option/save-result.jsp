@@ -15,6 +15,7 @@ Price: ${newOption.price}<br>
 SubscribeCost: ${newOption.subscribeCost}<br>
 Archived: ${newOption.archived}<br>
 Description: ${newOption.description}<br>
+Mandatory options: ${mandatoryOptions}<br>
 Incompatible options: ${badOptions}<br>
 <form action="editOption" method="get">
     <input type="hidden" name="id" value=${newOption.id}>

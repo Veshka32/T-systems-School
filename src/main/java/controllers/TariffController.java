@@ -51,7 +51,7 @@ public class TariffController {
             return "management/tariff/create-tariff";}
         tariffService.create(tariff);
         model.addAttribute("newTariff",tariff);
-        model.addAttribute("tariffOptions",tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.joining(","));
+        model.addAttribute("tariffOptions",tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
         return "management/tariff/save-result";
     }
 
@@ -85,7 +85,7 @@ public class TariffController {
 
     @GetMapping("/management/tariff/addOption")
     public String addOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
-        tariffService.addOption(id,optionId);
+        //tariffService.addOption(id,optionId);
         attr.addAttribute("id",id);
         attr.addAttribute("updated",true);
         return "redirect:/management/editTariff";

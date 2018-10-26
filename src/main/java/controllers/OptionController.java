@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import services.OptionService;
 import services.OptionServiceI;
 import validators.OptionValidator;
 import javax.validation.Valid;
@@ -36,8 +37,10 @@ public class OptionController {
 
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id,Model model){
-        model.addAttribute("newOption",optionService.get(id));
-        model.addAttribute("badOptions",optionService.getIncompatible(id).stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        TariffOption tariffOption=optionService.getFull(id);
+        model.addAttribute("newOption",tariffOption);
+        model.addAttribute("badOptions",tariffOption.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        model.addAttribute("mandatoryOptions",tariffOption.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
         return "management/option/save-result";
     }
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
-public class TariffService implements TariffServiceI {
+public class TariffService {
 
     private TariffDAO tariffDAO;
     private IGenericDAO<TariffOption> optionDAO;

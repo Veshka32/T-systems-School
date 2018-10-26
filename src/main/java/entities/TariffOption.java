@@ -37,10 +37,17 @@ public class TariffOption extends AbstractEntity{
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @UniqueElements
-    @JoinTable(name="option_option",
+    @JoinTable(name="option_IncompatibleOption",
             joinColumns={@JoinColumn(name="option_id")},
             inverseJoinColumns={@JoinColumn(name="incompatibleOption_id")})
     private Set<TariffOption> incompatibleOptions=new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @UniqueElements
+    @JoinTable(name="option_MandatoryOption",
+            joinColumns={@JoinColumn(name="option_id")},
+            inverseJoinColumns={@JoinColumn(name="mandatoryOption_id")})
+    private Set<TariffOption> mandatoryOptions=new HashSet<>();
 
     public void addIncompatibleOption(TariffOption option){
         incompatibleOptions.add(option);

@@ -50,6 +50,13 @@ public class OptionService implements OptionServiceI {
         return optionDAO.findOne(id);
     }
 
+    public TariffOption getFull(int id){
+        TariffOption tariffOption=optionDAO.findOne(id);
+        Hibernate.initialize(tariffOption.getIncompatibleOptions());
+        Hibernate.initialize(tariffOption.getMandatoryOptions());
+        return tariffOption;
+    }
+
     @Override
     public TariffOption findByName(String name) {
         return optionDAO.findByNaturalId(name);

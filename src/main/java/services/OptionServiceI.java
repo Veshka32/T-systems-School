@@ -13,6 +13,8 @@ public interface OptionServiceI {
 
         TariffOption get(int id);
 
+        TariffOption getFull(int id);
+
         TariffOption findByName(String name);
 
         List<TariffOption> getAll();
