@@ -37,6 +37,7 @@ public class OptionController {
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id,Model model){
         model.addAttribute("newOption",optionService.get(id));
+        model.addAttribute("badOptions",optionService.getIncompatible(id).stream().map(TariffOption::getName).collect(Collectors.joining(",")));
         return "management/option/save-result";
     }
 

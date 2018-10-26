@@ -35,7 +35,7 @@ public class TariffOption extends AbstractEntity{
 
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @UniqueElements
     @JoinTable(name="option_option",
             joinColumns={@JoinColumn(name="option_id")},
