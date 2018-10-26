@@ -1,39 +1,39 @@
 package services;
 
 import entities.TariffOption;
+import entities.TariffOptionTransfer;
 
 import java.util.List;
-import java.util.Set;
 
 public interface OptionServiceI {
 
 
-        void create(TariffOption option) throws OptionException;
-        void save(TariffOption option);
+    void create(TariffOption option) throws OptionException;
 
-        void delete(int id);
+    void save(TariffOption option);
 
-        TariffOption get(int id);
+    void delete(int id);
 
-        TariffOption getFull(int id);
+    TariffOption get(int id);
 
-        TariffOption findByName(String name);
+    TariffOptionTransfer getTransfer(int id);
 
-        List<TariffOption> getAll();
-        List<String> getAllNames();
+    TariffOption getFull(int id);
 
-        public Set<TariffOption> getIncompatible(int id);
-        
-        void update(TariffOption option) throws OptionException;
-        void updatePrice(int id,int price);
+    TariffOption findByName(String name);
 
-        void updateSubscribeCost(int id,int cost);
+    List<TariffOption> getAll();
 
-        void removeIncompatibleOption(int id, int optionId);
-        void addIncompatibleOption(int id, String optionName) throws OptionException;
+    List<String> getAllNames();
+
+    void update(TariffOption option) throws OptionException;
+
+    void removeIncompatibleOption(int id, int optionId);
+
+    void addIncompatibleOption(int id, String optionName) throws OptionException;
+
     void removeMandatoryOption(int id, int optionId);
-    void addMandatoryOption(int id, String optionName) throws OptionException;
 
-    void archive(int id);
+    void addMandatoryOption(int id, String optionName) throws OptionException;
 
 }

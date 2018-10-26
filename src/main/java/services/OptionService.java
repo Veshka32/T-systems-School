@@ -1,6 +1,7 @@
 package services;
 import config.WebMvcConfig;
 import entities.TariffOption;
+import entities.TariffOptionTransfer;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,13 @@ public class OptionService implements OptionServiceI {
         return optionDAO.findOne(id);
     }
 
+    public TariffOptionTransfer getTransfer(int id){
+        TariffOptionTransfer transfer=new TariffOptionTransfer(getFull(id));
+        transfer.setAll(getAllNames());
+        return transfer;
+    }
+
+    @Override
     public TariffOption getFull(int id){
         TariffOption tariffOption=optionDAO.findOne(id);
         Hibernate.initialize(tariffOption.getIncompatibleOptions());
@@ -83,8 +91,9 @@ public class OptionService implements OptionServiceI {
 
     @Override
     public void update(TariffOption dto) throws OptionException{
+        TariffOption o=optionDAO.findByName(dto.getName());
 
-        if (optionDAO.findByName(dto.getName()).getId()!=dto.getId())  //check if there is another option with the same name in database
+        if (o!=null && o.getId()!=dto.getId())  //check if there is another option with the same name in database
             throw new OptionException("name is reserved");
 
         TariffOption based=optionDAO.findOne(dto.getId());
@@ -94,20 +103,6 @@ public class OptionService implements OptionServiceI {
         based.setArchived(dto.isArchived());
         based.setDescription(dto.getDescription());
         optionDAO.update(based);
-    }
-
-    @Override
-    public void updatePrice(int id, int price) {
-        TariffOption option = optionDAO.findOne(id);
-        option.setPrice(price);
-        optionDAO.update(option);
-    }
-
-    @Override
-    public void updateSubscribeCost(int id,int cost) {
-        TariffOption option = optionDAO.findOne(id);
-        option.setSubscribeCost(cost);
-        optionDAO.update(option);
     }
 
     @Override
@@ -144,22 +139,5 @@ public class OptionService implements OptionServiceI {
             throw new OptionException(ERROR_MESSAGE);
         option.addMandatoryOption(mandatory);
         optionDAO.update(option);
-    }
-
-    @Override
-    public void archive(int tariffId) {
-        TariffOption option = optionDAO.findOne(tariffId);
-        option.setArchived(true);
-        optionDAO.update(option);
-    }
-
-    @Override
-    public Set<TariffOption> getIncompatible(int id){
-        TariffOption option = optionDAO.findOne(id);
-        /**
-         * TODO replace with named Query
-         */
-        Hibernate.initialize(option.getIncompatibleOptions());
-        return option.getIncompatibleOptions();
     }
 }

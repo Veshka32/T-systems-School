@@ -1,6 +1,8 @@
 package controllers;
 
+import entities.Tariff;
 import entities.TariffOption;
+import entities.TariffOptionTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +18,10 @@ import java.util.stream.Collectors;
 
 @Controller
 public class OptionController {
-    private static final String EDIT="management/option/edit-option";
-    private static final String CREATE="management/option/create-option";
-    private static final String REDIRECT_EDIT="redirect:/management/editOption";
-    private static final String ERROR_ATTRIBUTE="errorMessage";
+    private static final String EDIT = "management/option/edit-option";
+    private static final String CREATE = "management/option/create-option";
+    private static final String REDIRECT_EDIT = "redirect:/management/editOption";
+    private static final String ERROR_ATTRIBUTE = "errorMessage";
 
     @Autowired
     OptionServiceI optionService;
@@ -31,10 +33,8 @@ public class OptionController {
 
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id, Model model) {
-        TariffOption tariffOption = optionService.getFull(id);
-        model.addAttribute("newOption", tariffOption);
-        model.addAttribute("badOptions", tariffOption.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
-        model.addAttribute("mandatoryOptions", tariffOption.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        TariffOption option = optionService.getFull(id);
+        showTariff(model, option);
         return "management/option/save-result";
     }
 
@@ -55,21 +55,19 @@ public class OptionController {
             model.addAttribute("error", e.getMessage());
             return CREATE;
         }
-        model.addAttribute("newOption", option);
-        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
-        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        showTariff(model,option);
         return "/management/option/save-result";
     }
 
     @GetMapping("/management/editOption")
     public String editOption(@RequestParam("id") int id,
                              @RequestParam(value = "update", required = false) Boolean updated,
-                             @RequestParam(value = "errorMessage",required = false) String error,
+                             @RequestParam(value = "errorMessage", required = false) String error,
                              Model model) {
 
-        if (error!=null) model.addAttribute("message",error);
+        if (error != null) model.addAttribute("message", error);
         else if (updated != null) model.addAttribute("message", "updated");
-        TariffOption option=buildModel(id,model);
+        TariffOption option = buildModel(id, model);
         model.addAttribute("editedOption", option);
         return EDIT;
     }
@@ -77,15 +75,15 @@ public class OptionController {
     @PostMapping("/management/editOption")
     public String updateOption(@ModelAttribute("editedOption") @Valid TariffOption dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            buildModel(dto.getId(),model);
+            buildModel(dto.getId(), model);
             return EDIT;
         }
         try {
             optionService.update(dto);
         } catch (OptionException e) {
-            attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
+            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
-        setAttributesForUpdate(attr,dto.getId());
+        setAttributesForUpdate(attr, dto.getId());
         return REDIRECT_EDIT;
     }
 
@@ -103,7 +101,7 @@ public class OptionController {
         } catch (OptionException e) {
             attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
-        setAttributesForUpdate(attr,id);
+        setAttributesForUpdate(attr, id);
         return REDIRECT_EDIT;
     }
 
@@ -121,7 +119,7 @@ public class OptionController {
         } catch (OptionException e) {
             attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
-        setAttributesForUpdate(attr,id);
+        setAttributesForUpdate(attr, id);
         return REDIRECT_EDIT;
     }
 
@@ -141,17 +139,22 @@ public class OptionController {
         return optionService.getAll();
     }
 
-    private void setAttributesForUpdate(RedirectAttributes attr,int id){
+    private void setAttributesForUpdate(RedirectAttributes attr, int id) {
         attr.addAttribute("update", true);
         attr.addAttribute("id", id);
     }
 
-    private TariffOption buildModel(int id,Model model){
-        TariffOption option = optionService.getFull(id);
-        model.addAttribute("currentIncompatible", option.getIncompatibleOptions());
-        model.addAttribute("currentMandatory", option.getMandatoryOptions());
-        List<String> allNames = optionService.getAllNames();
-        model.addAttribute("all", allNames);
-        return option;
+    private TariffOption buildModel(int id, Model model) {
+        TariffOptionTransfer transfer = optionService.getTransfer(id);
+        model.addAttribute("currentIncompatible", transfer.getOption().getIncompatibleOptions());
+        model.addAttribute("currentMandatory", transfer.getOption().getMandatoryOptions());
+        model.addAttribute("all", transfer.getAll());
+        return transfer.getOption();
+    }
+
+    private void showTariff(Model model, TariffOption option) {
+        model.addAttribute("newOption", option);
+        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
     }
 }
