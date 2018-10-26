@@ -1,6 +1,7 @@
 package config;
 
 import converters.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages = { "controllers","repositories","services","entities","config","converters","validators" })
 public class WebMvcConfig implements WebMvcConfigurer {
+    private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
 
     @Autowired
     StringToOption so;
@@ -30,6 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public InternalResourceViewResolver resolver() {
+        logger.info("Set view resolver");
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/views/");
