@@ -11,11 +11,13 @@
 
 <body>
 <h2>Edit tariff ${editedTariff.name}</h2>
+<span>${updated}</span><br><br>
+
 
 <form:form method="POST" modelAttribute="editedTariff">
     <table>
         <tr>
-            <td>Tariff name:</td>
+            <td>Name:</td>
             <td><form:input path="name" value="${editedTariff.name}"/></td>
             <td><form:errors path="name" /></td>
         </tr>
@@ -27,17 +29,6 @@
         <tr>
             <td>Description:</td>
             <td><form:input value="${editedTariff.description}" path="description" /></td>
-        </tr>
-        <tr>
-            <td>Add options:</td>
-            <td><form:select items="${allOptions}" path="options" multiple="true"/></td>
-            <td><form:errors path="options" /></td>
-        </tr>
-
-        <tr>
-            <td>Add incompatible options:</td>
-            <td><form:select items="${allOptions}" path="incompatibleOptions" multiple="true"/></td>
-            <td><form:errors path="incompatibleOptions" /></td>
         </tr>
 
         <tr>
@@ -53,14 +44,29 @@
 
 Options:
 <table>
-    <c:forEach items="${editedTariff.options}" var="option">
+    <c:forEach items="${currentOption}" var="option">
         <tr>
-            <td>${option.toString()}</td>
+            <td>${option.name}</td>
             <td>
                 <form action="tariff/deleteOption" method="get">
                     <input type="hidden" name="id" value=${editedTariff.id}>
                     <input type="hidden" name="option_id" value=${option.id}>
                     <input type="submit" value="Delete"></form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+Add options:
+<table>
+    <c:forEach items="${newOptions}" var="option">
+        <tr>
+            <td>${option.name}</td>
+            <td>
+                <form action="tariff/addOption" method="get">
+                    <input type="hidden" name="id" value=${editedTariff.id}>
+                    <input type="hidden" name="option_id" value=${option.id}>
+                    <input type="submit" value="Add"></form>
             </td>
         </tr>
     </c:forEach>

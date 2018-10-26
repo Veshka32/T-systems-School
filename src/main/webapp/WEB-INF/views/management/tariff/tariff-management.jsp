@@ -13,16 +13,16 @@
 <table>
     <c:forEach items="${allTariffs}" var="tariff">
         <tr>
-            <td>${tariff.toString()}</td>
+            <td>${tariff.name}</td>
             <td>
                 <form action="editTariff" method="get">
                 <input type="hidden" name="id" value=${tariff.id}>
-                <input type="submit" value="Edit tariff"></form>
+                <input type="submit" value="Edit"></form>
             </td>
             <td>
-            <form action="deleteTariff" method="get">
+            <form action="showTariff" method="get">
                 <input type="hidden" name="id" value=${tariff.id}>
-                <input type="submit" value="Delete tariff"></form>
+                <input type="submit" value="Show details"></form>
             </td>
         </tr>
     </c:forEach>

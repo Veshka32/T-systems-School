@@ -24,7 +24,7 @@
             <td>
                 <form action="showOption" method="get">
                     <input type="hidden" name="id" value=${option.id}>
-                    <input type="submit" value="Show"></form>
+                    <input type="submit" value="Show details"></form>
             </td>
         </tr>
     </c:forEach>

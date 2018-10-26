@@ -10,17 +10,19 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.OptionServiceI;
-import services.TariffServiceI;
+import services.TariffService;
 import validators.TariffValidator;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class TariffController {
 
     @Autowired
-    TariffServiceI tariffService;
+    TariffService tariffService;
     @Autowired
     OptionServiceI optionService;
 
@@ -32,13 +34,9 @@ public class TariffController {
         binder.addValidators(tariffValidator);
     }
 
-
-    @PostMapping("/management/createTariff")
-    public String create(@Valid Tariff tariff, BindingResult result){
-        if (result.hasErrors())
-            return "management/tariff/create-tariff";
-        tariffService.create(tariff);
-        return "redirect:/management/tariffs";
+    @RequestMapping("/management/tariffs")
+    public String showAll(){
+        return "management/tariff/tariff-management";
     }
 
     @GetMapping("/management/createTariff")
@@ -46,9 +44,25 @@ public class TariffController {
         return "management/tariff/create-tariff";
     }
 
+    @PostMapping("/management/createTariff")
+    public String create(@ModelAttribute("tariff") @Valid Tariff tariff, BindingResult result, Model model){
+        if (result.hasErrors()){
+            model.addAttribute("tariff",tariff);
+            return "management/tariff/create-tariff";}
+        tariffService.create(tariff);
+        model.addAttribute("newTariff",tariff);
+        model.addAttribute("tariffOptions",tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.joining(","));
+        return "management/tariff/save-result";
+    }
+
     @GetMapping("/management/editTariff")
-    public String editTariff(@RequestParam("id") int id,Model model){
-        model.addAttribute("editedTariff",tariffService.get(id));
+    public String editTariff(@RequestParam("id") int id,@RequestParam(value = "updated",required = false) Boolean updated, Model model){
+        Tariff tariff=tariffService.get(id);
+        List<TariffOption> tariffOptions=tariffService.getTariffOptions(id);
+        List<TariffOption> availableOptions=tariffService.getAvailableOptions(id);
+        if (updated!=null) model.addAttribute("updated","updated");
+        model.addAttribute("currentOption",tariffOptions);
+        model.addAttribute("newOptions",availableOptions);
         return "management/tariff/edit-tariff";
     }
 
@@ -65,6 +79,15 @@ public class TariffController {
     public String deleteOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
         tariffService.deleteOption(id,optionId);
         attr.addAttribute("id",id);
+        attr.addAttribute("updated",true);
+        return "redirect:/management/editTariff";
+    }
+
+    @GetMapping("/management/tariff/addOption")
+    public String addOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
+        tariffService.addOption(id,optionId);
+        attr.addAttribute("id",id);
+        attr.addAttribute("updated",true);
         return "redirect:/management/editTariff";
     }
 
@@ -72,11 +95,6 @@ public class TariffController {
     public String deleteTariff(@RequestParam("id") int id,RedirectAttributes attr){
         tariffService.delete(id);
         return    "redirect:/management/tariffs";
-    }
-
-    @RequestMapping("/management/tariffs")
-    public String show(){
-        return "management/tariff/tariff-management";
     }
 
     @ModelAttribute("tariff")

@@ -52,7 +52,7 @@ Incompatible options:
 <table>
     <c:forEach items="${currentIncompatible}" var="option">
         <tr>
-            <td>${option.getName()}</td>
+            <td>${option.name}</td>
             <td>
                 <form action="option/deleteIncompatibleOption" method="get">
                     <input type="hidden" name="id" value=${editedOption.id}>
@@ -67,7 +67,7 @@ Add incompatible options:
 <table>
     <c:forEach items="${newIncompatible}" var="option">
         <tr>
-            <td>${option.getName()}</td>
+            <td>${option.name}</td>
             <td>
                 <form action="option/addIncompatibleOption" method="get">
                     <input type="hidden" name="id" value=${editedOption.id}>

@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
+@NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id")
 public class Tariff extends AbstractEntity{
 
     @Column(unique = true,nullable = false)
@@ -40,15 +41,6 @@ public class Tariff extends AbstractEntity{
     )
     private Set<TariffOption> options =new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(
-            name = "tariff_IncompatibleOption",
-            joinColumns = { @JoinColumn(name = "tariff_id") },
-            inverseJoinColumns = { @JoinColumn(name = "option_id") }
-    )
-    private Set<TariffOption> incompatibleOptions =new HashSet<>();
-
     public Tariff(){}
 
     public Tariff(String name){
@@ -57,10 +49,6 @@ public class Tariff extends AbstractEntity{
 
     public void deleteOption(TariffOption option){
         options.remove(option);
-    }
-
-    public void deleteIncompatibleOption(TariffOption option){
-        incompatibleOptions.remove(option);
     }
 
     @Override

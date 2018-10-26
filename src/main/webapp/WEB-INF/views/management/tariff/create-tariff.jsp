@@ -15,7 +15,7 @@
 <form:form method="POST" modelAttribute="tariff">
     <table>
         <tr>
-            <td>Tariff name:</td>
+            <td>Name:</td>
             <td><form:input path="name" /></td>
             <td><form:errors path="name" /></td>
         </tr>
@@ -34,13 +34,6 @@
             <td>Set options :</td>
             <td><form:checkboxes items="${allOptions}" path="options" /></td>
             <td><form:errors path="options" /></td>
-
-        </tr>
-
-        <tr>
-            <td>Set incompatible options :</td>
-            <td><form:checkboxes items="${allOptions}" path="incompatibleOptions" /></td>
-            <td><form:errors path="incompatibleOptions" /></td>
         </tr>
 
         <tr>
