@@ -11,8 +11,7 @@
 
 
 <h2>Edit option ${editedOption.name}</h2><br>
-<span>${updated}</span><br><br>
-<span>${error}</span><br><br>
+<span>${message}</span><br><br>
 
 <form:form method="POST" modelAttribute="editedOption">
     <table>
@@ -101,7 +100,7 @@ Add mandatory options:
             <td>
                 <form action="option/addMandatoryOption" method="get">
                     <input type="hidden" name="id" value=${editedOption.id}>
-                    <input type="hidden" name="option_id" value=${option}>
+                    <input type="hidden" name="option_name" value=${option}>
                     <input type="submit" value="Add"></form>
             </td>
         </tr>

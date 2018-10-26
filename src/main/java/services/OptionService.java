@@ -83,8 +83,10 @@ public class OptionService implements OptionServiceI {
 
     @Override
     public void update(TariffOption dto) throws OptionException{
-        if (optionDAO.isNameExist(dto.getName()))
+
+        if (optionDAO.findByName(dto.getName()).getId()!=dto.getId())  //check if there is another option with the same name in database
             throw new OptionException("name is reserved");
+
         TariffOption based=optionDAO.findOne(dto.getId());
         based.setName(dto.getName());
         based.setPrice(dto.getPrice());

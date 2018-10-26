@@ -18,7 +18,8 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> {
 
     public boolean isNameExist(String name) {
         try {
-            sessionFactory.getCurrentSession().createQuery("select o.name from TariffOption o where o.name=" + name)
+            sessionFactory.getCurrentSession().createNamedQuery("is_name_exists")
+                    .setParameter("name",name)
                     .getSingleResult();
         } catch (NoResultException e) {
             return false;
@@ -32,8 +33,9 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> {
     }
 
     public TariffOption findByName(String name){
-        return (TariffOption)sessionFactory.getCurrentSession()
-                .createQuery("from TariffOption o where o.name=" + name)
+        return sessionFactory.getCurrentSession()
+                .createNamedQuery("find_by_name",TariffOption.class)
+                .setParameter("name",name)
                 .getSingleResult();
     }
 }

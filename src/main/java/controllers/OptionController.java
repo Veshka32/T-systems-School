@@ -19,6 +19,7 @@ public class OptionController {
     private static final String EDIT="management/option/edit-option";
     private static final String CREATE="management/option/create-option";
     private static final String REDIRECT_EDIT="redirect:/management/editOption";
+    private static final String ERROR_ATTRIBUTE="errorMessage";
 
     @Autowired
     OptionServiceI optionService;
@@ -61,31 +62,30 @@ public class OptionController {
     }
 
     @GetMapping("/management/editOption")
-    public String editOption(@RequestParam("id") int id, @RequestParam(value = "update", required = false) Boolean updated, Model model) {
-        TariffOption option = optionService.getFull(id);
-        if (updated != null) model.addAttribute("updated", "updated");
+    public String editOption(@RequestParam("id") int id,
+                             @RequestParam(value = "update", required = false) Boolean updated,
+                             @RequestParam(value = "errorMessage",required = false) String error,
+                             Model model) {
+
+        if (error!=null) model.addAttribute("message",error);
+        else if (updated != null) model.addAttribute("message", "updated");
+        TariffOption option=buildModel(id,model);
         model.addAttribute("editedOption", option);
-        model.addAttribute("currentIncompatible", option.getIncompatibleOptions());
-        model.addAttribute("currentMandatory", option.getMandatoryOptions());
-        List<String> allNames = optionService.getAllNames();
-        model.addAttribute("all", allNames);
-        model.addAttribute("all", allNames);
         return EDIT;
     }
 
     @PostMapping("/management/editOption")
     public String updateOption(@ModelAttribute("editedOption") @Valid TariffOption dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
+            buildModel(dto.getId(),model);
             return EDIT;
         }
         try {
             optionService.update(dto);
         } catch (OptionException e) {
-            model.addAttribute("error", e.getMessage());
-            return EDIT;
+            attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
         }
         setAttributesForUpdate(attr,dto.getId());
-
         return REDIRECT_EDIT;
     }
 
@@ -101,8 +101,7 @@ public class OptionController {
         try {
             optionService.addIncompatibleOption(id, optionName);
         } catch (OptionException e) {
-            model.addAttribute("error", e.getMessage());
-            return EDIT;
+            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
         setAttributesForUpdate(attr,id);
         return REDIRECT_EDIT;
@@ -115,13 +114,12 @@ public class OptionController {
         return REDIRECT_EDIT;
     }
 
-    @GetMapping("/management/option/addIncompatibleOption")
+    @GetMapping("/management/option/addMandatoryOption")
     public String addMandatoryOption(@RequestParam("id") int id, @RequestParam("option_name") String optionName, RedirectAttributes attr, Model model) {
         try {
             optionService.addMandatoryOption(id, optionName);
         } catch (OptionException e) {
-            model.addAttribute("error", e.getMessage());
-            return EDIT;
+            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
         setAttributesForUpdate(attr,id);
         return REDIRECT_EDIT;
@@ -146,5 +144,14 @@ public class OptionController {
     private void setAttributesForUpdate(RedirectAttributes attr,int id){
         attr.addAttribute("update", true);
         attr.addAttribute("id", id);
+    }
+
+    private TariffOption buildModel(int id,Model model){
+        TariffOption option = optionService.getFull(id);
+        model.addAttribute("currentIncompatible", option.getIncompatibleOptions());
+        model.addAttribute("currentMandatory", option.getMandatoryOptions());
+        List<String> allNames = optionService.getAllNames();
+        model.addAttribute("all", allNames);
+        return option;
     }
 }

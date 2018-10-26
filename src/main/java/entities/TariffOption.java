@@ -17,6 +17,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "is_name_exists",query = "select o.name from TariffOption o where o.name=:name"),
+        @NamedQuery(name="find_by_name",query = "from TariffOption o where o.name=:name")
+})
 public class TariffOption extends AbstractEntity{
 
     @NotBlank(message = "option.name.invalid")
