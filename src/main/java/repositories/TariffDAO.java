@@ -1,6 +1,5 @@
 package repositories;
 
-import entities.Contract;
 import entities.Tariff;
 import entities.TariffOption;
 import org.springframework.stereotype.Repository;

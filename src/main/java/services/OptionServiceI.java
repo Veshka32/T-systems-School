@@ -1,6 +1,7 @@
 package services;
 
 import entities.TariffOption;
+import entities.TariffOptionDTO;
 import entities.TariffOptionTransfer;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface OptionServiceI {
 
     List<String> getAllNames();
 
-    void update(TariffOption option) throws ServiceException;
+    void update(TariffOptionDTO option) throws ServiceException;
 
     void removeIncompatibleOption(int id, int optionId);
 

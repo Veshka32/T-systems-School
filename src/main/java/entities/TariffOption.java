@@ -19,10 +19,12 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "is_name_exists", query = "select o.name from TariffOption o where o.name=:name"),
         @NamedQuery(name = "find_by_name", query = "from TariffOption o where o.name=:name"),
-        @NamedQuery(name="is_option_used_in_Contract",query = "select c.id from Contract c join TariffOption o where o.id=:id"),
-        @NamedQuery(name="is_option_used_in_Tariff",query = "select t.id from Tariff t join TariffOption o where o.id=:id"),
+        @NamedQuery(name="is_option_used_in_Contract",query = "select c.id from Contract c join c.options o where o.id=:id"),
+        @NamedQuery(name="is_option_Mandatory",query = "select o.id from TariffOption o join o.mandatoryOptions m where m.id=:id"),
+        @NamedQuery(name="is_option_used_in_Tariff",query = "select t.id from Tariff t join t.options o where o.id=:id"),
        @NamedQuery(name="get_incompatible_options",query = "select o.incompatibleOptions from TariffOption o where o.id=:id"),
         @NamedQuery(name="get_mandatory_options",query = "select o.mandatoryOptions from TariffOption o where o.id=:id"),
+        @NamedQuery(name="get_options_in_range",query = "from TariffOption o where o.id in (:ids)")
 })
 public class TariffOption extends AbstractEntity {
 
@@ -41,15 +43,13 @@ public class TariffOption extends AbstractEntity {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @UniqueElements
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "option_IncompatibleOption",
             joinColumns = {@JoinColumn(name = "option_id")},
             inverseJoinColumns = {@JoinColumn(name = "incompatibleOption_id")})
     private Set<TariffOption> incompatibleOptions = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @UniqueElements
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "option_MandatoryOption",
             joinColumns = {@JoinColumn(name = "option_id")},
             inverseJoinColumns = {@JoinColumn(name = "mandatoryOption_id")})

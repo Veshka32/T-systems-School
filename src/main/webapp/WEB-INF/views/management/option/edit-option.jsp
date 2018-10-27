@@ -42,70 +42,23 @@
         </tr>
 
         <tr>
+            <td>Incompatible options:</td>
+            <td><form:select multiple="true" path="incompatible" items="${all}" /></td>
+        </tr>
+
+        <tr>
+            <td>Mandatory options:</td>
+            <td><form:select multiple="true" path="mandatory" items="${all}"/></td>
+        </tr>
+
+        <tr>
             <input type="hidden" name="id" value=${editedOption.id}>
             <td colspan="3"><input type="submit" value="Save"/></td>
         </tr>
     </table>
 </form:form>
 
-Incompatible options:
-<table>
-    <c:forEach items="${currentIncompatible}" var="option">
-        <tr>
-            <td>${option.name}</td>
-            <td>
-                <form action="option/deleteIncompatibleOption" method="get">
-                    <input type="hidden" name="id" value=${editedOption.id}>
-                    <input type="hidden" name="option_id" value=${option.id}>
-                    <input type="submit" value="Delete"></form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
 
-Mandatory options:
-<table>
-    <c:forEach items="${currentMandatory}" var="option">
-        <tr>
-            <td>${option.name}</td>
-            <td>
-                <form action="option/deleteMandatoryOption" method="get">
-                    <input type="hidden" name="id" value=${editedOption.id}>
-                    <input type="hidden" name="option_id" value=${option.id}>
-                    <input type="submit" value="Delete"></form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-
-Add incompatible options:
-<table>
-    <c:forEach items="${all}" var="option">
-        <tr>
-            <td>${option}</td>
-            <td>
-                <form action="option/addIncompatibleOption" method="get">
-                    <input type="hidden" name="id" value=${editedOption.id}>
-                    <input type="hidden" name="option_name" value=${option}>
-                    <input type="submit" value="Add"></form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-Add mandatory options:
-<table>
-    <c:forEach items="${all}" var="option">
-        <tr>
-            <td>${option}</td>
-            <td>
-                <form action="option/addMandatoryOption" method="get">
-                    <input type="hidden" name="id" value=${editedOption.id}>
-                    <input type="hidden" name="option_name" value=${option}>
-                    <input type="submit" value="Add"></form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
 
 <br>
 <form action="deleteOption" method="get">

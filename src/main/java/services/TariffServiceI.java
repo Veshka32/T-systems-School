@@ -28,7 +28,7 @@ public interface TariffServiceI {
     public List<Tariff> getAll();
 
     public void deleteOption(int tariffId, int optionId) throws ServiceException;
-    void addOption(int tariffId, int optionId) throws ServiceException;
+    void addOption(int tariffId, String optionName) throws ServiceException;
 
     public List<TariffOption> getTariffOptions(int id);
 

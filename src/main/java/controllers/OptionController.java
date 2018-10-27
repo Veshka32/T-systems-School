@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.TariffOption;
+import entities.TariffOptionDTO;
 import entities.TariffOptionTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +52,7 @@ public class OptionController {
         try {
             optionService.create(option);
         } catch (ServiceException e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
             return CREATE;
         }
         showTariff(model,option);
@@ -61,29 +62,36 @@ public class OptionController {
     @GetMapping("/management/editOption")
     public String editOption(@RequestParam("id") int id,
                              @RequestParam(value = "update", required = false) Boolean updated,
-                             @RequestParam(value = "errorMessage", required = false) String error,
+                             @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
                              Model model) {
 
         if (error != null) model.addAttribute("message", error);
         else if (updated != null) model.addAttribute("message", "updated");
-        TariffOption option = buildModel(id, model);
-        model.addAttribute("editedOption", option);
+        TariffOptionTransfer transfer = optionService.getTransfer(id);
+        model.addAttribute("editedOption",transfer.getDTO());
+        model.addAttribute("all", transfer.getAll());
         return EDIT;
     }
 
     @PostMapping("/management/editOption")
-    public String updateOption(@ModelAttribute("editedOption") @Valid TariffOption dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String updateOption(@ModelAttribute("editedOption") @Valid TariffOptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            buildModel(dto.getId(), model);
+            TariffOptionTransfer transfer = optionService.getTransfer(dto.getId());
+            model.addAttribute("editedOption",dto);
+            model.addAttribute("all", transfer.getAll());
             return EDIT;
         }
         try {
             optionService.update(dto);
         } catch (ServiceException e) {
-            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
+            TariffOptionTransfer transfer = optionService.getTransfer(dto.getId());
+            model.addAttribute("editedOption",transfer.getDTO());
+            model.addAttribute("all", transfer.getAll());
+            model.addAttribute("message",e.getMessage());
+            return EDIT;
         }
-        setAttributesForUpdate(attr, dto.getId());
-        return REDIRECT_EDIT;
+        attr.addAttribute("id",dto.getId());
+        return "redirect:/management/showOption";
     }
 
     @GetMapping("/management/option/deleteIncompatibleOption")
@@ -127,6 +135,8 @@ public class OptionController {
         try{optionService.delete(id);}
         catch (ServiceException e){
             attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
+            attr.addAttribute("id",id);
+            return REDIRECT_EDIT;
         }
         return "redirect:/management/options";
     }
@@ -144,14 +154,6 @@ public class OptionController {
     private void setAttributesForUpdate(RedirectAttributes attr, int id) {
         attr.addAttribute("update", true);
         attr.addAttribute("id", id);
-    }
-
-    private TariffOption buildModel(int id, Model model) {
-        TariffOptionTransfer transfer = optionService.getTransfer(id);
-        model.addAttribute("currentIncompatible", transfer.getOption().getIncompatibleOptions());
-        model.addAttribute("currentMandatory", transfer.getOption().getMandatoryOptions());
-        model.addAttribute("all", transfer.getAll());
-        return transfer.getOption();
     }
 
     private void showTariff(Model model, TariffOption option) {

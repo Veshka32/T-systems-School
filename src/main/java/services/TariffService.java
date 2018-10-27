@@ -39,21 +39,21 @@ public class TariffService implements TariffServiceI {
 
         Set<TariffOption> tariffOptions = tariff.getOptions();
 
-        for (TariffOption option : tariffOptions) {
-
-            List<TariffOption> bad =optionDAO.getIncompatibleOptions(option.getId());                    ;
-            Optional<TariffOption> badOption = bad.stream().filter(x -> tariffOptions.contains(x)).findFirst();
-            if (badOption.isPresent()) {
-                throw new ServiceException("Options are incompatible: " + option.getName() + " and " + badOption.get().getName());
-            }
-        }
-
-        for (TariffOption option : tariffOptions) {
-            List<TariffOption> mandatory = optionDAO.getMandatoryOptions(option.getId());
-            if (!mandatory.isEmpty() && !tariffOptions.contains(mandatory)) {
-                throw new ServiceException("Can't set option: " + option.getName() + " without options: " + mandatory.stream().map(TariffOption::getName).collect(Collectors.toList()).toString());
-            }
-        }
+//        for (TariffOption option : tariffOptions) {
+//
+//            List<TariffOption> bad =optionDAO.getIncompatibleOptions(option.getId());
+//            Optional<TariffOption> badOption = bad.stream().filter(x -> tariffOptions.contains(x)).findFirst();
+//            if (badOption.isPresent()) {
+//                throw new ServiceException("Options are incompatible: " + option.getName() + " and " + badOption.get().getName());
+//            }
+//        }
+//
+//        for (TariffOption option : tariffOptions) {
+//            List<TariffOption> mandatory = optionDAO.getMandatoryOptions(option.getId());
+//            if (!mandatory.isEmpty() && !tariffOptions.containsAll(mandatory)) {
+//                throw new ServiceException("Can't set option: " + option.getName() + " without options: " + mandatory.stream().map(TariffOption::getName).collect(Collectors.toList()).toString());
+//            }
+//        }
         return tariffDAO.save(tariff);
     }
 
@@ -112,10 +112,10 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public void addOption(int tariffId, int optionId) throws ServiceException {
+    public void addOption(int tariffId, String optionName) throws ServiceException {
         Tariff tariff = tariffDAO.findOne(tariffId);
         Hibernate.initialize(tariff.getOptions());
-        TariffOption option = optionDAO.findOne(optionId);
+        TariffOption option = optionDAO.findByName(optionName);
         Optional<TariffOption> bad = tariff.getOptions().stream().flatMap(x -> x.getIncompatibleOptions().stream()).filter(x -> x.equals(option)).findFirst();
         if (bad.isPresent())
             throw new ServiceException("Option " + option.getName() + " incompatible with " + bad.get().getName());

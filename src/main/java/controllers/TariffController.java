@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.OptionServiceI;
@@ -16,13 +15,13 @@ import services.TariffServiceI;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
 public class TariffController {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String EDIT = "management/tariff/edit-tariff";
+    private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
 
     @Autowired
     TariffServiceI tariffService;
@@ -78,7 +77,7 @@ public class TariffController {
             attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
         setAttributesForUpdate(attr, editedTariff.getId());
-        return EDIT;
+        return REDIRECT_EDIT;
     }
 
     @GetMapping("/management/tariff/deleteOption")
@@ -89,18 +88,18 @@ public class TariffController {
             attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
         }
         setAttributesForUpdate(attr,id);
-        return "redirect:/management/editTariff";
+        return REDIRECT_EDIT;
     }
 
     @GetMapping("/management/tariff/addOption")
-    public String addOption(@RequestParam("id") int id,@RequestParam("option_id") int optionId,RedirectAttributes attr){
+    public String addOption(@RequestParam("id") int id,@RequestParam("option_name") String optionName,RedirectAttributes attr){
         try {
-            tariffService.addOption(id,optionId);
+            tariffService.addOption(id,optionName);
         } catch (ServiceException e){
             attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
         }
         setAttributesForUpdate(attr,id);
-        return "redirect:/management/editTariff";
+        return REDIRECT_EDIT;
     }
 
     @GetMapping("/management/deleteTariff")

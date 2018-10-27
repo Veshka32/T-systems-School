@@ -31,6 +31,9 @@ public class Contract extends AbstractEntity {
     private Tariff tariff;
 
     @ManyToMany
+    @JoinTable(name = "contract_tariffoption",
+            joinColumns = {@JoinColumn(name = "Contract_id")},
+            inverseJoinColumns = {@JoinColumn(name = "options_id")})
     private Set<TariffOption> options = new HashSet<>();
 
     private boolean isBlocked = false;
