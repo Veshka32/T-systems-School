@@ -17,12 +17,17 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-@NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id")
+@NamedQueries({
+        @NamedQuery(name = "is_tariffName_exists", query = "select o.name from Tariff o where o.name=:name"),
+        @NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id"),
+        @NamedQuery(name = "find_tariff_by_name", query = "from Tariff o where o.name=:name"),
+        @NamedQuery(name="is_used",query = "select c.id from Contract c where c.tariff.id=:id")
+})
 public class Tariff extends AbstractEntity{
 
     @Column(unique = true,nullable = false)
-    @NotBlank @Size(min=3,max=50,message = "tariff.name.invalid")
-    @NaturalId
+    @NotBlank(message = "{tariff.name.invalid}")
+    @Size(min=3,max=50,message = "{tariff.name.invalid}")
     private String name;
 
     private boolean isArchived=false;
@@ -32,7 +37,7 @@ public class Tariff extends AbstractEntity{
     @Min(value = 0,message = "tariff.price.invalid")
     private int price;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "tariff_option",
@@ -49,6 +54,10 @@ public class Tariff extends AbstractEntity{
 
     public void deleteOption(TariffOption option){
         options.remove(option);
+    }
+
+    public void addOption(TariffOption option){
+        options.add(option);
     }
 
     @Override

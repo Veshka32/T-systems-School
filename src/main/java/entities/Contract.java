@@ -20,7 +20,6 @@ import java.util.Set;
 
 public class Contract extends AbstractEntity {
 
-    @NaturalId
     @Column(updatable = false)
     private long number;
 
@@ -31,7 +30,7 @@ public class Contract extends AbstractEntity {
     @ManyToOne
     private Tariff tariff;
 
-    @ManyToMany()
+    @ManyToMany
     private Set<TariffOption> options = new HashSet<>();
 
     private boolean isBlocked = false;

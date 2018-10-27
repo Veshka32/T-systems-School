@@ -18,7 +18,12 @@ public class ContractService {
         return contractDAO.findClientByPhone(phone);
     }
 
-    public Contract findByPhone(long phone){return contractDAO.findByNaturalId(phone);}
+    public Contract findByPhone(long phone){
+        /**
+         * todo
+         */
+        return null;
+    }
 
     public Contract create(Contract contract){
         int id=contractDAO.save(contract);

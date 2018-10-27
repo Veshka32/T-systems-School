@@ -35,11 +35,6 @@ public class GenericDAO<T> implements IGenericDAO<T> {
     }
 
     @Override
-    public T findByNaturalId(Object naturalKey) {
-        return sessionFactory.getCurrentSession().bySimpleNaturalId(clazz).load(naturalKey);
-    }
-
-    @Override
     public List<T> findAll() {
         return sessionFactory.getCurrentSession().createQuery("from "+clazz.getName()).list();
     }

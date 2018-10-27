@@ -11,6 +11,7 @@
 
 <body>
 <h2>Create tariff</h2>
+<span>${error}</span>
 
 <form:form method="POST" modelAttribute="tariff">
     <table>

@@ -6,8 +6,6 @@ public interface IGenericDAO<T> {
 
         T findOne(final int id);
 
-        T findByNaturalId(final Object naturalKey);
-
         List<T> findAll();
 
         int save(final T entity);

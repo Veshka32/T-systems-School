@@ -19,7 +19,7 @@ public class ContractController {
     @Autowired
     ContractService contractService;
     @Autowired
-    TariffService tariffService;
+    TariffServiceI tariffService;
     @Autowired
     OptionServiceI optionService;
     @Autowired

@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.Tariff;
 import entities.TariffOption;
 import entities.TariffOptionTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.OptionException;
+import services.ServiceException;
 import services.OptionServiceI;
 
 import javax.validation.Valid;
@@ -21,7 +20,7 @@ public class OptionController {
     private static final String EDIT = "management/option/edit-option";
     private static final String CREATE = "management/option/create-option";
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
-    private static final String ERROR_ATTRIBUTE = "errorMessage";
+    private static final String ERROR_ATTRIBUTE = "error";
 
     @Autowired
     OptionServiceI optionService;
@@ -51,7 +50,7 @@ public class OptionController {
         }
         try {
             optionService.create(option);
-        } catch (OptionException e) {
+        } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
             return CREATE;
         }
@@ -80,7 +79,7 @@ public class OptionController {
         }
         try {
             optionService.update(dto);
-        } catch (OptionException e) {
+        } catch (ServiceException e) {
             attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
         setAttributesForUpdate(attr, dto.getId());
@@ -98,7 +97,7 @@ public class OptionController {
     public String addIncompatibleOption(@RequestParam("id") int id, @RequestParam("option_name") String optionName, RedirectAttributes attr, Model model) {
         try {
             optionService.addIncompatibleOption(id, optionName);
-        } catch (OptionException e) {
+        } catch (ServiceException e) {
             attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
         setAttributesForUpdate(attr, id);
@@ -116,7 +115,7 @@ public class OptionController {
     public String addMandatoryOption(@RequestParam("id") int id, @RequestParam("option_name") String optionName, RedirectAttributes attr, Model model) {
         try {
             optionService.addMandatoryOption(id, optionName);
-        } catch (OptionException e) {
+        } catch (ServiceException e) {
             attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
         }
         setAttributesForUpdate(attr, id);
@@ -124,8 +123,11 @@ public class OptionController {
     }
 
     @GetMapping("/management/deleteOption")
-    public String deleteOption(@RequestParam("id") int id) {
-        optionService.delete(id);
+    public String deleteOption(@RequestParam("id") int id,RedirectAttributes attr) {
+        try{optionService.delete(id);}
+        catch (ServiceException e){
+            attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
+        }
         return "redirect:/management/options";
     }
 

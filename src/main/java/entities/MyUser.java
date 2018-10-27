@@ -15,11 +15,11 @@ import java.util.Set;
 
 @Entity @Getter @Setter
 @Table(name = "user")
+@NamedQuery(name = "find_user_by_login",query = "from MyUser u where u.login=:login")
 public class MyUser extends AbstractEntity {
 
     @NotBlank
     @Column(nullable = false)
-    @NaturalId
     private String login;
 
     @NotNull

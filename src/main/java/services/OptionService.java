@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.TariffOptionDAO;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @EnableTransactionManagement
@@ -30,11 +29,11 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void create(TariffOption option) throws OptionException {
+    public void create(TariffOption option) throws ServiceException {
         if (optionDAO.isNameExist(option.getName()))
-            throw new OptionException("name is reserved");
+            throw new ServiceException("name is reserved");
         if (option.getIncompatibleOptions().stream().anyMatch(o->option.getMandatoryOptions().contains(o)))
-            throw new OptionException(ERROR_MESSAGE);
+            throw new ServiceException(ERROR_MESSAGE);
         save(option);
     }
 
@@ -47,8 +46,10 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void delete(int id) {
-        TariffOption option=optionDAO.findOne(id);
+    public void delete(int id) throws ServiceException{
+    if (optionDAO.isUsed(id)) throw new ServiceException("Option is used in contracts/tariffs");
+    TariffOption option=optionDAO.findOne(id);
+
         option.getIncompatibleOptions().stream()
                 .map(o->optionDAO.findOne(o.getId()))
                 .forEach(o->o.removeIncompatibleOption(option));
@@ -60,6 +61,7 @@ public class OptionService implements OptionServiceI {
         return optionDAO.findOne(id);
     }
 
+    @Override
     public TariffOptionTransfer getTransfer(int id){
         TariffOptionTransfer transfer=new TariffOptionTransfer(getFull(id));
         transfer.setAll(getAllNames());
@@ -76,7 +78,7 @@ public class OptionService implements OptionServiceI {
 
     @Override
     public TariffOption findByName(String name) {
-        return optionDAO.findByNaturalId(name);
+        return optionDAO.findByName(name);
     }
 
     @Override
@@ -90,11 +92,11 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void update(TariffOption dto) throws OptionException{
+    public void update(TariffOption dto) throws ServiceException {
         TariffOption o=optionDAO.findByName(dto.getName());
 
         if (o!=null && o.getId()!=dto.getId())  //check if there is another option with the same name in database
-            throw new OptionException("name is reserved");
+            throw new ServiceException("name is reserved");
 
         TariffOption based=optionDAO.findOne(dto.getId());
         based.setName(dto.getName());
@@ -114,11 +116,11 @@ public class OptionService implements OptionServiceI {
         optionDAO.update(option);}
 
     @Override
-    public void addIncompatibleOption(int id, String optionName) throws OptionException{
+    public void addIncompatibleOption(int id, String optionName) throws ServiceException {
         TariffOption option = optionDAO.findOne(id);
         TariffOption incompatible=optionDAO.findByName(optionName);
         if (option.getMandatoryOptions().contains(incompatible) || incompatible.getIncompatibleOptions().contains(option))
-            throw new OptionException(ERROR_MESSAGE);
+            throw new ServiceException(ERROR_MESSAGE);
         option.addIncompatibleOption(incompatible);
         incompatible.addIncompatibleOption(option);
         optionDAO.update(option);
@@ -132,11 +134,11 @@ public class OptionService implements OptionServiceI {
         optionDAO.update(option);}
 
     @Override
-    public void addMandatoryOption(int id, String optionName) throws OptionException{
+    public void addMandatoryOption(int id, String optionName) throws ServiceException {
         TariffOption option = optionDAO.findOne(id);
         TariffOption mandatory=optionDAO.findByName(optionName);
         if (option.getIncompatibleOptions().contains(mandatory) || mandatory.getIncompatibleOptions().contains(option))
-            throw new OptionException(ERROR_MESSAGE);
+            throw new ServiceException(ERROR_MESSAGE);
         option.addMandatoryOption(mandatory);
         optionDAO.update(option);
     }

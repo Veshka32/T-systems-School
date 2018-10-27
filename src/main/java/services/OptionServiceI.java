@@ -8,11 +8,11 @@ import java.util.List;
 public interface OptionServiceI {
 
 
-    void create(TariffOption option) throws OptionException;
+    void create(TariffOption option) throws ServiceException;
 
     void save(TariffOption option);
 
-    void delete(int id);
+    void delete(int id) throws ServiceException;
 
     TariffOption get(int id);
 
@@ -26,14 +26,14 @@ public interface OptionServiceI {
 
     List<String> getAllNames();
 
-    void update(TariffOption option) throws OptionException;
+    void update(TariffOption option) throws ServiceException;
 
     void removeIncompatibleOption(int id, int optionId);
 
-    void addIncompatibleOption(int id, String optionName) throws OptionException;
+    void addIncompatibleOption(int id, String optionName) throws ServiceException;
 
     void removeMandatoryOption(int id, int optionId);
 
-    void addMandatoryOption(int id, String optionName) throws OptionException;
+    void addMandatoryOption(int id, String optionName) throws ServiceException;
 
 }

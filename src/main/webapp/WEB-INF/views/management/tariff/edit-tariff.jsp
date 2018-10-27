@@ -6,12 +6,12 @@
 
 <html>
 <head>
-    <title>Tariffs</title>
+    <title>Edit tariff</title>
 </head>
 
 <body>
 <h2>Edit tariff ${editedTariff.name}</h2>
-<span>${updated}</span><br><br>
+<span>${message}</span><br><br>
 
 
 <form:form method="POST" modelAttribute="editedTariff">
@@ -44,7 +44,7 @@
 
 Options:
 <table>
-    <c:forEach items="${currentOption}" var="option">
+    <c:forEach items="${currentOptions}" var="option">
         <tr>
             <td>${option.name}</td>
             <td>
@@ -61,11 +61,11 @@ Add options:
 <table>
     <c:forEach items="${newOptions}" var="option">
         <tr>
-            <td>${option.name}</td>
+            <td>${option}</td>
             <td>
                 <form action="tariff/addOption" method="get">
                     <input type="hidden" name="id" value=${editedTariff.id}>
-                    <input type="hidden" name="option_id" value=${option.id}>
+                    <input type="hidden" name="option_name" value=${option}>
                     <input type="submit" value="Add"></form>
             </td>
         </tr>

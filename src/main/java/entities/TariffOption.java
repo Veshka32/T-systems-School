@@ -18,7 +18,11 @@ import java.util.Set;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "is_name_exists", query = "select o.name from TariffOption o where o.name=:name"),
-        @NamedQuery(name = "find_by_name", query = "from TariffOption o where o.name=:name")
+        @NamedQuery(name = "find_by_name", query = "from TariffOption o where o.name=:name"),
+        @NamedQuery(name="is_option_used_in_Contract",query = "select c.id from Contract c join TariffOption o where o.id=:id"),
+        @NamedQuery(name="is_option_used_in_Tariff",query = "select t.id from Tariff t join TariffOption o where o.id=:id"),
+       @NamedQuery(name="get_incompatible_options",query = "select o.incompatibleOptions from TariffOption o where o.id=:id"),
+        @NamedQuery(name="get_mandatory_options",query = "select o.mandatoryOptions from TariffOption o where o.id=:id"),
 })
 public class TariffOption extends AbstractEntity {
 
@@ -37,14 +41,14 @@ public class TariffOption extends AbstractEntity {
 
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @UniqueElements
     @JoinTable(name = "option_IncompatibleOption",
             joinColumns = {@JoinColumn(name = "option_id")},
             inverseJoinColumns = {@JoinColumn(name = "incompatibleOption_id")})
     private Set<TariffOption> incompatibleOptions = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @UniqueElements
     @JoinTable(name = "option_MandatoryOption",
             joinColumns = {@JoinColumn(name = "option_id")},

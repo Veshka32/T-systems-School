@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.GenericDAO;
 import repositories.IGenericDAO;
+import repositories.UserDAO;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,24 +24,18 @@ import java.util.Set;
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    IGenericDAO<MyUser> userDAO;
-
     @Autowired
-    public void setUserDAO(GenericDAO<MyUser> userDAO) {
-        this.userDAO = userDAO;
-        userDAO.setClass(MyUser.class);
-    }
+    UserDAO userDAO;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String username) {
 
-        MyUser user = userDAO.findByNaturalId(username);
+        MyUser user = userDAO.findByLogin(username);
         List<GrantedAuthority> authorities =
                 buildUserAuthority(user.getRoles());
 
         return buildUserForAuthentication(user, authorities);
-
     }
 
     private User buildUserForAuthentication(MyUser user,
