@@ -30,12 +30,76 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void create(TariffOption option) throws ServiceException {
-        if (optionDAO.isNameExist(option.getName()))
+    public void create(TariffOptionDTO dto) throws ServiceException {
+        if (optionDAO.isNameExist(dto.getName()))
             throw new ServiceException("name is reserved");
-        if (option.getIncompatibleOptions().stream().anyMatch(o -> option.getMandatoryOptions().contains(o)))
-            throw new ServiceException(ERROR_MESSAGE);
-        save(option);
+
+        //check if no option at the same time are mandatory and incompatible
+        Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
+        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
+
+        //check if mandatory options are incompatible with each other
+        any = dto.getMandatory().stream().filter(id -> optionDAO.getIncompatibleOptions(id).contains(id)).findFirst();
+        if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible");
+
+        //set plain fields
+        TariffOption based = new TariffOption();
+        updatePlainFields(dto,based);
+
+        //set collections fields
+        for (Integer id:dto.getIncompatible()) {
+            TariffOption newInc=optionDAO.findOne(id);
+            based.addIncompatibleOption(newInc);
+            newInc.addIncompatibleOption(based);
+        }
+        for (Integer id:dto.getMandatory()) {
+            TariffOption newMand=optionDAO.findOne(id);
+            based.addMandatoryOption(newMand);
+        }
+        save(based);
+        dto.setId(based.getId());
+    }
+
+    @Override
+    public void update(TariffOptionDTO dto) throws ServiceException {
+        TariffOption o = optionDAO.findByName(dto.getName());
+
+        if (o != null && o.getId() != dto.getId())  //check if there is another option with the same name in database
+            throw new ServiceException("name is reserved");
+
+        //check if no option at the same time are mandatory and incompatible
+        Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
+        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
+
+        //check if mandatory options are incompatible with each other
+        any = dto.getMandatory().stream().filter(id -> optionDAO.getIncompatibleOptions(id).contains(id)).findFirst();
+        if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible");
+
+        //update plain fields
+        TariffOption based = optionDAO.findOne(dto.getId());
+        updatePlainFields(dto,based);
+
+        //update complex fields
+        based.getMandatoryOptions().clear();
+        based.getIncompatibleOptions().clear();
+        for (Integer id:dto.getIncompatible()) {
+            TariffOption newInc=optionDAO.findOne(id);
+            based.addIncompatibleOption(newInc);
+            newInc.addIncompatibleOption(based);
+        }
+        for (Integer id:dto.getMandatory()) {
+            TariffOption newMand=optionDAO.findOne(id);
+            based.addMandatoryOption(newMand);
+        }
+        optionDAO.update(based);
+    }
+
+    private void updatePlainFields(TariffOptionDTO dto,TariffOption based){
+        based.setName(dto.getName());
+        based.setPrice(dto.getPrice());
+        based.setSubscribeCost(dto.getSubscribeCost());
+        based.setArchived(dto.isArchived());
+        based.setDescription(dto.getDescription());
     }
 
     @Override
@@ -64,13 +128,22 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public TariffOptionTransfer getTransfer(int id) {
+    public TariffOptionTransfer getTransferForEdit(int id) {
         TariffOption option = optionDAO.findOne(id);
         TariffOptionDTO dto = new TariffOptionDTO(option);
 
         dto.setIncompatible(optionDAO.getIncompatibleOptions(id).stream().map(TariffOption::getId).collect(Collectors.toSet()));
         dto.setMandatory(optionDAO.getMandatoryOptions(id).stream().map(TariffOption::getId).collect(Collectors.toSet()));
 
+        TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
+        Map<Integer,String> map=optionDAO.findAll().stream().collect(Collectors.toMap(TariffOption::getId,TariffOption::getName));
+        transfer.setAll(map);
+        return transfer;
+    }
+
+    @Override
+    public TariffOptionTransfer getTransferForCreate() {
+        TariffOptionDTO dto = new TariffOptionDTO();
         TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
         Map<Integer,String> map=optionDAO.findAll().stream().collect(Collectors.toMap(TariffOption::getId,TariffOption::getName));
         transfer.setAll(map);
@@ -93,44 +166,5 @@ public class OptionService implements OptionServiceI {
     @Override
     public List<TariffOption> getAll() {
         return optionDAO.findAll();
-    }
-
-    @Override
-    public void update(TariffOptionDTO dto) throws ServiceException {
-        TariffOption o = optionDAO.findByName(dto.getName());
-
-        if (o != null && o.getId() != dto.getId())  //check if there is another option with the same name in database
-            throw new ServiceException("name is reserved");
-
-        //check if no option at the same time are mandatory and incompatible
-
-        Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
-        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
-
-        //check if mandatory options are incompatible with each other
-        any = dto.getMandatory().stream().filter(id -> optionDAO.getIncompatibleOptions(id).contains(id)).findFirst();
-        if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible");
-
-        //update plain fields
-        TariffOption based = optionDAO.findOne(dto.getId());
-        based.setName(dto.getName());
-        based.setPrice(dto.getPrice());
-        based.setSubscribeCost(dto.getSubscribeCost());
-        based.setArchived(dto.isArchived());
-        based.setDescription(dto.getDescription());
-
-        //update complex fields
-        based.getMandatoryOptions().clear();
-        based.getIncompatibleOptions().clear();
-        for (Integer id:dto.getIncompatible()) {
-            TariffOption newInc=optionDAO.findOne(id);
-            based.addIncompatibleOption(newInc);
-            newInc.addIncompatibleOption(based);
-        }
-        for (Integer id:dto.getMandatory()) {
-            TariffOption newMand=optionDAO.findOne(id);
-            based.addMandatoryOption(newMand);
-        }
-        optionDAO.update(based);
     }
 }

@@ -22,6 +22,7 @@ public class OptionController {
     private static final String CREATE = "management/option/create-option";
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
     private static final String ERROR_ATTRIBUTE = "error";
+    private static final String MODEL_MESSAGE="message";
 
     @Autowired
     OptionServiceI optionService;
@@ -39,23 +40,25 @@ public class OptionController {
     }
 
     @GetMapping("/management/createOption")
-    public String createShow() {
+    public String createShow(Model model) {
+        buildModelForCreate(model, new TariffOptionDTO());
         return CREATE;
     }
 
     @PostMapping("/management/createOption")
-    public String create(@ModelAttribute("option") @Valid TariffOption option, BindingResult result, Model model) {
+    public String create(@ModelAttribute("option") @Valid TariffOptionDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("option", option);
+            buildModelForCreate(model,dto);
             return CREATE;
         }
         try {
-            optionService.create(option);
+            optionService.create(dto);
         } catch (ServiceException e) {
-            model.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
+            buildModelForCreate(model,dto);
+            model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return CREATE;
         }
-        showTariff(model,option);
+        showTariff(model,optionService.getFull(dto.getId()));
         return "/management/option/save-result";
     }
 
@@ -65,9 +68,9 @@ public class OptionController {
                              @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
                              Model model) {
 
-        if (error != null) model.addAttribute("message", error);
-        else if (updated != null) model.addAttribute("message", "updated");
-        TariffOptionTransfer transfer = optionService.getTransfer(id);
+        if (error != null) model.addAttribute(MODEL_MESSAGE, error);
+        else if (updated != null) model.addAttribute(MODEL_MESSAGE, "updated");
+        TariffOptionTransfer transfer = optionService.getTransferForEdit(id);
         model.addAttribute("editedOption",transfer.getDTO());
         model.addAttribute("all", transfer.getAll());
         return EDIT;
@@ -76,18 +79,14 @@ public class OptionController {
     @PostMapping("/management/editOption")
     public String updateOption(@ModelAttribute("editedOption") @Valid TariffOptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            TariffOptionTransfer transfer = optionService.getTransfer(dto.getId());
-            model.addAttribute("editedOption",dto);
-            model.addAttribute("all", transfer.getAll());
+            buildModelForUpdate(model,dto);
             return EDIT;
         }
         try {
             optionService.update(dto);
         } catch (ServiceException e) {
-            TariffOptionTransfer transfer = optionService.getTransfer(dto.getId());
-            model.addAttribute("editedOption",transfer.getDTO());
-            model.addAttribute("all", transfer.getAll());
-            model.addAttribute("message",e.getMessage());
+            buildModelForUpdate(model,dto);
+            model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return EDIT;
         }
         attr.addAttribute("id",dto.getId());
@@ -105,24 +104,26 @@ public class OptionController {
         return "redirect:/management/options";
     }
 
-    @ModelAttribute("option")
-    public TariffOption formBackingObject() {
-        return new TariffOption();
-    }
-
     @ModelAttribute("allOptions")
     public List<TariffOption> getAllOptions() {
         return optionService.getAll();
-    }
-
-    private void setAttributesForUpdate(RedirectAttributes attr, int id) {
-        attr.addAttribute("update", true);
-        attr.addAttribute("id", id);
     }
 
     private void showTariff(Model model, TariffOption option) {
         model.addAttribute("newOption", option);
         model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
         model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+    }
+
+    private void buildModelForCreate(Model model,TariffOptionDTO dto){
+        TariffOptionTransfer transfer = optionService.getTransferForCreate();
+        model.addAttribute("option", dto);
+        model.addAttribute("all",transfer.getAll());
+    }
+
+    private void buildModelForUpdate(Model model,TariffOptionDTO dto){
+        TariffOptionTransfer transfer = optionService.getTransferForEdit(dto.getId());
+        model.addAttribute("editedOption",transfer.getDTO());
+        model.addAttribute("all", transfer.getAll());
     }
 }

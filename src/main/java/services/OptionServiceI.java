@@ -9,7 +9,7 @@ import java.util.List;
 public interface OptionServiceI {
 
 
-    void create(TariffOption option) throws ServiceException;
+    void create(TariffOptionDTO dto) throws ServiceException;
 
     void save(TariffOption option);
 
@@ -17,7 +17,8 @@ public interface OptionServiceI {
 
     TariffOption getById(int id);
 
-    TariffOptionTransfer getTransfer(int id);
+    TariffOptionTransfer getTransferForEdit(int id);
+    TariffOptionTransfer getTransferForCreate();
 
     TariffOption getFull(int id);
 

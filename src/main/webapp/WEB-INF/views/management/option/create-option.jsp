@@ -11,7 +11,7 @@
 
 <body>
 <h2>Create option</h2>
-<span>${error}</span>
+<span>${message}</span>
 
 <form:form method="POST" modelAttribute="option">
     <table>
@@ -40,14 +40,14 @@
 
         <tr>
             <td>Set incompatible options :</td>
-            <td><form:checkboxes items="${allOptions}" path="incompatibleOptions" /></td>
-            <td><form:errors path="incompatibleOptions" /></td>
+            <td><form:checkboxes items="${all}" path="incompatible" /></td>
+            <td><form:errors path="incompatible" /></td>
         </tr>
 
         <tr>
             <td>Set mandatory options :</td>
-            <td><form:checkboxes items="${allOptions}" path="mandatoryOptions" /></td>
-            <td><form:errors path="mandatoryOptions" /></td>
+            <td><form:checkboxes items="${all}" path="mandatory" /></td>
+            <td><form:errors path="mandatory" /></td>
         </tr>
 
         <tr>
