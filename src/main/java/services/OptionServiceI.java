@@ -15,7 +15,7 @@ public interface OptionServiceI {
 
     void delete(int id) throws ServiceException;
 
-    TariffOption get(int id);
+    TariffOption getById(int id);
 
     TariffOptionTransfer getTransfer(int id);
 
@@ -25,16 +25,5 @@ public interface OptionServiceI {
 
     List<TariffOption> getAll();
 
-    List<String> getAllNames();
-
     void update(TariffOptionDTO option) throws ServiceException;
-
-    void removeIncompatibleOption(int id, int optionId);
-
-    void addIncompatibleOption(int id, String optionName) throws ServiceException;
-
-    void removeMandatoryOption(int id, int optionId);
-
-    void addMandatoryOption(int id, String optionName) throws ServiceException;
-
 }

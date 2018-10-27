@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class TariffOptionDAO extends GenericDAO<TariffOption> {
@@ -37,7 +35,7 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> {
     }
 
     public List<String> getAllNames() {
-        return sessionFactory.getCurrentSession().createQuery("select o.name from TariffOption o")
+        return (List<String>)sessionFactory.getCurrentSession().createQuery("select o.name from TariffOption o")
                 .getResultList();
     }
 
@@ -53,9 +51,6 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> {
     }
 
     public boolean isUsed(int id){
-        /**
-         * TODO
-         */
         boolean isUsed=!sessionFactory.getCurrentSession()
                 .createNamedQuery("is_option_used_in_Contract")
                 .setParameter("id",id)
@@ -71,10 +66,5 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> {
                 .setParameter("id",id)
                 .getResultList().isEmpty();
         return (isUsed || isUsed2 || isMandatory);
-
-
-
-
-        //return false;
     }
 }

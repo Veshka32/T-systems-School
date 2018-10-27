@@ -1,10 +1,8 @@
 package services;
 
-import config.WebMvcConfig;
 import entities.TariffOption;
 import entities.TariffOptionDTO;
 import entities.TariffOptionTransfer;
-import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.TariffOptionDAO;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,14 +21,12 @@ import java.util.stream.Collectors;
 public class OptionService implements OptionServiceI {
 
     private TariffOptionDAO optionDAO;
-    private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
     private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible";
 
     @Autowired
     public void setOptionDAO(TariffOptionDAO optionDAO) {
         this.optionDAO = optionDAO;
         optionDAO.setClass(TariffOption.class);
-        logger.info("set up optionDAO");
     }
 
     @Override
@@ -62,7 +59,7 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public TariffOption get(int id) {
+    public TariffOption getById(int id) {
         return optionDAO.findOne(id);
     }
 
@@ -96,11 +93,6 @@ public class OptionService implements OptionServiceI {
     @Override
     public List<TariffOption> getAll() {
         return optionDAO.findAll();
-    }
-
-    @Override
-    public List<String> getAllNames() {
-        return optionDAO.getAllNames();
     }
 
     @Override
@@ -140,43 +132,5 @@ public class OptionService implements OptionServiceI {
             based.addMandatoryOption(newMand);
         }
         optionDAO.update(based);
-    }
-
-    @Override
-    public void removeIncompatibleOption(int id, int optionId) {
-        TariffOption option = optionDAO.findOne(id);
-        TariffOption incompatible = optionDAO.findOne(optionId);
-        option.removeIncompatibleOption(incompatible);
-        incompatible.removeIncompatibleOption(option);
-        optionDAO.update(option);
-    }
-
-    @Override
-    public void addIncompatibleOption(int id, String optionName) throws ServiceException {
-        TariffOption option = optionDAO.findOne(id);
-        TariffOption incompatible = optionDAO.findByName(optionName);
-        if (option.getMandatoryOptions().contains(incompatible) || incompatible.getIncompatibleOptions().contains(option))
-            throw new ServiceException(ERROR_MESSAGE);
-        option.addIncompatibleOption(incompatible);
-        incompatible.addIncompatibleOption(option);
-        optionDAO.update(option);
-    }
-
-    @Override
-    public void removeMandatoryOption(int id, int optionId) {
-        TariffOption option = optionDAO.findOne(id);
-        TariffOption mandatory = optionDAO.findOne(optionId);
-        option.removeMandatoryOption(mandatory);
-        optionDAO.update(option);
-    }
-
-    @Override
-    public void addMandatoryOption(int id, String optionName) throws ServiceException {
-        TariffOption option = optionDAO.findOne(id);
-        TariffOption mandatory = optionDAO.findByName(optionName);
-        if (option.getIncompatibleOptions().contains(mandatory) || mandatory.getIncompatibleOptions().contains(option))
-            throw new ServiceException(ERROR_MESSAGE);
-        option.addMandatoryOption(mandatory);
-        optionDAO.update(option);
     }
 }

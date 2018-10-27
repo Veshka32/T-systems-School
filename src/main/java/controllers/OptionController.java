@@ -94,42 +94,6 @@ public class OptionController {
         return "redirect:/management/showOption";
     }
 
-    @GetMapping("/management/option/deleteIncompatibleOption")
-    public String deleteIncompatibleOption(@RequestParam("id") int id, @RequestParam("option_id") int optionId, RedirectAttributes attr) {
-        optionService.removeIncompatibleOption(id, optionId);
-        attr.addAttribute("id", id);
-        return REDIRECT_EDIT;
-    }
-
-    @GetMapping("/management/option/addIncompatibleOption")
-    public String addIncompatibleOption(@RequestParam("id") int id, @RequestParam("option_name") String optionName, RedirectAttributes attr, Model model) {
-        try {
-            optionService.addIncompatibleOption(id, optionName);
-        } catch (ServiceException e) {
-            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
-        }
-        setAttributesForUpdate(attr, id);
-        return REDIRECT_EDIT;
-    }
-
-    @GetMapping("/management/option/deleteMandatoryOption")
-    public String deleteMandatoryOption(@RequestParam("id") int id, @RequestParam("option_id") int optionId, RedirectAttributes attr) {
-        optionService.removeMandatoryOption(id, optionId);
-        attr.addAttribute("id", id);
-        return REDIRECT_EDIT;
-    }
-
-    @GetMapping("/management/option/addMandatoryOption")
-    public String addMandatoryOption(@RequestParam("id") int id, @RequestParam("option_name") String optionName, RedirectAttributes attr, Model model) {
-        try {
-            optionService.addMandatoryOption(id, optionName);
-        } catch (ServiceException e) {
-            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
-        }
-        setAttributesForUpdate(attr, id);
-        return REDIRECT_EDIT;
-    }
-
     @GetMapping("/management/deleteOption")
     public String deleteOption(@RequestParam("id") int id,RedirectAttributes attr) {
         try{optionService.delete(id);}

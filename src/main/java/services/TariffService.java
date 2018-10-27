@@ -44,7 +44,7 @@ public class TariffService implements TariffServiceI {
 //            List<TariffOption> bad =optionDAO.getIncompatibleOptions(option.getId());
 //            Optional<TariffOption> badOption = bad.stream().filter(x -> tariffOptions.contains(x)).findFirst();
 //            if (badOption.isPresent()) {
-//                throw new ServiceException("Options are incompatible: " + option.getName() + " and " + badOption.get().getName());
+//                throw new ServiceException("Options are incompatible: " + option.getName() + " and " + badOption.getById().getName());
 //            }
 //        }
 //
