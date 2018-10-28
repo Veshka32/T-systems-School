@@ -72,15 +72,21 @@
     </div>
 
     <label for="inc">Set options:</label>
-    <div class="form-check">
-        <form:checkboxes path="options" items="${all}" class="form-check" id="inc"/>
-    </div>
+    <div class="form-check form-check-inline"><c:forEach items="${all}" var="item">
+
+        <form:checkbox path="options" value="${item}" class="form-check" id="inc"/>
+        <label class="form-check-label" for=inc>${item}</label>
+
+    </c:forEach></div>
+
     <input type="hidden" name="id" value=${editedTariff.id}>
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
+    <br>
 
-    <span class="pull-right"><form action="deleteTariff" method="get">
+
+    <div class="pull-right"><form action="deleteTariff" method="get">
         <input type="hidden" name="id" value=${editedTariff.id}>
-        <input type="submit" value="Delete tariff" class="btn btn-danger"></form></span>
+        <input type="submit" value="Delete tariff" class="btn btn-danger"></form></div>
 </body>
 </html>

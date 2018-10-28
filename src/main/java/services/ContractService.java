@@ -1,11 +1,13 @@
 package services;
 
+import entities.Client;
 import entities.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.ContractDAO;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Service
@@ -14,7 +16,7 @@ public class ContractService {
     @Autowired
     ContractDAO  contractDAO;
 
-    public int findClientByPhone(long phone) {
+    public Client findClientByPhone(long phone) throws NoResultException {
         return contractDAO.findClientByPhone(phone);
     }
 

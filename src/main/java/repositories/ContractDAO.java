@@ -1,8 +1,10 @@
 package repositories;
 
+import entities.Client;
 import entities.Contract;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -13,8 +15,8 @@ public class ContractDAO extends GenericDAO<Contract>{
         .getResultList();
     }
 
-    public int findClientByPhone(long phone){
-        return sessionFactory.getCurrentSession().createNamedQuery("get_client_by_phone",Integer.class)
+    public Client findClientByPhone(long phone) throws NoResultException {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_client_by_phone", Client.class)
                 .setParameter("phone",phone)
                 .getSingleResult();
     }

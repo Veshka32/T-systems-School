@@ -30,7 +30,6 @@ public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Override
     public T findOne(int id) {
-
         return sessionFactory.getCurrentSession().get(clazz, id);
     }
 

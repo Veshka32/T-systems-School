@@ -75,19 +75,23 @@
             <label class="form-check-label" for="arch">Archived:</label><form:checkbox path="archived" class="checkbox" id="arch"/>
         </div>
     </div>
-    <div class="form-check">
-    </div>
-    <div class="form-group">
-        <label for="inc">Incompatible options:</label>
-        <form:select multiple="true" path="incompatible" items="${all}" class="form-control" id="inc"/>
-    </div>
-    <div class="form-group">
-        <label for="mand">Mandatory options:</label>
-        <form:select multiple="true" path="mandatory" items="${all}" class="form-control" id="mand"/>
-    </div>
+
+    <label for="inc">Set incompatible options:</label>
+    <div class="form-check form-check-inline"><c:forEach items="${all}" var="item">
+        <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
+        <label class="form-check-label" for=inc>${item}</label>
+    </c:forEach></div>
+    <br>
+    <label for="inc">Set mandatory options:</label>
+    <div class="form-check form-check-inline"><c:forEach items="${all}" var="item">
+        <form:checkbox path="mandatory" value="${item}" class="form-check" id="inc"/>
+        <label class="form-check-label" for=inc>${item}</label>
+    </c:forEach></div>
+
             <input type="hidden" name="id" value=${editedOption.id}>
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
+    <br>
 
     <div class="pull-right"><form action="deleteOption" method="get">
         <input type="hidden" name="id" value=${editedOption.id}>

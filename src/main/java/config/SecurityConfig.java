@@ -26,11 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
         //auth.inMemoryAuthentication()
           //     .withUser("admin").password(passwordEncoder().encode("pass")).roles("MANAGER"); //temp in-memory auth
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    logger.info("configure security");
+    logger.info("configure AuthenticationManagerBuilder");
     }
 
     @Override
@@ -47,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated() //all remaining must be auth
                     .and()
                     .logout().logoutSuccessUrl("/login?logout");
-        logger.info("configure security");
+        logger.info("configure page access rules");
     }
 
     @Bean

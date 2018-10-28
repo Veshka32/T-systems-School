@@ -1,7 +1,7 @@
 package controllers;
 
 import entities.Client;
-import entities.Contract;
+import entities.dto.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,17 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ClientService;
 import services.ContractService;
-import services.Phone;
+import entities.dto.Phone;
+import services.ServiceException;
 
+import javax.persistence.NoResultException;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 public class ClientController {
-    /**
-     * TODO ClientValidator (initBinder)
-     *
-     */
 
     @Autowired
     ClientService clientService;
@@ -32,47 +30,66 @@ public class ClientController {
     public String show(){return "management/client/client-management";
     }
 
-    @GetMapping("/management/showAllClients")
-    public String showAllClients(Model model){
-        model.addAttribute("clients",clientService.getAll());
-        return "/management/client/client-management";
-    }
-
-    @GetMapping("/management/showAllContracts")
-    public String showAllContracts(Model model){
-        model.addAttribute("clients",contractService.getAll());
-        return "/management/client/client-management";
+    @GetMapping("/management/showClient")
+    public String show(@RequestParam("id") int id, Model model) {
+        Client client = clientService.get(id);
+        model.addAttribute("client",client);
+        model.addAttribute("clientContracts",contractService.getAllClientContracts(id));
+        return "management/client/save-result";
     }
 
     @PostMapping("/management/findClientByPhone")
-    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr){
-        if (result.hasErrors())
+    public String find(@Valid Phone phone, BindingResult result, Model model){
+        if (result.hasErrors()){
+            model.addAttribute("phone",phone);
             return "management/client/client-management";
-        int clientId=contractService.findClientByPhone(phone.getPhoneNumber());
-        attr.addAttribute("clientId",clientId);
-        return "redirect:/management/editClient";
-    }
+        }
 
-    @PostMapping("/management/createClient")
-    public String create(@Valid Client client, BindingResult result,Model model){
-        if (result.hasErrors())
-            return "/management/client/create-client";
-        int id=clientService.create(client);
-       model.addAttribute("editedClient",clientService.get(id));
-        return "management/client/edit-client";
+        Client client=null;
+        try{
+            client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
+        } catch (NoResultException e){
+            model.addAttribute("message","phone number doesn't exist");
+            return "management/client/client-management";
+        }
+        model.addAttribute("client",client);
+        model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
+        return "management/client/save-result";
     }
 
     @GetMapping("/management/createClient")
-    public String createShow(){
+    public String createShow(Model model){
+        model.addAttribute("client",new ClientDTO());
         return "management/client/create-client";
     }
 
+    @PostMapping("/management/createClient")
+    public String create(@Valid ClientDTO dto, BindingResult result,Model model){
+        if (result.hasErrors()){
+            model.addAttribute("client",dto);
+            return "/management/client/create-client";
+        }
+        try {
+            clientService.create(dto);
+        } catch (ServiceException e){
+            model.addAttribute("message",e.getMessage());
+            model.addAttribute("client",dto);
+            return "/management/client/create-client";
+        }
+       model.addAttribute("client",dto);
+        return "management/client/save-result";
+    }
 
     @GetMapping("/management/editClient")
-    public String editClient(@RequestParam("clientId") int id, Model model){
+    public String editClient(@RequestParam("id") int id, Model model){
         model.addAttribute("editedClient",clientService.get(id));
         model.addAttribute("contracts",contractService.getAllClientContracts(id));
         return "management/client/edit-client";
+    }
+
+    @ModelAttribute("allClients")
+    public List<Client> getAllClients() {
+        return clientService.getAll();
     }
 
     @ModelAttribute("client")

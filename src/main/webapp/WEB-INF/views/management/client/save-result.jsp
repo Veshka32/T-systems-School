@@ -43,8 +43,8 @@
 </form>
 
 <div class="container">
-    <span class="pull-right"><a href="options" class="btn btn-info" role="button">Back to options</a></span>
-    <h3>Option details</h3>
+    <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
+    <h3>Client details</h3>
     <table class="table table-striped">
         <thead>
         <th style="width:20%"></th>
@@ -53,48 +53,67 @@
         <tbody>
         <tr>
             <td >Id:</td>
-            <td>${newOption.id} </td>
+            <td>${client.id} </td>
         </tr>
         <tr>
             <td>Name:</td>
-            <td>${newOption.name} </td>
+            <td>${client.name} </td>
         </tr>
         <tr>
-            <td>Price:</td>
-            <td>${newOption.price} </td>
+            <td>Surname:</td>
+            <td>${client.surname} </td>
         </tr>
         <tr>
-            <td>Subscribe cost:</td>
-            <td>${newOption.subscribeCost} </td>
+            <td>Email:</td>
+            <td>${client.email} </td>
         </tr>
         <tr>
-            <td>Description:</td>
-            <td>${newOption.description} </td>
+            <td>Address:</td>
+            <td>${client.address} </td>
         </tr>
-
         <tr>
-            <td>Is archived:</td>
-            <td>${newOption.archived} </td>
-        </tr>
-
-        <tr>
-            <td>Mandatory options:</td>
-            <td>${mandatoryOptions}</td>
-        </tr>
-
-        <tr>
-            <td>Incompatible options:</td>
-            <td>${badOptions}</td>
+            <td>Passport:</td>
+            <td>${client.passportId} </td>
         </tr>
         </tbody>
     </table>
 
-    <form action="editOption" method="get">
-        <input type="hidden" name="id" value=${newOption.id}>
-        <input type="submit" value="Edit option" class="btn btn-warning"></form>
+    <form action="editClient" method="get">
+        <input type="hidden" name="id" value=${client.id}>
+        <input type="submit" value="Edit info" class="btn btn-warning"></form>
+
+    <h3>Client contracts</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Phone</th>
+            <th>Tariff</th>
+            <th>Blocked</th>
+            <th>Blocked by admin</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${clientContracts}" var="contract">
+            <tr>
+                <td>${contract.number} </td>
+                <td>${contract.tariff}</td>
+                <td>${contract.blocked}</td>
+                <td>${contract.blockedByAdmin}</td>
+                <td>
+                    <form action="showContract" method="get">
+                        <input type="hidden" name="id" value=${contract.id} >
+                        <input type="submit" value="Show details" class="btn"></form>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
+    <form action="createContract" method="get">
+        <input type="hidden" name="id" value=${client.id}>
+        <input type="submit" value="Create contract" class="btn btn-warning"></form>
     <br>
 
-
-
+</div>
 </body>
 </html>

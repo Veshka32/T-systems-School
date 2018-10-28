@@ -3,6 +3,7 @@ package controllers;
 import entities.Contract;
 import entities.Tariff;
 import entities.TariffOption;
+import entities.dto.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,7 @@ public class ContractController {
     public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr){
         if (result.hasErrors())
             return "management/contract/contract-management";
-        Contract contract=contractService.findByPhone(phone.getPhoneNumber());
+        Contract contract=contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
         attr.addAttribute("contract",contract);
         return "/management/contract/edit-contract";
     }

@@ -17,23 +17,24 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name="is_passport_exists",query = "select c.passportId from Client c where c.passportId=:id"),
+        @NamedQuery(name="is_email_exists",query = "select c.email from Client c where c.email=:email")
+})
+
 public class Client extends AbstractEntity{
 
     @Column(unique = true)
-    @Pattern(regexp = "^[0-9]{10}")
     private String passportId;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
     private String surname;
 
 //    @Past
 //    @DateTimeFormat
 //    private LocalDate birthday;
 
-    @Email
     private String email;
 
     private String address;

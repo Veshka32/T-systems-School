@@ -10,6 +10,7 @@
 </head>
 
 <body>
+<span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
 <h2>Client ${editedClient.name}</h2>
 
 <form:form method="POST" modelAttribute="editedClient">
@@ -32,7 +33,5 @@ Contracts:<br>
         </td>
     </tr>
 </c:forEach>
-
-<a href="clients">Back to clients</a>
 </body>
 </html>

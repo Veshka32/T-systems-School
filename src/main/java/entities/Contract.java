@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "get_client_contracts", query = "from Contract c where c.owner.id=:clientId"),
-        @NamedQuery(name = "get_client_by_phone", query = "select c.owner.id from Contract c where c.number=:phone")
+        @NamedQuery(name = "get_client_by_phone", query = "select c.owner from Contract c where c.number=:phone")
 })
 
 public class Contract extends AbstractEntity {
