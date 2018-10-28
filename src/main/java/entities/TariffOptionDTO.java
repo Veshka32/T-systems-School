@@ -24,9 +24,9 @@ public class TariffOptionDTO {
 
     private String description;
 
-    private Set<Integer> incompatible = new HashSet<>();
+    private Set<String> incompatible = new HashSet<>();
 
-    private Set<Integer> mandatory = new HashSet<>();
+    private Set<String> mandatory = new HashSet<>();
 
     public int getId() {
         return id;
@@ -90,19 +90,19 @@ public class TariffOptionDTO {
         this.description = description;
     }
 
-    public Set<Integer> getIncompatible() {
+    public Set<String> getIncompatible() {
         return incompatible;
     }
 
-    public void setIncompatible(Set<Integer> incompatible) {
+    public void setIncompatible(Set<String> incompatible) {
         this.incompatible = incompatible;
     }
 
-    public Set<Integer> getMandatory() {
+    public Set<String> getMandatory() {
         return mandatory;
     }
 
-    public void setMandatory(Set<Integer> mandatory) {
+    public void setMandatory(Set<String> mandatory) {
         this.mandatory = mandatory;
     }
 }

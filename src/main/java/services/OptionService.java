@@ -37,14 +37,14 @@ public class OptionService implements OptionServiceI {
             throw new ServiceException("name is reserved");
 
         //check if no option at the same time are mandatory and incompatible
-        Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
+        Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
         //check if mandatory options are incompatible with each other
-        for (Integer mandatory:dto.getMandatory()) {
-            TariffOption m=optionDAO.findOne(mandatory);
+        for (String mandatory:dto.getMandatory()) {
+            TariffOption m=optionDAO.findByName(mandatory);
             Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
-            any=incompatible.stream().map(o->o.getId()).filter(o->dto.getMandatory().contains(o)).findAny();
+            any=incompatible.stream().map(o->o.getName()).filter(o->dto.getMandatory().contains(o)).findAny();
             if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE1);
         }
 
@@ -53,13 +53,13 @@ public class OptionService implements OptionServiceI {
         updatePlainFields(dto,based);
 
         //set collections fields
-        for (Integer id:dto.getIncompatible()) {
-            TariffOption newIncompatible=optionDAO.findOne(id);
+        for (String name:dto.getIncompatible()) {
+            TariffOption newIncompatible=optionDAO.findByName(name);
             based.addIncompatibleOption(newIncompatible);
             newIncompatible.addIncompatibleOption(based);
         }
-        for (Integer id:dto.getMandatory()) {
-            TariffOption newMandatory=optionDAO.findOne(id);
+        for (String name:dto.getMandatory()) {
+            TariffOption newMandatory=optionDAO.findByName(name);
             based.addMandatoryOption(newMandatory);
         }
         save(based);
@@ -74,20 +74,20 @@ public class OptionService implements OptionServiceI {
             throw new ServiceException("name is reserved");
 
         //check if no option at the same time are mandatory and incompatible
-        Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
+        Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
         //check if mandatory options are incompatible with each other
-        for (Integer mandatory:dto.getMandatory()) {
-            TariffOption m=optionDAO.findOne(mandatory);
+        for (String mandatory:dto.getMandatory()) {
+            TariffOption m=optionDAO.findByName(mandatory);
             Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
-            any=incompatible.stream().map(TariffOption::getId).filter(o->dto.getMandatory().contains(o)).findAny();
+            any=incompatible.stream().map(TariffOption::getName).filter(o->dto.getMandatory().contains(o)).findAny();
             if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE1);
         }
 
         //check if option is mandatory for some incompatible
-        for (Integer incom:dto.getIncompatible()){
-            TariffOption m=optionDAO.findOne(incom);
+        for (String incom:dto.getIncompatible()){
+            TariffOption m=optionDAO.findByName(incom);
             Set<TariffOption> mandatory=m.getMandatoryOptions();
             if (mandatory.contains(op)) throw new ServiceException("This option is mandatory for "+m.getName());
         }
@@ -99,13 +99,13 @@ public class OptionService implements OptionServiceI {
         //update complex fields
         based.getMandatoryOptions().clear();
         based.getIncompatibleOptions().clear();
-        for (Integer id:dto.getIncompatible()) {
-            TariffOption newIncompatible=optionDAO.findOne(id);
+        for (String name:dto.getIncompatible()) {
+            TariffOption newIncompatible=optionDAO.findByName(name);
             based.addIncompatibleOption(newIncompatible);
             newIncompatible.addIncompatibleOption(based);
         }
-        for (Integer id:dto.getMandatory()) {
-            TariffOption newMandatory=optionDAO.findOne(id);
+        for (String name:dto.getMandatory()) {
+            TariffOption newMandatory=optionDAO.findByName(name);
             based.addMandatoryOption(newMandatory);
         }
         optionDAO.update(based);
@@ -149,8 +149,8 @@ public class OptionService implements OptionServiceI {
         TariffOption option = optionDAO.findOne(id);
         TariffOptionDTO dto = new TariffOptionDTO(option);
 
-        dto.setIncompatible(option.getIncompatibleOptions().stream().map(TariffOption::getId).collect(Collectors.toSet())); //how to get only ids?
-        dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getId).collect(Collectors.toSet()));
+        dto.setIncompatible(option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
+        dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.toSet()));
 
         TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
         Map<Integer,String> map=getAllNames();
