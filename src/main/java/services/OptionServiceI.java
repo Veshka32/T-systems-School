@@ -5,6 +5,7 @@ import entities.TariffOptionDTO;
 import entities.TariffOptionTransfer;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OptionServiceI {
 
@@ -18,7 +19,7 @@ public interface OptionServiceI {
     TariffOption getById(int id);
 
     TariffOptionTransfer getTransferForEdit(int id);
-    TariffOptionTransfer getTransferForCreate();
+    Map<Integer,String> getAllNames();
 
     TariffOption getFull(int id);
 

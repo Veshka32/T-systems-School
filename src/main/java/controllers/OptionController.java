@@ -116,9 +116,8 @@ public class OptionController {
     }
 
     private void buildModelForCreate(Model model,TariffOptionDTO dto){
-        TariffOptionTransfer transfer = optionService.getTransferForCreate();
         model.addAttribute("option", dto);
-        model.addAttribute("all",transfer.getAll());
+        model.addAttribute("all",optionService.getAllNames());
     }
 
     private void buildModelForUpdate(Model model,TariffOptionDTO dto){

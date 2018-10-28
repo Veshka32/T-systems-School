@@ -27,15 +27,11 @@ import java.util.Set;
 })
 public class TariffOption extends AbstractEntity {
 
-    @NotBlank(message = "{option.name.invalid}")
-    @Size(min = 3, max = 50, message = "{option.name.invalid}")
     @Column(unique = true)
     private String name;
 
-    @Min(value = 0, message = "{option.price.invalid}")
     private int price;
 
-    @Min(value = 0, message = "{option.subscribeCost.invalid}")
     private int subscribeCost;
 
     private boolean archived;
