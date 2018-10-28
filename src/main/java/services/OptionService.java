@@ -140,11 +140,6 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public TariffOption getById(int id) {
-        return optionDAO.findOne(id);
-    }
-
-    @Override
     public TariffOptionTransfer getTransferForEdit(int id) {
         TariffOption option = optionDAO.findOne(id);
         TariffOptionDTO dto = new TariffOptionDTO(option);
@@ -153,15 +148,15 @@ public class OptionService implements OptionServiceI {
         dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.toSet()));
 
         TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
-        Map<Integer,String> map=getAllNames();
-        map.remove(id);
+        List<String> map=getAllNames();
+        map.remove(dto.getName());
         transfer.setAll(map);
         return transfer;
     }
 
     @Override
-    public Map<Integer,String> getAllNames() {
-        Map<Integer,String> map=optionDAO.findAll().stream().collect(Collectors.toMap(TariffOption::getId,TariffOption::getName));
+    public List<String> getAllNames() {
+        List<String> map=optionDAO.getAllNames();
         return map;
     }
 

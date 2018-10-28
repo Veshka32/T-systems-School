@@ -1,12 +1,14 @@
 package entities;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+
+import java.util.List;
+
 
 
 public class TariffOptionTransfer {
     private TariffOptionDTO option;
-    private Map<Integer, String> all = new HashMap<>();
+    private List<String> all = new ArrayList<>();
 
     public TariffOptionTransfer(TariffOptionDTO dto) {
         this.option = dto;
@@ -16,11 +18,11 @@ public class TariffOptionTransfer {
         return option;
     }
 
-    public Map<Integer, String> getAll() {
+    public List<String> getAll() {
         return all;
     }
 
-    public void setAll(Map<Integer, String> all) {
+    public void setAll(List<String> all) {
         this.all = all;
     }
 

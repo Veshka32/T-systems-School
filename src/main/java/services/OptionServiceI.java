@@ -6,6 +6,7 @@ import entities.TariffOptionTransfer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface OptionServiceI {
 
@@ -16,10 +17,8 @@ public interface OptionServiceI {
 
     void delete(int id) throws ServiceException;
 
-    TariffOption getById(int id);
-
     TariffOptionTransfer getTransferForEdit(int id);
-    Map<Integer,String> getAllNames();
+    List<String> getAllNames();
 
     TariffOption getFull(int id);
 
