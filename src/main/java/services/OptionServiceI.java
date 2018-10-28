@@ -15,6 +15,7 @@ public interface OptionServiceI {
 
     TariffOptionTransfer getTransferForEdit(int id);
     List<String> getAllNames();
+    List<String> getAllActiveNames();
 
     TariffOption getFull(int id);
 

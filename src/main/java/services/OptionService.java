@@ -151,6 +151,11 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    public List<String> getAllActiveNames(){
+        return optionDAO.getAllActiveNames();
+    }
+
+    @Override
     public TariffOption getFull(int id) {
         TariffOption tariffOption = optionDAO.findOne(id);
         Hibernate.initialize(tariffOption.getIncompatibleOptions());

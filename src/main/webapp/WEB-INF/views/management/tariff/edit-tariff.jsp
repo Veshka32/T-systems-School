@@ -44,7 +44,7 @@
 
 <div class="container">
     <span class="pull-right"><a href="tariffs" class="btn btn-info" role="button">Back to tariffs</a></span>
-    <h3>Edit option</h3>
+    <h3>Edit tariff</h3>
     <p class="bg-danger">${message}</p>
 <form:form method="POST" modelAttribute="editedTariff">
 

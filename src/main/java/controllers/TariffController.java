@@ -116,7 +116,7 @@ public class TariffController {
 
     private void buildModelForCreate(Model model, TariffDTO dto) {
         model.addAttribute("tariff", dto);
-        model.addAttribute("all", optionService.getAllNames());
+        model.addAttribute("all", optionService.getAllActiveNames());
     }
 
     private void buildModelForUpdate(Model model,TariffDTO dto){

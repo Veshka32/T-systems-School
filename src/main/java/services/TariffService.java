@@ -81,7 +81,7 @@ public class TariffService implements TariffServiceI {
         updatePlainFields(dto, t);
 
         //update complex fields
-        t.getOptions().clear();
+        t.getOptions().removeIf(o->!o.isArchived()); //keep archived options because they are not showed is all options list
         for (String name : dto.getOptions()) {
             TariffOption newOption = optionDAO.findByName(name);
             t.addOption(newOption);
@@ -110,7 +110,7 @@ public class TariffService implements TariffServiceI {
         dto.setOptions(tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
         TariffTransfer transfer = new TariffTransfer(dto);
 
-        List<String> map = optionDAO.getAllActiveNames(); //do not include archived options
+        List<String> map = optionDAO.getAllNames(); //do not include archived options
         map.removeIf(name -> (dto.getOptions().contains(name))); //remove from list all options already in tariff
         transfer.setAll(map);
         return transfer;
