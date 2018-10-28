@@ -109,7 +109,6 @@ public class TariffService implements TariffServiceI {
         TariffDTO dto = new TariffDTO(tariff);
         dto.setOptions(tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
         TariffTransfer transfer = new TariffTransfer(dto);
-
         List<String> map = optionDAO.getAllNames(); //do not include archived options
         map.removeIf(name -> (dto.getOptions().contains(name))); //remove from list all options already in tariff
         transfer.setAll(map);

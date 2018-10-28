@@ -81,8 +81,7 @@ public class TariffController {
 
     @PostMapping("/management/editTariff")
     public String updateTariff(@ModelAttribute("editedTariff") @Valid TariffDTO dto, BindingResult result, RedirectAttributes attr, Model model) {
-        if (result.hasErrors()) {
-            buildModelForUpdate(model,dto);
+        if (result.hasErrors()) {buildModelForUpdate(model,dto);
             return EDIT;
         }
         try {
@@ -120,9 +119,10 @@ public class TariffController {
     }
 
     private void buildModelForUpdate(Model model,TariffDTO dto){
-        TariffTransfer transfer = tariffService.getTransferForEdit(dto.getId());
-        model.addAttribute("editedTariff",transfer.getDto());
-        model.addAttribute("all", transfer.getAll());
+        model.addAttribute("editedTariff",dto);
+        List<String> map = optionService.getAllActiveNames(); //do not include archived options
+        map.removeIf(name -> (dto.getOptions().contains(name))); //remove from list all options already in tariff
+        model.addAttribute("all",map);
     }
 
     private void showTariff(Model model, Tariff tariff) {

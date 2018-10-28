@@ -71,8 +71,7 @@ public class OptionController {
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
         else if (updated != null) model.addAttribute(MODEL_MESSAGE, "updated");
         TariffOptionTransfer transfer = optionService.getTransferForEdit(id);
-        model.addAttribute("editedOption",transfer.getDTO());
-        model.addAttribute("all", transfer.getAll());
+        buildModelForUpdate(model,transfer.getDTO());
         return EDIT;
     }
 
@@ -121,8 +120,7 @@ public class OptionController {
     }
 
     private void buildModelForUpdate(Model model,TariffOptionDTO dto){
-        TariffOptionTransfer transfer = optionService.getTransferForEdit(dto.getId());
-        model.addAttribute("editedOption",transfer.getDTO());
-        model.addAttribute("all", transfer.getAll());
+        model.addAttribute("editedOption",dto);
+        model.addAttribute("all",optionService.getAllNames());
     }
 }

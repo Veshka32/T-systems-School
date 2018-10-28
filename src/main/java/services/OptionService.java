@@ -88,7 +88,7 @@ public class OptionService implements OptionServiceI {
         for (String incom:dto.getIncompatible()){
             TariffOption m=optionDAO.findByName(incom);
             Set<TariffOption> mandatory=m.getMandatoryOptions();
-            if (mandatory.contains(op)) throw new ServiceException("This option is mandatory for "+m.getName());
+            if (mandatory.contains(op)) throw new ServiceException("Option "+incom+" is mandatory for "+m.getName());
         }
 
         //update plain fields
