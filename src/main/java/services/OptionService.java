@@ -1,7 +1,7 @@
 package services;
 
 import entities.TariffOption;
-import entities.TariffOptionDTO;
+import entities.dto.TariffOptionDTO;
 import entities.TariffOptionTransfer;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import repositories.TariffOptionDAO;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,7 +61,7 @@ public class OptionService implements OptionServiceI {
             TariffOption newMandatory=optionDAO.findByName(name);
             based.addMandatoryOption(newMandatory);
         }
-        save(based);
+        optionDAO.save(based);
         dto.setId(based.getId());
     }
 
@@ -117,14 +116,6 @@ public class OptionService implements OptionServiceI {
         based.setSubscribeCost(dto.getSubscribeCost());
         based.setArchived(dto.isArchived());
         based.setDescription(dto.getDescription());
-    }
-
-    @Override
-    public void save(TariffOption option) {
-        option.getIncompatibleOptions().stream()
-                .map(o -> optionDAO.findOne(o.getId()))
-                .forEach(o -> o.addIncompatibleOption(option));
-        optionDAO.save(option);
     }
 
     @Override

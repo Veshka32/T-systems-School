@@ -1,32 +1,30 @@
-package entities;
+package entities.dto;
+
+import entities.TariffOption;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
-public class TariffOptionDTO {
+public class TariffDTO {
 
     private int id;
 
-    @NotBlank(message = "{option.name.invalid}")
-    @Size(min = 3, max = 50, message = "{option.name.invalid}")
+    @NotBlank(message = "{tariff.name.empty}")
+    @Size(min = 3, max = 50, message = "{tariff.name.invalid}")
     private String name;
 
-    @Min(value = 0, message = "{option.price.invalid}")
+    @Min(value = 0, message = "{tariff.price.invalid}")
     private int price;
-
-    @Min(value = 0, message = "{option.subscribeCost.invalid}")
-    private int subscribeCost;
 
     private boolean archived;
 
     private String description;
 
-    private Set<String> incompatible = new HashSet<>();
-
-    private Set<String> mandatory = new HashSet<>();
+    private Set<String> options = new HashSet<>();
 
     public int getId() {
         return id;
@@ -36,18 +34,15 @@ public class TariffOptionDTO {
         this.id = id;
     }
 
-    public TariffOptionDTO(TariffOption option){
-        id=option.getId();
+    public TariffDTO(){}
 
+    public TariffDTO(TariffOption option){
+        id=option.getId();
         name=option.getName();
         price=option.getPrice();
-        subscribeCost=option.getSubscribeCost();
         archived=option.isArchived();
         description=option.getDescription();
     }
-
-    public TariffOptionDTO(){    }
-
 
 
     public String getName() {
@@ -66,14 +61,6 @@ public class TariffOptionDTO {
         this.price = price;
     }
 
-    public int getSubscribeCost() {
-        return subscribeCost;
-    }
-
-    public void setSubscribeCost(int subscribeCost) {
-        this.subscribeCost = subscribeCost;
-    }
-
     public boolean isArchived() {
         return archived;
     }
@@ -90,19 +77,11 @@ public class TariffOptionDTO {
         this.description = description;
     }
 
-    public Set<String> getIncompatible() {
-        return incompatible;
+    public Set<String> getOptions() {
+        return options;
     }
 
-    public void setIncompatible(Set<String> incompatible) {
-        this.incompatible = incompatible;
-    }
-
-    public Set<String> getMandatory() {
-        return mandatory;
-    }
-
-    public void setMandatory(Set<String> mandatory) {
-        this.mandatory = mandatory;
+    public void setOptions(Set<String> options) {
+        this.options = options;
     }
 }

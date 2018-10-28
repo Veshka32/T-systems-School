@@ -24,15 +24,12 @@ import java.util.Set;
 public class Tariff extends AbstractEntity{
 
     @Column(unique = true,nullable = false)
-    @NotBlank(message = "{tariff.name.invalid}")
-    @Size(min=3,max=50,message = "{tariff.name.invalid}")
     private String name;
 
     private boolean isArchived=false;
 
     private String description;
 
-    @Min(value = 0,message = "tariff.price.invalid")
     private int price;
 
     @ManyToMany(fetch = FetchType.LAZY)

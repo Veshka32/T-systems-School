@@ -3,6 +3,7 @@ package services;
 import entities.Tariff;
 import entities.TariffOption;
 import entities.TariffTransfer;
+import entities.dto.TariffDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,27 +13,27 @@ import repositories.TariffOptionDAO;
 
 import java.util.List;
 import java.util.stream.Collectors;
-public interface TariffServiceI {
+ public interface TariffServiceI {
 
-    int create(Tariff tariff) throws ServiceException;
+    void create(TariffDTO dto) throws ServiceException;
 
+    void delete(int id) throws ServiceException;
 
-    public void delete(int id) throws ServiceException;
+     void update(Tariff tariff) throws ServiceException;
 
-    public void update(Tariff tariff) throws ServiceException;
+     Tariff get(int id);
+     Tariff getFull(int id);
 
-    public Tariff get(int id);
+     Tariff findByName(String name);
 
-    public Tariff findByName(String name);
+     List<Tariff> getAll();
 
-    public List<Tariff> getAll();
-
-    public void deleteOption(int tariffId, int optionId) throws ServiceException;
+     void deleteOption(int tariffId, int optionId) throws ServiceException;
     void addOption(int tariffId, String optionName) throws ServiceException;
 
-    public List<TariffOption> getTariffOptions(int id);
+     List<TariffOption> getTariffOptions(int id);
 
     TariffTransfer getTransfer(int id);
 
-    public List<TariffOption> getAvailableOptions(int id);
+     List<TariffOption> getAvailableOptions(int id);
 }

@@ -1,17 +1,18 @@
-package entities;
+package entities.dto;
+
+import entities.TariffOption;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
-public class TariffDTO {
+public class TariffOptionDTO {
 
     private int id;
 
-    @NotBlank(message = "{option.name.invalid}")
+    @NotBlank(message = "{option.name.empty}")
     @Size(min = 3, max = 50, message = "{option.name.invalid}")
     private String name;
 
@@ -25,9 +26,9 @@ public class TariffDTO {
 
     private String description;
 
-    private Set<Integer> incompatible = new HashSet<>();
+    private Set<String> incompatible = new HashSet<>();
 
-    private Set<Integer> mandatory = new HashSet<>();
+    private Set<String> mandatory = new HashSet<>();
 
     public int getId() {
         return id;
@@ -37,9 +38,8 @@ public class TariffDTO {
         this.id = id;
     }
 
-    public TariffDTO(TariffOption option){
+    public TariffOptionDTO(TariffOption option){
         id=option.getId();
-
         name=option.getName();
         price=option.getPrice();
         subscribeCost=option.getSubscribeCost();
@@ -47,9 +47,7 @@ public class TariffDTO {
         description=option.getDescription();
     }
 
-    public TariffDTO(){    }
-
-
+    public TariffOptionDTO(){    }
 
     public String getName() {
         return name;
@@ -91,19 +89,19 @@ public class TariffDTO {
         this.description = description;
     }
 
-    public Set<Integer> getIncompatible() {
+    public Set<String> getIncompatible() {
         return incompatible;
     }
 
-    public void setIncompatible(Set<Integer> incompatible) {
+    public void setIncompatible(Set<String> incompatible) {
         this.incompatible = incompatible;
     }
 
-    public Set<Integer> getMandatory() {
+    public Set<String> getMandatory() {
         return mandatory;
     }
 
-    public void setMandatory(Set<Integer> mandatory) {
+    public void setMandatory(Set<String> mandatory) {
         this.mandatory = mandatory;
     }
 }

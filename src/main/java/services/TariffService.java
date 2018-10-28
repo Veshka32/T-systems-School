@@ -3,6 +3,7 @@ package services;
 import entities.Tariff;
 import entities.TariffOption;
 import entities.TariffTransfer;
+import entities.dto.TariffDTO;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,28 +34,44 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public int create(Tariff tariff) throws ServiceException {
-        if (tariffDAO.isNameExist(tariff.getName()))
+    public void create(TariffDTO dto) throws ServiceException {
+        if (tariffDAO.isNameExist(dto.getName()))
             throw new ServiceException("name is reserved");
 
-        Set<TariffOption> tariffOptions = tariff.getOptions();
+        //check if options are compatible with each other
+        //check if each option has corresponding mandatory
+        for (String name:dto.getOptions()) {
+            TariffOption option=optionDAO.findByName(name);
+            Optional<String> any=option.getIncompatibleOptions().stream().map(o->o.getName()).filter(o->dto.getOptions().contains(o)).findAny();
+            if (any.isPresent()) throw new ServiceException("You choose incompatible options: "+name+", "+any.get());
+            any=option.getMandatoryOptions().stream().map(TariffOption::getName).filter(o->!dto.getOptions().contains(o)).findAny();
+            if (any.isPresent()) throw new ServiceException("Option "+name+" requires option "+any.get());
+        }
+        //set plain fields
+        Tariff based = new Tariff();
+        updatePlainFields(dto,based);
 
-//        for (TariffOption option : tariffOptions) {
-//
-//            List<TariffOption> bad =optionDAO.getIncompatibleOptions(option.getId());
-//            Optional<TariffOption> badOption = bad.stream().filter(x -> tariffOptions.contains(x)).findFirst();
-//            if (badOption.isPresent()) {
-//                throw new ServiceException("Options are incompatible: " + option.getName() + " and " + badOption.getById().getName());
-//            }
-//        }
-//
-//        for (TariffOption option : tariffOptions) {
-//            List<TariffOption> mandatory = optionDAO.getMandatoryOptions(option.getId());
-//            if (!mandatory.isEmpty() && !tariffOptions.containsAll(mandatory)) {
-//                throw new ServiceException("Can't set option: " + option.getName() + " without options: " + mandatory.stream().map(TariffOption::getName).collect(Collectors.toList()).toString());
-//            }
-//        }
-        return tariffDAO.save(tariff);
+        //set complex fields
+        for (String name:dto.getOptions()) {
+            TariffOption option=optionDAO.findByName(name);
+            based.addOption(option);
+        }
+        tariffDAO.save(based);
+        dto.setId(based.getId());
+    }
+
+    @Override
+    public Tariff getFull(int id) {
+        Tariff tariff = tariffDAO.findOne(id);
+        Hibernate.initialize(tariff.getOptions());
+        return tariff;
+    }
+
+    private void updatePlainFields(TariffDTO dto,Tariff based){
+        based.setName(dto.getName());
+        based.setPrice(dto.getPrice());
+        based.setArchived(dto.isArchived());
+        based.setDescription(dto.getDescription());
     }
 
     @Override

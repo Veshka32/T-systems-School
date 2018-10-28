@@ -1,7 +1,7 @@
 package controllers;
 
 import entities.TariffOption;
-import entities.TariffOptionDTO;
+import entities.dto.TariffOptionDTO;
 import entities.TariffOptionTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class OptionController {
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id, Model model) {
         TariffOption option = optionService.getFull(id);
-        showTariff(model, option);
+        showOption(model, option);
         return "management/option/save-result";
     }
 
@@ -58,7 +58,7 @@ public class OptionController {
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return CREATE;
         }
-        showTariff(model,optionService.getFull(dto.getId()));
+        showOption(model,optionService.getFull(dto.getId()));
         return "/management/option/save-result";
     }
 
@@ -109,10 +109,10 @@ public class OptionController {
         return optionService.getAll();
     }
 
-    private void showTariff(Model model, TariffOption option) {
+    private void showOption(Model model, TariffOption option) {
         model.addAttribute("newOption", option);
-        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
-        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(",")));
+        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
+        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
     }
 
     private void buildModelForCreate(Model model,TariffOptionDTO dto){

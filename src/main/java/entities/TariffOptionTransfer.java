@@ -1,5 +1,7 @@
 package entities;
 
+import entities.dto.TariffOptionDTO;
+
 import java.util.ArrayList;
 
 import java.util.List;
