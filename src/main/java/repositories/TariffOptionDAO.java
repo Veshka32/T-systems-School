@@ -8,20 +8,6 @@ import java.util.List;
 
 @Repository
 public class TariffOptionDAO extends GenericDAO<TariffOption> {
-    public List<TariffOption> getIncompatibleOptions(int id) {
-       return (List<TariffOption>)sessionFactory.getCurrentSession()
-                .createNamedQuery("get_incompatible_options")
-                .setParameter("id", id)
-                .getResultList();
-
-    }
-
-    public List<TariffOption> getMandatoryOptions(int id) {
-        return (List<TariffOption>)sessionFactory.getCurrentSession()
-                .createNamedQuery("get_mandatory_options")
-                .setParameter("id", id)
-                .getResultList();
-    }
 
     public boolean isNameExist(String name) {
         try {

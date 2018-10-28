@@ -149,11 +149,12 @@ public class OptionService implements OptionServiceI {
         TariffOption option = optionDAO.findOne(id);
         TariffOptionDTO dto = new TariffOptionDTO(option);
 
-        dto.setIncompatible(optionDAO.getIncompatibleOptions(id).stream().map(TariffOption::getId).collect(Collectors.toSet()));
-        dto.setMandatory(optionDAO.getMandatoryOptions(id).stream().map(TariffOption::getId).collect(Collectors.toSet()));
+        dto.setIncompatible(option.getIncompatibleOptions().stream().map(TariffOption::getId).collect(Collectors.toSet())); //how to get only ids?
+        dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getId).collect(Collectors.toSet()));
 
         TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
-        Map<Integer,String> map=optionDAO.findAll().stream().collect(Collectors.toMap(TariffOption::getId,TariffOption::getName));
+        Map<Integer,String> map=getAllNames();
+        map.remove(id);
         transfer.setAll(map);
         return transfer;
     }

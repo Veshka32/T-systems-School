@@ -21,8 +21,6 @@ import java.util.Set;
         @NamedQuery(name = "is_option_used_in_Contract", query = "select c.id from Contract c join c.options o where o.id=:id"),
         @NamedQuery(name = "is_option_Mandatory", query = "select o.id from TariffOption o join o.mandatoryOptions m where m.id=:id"),
         @NamedQuery(name = "is_option_used_in_Tariff", query = "select t.id from Tariff t join t.options o where o.id=:id"),
-        @NamedQuery(name = "get_incompatible_options", query = "select o.incompatibleOptions from TariffOption o where o.id=:id"),
-        @NamedQuery(name = "get_mandatory_options", query = "select o.mandatoryOptions from TariffOption o where o.id=:id"),
         @NamedQuery(name = "get_options_in_range", query = "from TariffOption o where o.id in (:ids)")
 })
 public class TariffOption extends AbstractEntity {
