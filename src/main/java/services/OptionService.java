@@ -43,7 +43,7 @@ public class OptionService implements OptionServiceI {
         for (String mandatory:dto.getMandatory()) {
             TariffOption m=optionDAO.findByName(mandatory);
             Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
-            any=incompatible.stream().map(o->o.getName()).filter(o->dto.getMandatory().contains(o)).findAny();
+            any=incompatible.stream().map(TariffOption::getName).filter(o->dto.getMandatory().contains(o)).findAny();
             if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE1);
         }
 
@@ -92,22 +92,22 @@ public class OptionService implements OptionServiceI {
         }
 
         //update plain fields
-        TariffOption based = optionDAO.findOne(dto.getId());
-        updatePlainFields(dto,based);
+        op=optionDAO.findOne(dto.getId());
+        updatePlainFields(dto,op);
 
         //update complex fields
-        based.getMandatoryOptions().clear();
-        based.getIncompatibleOptions().clear();
+        op.getMandatoryOptions().clear();
+        op.getIncompatibleOptions().clear();
         for (String name:dto.getIncompatible()) {
             TariffOption newIncompatible=optionDAO.findByName(name);
-            based.addIncompatibleOption(newIncompatible);
-            newIncompatible.addIncompatibleOption(based);
+            op.addIncompatibleOption(newIncompatible);
+            newIncompatible.addIncompatibleOption(op);
         }
         for (String name:dto.getMandatory()) {
             TariffOption newMandatory=optionDAO.findByName(name);
-            based.addMandatoryOption(newMandatory);
+            op.addMandatoryOption(newMandatory);
         }
-        optionDAO.update(based);
+        optionDAO.update(op);
     }
 
     private void updatePlainFields(TariffOptionDTO dto,TariffOption based){
@@ -139,7 +139,7 @@ public class OptionService implements OptionServiceI {
         dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.toSet()));
 
         TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
-        List<String> map=getAllNames();
+        List<String> map=optionDAO.getAllNames();
         map.remove(dto.getName());
         transfer.setAll(map);
         return transfer;
@@ -147,8 +147,7 @@ public class OptionService implements OptionServiceI {
 
     @Override
     public List<String> getAllNames() {
-        List<String> map=optionDAO.getAllNames();
-        return map;
+        return optionDAO.getAllNames();
     }
 
     @Override

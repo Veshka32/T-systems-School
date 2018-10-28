@@ -14,7 +14,6 @@ import repositories.TariffOptionDAO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,26 +37,56 @@ public class TariffService implements TariffServiceI {
         if (tariffDAO.isNameExist(dto.getName()))
             throw new ServiceException("name is reserved");
 
-        //check if options are compatible with each other
-        //check if each option has corresponding mandatory
-        for (String name:dto.getOptions()) {
-            TariffOption option=optionDAO.findByName(name);
-            Optional<String> any=option.getIncompatibleOptions().stream().map(o->o.getName()).filter(o->dto.getOptions().contains(o)).findAny();
-            if (any.isPresent()) throw new ServiceException("You choose incompatible options: "+name+", "+any.get());
-            any=option.getMandatoryOptions().stream().map(TariffOption::getName).filter(o->!dto.getOptions().contains(o)).findAny();
-            if (any.isPresent()) throw new ServiceException("Option "+name+" requires option "+any.get());
+        //check if options are compatible with each other, check if each option has corresponding mandatory
+        for (String name : dto.getOptions()) {
+            TariffOption option = optionDAO.findByName(name);
+            Optional<String> any = option.getIncompatibleOptions().stream().map(TariffOption::getName).filter(o -> dto.getOptions().contains(o)).findAny();
+            if (any.isPresent())
+                throw new ServiceException("You choose incompatible options: " + name + ", " + any.get());
+            any = option.getMandatoryOptions().stream().map(TariffOption::getName).filter(o -> !dto.getOptions().contains(o)).findAny();
+            if (any.isPresent()) throw new ServiceException("Option " + name + " requires option " + any.get());
         }
         //set plain fields
         Tariff based = new Tariff();
-        updatePlainFields(dto,based);
+        updatePlainFields(dto, based);
 
         //set complex fields
-        for (String name:dto.getOptions()) {
-            TariffOption option=optionDAO.findByName(name);
+        for (String name : dto.getOptions()) {
+            TariffOption option = optionDAO.findByName(name);
             based.addOption(option);
         }
         tariffDAO.save(based);
         dto.setId(based.getId());
+    }
+
+    @Override
+    public void update(TariffDTO dto) throws ServiceException {
+        Tariff t = tariffDAO.findByName(dto.getName());
+
+        if (t != null && t.getId() != dto.getId())  //check if there is another tariff with the same name in database
+            throw new ServiceException("name is reserved");
+
+        //check if options are compatible with each other, check if each option has corresponding mandatory
+        for (String name : dto.getOptions()) {
+            TariffOption option = optionDAO.findByName(name);
+            Optional<String> any = option.getIncompatibleOptions().stream().map(TariffOption::getName).filter(o -> dto.getOptions().contains(o)).findAny();
+            if (any.isPresent())
+                throw new ServiceException("You choose incompatible options: " + name + ", " + any.get());
+            any = option.getMandatoryOptions().stream().map(TariffOption::getName).filter(o -> !dto.getOptions().contains(o)).findAny();
+            if (any.isPresent()) throw new ServiceException("Option " + name + " requires option " + any.get());
+        }
+
+        //update plain fields
+        t = tariffDAO.findOne(dto.getId());
+        updatePlainFields(dto, t);
+
+        //update complex fields
+        t.getOptions().clear();
+        for (String name : dto.getOptions()) {
+            TariffOption newOption = optionDAO.findByName(name);
+            t.addOption(newOption);
+        }
+        tariffDAO.update(t);
     }
 
     @Override
@@ -67,7 +96,7 @@ public class TariffService implements TariffServiceI {
         return tariff;
     }
 
-    private void updatePlainFields(TariffDTO dto,Tariff based){
+    private void updatePlainFields(TariffDTO dto, Tariff based) {
         based.setName(dto.getName());
         based.setPrice(dto.getPrice());
         based.setArchived(dto.isArchived());
@@ -75,11 +104,15 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public TariffTransfer getTransfer(int id) {
+    public TariffTransfer getTransferForEdit(int id) {
         Tariff tariff = tariffDAO.findOne(id);
-        Hibernate.initialize(tariff.getOptions());
-        TariffTransfer transfer = new TariffTransfer(tariff);
-        transfer.setAll(optionDAO.getAllNames());
+        TariffDTO dto = new TariffDTO(tariff);
+        dto.setOptions(tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
+        TariffTransfer transfer = new TariffTransfer(dto);
+
+        List<String> map = optionDAO.getAllActiveNames(); //do not include archived options
+        map.removeIf(name -> (dto.getOptions().contains(name))); //remove from list all options already in tariff
+        transfer.setAll(map);
         return transfer;
     }
 
@@ -87,16 +120,6 @@ public class TariffService implements TariffServiceI {
     public void delete(int id) throws ServiceException {
         if (tariffDAO.isUsed(id)) throw new ServiceException("tariff is used in some contracts");
         tariffDAO.deleteById(id);
-    }
-
-    @Override
-    public void update(Tariff tariff) throws ServiceException {
-        Tariff t = tariffDAO.findByName(tariff.getName());
-
-        if (t != null && t.getId() != tariff.getId())  //check if there is another option with the same name in database
-            throw new ServiceException("name is reserved");
-
-        tariffDAO.update(tariff);
     }
 
     @Override
@@ -118,41 +141,7 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public void deleteOption(int tariffId, int optionId) throws ServiceException {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        TariffOption option = optionDAO.findOne(optionId);
-        List<TariffOption> mandatory = tariff.getOptions().stream().filter(o -> o.getMandatoryOptions().contains(option)).collect(Collectors.toList());
-        if (!mandatory.isEmpty())
-            throw new ServiceException("Options " + mandatory.stream().map(TariffOption::getName).collect(Collectors.joining(",")) + "require option " + option.getName());
-        tariff.deleteOption(optionDAO.findOne(optionId));
-        tariffDAO.update(tariff);
-    }
-
-    @Override
-    public void addOption(int tariffId, String optionName) throws ServiceException {
-        Tariff tariff = tariffDAO.findOne(tariffId);
-        Hibernate.initialize(tariff.getOptions());
-        TariffOption option = optionDAO.findByName(optionName);
-        Optional<TariffOption> bad = tariff.getOptions().stream().flatMap(x -> x.getIncompatibleOptions().stream()).filter(x -> x.equals(option)).findFirst();
-        if (bad.isPresent())
-            throw new ServiceException("Option " + option.getName() + " incompatible with " + bad.get().getName());
-
-        List<TariffOption> missedMandatory = option.getMandatoryOptions().stream().filter(o -> !tariff.getOptions().contains(o)).collect(Collectors.toList());
-        if (!missedMandatory.isEmpty())
-            throw new ServiceException("Option " + option.getName() + " requires these options: " + missedMandatory.stream().map(TariffOption::getName).collect(Collectors.joining(",")));
-        tariff.addOption(option);
-        tariffDAO.update(tariff);
-    }
-
-    @Override
     public List<TariffOption> getTariffOptions(int id) {
         return tariffDAO.getOptions(id);
-    }
-
-    @Override
-    public List<TariffOption> getAvailableOptions(int id) {
-        List<TariffOption> tariffOptions = getTariffOptions(id);
-        return optionDAO.findAll().stream()
-                .filter(o -> !tariffOptions.contains(o)).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,6 @@
 package entities.dto;
 
-import entities.TariffOption;
-
+import entities.Tariff;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -36,7 +35,7 @@ public class TariffDTO {
 
     public TariffDTO(){}
 
-    public TariffDTO(TariffOption option){
+    public TariffDTO(Tariff option){
         id=option.getId();
         name=option.getName();
         price=option.getPrice();

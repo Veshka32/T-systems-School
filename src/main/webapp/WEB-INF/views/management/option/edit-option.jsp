@@ -57,12 +57,12 @@
         <div class="form-group col-md-6">
             <label for="price">Price:</label>
             <form:input path="price" value="${editedOption.price}" class="form-control" id="price"/>
-            <form:errors path="price" />
+            <p class="bg-danger"><form:errors path="price" /></p>
         </div>
         <div class="form-group col-md-6">
             <label for="cost">Subscribe cost:</label>
             <form:input value="${editedOption.subscribeCost}" path="subscribeCost" class="form-control" id="cost"/>
-            <form:errors path="subscribeCost" />
+            <p class="bg-danger"><form:errors path="subscribeCost" /></p>
         </div>
     </div>
     <div class="form-group">
@@ -89,10 +89,8 @@
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
 
-    <span class="pull-right"><form action="deleteOption" method="get">
+    <div class="pull-right"><form action="deleteOption" method="get">
         <input type="hidden" name="id" value=${editedOption.id}>
-        <input type="submit" value="Delete option" class="btn btn-danger"></form></span>
-
-
+        <input type="submit" value="Delete option" class="btn btn-danger"></form></div>
 </body>
 </html>

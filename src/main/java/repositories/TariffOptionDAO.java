@@ -25,6 +25,13 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> {
                 .getResultList();
     }
 
+    public List<String> getAllActiveNames() {
+        return (List<String>)sessionFactory.getCurrentSession().createQuery("select o.name from TariffOption o where o.archived=false")
+                .getResultList();
+    }
+
+
+
     public TariffOption findByName(String name){
         try {
             return sessionFactory.getCurrentSession()

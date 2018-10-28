@@ -45,7 +45,7 @@
 <div class="container">
     <span class="pull-right"><a href="tariffs" class="btn btn-info" role="button">Back to tariffs</a></span>
     <h3>Create tariff</h3>
-    <p class="bg-danger">${error}</p>
+    <p class="bg-danger">${message}</p>
 <form:form method="POST" modelAttribute="tariff">
 
     <div class="form-group">
