@@ -36,7 +36,7 @@ public class OptionController {
     public String show(@RequestParam("id") int id, Model model) {
         TariffOption option = optionService.getFull(id);
         showOption(model, option);
-        return "management/option/save-result";
+        return "management/option/show-option";
     }
 
     @GetMapping("/management/createOption")
@@ -59,7 +59,7 @@ public class OptionController {
             return CREATE;
         }
         showOption(model,optionService.getFull(dto.getId()));
-        return "/management/option/save-result";
+        return "management/option/show-option";
     }
 
     @GetMapping("/management/editOption")

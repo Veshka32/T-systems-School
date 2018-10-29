@@ -40,7 +40,7 @@ public class TariffController {
     public String show(@RequestParam("id") int id, Model model) {
         Tariff tariff = tariffService.getFull(id);
         showTariff(model, tariff);
-        return "management/tariff/save-result";
+        return "management/tariff/show-tariff";
     }
 
     @GetMapping("/management/createTariff")
@@ -63,7 +63,7 @@ public class TariffController {
             return CREATE;
         }
         showTariff(model,tariffService.getFull(dto.getId()));
-        return "management/tariff/save-result";
+        return "management/tariff/show-tariff";
     }
 
     @GetMapping("/management/editTariff")

@@ -13,8 +13,6 @@ import services.ClientService;
 import services.ContractService;
 import entities.dto.Phone;
 import services.ServiceException;
-
-import javax.persistence.NoResultException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -23,8 +21,9 @@ public class ClientController {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
     private static final String EDIT = "management/client/edit-client";
-    private static final String SAVE="management/client/save-result";
+    private static final String SAVE="management/client/show-client";
     private static final String CREATE="management/client/create-client";
+    private static final String MANAGEMENT="management/client/client-management";
 
     @Autowired
     ClientService clientService;
@@ -33,7 +32,7 @@ public class ClientController {
     ContractService contractService;
 
     @RequestMapping("/management/clients")
-    public String show(){return "management/client/client-management";
+    public String show(){return MANAGEMENT;
     }
 
     @GetMapping("/management/showClient")
@@ -48,13 +47,13 @@ public class ClientController {
     public String find(@Valid Phone phone, BindingResult result, Model model){
         if (result.hasErrors()){
             model.addAttribute("phone",phone);
-            return "management/client/client-management";
+            return MANAGEMENT;
         }
 
         Client client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
         if (client==null){
             model.addAttribute(MODEL_MESSAGE,"phone number doesn't exist");
-            return "management/client/client-management";
+            return MANAGEMENT;
         }
         model.addAttribute("client",client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
@@ -65,13 +64,13 @@ public class ClientController {
     public String find(@Valid Passport passport, BindingResult result, Model model){
         if (result.hasErrors()){
             model.addAttribute("passport",passport);
-            return "management/client/client-management";
+            return MANAGEMENT;
         }
 
         Client client=clientService.findByPassport(passport.getPassport());
         if (client==null){
             model.addAttribute("message1","passport id doesn't exist");
-            return "management/client/client-management";
+            return MANAGEMENT;
         }
         model.addAttribute("client",client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));

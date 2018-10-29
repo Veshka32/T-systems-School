@@ -3,7 +3,6 @@ package controllers;
 import entities.Contract;
 import entities.dto.ContractDTO;
 import entities.dto.Phone;
-import entities.dto.TariffOptionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +42,7 @@ public class ContractController {
             return MANAGEMENT;
         }
         attr.addAttribute("contract", contract);
-        return "/management/contract/save-result";
+        return "management/contract/show-contract";
     }
 
     @RequestMapping("/management/contracts")
@@ -55,7 +54,7 @@ public class ContractController {
     public String show(@RequestParam("id") int id, Model model) {
         Contract contract = contractService.get(id);
         model.addAttribute("contract", contract);
-        return "management/contract/save-result";
+        return "management/contract/show-contract";
     }
 
     @GetMapping("/management/createContract")

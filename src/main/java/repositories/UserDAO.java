@@ -12,10 +12,12 @@ import java.util.List;
 public class UserDAO extends GenericDAO<MyUser>{
 
     public MyUser findByLogin(String login){
-        return sessionFactory.getCurrentSession()
+        try{return sessionFactory.getCurrentSession()
                 .createNamedQuery("find_user_by_login",MyUser.class)
                 .setParameter("login",login)
                 .getSingleResult();
-    }
+    } catch (NoResultException e){
+            return null;
+        }
 
-}
+}}

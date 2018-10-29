@@ -29,23 +29,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //auth.inMemoryAuthentication()
           //     .withUser("admin").password(passwordEncoder().encode("pass")).roles("MANAGER"); //temp in-memory auth
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    logger.info("configure AuthenticationManagerBuilder");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .formLogin().loginPage("/login")
-                    .defaultSuccessUrl("/",false)
-                    .failureUrl("/login?error")
-                    .and()
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/management*").hasRole("MANAGER")
-                    .anyRequest().authenticated() //all remaining must be auth
+                .antMatchers("/").permitAll()
+                .antMatchers("/management/**").hasRole("MANAGER")
+                .antMatchers("/user/**").hasRole("CLIENT")
                     .and()
-                    .logout().logoutSuccessUrl("/login?logout");
+                .formLogin().loginPage("/login").permitAll()
+                .defaultSuccessUrl("/",false)
+                .failureUrl("/login?error")
+                    .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
         logger.info("configure page access rules");
     }
 
