@@ -11,12 +11,12 @@ public class LoginController {
 
     @RequestMapping("/")
     public String root(){
-        return "index";
+        return "/index";
     }
 
     @GetMapping("/homePage")
     public String homePage() {
-        return "management/manager-cabinet";
+        return "index";
     }
 
     @GetMapping(value = "/login")
