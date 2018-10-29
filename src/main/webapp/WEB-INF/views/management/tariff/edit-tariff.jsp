@@ -67,7 +67,6 @@
 
     <label for="inc">Set options:</label>
     <div class="form-check form-check-inline"><c:forEach items="${all}" var="item">
-
         <form:checkbox path="options" value="${item}" class="form-check" id="inc"/>
         <label class="form-check-label" for=inc>${item}</label>
 

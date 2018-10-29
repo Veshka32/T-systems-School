@@ -70,7 +70,7 @@ public class ClientController {
 
         Client client=clientService.findByPassport(passport.getPassport());
         if (client==null){
-            model.addAttribute(MODEL_MESSAGE,"passport id doesn't exist");
+            model.addAttribute("message1","passport id doesn't exist");
             return "management/client/client-management";
         }
         model.addAttribute("client",client);

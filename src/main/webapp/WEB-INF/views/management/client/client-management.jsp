@@ -51,7 +51,7 @@
     <br>
 
     <h4>Find client by passport id:</h4>
-    <p class="bg-danger">${message}</p>
+    <p class="bg-danger">${message1}</p>
     <form:form method="POST" action="findClientByPassport" modelAttribute="passport">
         <form:input path="passport"/><input type="submit" value="Find"/><br>
         <p class="bg-danger"><form:errors path="passport"/></p>

@@ -1,10 +1,9 @@
 package controllers;
 
 import entities.Contract;
-import entities.Tariff;
-import entities.TariffOption;
 import entities.dto.ContractDTO;
 import entities.dto.Phone;
+import entities.dto.TariffOptionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,12 @@ import java.util.List;
 
 @Controller
 public class ContractController {
+
+    private static final String ERROR_ATTRIBUTE = "error";
+    private static final String MODEL_MESSAGE = "message";
+    private static final String MANAGEMENT="management/contract/contract-management";
+
+
     @Autowired
     ContractService contractService;
     @Autowired
@@ -28,51 +33,83 @@ public class ContractController {
     ClientService clientService;
 
     @PostMapping("/management/findContract")
-    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr, Model model){
+    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors())
-            return "management/contract/contract-management";
+            return MANAGEMENT;
 
-        Contract contract=contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
-        if (contract==null){
-            model.addAttribute("message","no such phone number exists");
-            return "management/contract/contract-management";
+        Contract contract = contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
+        if (contract == null) {
+            model.addAttribute(MODEL_MESSAGE, "no such phone number exists");
+            return MANAGEMENT;
         }
-        attr.addAttribute("contract",contract);
+        attr.addAttribute("contract", contract);
         return "/management/contract/save-result";
     }
 
     @RequestMapping("/management/contracts")
     public String show() {
-        return "management/contract/contract-management";
+        return MANAGEMENT;
     }
 
     @GetMapping("/management/showContract")
     public String show(@RequestParam("id") int id, Model model) {
         Contract contract = contractService.get(id);
-model.addAttribute("contract",contract);
-return "management/tariff/save-result";
+        model.addAttribute("contract", contract);
+        return "management/contract/save-result";
     }
 
     @GetMapping("/management/createContract")
     public String create(@RequestParam("clientId") int clientId, Model model) {
-        ContractDTO dto=new ContractDTO(clientId);
-        model.addAttribute("contract",dto);
+        ContractDTO dto = new ContractDTO(clientId);
+        model.addAttribute("contract", dto);
         return "management/contract/create-contract";
     }
 
     @PostMapping("management/createContract")
-    public String edit(@ModelAttribute("contract") ContractDTO dto, Model model,RedirectAttributes attr) {
-        try{
-           contractService.create(dto);
-        } catch (ServiceException e){
-            model.addAttribute("contract",dto);
-            model.addAttribute("message",e.getMessage());
+    public String edit(@ModelAttribute("contract") ContractDTO dto, Model model, RedirectAttributes attr) {
+        try {
+            contractService.create(dto);
+        } catch (ServiceException e) {
+            model.addAttribute("contract", dto);
+            model.addAttribute(MODEL_MESSAGE, e.getMessage());
             return "management/contract/create-contract";
         }
-        attr.addAttribute("id",dto.getId());
+        attr.addAttribute("id", dto.getId());
 
-        return "redirect:/management/showTariff";
+        return "redirect:/management/showContract";
     }
+
+    @GetMapping("/management/editContract")
+    public String editOption(@RequestParam("id") int id,
+                             @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
+                             Model model) {
+
+        if (error != null) model.addAttribute(MODEL_MESSAGE, error);
+        ContractDTO dto = contractService.getDTO(id);
+        model.addAttribute("editedContract", dto);
+        return "management/contract/edit-contract";
+    }
+
+    @PostMapping("/management/editContract")
+    public String updateOption(@ModelAttribute("editedContract") ContractDTO dto, Model model, RedirectAttributes attr) {
+        try {
+            contractService.update(dto);
+        } catch (ServiceException e) {
+            model.addAttribute("editedContract",dto);
+            model.addAttribute(MODEL_MESSAGE,e.getMessage());
+            return "management/contract/edit-contract";
+        }
+        attr.addAttribute("id",dto.getId());
+        return "redirect:/management/showContract";
+    }
+
+    @GetMapping("/management/deleteContract")
+    public String deleteClient(@RequestParam("id") int id, @RequestParam("clientId") int clientId,RedirectAttributes attr) {
+        contractService.delete(id);
+        attr.addAttribute("id",clientId);
+        return "redirect:/management/showClient";
+    }
+
 
     @ModelAttribute("allContracts")
     public List<Contract> getAll() {
@@ -90,7 +127,7 @@ return "management/tariff/save-result";
     }
 
     @ModelAttribute("phone")
-    public Phone getPhone(){
+    public Phone getPhone() {
         return new Phone();
     }
 

@@ -1,12 +1,10 @@
 package entities.dto;
 
-import entities.*;
+import entities.Contract;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +27,14 @@ public class ContractDTO {
 
     public ContractDTO(int clientId) {
         this.ownerId=clientId;
+    }
+
+    public ContractDTO(Contract contract){
+        this.id=contract.getId();
+        this.ownerId=contract.getOwner().getId();
+        this.tariffName=contract.getTariff().getName();
+        this.isBlocked=contract.isBlocked();
+        this.isBlockedByAdmin=contract.isBlockedByAdmin();
     }
 
     @Override

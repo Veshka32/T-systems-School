@@ -69,20 +69,21 @@ public class OptionController {
 
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
         TariffOptionTransfer transfer = optionService.getTransferForEdit(id);
-        buildModelForUpdate(model,transfer.getDTO());
+        String name=transfer.getDTO().getName();
+        buildModelForUpdate(model,transfer.getDTO(),name);
         return EDIT;
     }
 
     @PostMapping("/management/editOption")
     public String updateOption(@ModelAttribute("editedOption") @Valid TariffOptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            buildModelForUpdate(model,dto);
+            buildModelForUpdate(model,dto,dto.getName());
             return EDIT;
         }
         try {
             optionService.update(dto);
         } catch (ServiceException e) {
-            buildModelForUpdate(model,dto);
+            buildModelForUpdate(model,dto,dto.getName());
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return EDIT;
         }
@@ -117,8 +118,8 @@ public class OptionController {
         model.addAttribute("all",optionService.getAllNames());
     }
 
-    private void buildModelForUpdate(Model model,TariffOptionDTO dto){
+    private void buildModelForUpdate(Model model,TariffOptionDTO dto,String name){
         model.addAttribute("editedOption",dto);
-        model.addAttribute("all",optionService.getAllNames());
+        model.addAttribute("all",optionService.getAllNames().remove(name));
     }
 }

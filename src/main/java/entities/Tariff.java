@@ -6,9 +6,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,6 +52,6 @@ public class Tariff extends AbstractEntity{
 
     @Override
     public String toString(){
-        return "id: "+id+", tariff: "+name+", price: "+price+", description: "+description;
+        return name;
     }
 }

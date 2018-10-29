@@ -43,7 +43,9 @@
 </form>
 
 <div class="container">
-    <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
+    <span class="pull-right"><form action="showClient" method="get">
+        <input type="hidden" name="id" value=${contract.owner.id}>
+        <input type="submit" value="Back to client" class="btn btn-info"></form></span>
     <h3>Contract details</h3>
     <table class="table table-striped">
         <thead>
