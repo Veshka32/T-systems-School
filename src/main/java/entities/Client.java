@@ -2,24 +2,22 @@ package entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Entity
 @NamedQueries({
         @NamedQuery(name="is_passport_exists",query = "select c.passportId from Client c where c.passportId=:id"),
-        @NamedQuery(name="is_email_exists",query = "select c.email from Client c where c.email=:email")
+        @NamedQuery(name="is_email_exists",query = "select c.email from Client c where c.email=:email"),
+        @NamedQuery(name="find_by_passport",query = "from Client c where c.passportId=:passport"),
+        @NamedQuery(name="find_by_email",query = "from Client c where c.email=:email")
+
 })
 
 public class Client extends AbstractEntity{
@@ -31,9 +29,7 @@ public class Client extends AbstractEntity{
 
     private String surname;
 
-//    @Past
-//    @DateTimeFormat
-//    private LocalDate birthday;
+    private LocalDate birthday;
 
     private String email;
 

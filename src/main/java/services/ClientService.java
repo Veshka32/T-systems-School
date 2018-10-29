@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.ClientDAO;
 import repositories.ContractDAO;
-import repositories.GenericDAO;
-import repositories.IGenericDAO;
 
 import java.util.List;
 
@@ -39,13 +37,40 @@ public class ClientService {
             throw new ServiceException("email is reserved");
 
         Client client=new Client();
+        updateFields(client,dto);
+        clientDAO.save(client);
+        dto.setId(client.getId());
+    }
+
+    public void update(ClientDTO dto) throws ServiceException{
+        Client client = clientDAO.findByPassportId(dto.getPassportId());
+        if (client != null && client.getId() != dto.getId())  //check if passportId is unique
+            throw new ServiceException("passportId is reserved");
+
+        client = clientDAO.findByEmail(dto.getEmail());
+        if (client != null && client.getId() != dto.getId())  //check if email is unique
+            throw new ServiceException("email is reserved");
+
+        client=clientDAO.findOne(dto.getId());
+        updateFields(client,dto);
+        clientDAO.update(client);
+    }
+
+    public void delete(int id){
+        clientDAO.deleteById(id);
+    }
+
+    private void updateFields(Client client, ClientDTO dto){
         client.setAddress(dto.getAddress());
         client.setEmail(dto.getEmail());
         client.setName(dto.getName());
         client.setSurname(dto.getSurname());
         client.setPassportId(dto.getPassportId());
-        clientDAO.save(client);
-        dto.setId(client.getId());
+        client.setBirthday(dto.getBirthday());
+    }
+
+    public ClientDTO getDTO(int id){
+        return new ClientDTO(clientDAO.findOne(id));
     }
 
     public List<Client> getAll() {

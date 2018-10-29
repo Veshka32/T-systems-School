@@ -68,11 +68,9 @@ public class TariffController {
 
     @GetMapping("/management/editTariff")
     public String editTariff(@RequestParam("id") int id,
-                             @RequestParam(value = "update", required = false) Boolean updated,
                              @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
                              Model model) {
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        else if (updated != null) model.addAttribute(MODEL_MESSAGE, "updated");
         TariffTransfer transfer = tariffService.getTransferForEdit(id);
         model.addAttribute("editedTariff",transfer.getDto());
         model.addAttribute("all", transfer.getAll());

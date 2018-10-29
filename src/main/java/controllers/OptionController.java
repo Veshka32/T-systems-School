@@ -64,12 +64,10 @@ public class OptionController {
 
     @GetMapping("/management/editOption")
     public String editOption(@RequestParam("id") int id,
-                             @RequestParam(value = "update", required = false) Boolean updated,
                              @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
                              Model model) {
 
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        else if (updated != null) model.addAttribute(MODEL_MESSAGE, "updated");
         TariffOptionTransfer transfer = optionService.getTransferForEdit(id);
         buildModelForUpdate(model,transfer.getDTO());
         return EDIT;

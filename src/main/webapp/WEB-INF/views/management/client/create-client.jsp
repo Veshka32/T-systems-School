@@ -68,6 +68,11 @@
         <p class="bg-danger"><form:errors path="email" /></p>
     </div>
     <div class="form-group">
+        <label for="desc">Birthday:</label>
+        <form:input type="date" value="${client.birthday}" path="birthday" class="form-control" id="desc"/>
+        <p class="bg-danger"><form:errors path="birthday" /></p>
+    </div>
+    <div class="form-group">
         <label for="arch">Address:</label>
         <form:input path="address" class="form-control" id="arch"/>
     </div><input type="hidden" name="id" value=${client.id}>

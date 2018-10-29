@@ -64,6 +64,10 @@
             <td>${client.surname} </td>
         </tr>
         <tr>
+            <td>Birthday:</td>
+            <td>${client.birthday} </td>
+        </tr>
+        <tr>
             <td>Email:</td>
             <td>${client.email} </td>
         </tr>
@@ -103,6 +107,11 @@
                     <form action="showContract" method="get">
                         <input type="hidden" name="id" value=${contract.id} >
                         <input type="submit" value="Show details" class="btn"></form>
+                </td>
+                <td>
+                    <form action="editContract" method="get">
+                        <input type="hidden" name="id" value=${contract.id} >
+                        <input type="submit" value="Edit" class="btn"></form>
                 </td>
             </tr>
         </c:forEach>

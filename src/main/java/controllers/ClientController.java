@@ -19,6 +19,11 @@ import java.util.List;
 
 @Controller
 public class ClientController {
+    private static final String ERROR_ATTRIBUTE = "error";
+    private static final String MODEL_MESSAGE="message";
+    private static final String EDIT = "management/client/edit-client";
+    private static final String SAVE="management/client/save-result";
+    private static final String CREATE="management/client/create-client";
 
     @Autowired
     ClientService clientService;
@@ -35,7 +40,7 @@ public class ClientController {
         Client client = clientService.get(id);
         model.addAttribute("client",client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(id));
-        return "management/client/save-result";
+        return SAVE;
     }
 
     @PostMapping("/management/findClientByPhone")
@@ -45,56 +50,76 @@ public class ClientController {
             return "management/client/client-management";
         }
 
-        Client client=null;
+        Client client;
         try{
             client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
         } catch (NoResultException e){
-            model.addAttribute("message","phone number doesn't exist");
+            model.addAttribute(MODEL_MESSAGE,"phone number doesn't exist");
             return "management/client/client-management";
         }
         model.addAttribute("client",client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
-        return "management/client/save-result";
+        return SAVE;
     }
 
     @GetMapping("/management/createClient")
     public String createShow(Model model){
         model.addAttribute("client",new ClientDTO());
-        return "management/client/create-client";
+        return CREATE;
     }
 
     @PostMapping("/management/createClient")
     public String create(@Valid ClientDTO dto, BindingResult result,Model model){
         if (result.hasErrors()){
             model.addAttribute("client",dto);
-            return "/management/client/create-client";
+            return CREATE;
         }
         try {
             clientService.create(dto);
         } catch (ServiceException e){
-            model.addAttribute("message",e.getMessage());
+            model.addAttribute(MODEL_MESSAGE,e.getMessage());
             model.addAttribute("client",dto);
-            return "/management/client/create-client";
+            return CREATE;
         }
        model.addAttribute("client",dto);
-        return "management/client/save-result";
+        return SAVE;
     }
 
     @GetMapping("/management/editClient")
-    public String editClient(@RequestParam("id") int id, Model model){
-        model.addAttribute("editedClient",clientService.get(id));
-        model.addAttribute("contracts",contractService.getAllClientContracts(id));
-        return "management/client/edit-client";
+    public String editClient(@RequestParam("id") int id,
+                             @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
+                             Model model){
+        if (error != null) model.addAttribute(MODEL_MESSAGE, error);
+        model.addAttribute("editedClient",clientService.getDTO(id));
+        return EDIT;
+    }
+
+    @PostMapping("/management/editClient")
+    public String updateClient(@ModelAttribute("editedClient") @Valid ClientDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+        if (result.hasErrors()) {
+            model.addAttribute("editedClient",dto);
+            return EDIT;
+        }
+        try {
+            clientService.update(dto);
+        } catch (ServiceException e) {
+            model.addAttribute("editedClient",dto);
+            model.addAttribute(MODEL_MESSAGE,e.getMessage());
+            return EDIT;
+        }
+        attr.addAttribute("id",dto.getId());
+        return "redirect:/management/showClient";
+    }
+
+    @GetMapping("/management/deleteClient")
+    public String deleteClient(@RequestParam("id") int id) {
+        clientService.delete(id);
+        return "redirect:/management/clients";
     }
 
     @ModelAttribute("allClients")
     public List<Client> getAllClients() {
         return clientService.getAll();
-    }
-
-    @ModelAttribute("client")
-    public Client formBackingObject() {
-        return new Client();
     }
 
     @ModelAttribute("phone")
