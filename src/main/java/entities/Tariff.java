@@ -26,8 +26,6 @@ public class Tariff extends AbstractEntity{
     @Column(unique = true,nullable = false)
     private String name;
 
-    private boolean isArchived=false;
-
     private String description;
 
     private int price;
@@ -57,6 +55,6 @@ public class Tariff extends AbstractEntity{
 
     @Override
     public String toString(){
-        return "id: "+id+", tariff: "+name+", price: "+price+", description: "+description+", is archived:"+isArchived;
+        return "id: "+id+", tariff: "+name+", price: "+price+", description: "+description;
     }
 }

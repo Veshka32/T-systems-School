@@ -66,10 +66,7 @@
             <td>Description:</td>
             <td>${newTariff.description} </td>
         </tr>
-        <tr>
-            <td>Is archived:</td>
-            <td>${newTariff.archived} </td>
-        </tr>
+
         <tr>
             <td>Options:</td>
             <td>${options}</td>

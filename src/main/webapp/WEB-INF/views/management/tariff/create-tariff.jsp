@@ -63,10 +63,6 @@
         <form:input value="${tariff.description}" path="description" class="form-control" id="desc"/>
     </div>
     <div class="form-group">
-        <label for="arch">Archived:</label>
-        <form:checkbox path="archived" class="checkbox" id="arch"/>
-    </div>
-    <div class="form-group">
         <label for="inc">Set options:</label>
         <form:select multiple="true" path="options" items="${all}" class="form-control" id="inc"/>
     </div>

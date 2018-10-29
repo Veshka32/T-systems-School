@@ -1,6 +1,9 @@
 package entities.dto;
 
 import entities.Tariff;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+@Getter @Setter
 public class TariffDTO {
 
     private int id;
@@ -39,48 +43,6 @@ public class TariffDTO {
         id=option.getId();
         name=option.getName();
         price=option.getPrice();
-        archived=option.isArchived();
         description=option.getDescription();
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public boolean isArchived() {
-        return archived;
-    }
-
-    public void setArchived(boolean archived) {
-        this.archived = archived;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<String> getOptions() {
-        return options;
-    }
-
-    public void setOptions(Set<String> options) {
-        this.options = options;
     }
 }

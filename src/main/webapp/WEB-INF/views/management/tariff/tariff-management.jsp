@@ -60,7 +60,6 @@
                 <td>${tariff.name}</td>
                 <td>${tariff.price}</td>
                 <td>${tariff.description}</td>
-                <td>${tariff.archived}</td>
                 <td>
                     <form action="editTariff" method="get">
                         <input type="hidden" name="id" value=${tariff.id}>

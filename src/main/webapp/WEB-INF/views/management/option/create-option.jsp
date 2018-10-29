@@ -68,10 +68,6 @@
         <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
     </div>
     <div class="form-group">
-        <label for="arch">Archived:</label>
-        <form:checkbox path="archived" class="checkbox" id="arch"/>
-    </div>
-    <div class="form-group">
         <label for="inc">Incompatible options:</label>
         <form:select multiple="true" path="incompatible" items="${all}" class="form-control" id="inc"/>
     </div>

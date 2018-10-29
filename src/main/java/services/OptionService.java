@@ -114,7 +114,6 @@ public class OptionService implements OptionServiceI {
         based.setName(dto.getName());
         based.setPrice(dto.getPrice());
         based.setSubscribeCost(dto.getSubscribeCost());
-        based.setArchived(dto.isArchived());
         based.setDescription(dto.getDescription());
     }
 

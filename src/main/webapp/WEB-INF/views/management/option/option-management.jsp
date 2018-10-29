@@ -51,7 +51,6 @@
             <th>Price</th>
             <th>Subscribe cost</th>
             <th>Description</th>
-            <th>Is archived</th>
         </tr>
         </thead>
         <tbody>
@@ -62,7 +61,6 @@
                 <td>${option.price}</td>
                 <td>${option.subscribeCost}</td>
                 <td>${option.description}</td>
-                <td>${option.archived}</td>
                 <td>
                     <form action="editOption" method="get">
                         <input type="hidden" name="id" value=${option.id}>

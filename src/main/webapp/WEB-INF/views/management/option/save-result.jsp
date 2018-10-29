@@ -73,11 +73,6 @@
         </tr>
 
         <tr>
-            <td>Is archived:</td>
-            <td>${newOption.archived} </td>
-        </tr>
-
-        <tr>
             <td>Mandatory options:</td>
             <td>${mandatoryOptions}</td>
         </tr>

@@ -81,7 +81,6 @@ public class TariffService implements TariffServiceI {
         updatePlainFields(dto, t);
 
         //update complex fields
-        t.getOptions().removeIf(o->!o.isArchived()); //keep archived options because they are not showed is all options list
         for (String name : dto.getOptions()) {
             TariffOption newOption = optionDAO.findByName(name);
             t.addOption(newOption);
@@ -99,7 +98,6 @@ public class TariffService implements TariffServiceI {
     private void updatePlainFields(TariffDTO dto, Tariff based) {
         based.setName(dto.getName());
         based.setPrice(dto.getPrice());
-        based.setArchived(dto.isArchived());
         based.setDescription(dto.getDescription());
     }
 

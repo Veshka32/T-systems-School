@@ -32,8 +32,6 @@ public class TariffOption extends AbstractEntity {
 
     private int subscribeCost;
 
-    private boolean archived;
-
     private String description;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
