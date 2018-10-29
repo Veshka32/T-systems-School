@@ -50,7 +50,6 @@
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
-            <th>Is archived</th>
         </tr>
         </thead>
         <tbody>
@@ -74,7 +73,6 @@
         </c:forEach>
         </tbody>
     </table>
-
 
     <a href="createTariff" role="button" class="btn btn-success">Create new tariff</a><br></div>
 

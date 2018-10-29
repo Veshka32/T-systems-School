@@ -14,8 +14,8 @@ public interface OptionServiceI {
     void delete(int id) throws ServiceException;
 
     TariffOptionTransfer getTransferForEdit(int id);
+
     List<String> getAllNames();
-    List<String> getAllActiveNames();
 
     TariffOption getFull(int id);
 

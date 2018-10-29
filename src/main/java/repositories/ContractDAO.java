@@ -15,9 +15,23 @@ public class ContractDAO extends GenericDAO<Contract>{
         .getResultList();
     }
 
-    public Client findClientByPhone(long phone) throws NoResultException {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_client_by_phone", Client.class)
-                .setParameter("phone",phone)
-                .getSingleResult();
+    public Client findClientByPhone(long phone)  {
+        try {
+            return sessionFactory.getCurrentSession().createNamedQuery("get_client_by_phone", Client.class)
+                    .setParameter("phone",phone)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public Contract findByPhone(long phone)  {
+        try {
+            return sessionFactory.getCurrentSession().createNamedQuery("get_contract_by_phone", Contract.class)
+                    .setParameter("phone",phone)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 }

@@ -15,6 +15,11 @@ public class TariffDAO extends GenericDAO<Tariff>{
         .getResultList();
     }
 
+    public List<String> getAllNames() {
+        return (List<String>)sessionFactory.getCurrentSession().createQuery("select t.name from Tariff t")
+                .getResultList();
+    }
+
     public boolean isNameExist(String name) {
         try {
             sessionFactory.getCurrentSession().createNamedQuery("is_tariffName_exists")
@@ -25,6 +30,8 @@ public class TariffDAO extends GenericDAO<Tariff>{
         }
         return true;
     }
+
+
 
     public Tariff findByName(String name){
         try {

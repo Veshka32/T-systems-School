@@ -3,6 +3,7 @@ package controllers;
 import entities.Contract;
 import entities.Tariff;
 import entities.TariffOption;
+import entities.dto.ContractDTO;
 import entities.dto.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,16 +26,19 @@ public class ContractController {
     OptionServiceI optionService;
     @Autowired
     ClientService clientService;
-    @Autowired
-    PhoneNumberService phoneNumberService;
 
     @PostMapping("/management/findContract")
-    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr){
+    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr, Model model){
         if (result.hasErrors())
             return "management/contract/contract-management";
+
         Contract contract=contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
+        if (contract==null){
+            model.addAttribute("message","no such phone number exists");
+            return "management/contract/contract-management";
+        }
         attr.addAttribute("contract",contract);
-        return "/management/contract/edit-contract";
+        return "/management/contract/save-result";
     }
 
     @RequestMapping("/management/contracts")
@@ -42,48 +46,52 @@ public class ContractController {
         return "management/contract/contract-management";
     }
 
+    @GetMapping("/management/showContract")
+    public String show(@RequestParam("id") int id, Model model) {
+        Contract contract = contractService.get(id);
+model.addAttribute("contract",contract);
+return "management/tariff/save-result";
+    }
+
     @GetMapping("/management/createContract")
     public String create(@RequestParam("clientId") int clientId, Model model) {
-        long phone = phoneNumberService.getNext();
-        model.addAttribute("clientId",clientId);
-        model.addAttribute("phone",phone);
+        ContractDTO dto=new ContractDTO(clientId);
+        model.addAttribute("contract",dto);
         return "management/contract/create-contract";
     }
 
     @PostMapping("management/createContract")
-    public String edit(@ModelAttribute("contract") @Valid Contract contract,
-                       BindingResult result,
-                       @RequestParam("clientId") int clientId,
-                       @RequestParam("phone") long phone,
-                       RedirectAttributes attr) {
-        if (result.hasErrors()) {
+    public String edit(@ModelAttribute("contract") ContractDTO dto, Model model,RedirectAttributes attr) {
+        try{
+           contractService.create(dto);
+        } catch (ServiceException e){
+            model.addAttribute("contract",dto);
+            model.addAttribute("message",e.getMessage());
             return "management/contract/create-contract";
         }
-        contract.setNumber(phone);
-        clientService.addContract(clientId,contract);
-        attr.addAttribute("clientId",clientId);
-        return "redirect:/management/editClient";
+        attr.addAttribute("id",dto.getId());
+
+        return "redirect:/management/showTariff";
     }
 
-    @ModelAttribute("allOptions")
-    public List<TariffOption> getAllOptions() {
-        return optionService.getAll();
+    @ModelAttribute("allContracts")
+    public List<Contract> getAll() {
+        return contractService.getAll();
     }
 
     @ModelAttribute("allTariffs")
-    public List<Tariff> getAllTariffs() {
-        return tariffService.getAll();
+    public List<String> getAllTariffs() {
+        return tariffService.getAllNames();
     }
 
-    @ModelAttribute("contract")
-    public Contract getNewContract() {
-        return new Contract();
+    @ModelAttribute("allOptions")
+    public List<String> getAllOptions() {
+        return optionService.getAllNames();
     }
 
     @ModelAttribute("phone")
     public Phone getPhone(){
         return new Phone();
     }
-
 
 }

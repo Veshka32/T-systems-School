@@ -22,7 +22,7 @@ public class OptionService implements OptionServiceI {
 
     private TariffOptionDAO optionDAO;
     private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible";
-    private static final String ERROR_MESSAGE1="Mandatory options are incompatible";
+    private static final String ERROR_MESSAGE1="Mandatory optionsNames are incompatible";
 
     @Autowired
     public void setOptionDAO(TariffOptionDAO optionDAO) {
@@ -39,7 +39,7 @@ public class OptionService implements OptionServiceI {
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
-        //check if mandatory options are incompatible with each other
+        //check if mandatory optionsNames are incompatible with each other
         for (String mandatory:dto.getMandatory()) {
             TariffOption m=optionDAO.findByName(mandatory);
             Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
@@ -76,7 +76,7 @@ public class OptionService implements OptionServiceI {
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
-        //check if mandatory options are incompatible with each other
+        //check if mandatory optionsNames are incompatible with each other
         for (String mandatory:dto.getMandatory()) {
             TariffOption m=optionDAO.findByName(mandatory);
             Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
@@ -147,11 +147,6 @@ public class OptionService implements OptionServiceI {
     @Override
     public List<String> getAllNames() {
         return optionDAO.getAllNames();
-    }
-
-    @Override
-    public List<String> getAllActiveNames(){
-        return optionDAO.getAllActiveNames();
     }
 
     @Override

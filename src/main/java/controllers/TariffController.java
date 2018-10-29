@@ -114,12 +114,12 @@ public class TariffController {
 
     private void buildModelForCreate(Model model, TariffDTO dto) {
         model.addAttribute("tariff", dto);
-        model.addAttribute("all", optionService.getAllActiveNames());
+        model.addAttribute("all", optionService.getAllNames());
     }
 
     private void buildModelForUpdate(Model model,TariffDTO dto){
         model.addAttribute("editedTariff",dto);
-        List<String> map = optionService.getAllNames(); //do not include archived options
+        List<String> map = optionService.getAllNames(); //do not include archived optionsNames
         model.addAttribute("all",map);
     }
 

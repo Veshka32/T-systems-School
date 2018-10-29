@@ -119,7 +119,7 @@
     </table>
 
     <form action="createContract" method="get">
-        <input type="hidden" name="id" value=${client.id}>
+        <input type="hidden" name="clientId" value=${client.id}>
         <input type="submit" value="Create contract" class="btn btn-warning"></form>
     <br>
 

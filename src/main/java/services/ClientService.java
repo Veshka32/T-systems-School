@@ -29,6 +29,10 @@ public class ClientService {
         return clientDAO.findOne(id);
     }
 
+    public Client findByPassport(String passport){
+        return clientDAO.findByPassportId(passport);
+    }
+
     public void create(ClientDTO dto) throws ServiceException{
         if (clientDAO.isPassportExist(dto.getPassportId()))
             throw new ServiceException("such a passport Id already exists");

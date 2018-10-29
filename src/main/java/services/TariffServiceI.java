@@ -19,8 +19,7 @@ import java.util.List;
      Tariff findByName(String name);
 
      List<Tariff> getAll();
-
-     List<TariffOption> getTariffOptions(int id);
+     List<String> getAllNames();
 
     TariffTransfer getTransferForEdit(int id);
 }

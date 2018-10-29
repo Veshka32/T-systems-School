@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Client;
 import entities.dto.ClientDTO;
+import entities.dto.Passport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,11 +51,26 @@ public class ClientController {
             return "management/client/client-management";
         }
 
-        Client client;
-        try{
-            client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
-        } catch (NoResultException e){
+        Client client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
+        if (client==null){
             model.addAttribute(MODEL_MESSAGE,"phone number doesn't exist");
+            return "management/client/client-management";
+        }
+        model.addAttribute("client",client);
+        model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
+        return SAVE;
+    }
+
+    @PostMapping("/management/findClientByPassport")
+    public String find(@Valid Passport passport, BindingResult result, Model model){
+        if (result.hasErrors()){
+            model.addAttribute("passport",passport);
+            return "management/client/client-management";
+        }
+
+        Client client=clientService.findByPassport(passport.getPassport());
+        if (client==null){
+            model.addAttribute(MODEL_MESSAGE,"passport id doesn't exist");
             return "management/client/client-management";
         }
         model.addAttribute("client",client);
@@ -125,5 +141,10 @@ public class ClientController {
     @ModelAttribute("phone")
     public Phone getPhone() {
         return new Phone();
+    }
+
+    @ModelAttribute("passport")
+    public Passport passport() {
+        return new Passport();
     }
 }

@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Create contract</title>
+    <title>Contract</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -43,27 +43,44 @@
 </form>
 
 <div class="container">
-    <h3>Create contract</h3>
-    <p class="bg-danger">${message}</p>
-<form:form method="POST" modelAttribute="contract">
+    <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
+    <h3>Contract details</h3>
+    <table class="table table-striped">
+        <thead>
+        <th style="width:20%"></th>
+        <th style="width:80%"></th>
+        </thead>
+        <tbody>
+        <tr>
+            <td >Id:</td>
+            <td>${contract.id} </td>
+        </tr>
+        <tr>
+            <td>Phone:</td>
+            <td>${contract.number} </td>
+        </tr>
+        <tr>
+            <td>Tariff:</td>
+            <td>${contract.tariff.toString()} </td>
+        </tr>
+        <tr>
+            <td>Is blocked:</td>
+            <td>${contract.blocked} </td>
+        </tr>
+        <tr>
+            <td>Is blocked by admin:</td>
+            <td>${contract.blockedByAdmin} </td>
+        </tr>
+        <tr>
+            <td>Owner:</td>
+            <td>${contract.owner.toString()} </td>
+        </tr>
+        </tbody>
+    </table>
 
-    <div class="form-group">
-        <label for="tr">Choose tariff:</label>
-        <form:select path="tariffName" items="${allTariffs}" class="form-control" id="tr"/>
-    </div>
-
-    <label for="opt">Set options:</label>
-    <div class="form-check form-check-inline" id="opt">
-        <c:forEach items="${allOptions}" var="item">
-        <form:checkbox path="optionsNames" value="${item}" class="form-check" id="inc"/>
-        <label class="form-check-label" for=inc>${item}</label>
-    </c:forEach></div>
-
-        <form:hidden path="ownerId" value="${contract.ownerId}"/>
-
-    <input type="submit" value="Save" class="btn btn-success"/>
-    </form:form>
-    <br>
-
+    <form action="editContract" method="get">
+        <input type="hidden" name="id" value=${contract.id}>
+        <input type="submit" value="Edit" class="btn btn-warning"></form>
+</div>
 </body>
 </html>
