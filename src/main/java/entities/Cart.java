@@ -15,22 +15,30 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Cart {
+public class Cart implements CartInterface {
     Set<TariffOption> options=new HashSet<>();
     int totalSum;
 
+    @Override
     public void addItem(TariffOption option){
         if (options.add(option)) //return true if this set did not already contain the specified element
             totalSum+=option.getSubscribeCost();
     }
 
+    @Override
     public void deleteItem(TariffOption option){
         if (options.remove(option))
             totalSum-=option.getSubscribeCost();
     }
 
+    @Override
     public void clear(){
         options.clear();
         totalSum=0;
+    }
+
+    @Override
+    public boolean isEmpty(){
+        return options.isEmpty();
     }
 }

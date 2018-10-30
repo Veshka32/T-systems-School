@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Cart;
+import entities.CartInterface;
 import entities.Contract;
 import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserCabinet {
     OptionServiceI optionServiceI;
 
     @Autowired
-    Cart cart;
+    CartInterface cart;
 
     @RequestMapping("/user/cabinet")
     public String create(Model model, Principal user) {
@@ -44,6 +45,7 @@ public class UserCabinet {
         contract=contractService.getFull(contract.getId());
         model.addAttribute("contract", contract);
         model.addAttribute("availableOptions", optionServiceI.getAll());
+        model.addAttribute("cart",cart);
         return CABINET;
     }
 
@@ -99,14 +101,14 @@ public class UserCabinet {
         model.addAttribute("cart",cart);
         model.addAttribute("contract",contract);
         model.addAttribute("availableOptions", optionServiceI.getAll());
-        return CABINET;
+        return "redirect:/user/cabinet";
     }
 
     @GetMapping("user/buy")
     public String buy(@ModelAttribute("contract") Contract contract) {
         contractService.addOptions(contract.getId(),cart.getOptions());
         cart.clear();
-        return "redirect:user/cabinet";
+        return "redirect:/user/cabinet";
     }
 
     @GetMapping("user/deleteFromCart/{optionId}")
@@ -115,6 +117,5 @@ public class UserCabinet {
         model.addAttribute("cart",cart);
         model.addAttribute("contract",contract);
         model.addAttribute("availableOptions", optionServiceI.getAll());
-        return CABINET;
-    }
+        return "redirect:/user/cabinet";    }
 }

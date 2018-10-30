@@ -11,8 +11,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         .logo-small {
-            font-size: 25px;
+            font-size: 15px;
         }
+
     </style>
 </head>
 <body>
@@ -24,6 +25,8 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="cabinet">Cabinet</a></li>
+            <li class="active"><a href="showTariffs">Tariffs</a></li>
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -79,14 +82,18 @@
                 <div class="panel-heading text-left">Cart:<span class="glyphicon glyphicon-shopping-cart pull-right logo-small"></span></div>
                 <div class="panel-body text-left">
                     <c:forEach items="${cart.options}" var="opt">
-                        ${opt.name}:  <span class="pull-right">${opt.subscribeCost} cents</span>
-                        <a href="deleteFromCart/${opt.id}"><span class="glyphicon glyphicon-remove-circle logo-small pull-right"></span></a><br>
+                        ${opt.name}:  <span class="pull-right">${opt.subscribeCost} cents <a href="deleteFromCart/${opt.id}"><span class="glyphicon glyphicon-remove-circle logo-small"></span></a></span><br>
                     </c:forEach>
                 </div>
                 <div class="panel-footer text-left">
-                    <a href="buy" role="button"
-                       class="btn btn-success">Buy</a>
-                    <span class="pull-right">Total: ${cart.totalSum} cents</span></div>
+                    Total: ${cart.totalSum} cents
+                    <c:choose>
+                        <c:when test="${cart.isEmpty()}"><div class="text-right">
+                            <a href="buy" role="button" class="btn btn-success disabled">Buy</a>
+                        </div></c:when>
+                        <c:otherwise><div class="text-right"><a href="buy" role="button" class="btn btn-success">Buy</a></div></c:otherwise>
+                    </c:choose>
+                    </div>
             </div>
         </div>
     </div>
