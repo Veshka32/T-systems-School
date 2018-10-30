@@ -60,7 +60,7 @@
                                                                       class="btn btn-success">Unblock
                                     number</a></c:when>
                                 <c:otherwise><a href="block" role="button" class="btn btn-danger">Block number</a>
-                                    <a href="changeTariff" role="button" class="btn btn-info">Change tariff</a>
+                                    <a href="showTariffs" role="button" class="btn btn-info">Change tariff</a>
                                 </c:otherwise>
                             </c:choose>
                         </c:otherwise>
@@ -96,6 +96,25 @@
                     </div>
                     <div class="panel-footer">
                         <a href="deleteOption/${option.id}" role="button" class="btn btn-info">Delete option</a>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    <%--Available options--%>
+    <h4>Available options:</h4>
+    <div class="row" id="options">
+        <c:forEach items="${availableOptions}" var="option">
+            <div class="col-sm-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">${option.name}</div>
+                    <div class="panel-body">
+                            ${option.description}<br>
+                            ${option.price} per month<br>
+                            ${option.subscribeCost} for subscribe
+                    </div>
+                    <div class="panel-footer">
+                        <a href="getOption/${option.id}" role="button" class="btn btn-info">Get option</a>
                     </div>
                 </div>
             </div>

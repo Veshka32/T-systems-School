@@ -1,4 +1,4 @@
-package services;
+package services.implementations;
 
 import entities.MyUser;
 import entities.Role;
@@ -8,12 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.GenericDAO;
-import repositories.IGenericDAO;
-import repositories.UserDAO;
+import repositories.implementations.UserDAO;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,15 +1,15 @@
-package services;
+package services.implementations;
 
-import entities.Client;
 import entities.NumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.GenericDAO;
-import repositories.IGenericDAO;
+import repositories.implementations.GenericDAO;
+import repositories.interfaces.IGenericDAO;
+import services.interfaces.PhoneNumberServiceI;
 
 @Service
-public class PhoneNumberService {
+public class PhoneNumberService implements PhoneNumberServiceI {
     IGenericDAO<NumberGenerator>  numberGeneratorDAO;
     private static final int GENERATOR_ID=1;
 
@@ -19,6 +19,7 @@ public class PhoneNumberService {
         numberGeneratorDAO.setClass(NumberGenerator.class);
     }
 
+    @Override
     @Transactional
     public long getNext(){
         NumberGenerator generator=numberGeneratorDAO.findOne(GENERATOR_ID);

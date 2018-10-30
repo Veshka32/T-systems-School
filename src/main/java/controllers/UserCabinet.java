@@ -1,20 +1,16 @@
 package controllers;
 
 import entities.Contract;
-import entities.Tariff;
-import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import services.ClientService;
-import services.ContractService;
-import services.ServiceException;
-import services.TariffServiceI;
+import services.*;
+import services.implementations.ContractService;
+import services.interfaces.OptionServiceI;
+import services.interfaces.TariffServiceI;
 
-import javax.sql.rowset.serial.SerialException;
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class UserCabinet {
@@ -24,12 +20,16 @@ public class UserCabinet {
     @Autowired
     TariffServiceI tariffServiceI;
 
+    @Autowired
+    OptionServiceI optionServiceI;
+
     @RequestMapping("/user/cabinet")
     public String create(Model model, Principal user){
         Contract contract=contractService.getFull(Long.parseLong(user.getName()));
         model.addAttribute("contract",contract);
         model.addAttribute("tariffOptions",contract.getTariff().getOptions());
         model.addAttribute("contractOptions",contract.getOptions());
+        model.addAttribute("availableOptions",optionServiceI.getAll());
         return "user/user-cabinet";
     }
 
@@ -50,9 +50,16 @@ public class UserCabinet {
         return "redirect:/user/cabinet";
     }
 
-    @GetMapping("/user/changeTariff")
-    public String changeTariff(Principal user){
-        return "redirect:/user/cabinet/tariffsToChange";
+    @GetMapping("/user/showTariffs")
+    public String changeTariff(Model model){
+        model.addAttribute("allTariffs",tariffServiceI.getAll());
+        return "user/user-tariffs";
+    }
+
+    @GetMapping("/user/getTariff/{tariffId}")
+    public String getTariff(Principal user, @PathVariable int tariffId, Model model){
+        contractService.setTariff(Long.parseLong(user.getName()),tariffId);
+        return "redirect:/user/cabinet";
     }
 
     @GetMapping("/user/deleteOption/{optionId}")

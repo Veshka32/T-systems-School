@@ -1,14 +1,15 @@
-package repositories;
+package repositories.implementations;
 
 import entities.Client;
-import entities.Contract;
 import org.springframework.stereotype.Repository;
+import repositories.implementations.GenericDAO;
+import repositories.interfaces.ClientDaoI;
 
 import javax.persistence.NoResultException;
-import java.util.List;
 
 @Repository
-public class ClientDAO extends GenericDAO<Client>{
+public class ClientDAO extends GenericDAO<Client> implements ClientDaoI {
+    @Override
     public boolean isPassportExist(String id) {
         try {
             sessionFactory.getCurrentSession().createNamedQuery("is_passport_exists")
@@ -20,6 +21,7 @@ public class ClientDAO extends GenericDAO<Client>{
         return true;
     }
 
+    @Override
     public boolean isEmailExists(String email) {
         try {
             sessionFactory.getCurrentSession().createNamedQuery("is_email_exists")
@@ -31,6 +33,7 @@ public class ClientDAO extends GenericDAO<Client>{
         return true;
     }
 
+    @Override
     public Client findByPassportId(String passport){
         try {
             return sessionFactory.getCurrentSession().createNamedQuery("find_by_passport",Client.class)
@@ -41,6 +44,7 @@ public class ClientDAO extends GenericDAO<Client>{
         }
     }
 
+    @Override
     public Client findByEmail(String email){
         try {
             return sessionFactory.getCurrentSession().createNamedQuery("find_by_email",Client.class)

@@ -1,16 +1,16 @@
-package repositories;
+package repositories.implementations;
 
 import entities.MyUser;
-import entities.Tariff;
-import entities.TariffOption;
 import org.springframework.stereotype.Repository;
+import repositories.implementations.GenericDAO;
+import repositories.interfaces.UserDaoI;
 
 import javax.persistence.NoResultException;
-import java.util.List;
 
 @Repository
-public class UserDAO extends GenericDAO<MyUser>{
+public class UserDAO extends GenericDAO<MyUser> implements UserDaoI {
 
+    @Override
     public MyUser findByLogin(String login){
         try{return sessionFactory.getCurrentSession()
                 .createNamedQuery("find_user_by_login",MyUser.class)

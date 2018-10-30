@@ -1,4 +1,4 @@
-package services;
+package services.implementations;
 
 import entities.Tariff;
 import entities.TariffOption;
@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.TariffDAO;
-import repositories.TariffOptionDAO;
+import repositories.implementations.TariffDAO;
+import repositories.implementations.TariffOptionDAO;
+import services.ServiceException;
+import services.interfaces.TariffServiceI;
 
 import java.util.List;
 import java.util.Optional;

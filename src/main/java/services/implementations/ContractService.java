@@ -1,4 +1,4 @@
-package services;
+package services.implementations;
 
 import entities.Client;
 import entities.Contract;
@@ -9,10 +9,12 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.ClientDAO;
-import repositories.ContractDAO;
-import repositories.TariffDAO;
-import repositories.TariffOptionDAO;
+import repositories.implementations.ClientDAO;
+import repositories.implementations.ContractDAO;
+import repositories.implementations.TariffDAO;
+import repositories.implementations.TariffOptionDAO;
+import services.ServiceException;
+import services.interfaces.ContractServiceI;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ContractService {
+public class ContractService implements ContractServiceI {
     @Autowired
     ContractDAO  contractDAO;
 
@@ -38,18 +40,22 @@ public class ContractService {
     @Autowired
     PhoneNumberService phoneNumberService;
 
+    @Override
     public Client findClientByPhone(long phone) {
         return contractDAO.findClientByPhone(phone);
     }
 
+    @Override
     public Contract findByPhone(long phone){
         return contractDAO.findByPhone(phone);
     }
 
+    @Override
     public Contract get(int id){
         return contractDAO.findOne(id);
     }
 
+    @Override
     public ContractDTO getDTO(int id){
         Contract contract=contractDAO.findOne(id);
         ContractDTO dto= new ContractDTO(contractDAO.findOne(id));
@@ -58,7 +64,8 @@ public class ContractService {
         return dto;
     }
 
-    public void create(ContractDTO dto) throws ServiceException{
+    @Override
+    public void create(ContractDTO dto) throws ServiceException {
         Tariff tariff=tariffDAO.findByName(dto.getTariffName());
         Set<TariffOption> options=tariff.getOptions();
         List<TariffOption> extra=dto.getOptionsNames().stream()
@@ -93,6 +100,7 @@ public class ContractService {
         dto.setNumber(contract.getNumber()+"");
     }
 
+    @Override
     public void update(ContractDTO dto) throws ServiceException{
         Tariff tariff=tariffDAO.findByName(dto.getTariffName());
         Set<TariffOption> options=tariff.getOptions();
@@ -126,29 +134,35 @@ public class ContractService {
         contractDAO.update(contract);
     }
 
+    @Override
     public void delete(int id){
         contractDAO.deleteById(id);
     }
 
+    @Override
     public void block(long phone){
         Contract contract=contractDAO.findByPhone(phone);
         if (!contract.isBlocked() && !contract.isBlockedByAdmin())
             contract.setBlocked(true);
     }
 
+    @Override
     public void unblock(long phone){
         Contract contract=contractDAO.findByPhone(phone);
         if (!contract.isBlockedByAdmin() && contract.isBlocked())
             contract.setBlocked(false);
     }
 
+    @Override
     public List<Contract> getAllClientContracts(int clientId) {
         return contractDAO.getClientContracts(clientId);
     }
+    @Override
     public List<Contract> getAll() {
         return contractDAO.findAll();
     }
 
+    @Override
     public Contract getFull(long phone){
         Contract contract=contractDAO.findByPhone(phone);
         Hibernate.initialize(contract.getTariff().getOptions());
@@ -156,12 +170,21 @@ public class ContractService {
         return contract;
     }
 
+    @Override
     public void deleteOption(long phone, int optionId) throws ServiceException{
         Contract contract=contractDAO.findByPhone(phone);
         TariffOption option=tariffOptionDAO.findOne(optionId);
         Optional<TariffOption> any=contract.getOptions().stream().filter(o-> option.getMandatoryOptions().contains(option)).findFirst();
         if (any.isPresent()) throw new ServiceException("Option "+option.getName()+" is mandatory for option"+any.get().getName());
         contract.getOptions().remove(option);
+        contractDAO.update(contract);
+    }
+
+    @Override
+    public void setTariff(long phone, int tariffId){
+        Contract contract=contractDAO.findByPhone(phone);
+        Tariff tariff=tariffDAO.findOne(tariffId);
+        contract.setTariff(tariff);
         contractDAO.update(contract);
     }
 }

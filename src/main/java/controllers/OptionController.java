@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ServiceException;
-import services.OptionServiceI;
+import services.interfaces.OptionServiceI;
 
 import javax.validation.Valid;
 import java.util.List;

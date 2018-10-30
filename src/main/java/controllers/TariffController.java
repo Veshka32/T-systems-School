@@ -10,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.OptionServiceI;
+import services.interfaces.OptionServiceI;
 import services.ServiceException;
-import services.TariffServiceI;
+import services.interfaces.TariffServiceI;
 
 import javax.validation.Valid;
 import java.util.List;

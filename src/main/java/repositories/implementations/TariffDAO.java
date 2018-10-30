@@ -1,25 +1,30 @@
-package repositories;
+package repositories.implementations;
 
 import entities.Tariff;
 import entities.TariffOption;
 import org.springframework.stereotype.Repository;
+import repositories.implementations.GenericDAO;
+import repositories.interfaces.TariffDaoI;
 
 import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
-public class TariffDAO extends GenericDAO<Tariff>{
+public class TariffDAO extends GenericDAO<Tariff> implements TariffDaoI {
+    @Override
     public List<TariffOption> getOptions(int tariffId){
         return sessionFactory.getCurrentSession().createNamedQuery("get_options", TariffOption.class)
         .setParameter("id",tariffId)
         .getResultList();
     }
 
+    @Override
     public List<String> getAllNames() {
         return (List<String>)sessionFactory.getCurrentSession().createQuery("select t.name from Tariff t")
                 .getResultList();
     }
 
+    @Override
     public boolean isNameExist(String name) {
         try {
             sessionFactory.getCurrentSession().createNamedQuery("is_tariffName_exists")
@@ -33,6 +38,7 @@ public class TariffDAO extends GenericDAO<Tariff>{
 
 
 
+    @Override
     public Tariff findByName(String name){
         try {
             return sessionFactory.getCurrentSession()
@@ -44,6 +50,7 @@ public class TariffDAO extends GenericDAO<Tariff>{
         }
     }
 
+    @Override
     public boolean isUsed(int id){
         return !sessionFactory.getCurrentSession()
                 .createNamedQuery("is_used")
