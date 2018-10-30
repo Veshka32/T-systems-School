@@ -11,12 +11,6 @@ import java.util.List;
 
 @Repository
 public class TariffDAO extends GenericDAO<Tariff> implements TariffDaoI {
-    @Override
-    public List<TariffOption> getOptions(int tariffId){
-        return sessionFactory.getCurrentSession().createNamedQuery("get_options", TariffOption.class)
-        .setParameter("id",tariffId)
-        .getResultList();
-    }
 
     @Override
     public List<String> getAllNames() {
@@ -35,8 +29,6 @@ public class TariffDAO extends GenericDAO<Tariff> implements TariffDaoI {
         }
         return true;
     }
-
-
 
     @Override
     public Tariff findByName(String name){

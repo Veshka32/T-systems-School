@@ -2,10 +2,13 @@ package services.interfaces;
 
 import entities.Client;
 import entities.Contract;
+import entities.TariffOption;
 import entities.dto.ContractDTO;
 import services.ServiceException;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface ContractServiceI {
     Client findClientByPhone(long phone);
@@ -22,17 +25,19 @@ public interface ContractServiceI {
 
     void delete(int id);
 
-    void block(long phone);
+    void block(int id);
 
-    void unblock(long phone);
+    void unblock(int id);
 
     List<Contract> getAllClientContracts(int clientId);
 
     List<Contract> getAll();
 
-    Contract getFull(long phone);
+    Contract getFull(int id);
 
-    void deleteOption(long phone, int optionId) throws ServiceException;
+    void addOptions(int id,Collection<TariffOption> options);
+
+    void deleteOption(int id, int optionId) throws ServiceException;
 
     void setTariff(long phone, int tariffId);
 }

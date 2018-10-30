@@ -8,7 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.implementations.UserDAO;
+import repositories.interfaces.UserDaoI;
 import services.ServiceException;
+import services.interfaces.ContractServiceI;
 import services.interfaces.MyUserServiceI;
 
 @Service
@@ -16,10 +18,10 @@ import services.interfaces.MyUserServiceI;
 public class MyUserService implements MyUserServiceI {
 
     @Autowired
-    UserDAO userDAO;
+    UserDaoI userDAO;
 
     @Autowired
-    ContractService contractService;
+    ContractServiceI contractService;
 
     @Autowired
     PasswordEncoder passwordEncoder;

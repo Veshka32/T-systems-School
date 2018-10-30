@@ -14,7 +14,7 @@ public class PhoneNumberService implements PhoneNumberServiceI {
     private static final int GENERATOR_ID=1;
 
     @Autowired
-    public void setOptionDAO(GenericDAO<NumberGenerator> numberGeneratorDAO ) {
+    public void setOptionDAO(IGenericDAO<NumberGenerator> numberGeneratorDAO ) {
         this.numberGeneratorDAO=numberGeneratorDAO;
         numberGeneratorDAO.setClass(NumberGenerator.class);
     }

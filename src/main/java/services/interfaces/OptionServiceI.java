@@ -11,6 +11,8 @@ public interface OptionServiceI {
 
     void create(TariffOptionDTO dto) throws ServiceException;
 
+    TariffOption get(int id);
+
     void update(TariffOptionDTO option) throws ServiceException;
 
     void delete(int id) throws ServiceException;
@@ -22,6 +24,4 @@ public interface OptionServiceI {
     List<String> getAllNames();
 
     TariffOption getFull(int id);
-
-    TariffOption findByName(String name);
 }

@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .logo-small {
+            font-size: 25px;
+        }
+    </style>
 </head>
 <body>
 
@@ -35,9 +40,10 @@
 </form>
 
 <div class="container">
+    <%--Tariff and cart--%>
     <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-info">
+            <div class="panel panel-primary">
                 <div class="panel-heading">Phone number: ${contract.number}
                     <c:if test="${contract.blocked}">
                         <span class="label label-danger right-pill">Blocked</span>
@@ -57,8 +63,7 @@
                         <c:otherwise>
                             <c:choose>
                                 <c:when test="${contract.blocked}"><a href="unblock" role="button"
-                                                                      class="btn btn-success">Unblock
-                                    number</a></c:when>
+                                                                      class="btn btn-success">Unblock number</a></c:when>
                                 <c:otherwise><a href="block" role="button" class="btn btn-danger">Block number</a>
                                     <a href="showTariffs" role="button" class="btn btn-info">Change tariff</a>
                                 </c:otherwise>
@@ -69,12 +74,26 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-left">Cart:<span class="glyphicon glyphicon-shopping-cart pull-right logo-small"></span></div>
+                <div class="panel-body text-left">
+                    <c:forEach items="${cart.options}" var="opt">
+                        ${opt.name}:  <span class="pull-right">${opt.subscribeCost} cents</span>
+                        <a href="deleteFromCart/${opt.id}"><span class="glyphicon glyphicon-remove-circle logo-small pull-right"></span></a><br>
+                    </c:forEach>
+                </div>
+                <div class="panel-footer text-left">
+                    <a href="buy" role="button"
+                       class="btn btn-success">Buy</a>
+                    <span class="pull-right">Total: ${cart.totalSum} cents</span></div>
+            </div>
+        </div>
     </div>
     <%--Options--%>
     <h4>Active options:</h4>
     <div class="row">
-        <c:forEach items="${tariffOptions}" var="option">
+        <c:forEach items="${contract.tariff.options}" var="option">
             <div class="col-sm-4">
                 <div class="panel panel-info">
                     <div class="panel-heading">${option.name}</div>
@@ -86,7 +105,7 @@
                 </div>
             </div>
         </c:forEach>
-        <c:forEach items="${contractOptions}" var="option">
+        <c:forEach items="${contract.options}" var="option">
             <div class="col-sm-4">
                 <div class="panel panel-info">
                     <div class="panel-heading">${option.name}</div>
@@ -114,7 +133,7 @@
                             ${option.subscribeCost} for subscribe
                     </div>
                     <div class="panel-footer">
-                        <a href="getOption/${option.id}" role="button" class="btn btn-info">Get option</a>
+                        <a href="addOptionToCart/${option.id}" role="button" class="btn btn-info">Get option</a>
                     </div>
                 </div>
             </div>

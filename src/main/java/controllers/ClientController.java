@@ -13,6 +13,9 @@ import services.implementations.ClientService;
 import services.implementations.ContractService;
 import entities.dto.Phone;
 import services.ServiceException;
+import services.interfaces.ClientServiceI;
+import services.interfaces.ContractServiceI;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -26,10 +29,10 @@ public class ClientController {
     private static final String MANAGEMENT="management/client/client-management";
 
     @Autowired
-    ClientService clientService;
+    ClientServiceI clientService;
 
     @Autowired
-    ContractService contractService;
+    ContractServiceI contractService;
 
     @RequestMapping("/management/clients")
     public String show(){return MANAGEMENT;

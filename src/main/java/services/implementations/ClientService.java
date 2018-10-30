@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.implementations.ClientDAO;
 import repositories.implementations.ContractDAO;
+import repositories.interfaces.ClientDaoI;
+import repositories.interfaces.ContractDaoI;
 import services.ServiceException;
 import services.interfaces.ClientServiceI;
 
@@ -16,11 +18,11 @@ import java.util.List;
 @Service
 @Transactional
 public class ClientService implements ClientServiceI {
-    private ClientDAO  clientDAO;
-    private ContractDAO contractDAO;
+    private ClientDaoI clientDAO;
+    private ContractDaoI contractDAO;
 
     @Autowired
-    public void setDAO(ClientDAO clientDAO, ContractDAO contractDAO) {
+    public void setDAO(ClientDaoI clientDAO, ContractDaoI contractDAO) {
         this.clientDAO = clientDAO;
         this.contractDAO=contractDAO;
         this.contractDAO.setClass(Contract.class);

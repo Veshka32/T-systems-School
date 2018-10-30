@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.implementations.UserDAO;
+import repositories.interfaces.UserDaoI;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,21 +23,18 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    UserDAO userDAO;
+    UserDaoI userDAO;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String username) {
 
         MyUser user = userDAO.findByLogin(username);
-        List<GrantedAuthority> authorities =
-                buildUserAuthority(user.getRoles());
-
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }
 
-    private User buildUserForAuthentication(MyUser user,
-                                            List<GrantedAuthority> authorities) {
+    private User buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
         return new User(user.getLogin(), user.getPassword(), authorities);
     }
 

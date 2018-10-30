@@ -13,32 +13,34 @@ import repositories.implementations.ClientDAO;
 import repositories.implementations.ContractDAO;
 import repositories.implementations.TariffDAO;
 import repositories.implementations.TariffOptionDAO;
+import repositories.interfaces.ClientDaoI;
+import repositories.interfaces.ContractDaoI;
+import repositories.interfaces.TariffDaoI;
+import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
+import services.interfaces.PhoneNumberServiceI;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class ContractService implements ContractServiceI {
     @Autowired
-    ContractDAO  contractDAO;
+    ContractDaoI contractDAO;
 
     @Autowired
-    TariffDAO tariffDAO;
+    TariffDaoI tariffDAO;
 
     @Autowired
-    TariffOptionDAO tariffOptionDAO;
+    TariffOptionDaoI tariffOptionDAO;
 
     @Autowired
-    ClientDAO clientDAO;
+    ClientDaoI clientDAO;
 
     @Autowired
-    PhoneNumberService phoneNumberService;
+    PhoneNumberServiceI phoneNumberService;
 
     @Override
     public Client findClientByPhone(long phone) {
@@ -140,15 +142,15 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public void block(long phone){
-        Contract contract=contractDAO.findByPhone(phone);
+    public void block(int id){
+        Contract contract=contractDAO.findOne(id);
         if (!contract.isBlocked() && !contract.isBlockedByAdmin())
             contract.setBlocked(true);
     }
 
     @Override
-    public void unblock(long phone){
-        Contract contract=contractDAO.findByPhone(phone);
+    public void unblock(int id){
+        Contract contract=contractDAO.findOne(id);
         if (!contract.isBlockedByAdmin() && contract.isBlocked())
             contract.setBlocked(false);
     }
@@ -163,16 +165,23 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public Contract getFull(long phone){
-        Contract contract=contractDAO.findByPhone(phone);
+    public Contract getFull(int id){
+        Contract contract=contractDAO.findOne(id);
         Hibernate.initialize(contract.getTariff().getOptions());
         Hibernate.initialize(contract.getOptions());
         return contract;
     }
 
     @Override
-    public void deleteOption(long phone, int optionId) throws ServiceException{
-        Contract contract=contractDAO.findByPhone(phone);
+    public void addOptions(int id,Collection<TariffOption> options) {
+        Contract contract=contractDAO.findOne(id);
+        contract.getOptions().addAll(options);
+        contractDAO.update(contract);
+    }
+
+    @Override
+    public void deleteOption(int id, int optionId) throws ServiceException{
+        Contract contract=contractDAO.findOne(id);
         TariffOption option=tariffOptionDAO.findOne(optionId);
         Optional<TariffOption> any=contract.getOptions().stream().filter(o-> option.getMandatoryOptions().contains(option)).findFirst();
         if (any.isPresent()) throw new ServiceException("Option "+option.getName()+" is mandatory for option"+any.get().getName());

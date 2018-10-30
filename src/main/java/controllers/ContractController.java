@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.*;
 import services.implementations.ClientService;
 import services.implementations.ContractService;
+import services.interfaces.ClientServiceI;
+import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
@@ -27,13 +29,13 @@ public class ContractController {
 
 
     @Autowired
-    ContractService contractService;
+    ContractServiceI contractService;
     @Autowired
     TariffServiceI tariffService;
     @Autowired
     OptionServiceI optionService;
     @Autowired
-    ClientService clientService;
+    ClientServiceI clientService;
 
     @PostMapping("/management/findContract")
     public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr, Model model) {

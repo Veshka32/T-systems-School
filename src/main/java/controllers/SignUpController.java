@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.implementations.MyUserService;
 import services.ServiceException;
+import services.interfaces.MyUserServiceI;
 
 
 @Controller
 public class SignUpController {
 
     @Autowired
-    MyUserService userService;
+    MyUserServiceI userService;
 
     @GetMapping(value = "/register")
     public String showRegister(Model model) {

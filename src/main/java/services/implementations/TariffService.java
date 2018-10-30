@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.implementations.TariffDAO;
 import repositories.implementations.TariffOptionDAO;
+import repositories.interfaces.TariffDaoI;
+import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.TariffServiceI;
 
@@ -23,11 +25,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class TariffService implements TariffServiceI {
 
-    private TariffDAO tariffDAO;
-    private TariffOptionDAO optionDAO;
+    private TariffDaoI tariffDAO;
+    private TariffOptionDaoI optionDAO;
 
     @Autowired
-    public void setTariffDAO(TariffDAO tariffDAO, TariffOptionDAO optionDAO) {
+    public void setTariffDAO(TariffDaoI tariffDAO, TariffOptionDaoI optionDAO) {
         this.tariffDAO = tariffDAO;
         this.optionDAO = optionDAO;
         tariffDAO.setClass(Tariff.class);

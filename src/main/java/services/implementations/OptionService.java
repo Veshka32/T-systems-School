@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.implementations.TariffOptionDAO;
+import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.OptionServiceI;
 
@@ -22,12 +23,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class OptionService implements OptionServiceI {
 
-    private TariffOptionDAO optionDAO;
+    private TariffOptionDaoI optionDAO;
     private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible";
     private static final String ERROR_MESSAGE1="Mandatory optionsNames are incompatible";
 
     @Autowired
-    public void setOptionDAO(TariffOptionDAO optionDAO) {
+    public void setOptionDAO(TariffOptionDaoI optionDAO) {
         this.optionDAO = optionDAO;
         optionDAO.setClass(TariffOption.class);
     }
@@ -65,6 +66,11 @@ public class OptionService implements OptionServiceI {
         }
         optionDAO.save(based);
         dto.setId(based.getId());
+    }
+
+    @Override
+    public TariffOption get(int id) {
+        return optionDAO.findOne(id);
     }
 
     @Override
@@ -157,11 +163,6 @@ public class OptionService implements OptionServiceI {
         Hibernate.initialize(tariffOption.getIncompatibleOptions());
         Hibernate.initialize(tariffOption.getMandatoryOptions());
         return tariffOption;
-    }
-
-    @Override
-    public TariffOption findByName(String name) {
-        return optionDAO.findByName(name);
     }
 
     @Override
