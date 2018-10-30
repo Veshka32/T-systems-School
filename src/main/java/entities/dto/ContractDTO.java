@@ -31,6 +31,7 @@ public class ContractDTO {
 
     public ContractDTO(Contract contract){
         this.id=contract.getId();
+        this.number=contract.getNumber()+"";
         this.ownerId=contract.getOwner().getId();
         this.tariffName=contract.getTariff().getName();
         this.isBlocked=contract.isBlocked();

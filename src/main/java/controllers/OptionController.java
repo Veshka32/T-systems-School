@@ -120,6 +120,11 @@ public class OptionController {
 
     private void buildModelForUpdate(Model model,TariffOptionDTO dto,String name){
         model.addAttribute("editedOption",dto);
-        model.addAttribute("all",optionService.getAllNames().remove(name));
+        List<String> all=optionService.getAllNames();
+        /**
+         * TODO optimise removing
+         */
+        all.remove(name);
+        model.addAttribute("all",all);
     }
 }

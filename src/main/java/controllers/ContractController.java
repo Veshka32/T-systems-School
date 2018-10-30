@@ -52,7 +52,7 @@ public class ContractController {
 
     @GetMapping("/management/showContract")
     public String show(@RequestParam("id") int id, Model model) {
-        Contract contract = contractService.get(id);
+        ContractDTO contract = contractService.getDTO(id);
         model.addAttribute("contract", contract);
         return "management/contract/show-contract";
     }
@@ -84,8 +84,14 @@ public class ContractController {
                              Model model) {
 
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
+        /**
+         * TODO make Transfer object
+         */
         ContractDTO dto = contractService.getDTO(id);
         model.addAttribute("editedContract", dto);
+        List<String> newOptions=optionService.getAllNames();
+        newOptions.removeIf(o->dto.getOptionsNames().contains(o));
+        model.addAttribute("allOptions",newOptions);
         return "management/contract/edit-contract";
     }
 

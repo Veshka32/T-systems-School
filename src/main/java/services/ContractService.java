@@ -5,6 +5,7 @@ import entities.Contract;
 import entities.Tariff;
 import entities.TariffOption;
 import entities.dto.ContractDTO;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,6 +130,18 @@ public class ContractService {
         contractDAO.deleteById(id);
     }
 
+    public void block(long phone){
+        Contract contract=contractDAO.findByPhone(phone);
+        if (!contract.isBlocked() && !contract.isBlockedByAdmin())
+            contract.setBlocked(true);
+    }
+
+    public void unblock(long phone){
+        Contract contract=contractDAO.findByPhone(phone);
+        if (!contract.isBlockedByAdmin() && contract.isBlocked())
+            contract.setBlocked(false);
+    }
+
     public List<Contract> getAllClientContracts(int clientId) {
         return contractDAO.getClientContracts(clientId);
     }
@@ -136,4 +149,19 @@ public class ContractService {
         return contractDAO.findAll();
     }
 
+    public Contract getFull(long phone){
+        Contract contract=contractDAO.findByPhone(phone);
+        Hibernate.initialize(contract.getTariff().getOptions());
+        Hibernate.initialize(contract.getOptions());
+        return contract;
+    }
+
+    public void deleteOption(long phone, int optionId) throws ServiceException{
+        Contract contract=contractDAO.findByPhone(phone);
+        TariffOption option=tariffOptionDAO.findOne(optionId);
+        Optional<TariffOption> any=contract.getOptions().stream().filter(o-> option.getMandatoryOptions().contains(option)).findFirst();
+        if (any.isPresent()) throw new ServiceException("Option "+option.getName()+" is mandatory for option"+any.get().getName());
+        contract.getOptions().remove(option);
+        contractDAO.update(contract);
+    }
 }

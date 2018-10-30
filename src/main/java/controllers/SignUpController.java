@@ -30,7 +30,7 @@ public class SignUpController {
             model.addAttribute("message",e.getMessage());
             return "sign-up";
         }
-        attr.addAttribute("id",user.getClient().getId());
+        attr.addAttribute("id",user.getContract().getId());
         return "redirect:/user/cabinet";
     }
 

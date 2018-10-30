@@ -69,8 +69,8 @@
                 <td>${contract.number}</td>
                 <td>${contract.tariff.toString()}</td>
                 <td>${contract.owner.toString()}</td>
-                <td>${contarct.isBlocked}</td
-                <td>${contarct.isBlockedByAdmin}</td
+                <td>${contract.blocked}</td>
+                <td>${contract.blockedByAdmin}</td>
                 <td>
                     <form action="editContract" method="get">
                         <input type="hidden" name="id" value=${contract.id}>

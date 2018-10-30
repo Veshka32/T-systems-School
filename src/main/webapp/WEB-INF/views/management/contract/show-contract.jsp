@@ -44,7 +44,7 @@
 
 <div class="container">
     <span class="pull-right"><form action="showClient" method="get">
-        <input type="hidden" name="id" value=${contract.owner.id}>
+        <input type="hidden" name="id" value=${contract.ownerId}>
         <input type="submit" value="Back to client" class="btn btn-info"></form></span>
     <h3>Contract details</h3>
     <table class="table table-striped">
@@ -63,7 +63,11 @@
         </tr>
         <tr>
             <td>Tariff:</td>
-            <td>${contract.tariff.toString()} </td>
+            <td>${contract.tariffName} </td>
+        </tr>
+        <tr>
+            <td>Options:</td>
+            <td>${contract.optionsNames} </td>
         </tr>
         <tr>
             <td>Is blocked:</td>
@@ -75,7 +79,7 @@
         </tr>
         <tr>
             <td>Owner:</td>
-            <td>${contract.owner.toString()} </td>
+            <td>${contract.ownerId}</td>
         </tr>
         </tbody>
     </table>

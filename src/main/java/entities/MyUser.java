@@ -32,8 +32,8 @@ public class MyUser extends AbstractEntity {
             joinColumns = { @JoinColumn(name = "user_id") })
     private Set<Role> roles=new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Client client;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Contract contract;
 
     public void setRole(Role role){
         roles.add(role);
