@@ -16,8 +16,9 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class Cart implements CartInterface {
-    Set<TariffOption> options=new HashSet<>();
-    int totalSum;
+    private Set<TariffOption> options=new HashSet<>();
+    private int totalSum;
+    private int contractId;
 
     @Override
     public void addItem(TariffOption option){

@@ -190,8 +190,8 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public void setTariff(long phone, int tariffId){
-        Contract contract=contractDAO.findByPhone(phone);
+    public void setTariff(int id, int tariffId){
+        Contract contract=contractDAO.findOne(id);
         Tariff tariff=tariffDAO.findOne(tariffId);
         contract.setTariff(tariff);
         contractDAO.update(contract);

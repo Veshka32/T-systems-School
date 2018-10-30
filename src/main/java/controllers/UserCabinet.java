@@ -1,40 +1,34 @@
 package controllers;
 
-import entities.Cart;
 import entities.CartInterface;
 import entities.Contract;
-import entities.TariffOption;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.support.SessionStatus;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Set;
 
 @Controller
 public class UserCabinet {
 
     private static final String CABINET="user/user-cabinet";
+    private static final String REDIRECT_CABINET="redirect:/user/cabinet";
 
     @Autowired
     ContractServiceI contractService;
 
     @Autowired
-    TariffServiceI tariffServiceI;
+    TariffServiceI tariffService;
 
     @Autowired
-    OptionServiceI optionServiceI;
+    OptionServiceI optionService;
 
     @Autowired
     CartInterface cart;
@@ -43,8 +37,9 @@ public class UserCabinet {
     public String create(Model model, Principal user) {
         Contract contract = contractService.findByPhone(Long.parseLong(user.getName()));
         contract=contractService.getFull(contract.getId());
+        cart.setContractId(contract.getId());
         model.addAttribute("contract", contract);
-        model.addAttribute("availableOptions", optionServiceI.getAll());
+        model.addAttribute("availableOptions", optionService.getAll());
         model.addAttribute("cart",cart);
         return CABINET;
     }
@@ -55,67 +50,62 @@ public class UserCabinet {
     }
 
     @GetMapping("/user/block")
-    public String blockContract( Model model, @ModelAttribute("contract") Contract contract) {
-        contractService.block(contract.getId());
-        model.addAttribute("contract",contractService.getFull(contract.getId()));
+    public String blockContract( Model model) {
+        contractService.block(cart.getContractId());
+        model.addAttribute("contract",contractService.getFull(cart.getContractId()));
         return CABINET;
     }
 
     @GetMapping("/user/unblock")
-    public String unblockContract(Model model, @ModelAttribute("contract") Contract contract) {
-        contractService.unblock(contract.getId());
-        model.addAttribute("contract",contractService.getFull(contract.getId()));
-        model.addAttribute("availableOptions", optionServiceI.getAll());
-        return "redirect:/user/cabinet";
+    public String unblockContract(Model model) {
+        contractService.unblock(cart.getContractId());
+        model.addAttribute("contract",contractService.getFull(cart.getContractId()));
+        model.addAttribute("availableOptions", optionService.getAll());
+        return REDIRECT_CABINET;
     }
 
     @GetMapping("/user/showTariffs")
     public String changeTariff(Model model) {
-        model.addAttribute("allTariffs", tariffServiceI.getAll());
+        model.addAttribute("allTariffs", tariffService.getAll());
         return "user/user-tariffs";
     }
 
     @GetMapping("/user/getTariff/{tariffId}")
-    public String getTariff(Principal user, @PathVariable int tariffId) {
-        contractService.setTariff(Long.parseLong(user.getName()), tariffId);
-        return "redirect:/user/cabinet";
+    public String getTariff(@PathVariable int tariffId) {
+        contractService.setTariff(cart.getContractId(), tariffId);
+        return REDIRECT_CABINET;
     }
 
     @GetMapping("/user/deleteOption/{optionId}")
-    public String deleteOption( @ModelAttribute("contract") Contract contract, @PathVariable int optionId, Model model) {
+    public String deleteOption(@PathVariable int optionId, Model model) {
+        Contract contract;
         try {
-            contractService.deleteOption(contract.getId(), optionId);
+            contractService.deleteOption(cart.getContractId(), optionId);
         } catch (ServiceException e) {
             model.addAttribute("message", e.getMessage());
-        } finally {
-            contract = contractService.getFull(contract.getId());
+            contract = contractService.getFull(cart.getContractId());
             model.addAttribute("contract", contract);
-            model.addAttribute("availableOptions", optionServiceI.getAll());
+            model.addAttribute("availableOptions", optionService.getAll());
             return CABINET;
         }
+        return REDIRECT_CABINET;
     }
 
     @GetMapping("user/addOptionToCart/{optionId}")
-    public String addOptionToCart(@PathVariable int optionId,@ModelAttribute("contract") Contract contract, Model model) {
-        cart.addItem(optionServiceI.get(optionId));
-        model.addAttribute("cart",cart);
-        model.addAttribute("contract",contract);
-        model.addAttribute("availableOptions", optionServiceI.getAll());
-        return "redirect:/user/cabinet";
+    public String addOptionToCart(@PathVariable int optionId) {
+        cart.addItem(optionService.get(optionId));
+        return REDIRECT_CABINET;
     }
 
     @GetMapping("user/buy")
-    public String buy(@ModelAttribute("contract") Contract contract) {
-        contractService.addOptions(contract.getId(),cart.getOptions());
+    public String buy() {
+        contractService.addOptions(cart.getContractId(),cart.getOptions());
         cart.clear();
-        return "redirect:/user/cabinet";
+        return REDIRECT_CABINET;
     }
 
     @GetMapping("user/deleteFromCart/{optionId}")
-    public String deleteFromCard(@PathVariable int optionId,@ModelAttribute("contract") Contract contract, Model model){
-        cart.deleteItem(optionServiceI.get(optionId));
-        model.addAttribute("cart",cart);
-        model.addAttribute("contract",contract);
-        model.addAttribute("availableOptions", optionServiceI.getAll());
-        return "redirect:/user/cabinet";    }
+    public String deleteFromCart(@PathVariable int optionId){
+        cart.deleteItem(optionService.get(optionId));
+        return REDIRECT_CABINET;    }
 }

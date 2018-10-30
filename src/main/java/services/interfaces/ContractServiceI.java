@@ -39,5 +39,5 @@ public interface ContractServiceI {
 
     void deleteOption(int id, int optionId) throws ServiceException;
 
-    void setTariff(long phone, int tariffId);
+    void setTariff(int id, int tariffId);
 }
