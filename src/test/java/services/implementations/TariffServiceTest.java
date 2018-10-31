@@ -5,11 +5,15 @@ import entities.TariffOption;
 import entities.dto.TariffDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import repositories.interfaces.TariffDaoI;
 import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
@@ -19,8 +23,9 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-class TariffServiceTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.WARN)
+public class TariffServiceTest {
 
     @InjectMocks
     TariffService tariffService;
@@ -36,7 +41,7 @@ class TariffServiceTest {
     TariffOptionDaoI optionDAO;
 
     @BeforeEach
-    void createMocks(){
+    public void createMocks(){
         //enable mocks
         MockitoAnnotations.initMocks(this);
 
@@ -51,7 +56,7 @@ class TariffServiceTest {
     }
 
     @Test
-    void create(){
+    public void testCreate(){
         Tariff tariff=new Tariff();
         TariffDTO dto=new TariffDTO();
 
