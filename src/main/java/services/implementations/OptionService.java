@@ -13,6 +13,7 @@ import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.OptionServiceI;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -53,6 +54,14 @@ public class OptionService implements OptionServiceI {
         /**
          * TODO find all mandatory options for these mandatory and add them?
          */
+        Set<TariffOption> alsoMandatory=new HashSet<>();
+        for (String mandatory:dto.getMandatory()){
+            TariffOption m=optionDAO.findByName(mandatory);
+            Set<TariffOption> mans=m.getMandatoryOptions();
+            alsoMandatory.addAll(mans);
+        }
+
+        if (!alsoMandatory.isEmpty()) throw new ServiceException("With this mandatory options also must set up "+alsoMandatory.stream().map(TariffOption::getName).collect(Collectors.joining(",\n")));
 
         //set plain fields
         TariffOption based = new TariffOption();
