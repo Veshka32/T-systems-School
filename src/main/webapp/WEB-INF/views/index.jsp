@@ -31,7 +31,7 @@
             margin-bottom: 30px;
         }
         .jumbotron {
-            background-color: #f4511e;
+            background-color: #00284d;
             color: #fff;
             padding: 50px 25px;
             font-family: Montserrat, sans-serif;
@@ -40,21 +40,13 @@
             padding: 60px 50px;
         }
         .bg-grey {
-            background-color: #f6f6f6;
+            background-color: #cce6ff;
         }
         .logo-small {
-            color: #f4511e;
+            color: #00284d;
             font-size: 50px;
         }
-        .logo {
-            color: #f4511e;
-            font-size: 200px;
-        }
-        .thumbnail {
-            padding: 0 0 15px 0;
-            border: none;
-            border-radius: 0;
-        }
+
         .thumbnail img {
             width: 100%;
             height: 100%;
@@ -62,13 +54,13 @@
         }
         .carousel-control.right, .carousel-control.left {
             background-image: none;
-            color: #f4511e;
+            color: #00284d;
         }
         .carousel-indicators li {
-            border-color: #f4511e;
+            border-color: #00284d;
         }
         .carousel-indicators li.active {
-            background-color: #f4511e;
+            background-color: #00284d;
         }
         .item h4 {
             font-size: 19px;
@@ -81,7 +73,7 @@
             font-style: normal;
         }
         .panel {
-            border: 1px solid #f4511e;
+            border: 1px solid #00284d;
             border-radius:0 !important;
             transition: box-shadow 0.5s;
         }
@@ -90,7 +82,7 @@
         }
         .panel-heading {
             color: #fff !important;
-            background-color: #f4511e !important;
+            background-color: #00284d !important;
             padding: 10px;
             border-bottom: 1px solid transparent;
             border-top-left-radius: 0px;
@@ -110,20 +102,19 @@
         }
         .navbar {
             margin-bottom: 0;
-            background-color: #f4511e;
+            background-color: #00284d;
             z-index: 9999;
             border: 0;
             font-size: 12px !important;
             line-height: 1.42857143 !important;
             letter-spacing: 4px;
             border-radius: 0;
-            font-family: Montserrat, sans-serif;
         }
-        .navbar li a, .navbar .navbar-brand {
+        .navbar li a, .navbar{
             color: #fff !important;
         }
         .navbar-nav li a:hover, .navbar-nav li.active a {
-            color: #f4511e !important;
+            color: #00284d !important;
             background-color: #fff !important;
         }
         .navbar-default .navbar-toggle {
@@ -133,7 +124,7 @@
         footer .glyphicon {
             font-size: 20px;
             margin-bottom: 20px;
-            color: #f4511e;
+            color: #00284d;
         }
         .slideanim {visibility:hidden;}
         .slide {
@@ -168,16 +159,8 @@
                 text-align: center;
                 margin: 25px 0;
             }
-            .btn-lg {
-                width: 100%;
-                margin-bottom: 35px;
-            }
         }
-        @media screen and (max-width: 480px) {
-            .logo {
-                font-size: 150px;
-            }
-        }
+
     </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -202,7 +185,7 @@
 </nav>
 
 <div class="jumbotron text-center">
-    <h1>Space mobile</h1>
+    <h1><img src="spacelogo.jpg">Space mobile</h1>
     <p>We specialize in blablabla</p>
 </div>
 

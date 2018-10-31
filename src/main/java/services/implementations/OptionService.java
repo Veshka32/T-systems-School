@@ -50,6 +50,10 @@ public class OptionService implements OptionServiceI {
             if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE1);
         }
 
+        /**
+         * TODO find all mandatory options for these mandatory and add them?
+         */
+
         //set plain fields
         TariffOption based = new TariffOption();
         updatePlainFields(dto,based);
