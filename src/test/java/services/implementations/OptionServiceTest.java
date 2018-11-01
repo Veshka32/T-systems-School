@@ -14,7 +14,6 @@ import org.mockito.quality.Strictness;
 import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,14 +56,14 @@ public class OptionServiceTest {
 
         //create option with reserved name
         dto.setName("t1");
-        when(optionDAO.isNameExist(dto.getName())).thenReturn(true);
+        when(optionDAO.findByName(dto.getName())).thenReturn(new TariffOption());
         ServiceException e=assertThrows(ServiceException.class,()->optionService.create(dto));
         assertEquals(e.getMessage(),"name is reserved");
 
         //check if no option at the same time are mandatory and incompatible
         dto.getMandatory().add(b.getName());
         dto.getIncompatible().add(b.getName());
-        when(optionDAO.isNameExist(dto.getName())).thenReturn(false);
+        when(optionDAO.findByName(dto.getName())).thenReturn(null);
         e=assertThrows(ServiceException.class,()->optionService.create(dto));
         assertEquals(e.getMessage(),"Option must not be both mandatory and incompatible");
         dto.getIncompatible().clear();
@@ -72,8 +71,8 @@ public class OptionServiceTest {
 
         //check if all from mandatory also have its corresponding mandatory options
         dto.getMandatory().add(a.getName());
-        when(optionDAO.isNameExist(dto.getName())).thenReturn(false);
-        when(optionDAO.getAllMandatory(new String[]{"a"})).thenReturn(Arrays.asList("d"));
+        when(optionDAO.findByName(dto.getName())).thenReturn(null);
+        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("d"));
         e=assertThrows(ServiceException.class,()->optionService.create(dto));
         assertEquals(e.getMessage(),"More options are required as mandatory: "+Arrays.asList("d").toString());
         dto.getMandatory().clear();
@@ -81,9 +80,9 @@ public class OptionServiceTest {
         //check if mandatory options are incompatible with each other
         dto.getMandatory().add(b.getName());
         dto.getMandatory().add(c.getName());
-        when(optionDAO.isNameExist(dto.getName())).thenReturn(false);
-        when(optionDAO.getAllMandatory(new String[]{"c","b"})).thenReturn(Arrays.asList());
-        when(optionDAO.getAllIncompatible(new String[]{"b","c"})).thenReturn(Arrays.asList("b","c"));
+        when(optionDAO.findByName(dto.getName())).thenReturn(null);
+        when(optionDAO.getAllMandatoryNames(new String[]{"c","b"})).thenReturn(Arrays.asList());
+        when(optionDAO.getAllIncompatibleNames(new String[]{"b","c"})).thenReturn(Arrays.asList("b","c"));
         e=assertThrows(ServiceException.class,()->optionService.create(dto));
         assertEquals(e.getMessage(),"Mandatory options are incompatible with each other");
         dto.getIncompatible().clear();

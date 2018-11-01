@@ -16,14 +16,13 @@ import java.util.Set;
 @Setter
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "is_name_exists", query = "select o.name from TariffOption o where o.name=:name"),
         @NamedQuery(name = "find_by_name", query = "from TariffOption o where o.name=:name"),
         @NamedQuery(name = "is_option_used_in_Contract", query = "select c.id from Contract c join c.options o where o.id=:id"),
         @NamedQuery(name = "is_option_Mandatory", query = "select o.id from TariffOption o join o.mandatoryOptions m where m.id=:id"),
         @NamedQuery(name = "is_option_used_in_Tariff", query = "select t.id from Tariff t join t.options o where o.id=:id"),
-        @NamedQuery(name = "get_options_in_range", query = "from TariffOption o where o.id in (:ids)"),
-        @NamedQuery(name="get_all_mandatory",query = "select m.name from TariffOption o join o.mandatoryOptions m where o.name in (:names)"),
-        @NamedQuery(name="get_all_incompatible",query = "select i.name from TariffOption o join o.incompatibleOptions i where o.name in (:names)")
+        @NamedQuery(name="get_all_mandatory_names",query = "select m.name from TariffOption o join o.mandatoryOptions m where o.name in (:names)"),
+        @NamedQuery(name="get_all_incompatible_names",query = "select i.name from TariffOption o join o.incompatibleOptions i where o.name in (:names)"),
+        @NamedQuery(name="find_by_names",query = "from TariffOption o where o.name in (:names)"),
 })
 public class TariffOption extends AbstractEntity {
 
@@ -35,7 +34,6 @@ public class TariffOption extends AbstractEntity {
     private int subscribeCost;
 
     private String description;
-
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "incompatible_options",

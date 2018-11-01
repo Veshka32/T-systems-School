@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.implementations.TariffOptionDAO;
 import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.OptionServiceI;
@@ -16,7 +15,6 @@ import services.interfaces.OptionServiceI;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,22 +32,17 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    public TariffOption get(int id) {
+        return optionDAO.findOne(id);
+    }
+
+    @Override
     public void create(TariffOptionDTO dto) throws ServiceException {
-        if (optionDAO.isNameExist(dto.getName()))
+        if (optionDAO.findByName(dto.getName())!=null)
             throw new ServiceException("name is reserved");
 
-        //check if no option at the same time are mandatory and incompatible
-        Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
-        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
-
-        //check if all from mandatory also have its corresponding mandatory options
-        String[] params=dto.getMandatory().toArray(new String[]{});
-        List<String> names=optionDAO.getAllMandatory(params);
-        if (!names.isEmpty()) throw new ServiceException("More options are required as mandatory: "+names.toString());
-
-        //check if mandatory options are incompatible with each other
-        names=optionDAO.getAllIncompatible(params);
-        if (!names.isEmpty()) throw new ServiceException("Mandatory options are incompatible with each other");
+        //check mandatory and incompatible options logic
+        checkCompatibility(dto);
 
         //set plain fields
         TariffOption based = new TariffOption();
@@ -70,29 +63,14 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public TariffOption get(int id) {
-        return optionDAO.findOne(id);
-    }
-
-    @Override
     public void update(TariffOptionDTO dto) throws ServiceException {
         TariffOption op = optionDAO.findByName(dto.getName());
 
         if (op != null && op.getId() != dto.getId())  //check if there is another option with the same name in database
             throw new ServiceException("name is reserved");
 
-        //check if no option at the same time are mandatory and incompatible
-        Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
-        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
-
-        //check if all from mandatory also have its corresponding mandatory options
-        String[] params=dto.getMandatory().toArray(new String[]{});
-        List<String> names=optionDAO.getAllMandatory(params);
-        if (!names.isEmpty()) throw new ServiceException("More options are required as mandatory: "+names.toString());
-
-        //check if mandatory options are incompatible with each other
-        names=optionDAO.getAllIncompatible(params);
-        if (!names.isEmpty()) throw new ServiceException("Mandatory options are incompatible with each other");
+       //check mandatory and incompatible options compatibility
+        checkCompatibility(dto);
 
         //update plain fields
         op=optionDAO.findOne(dto.getId());
@@ -101,23 +79,20 @@ public class OptionService implements OptionServiceI {
         //update complex fields
         op.getMandatoryOptions().clear();
         op.getIncompatibleOptions().clear();
-        for (String name:dto.getIncompatible()) {
-            TariffOption newIncompatible=optionDAO.findByName(name);
-            op.addIncompatibleOption(newIncompatible);
-            newIncompatible.addIncompatibleOption(op);
-        }
-        for (String name:dto.getMandatory()) {
-            TariffOption newMandatory=optionDAO.findByName(name);
-            op.addMandatoryOption(newMandatory);
-        }
-        optionDAO.update(op);
-    }
 
-    private void updatePlainFields(TariffOptionDTO dto,TariffOption based){
-        based.setName(dto.getName());
-        based.setPrice(dto.getPrice());
-        based.setSubscribeCost(dto.getSubscribeCost());
-        based.setDescription(dto.getDescription());
+        if (!dto.getIncompatible().isEmpty()){
+            List<TariffOption> newIncompatibles=optionDAO.findByNames(dto.getIncompatible().toArray(new String[]{}));
+            op.getIncompatibleOptions().addAll(newIncompatibles);
+            for (TariffOption o:newIncompatibles) {
+                o.addIncompatibleOption(op);
+            }
+        }
+        if (!dto.getMandatory().isEmpty()){
+            List<TariffOption> newMandatory=optionDAO.findByNames(dto.getMandatory().toArray(new String[]{}));
+            op.getMandatoryOptions().addAll(newMandatory);
+        }
+
+        optionDAO.update(op);
     }
 
     @Override
@@ -137,8 +112,11 @@ public class OptionService implements OptionServiceI {
         TariffOption option = optionDAO.findOne(id);
         TariffOptionDTO dto = new TariffOptionDTO(option);
 
-        dto.setIncompatible(option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
-        dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.toSet()));
+        dto.setIncompatible(new HashSet<>(optionDAO.getAllIncompatibleNames(new String[]{option.getName()})));
+        dto.setMandatory(new HashSet<>(optionDAO.getAllMandatoryNames(new String[]{option.getName()})));
+
+//        dto.setIncompatible(option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
+//        dto.setMandatory(option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.toSet()));
 
         TariffOptionTransfer transfer = new TariffOptionTransfer(dto);
         List<String> map=optionDAO.getAllNames();
@@ -163,5 +141,32 @@ public class OptionService implements OptionServiceI {
     @Override
     public List<TariffOption> getAll() {
         return optionDAO.findAll();
+    }
+
+    private void checkCompatibility(TariffOptionDTO dto) throws ServiceException{
+        //check if no option at the same time are mandatory and incompatible
+        Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
+        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
+
+        //check if all from mandatory also have its corresponding mandatory options
+        if (!dto.getMandatory().isEmpty())
+        {
+            String[] params=dto.getMandatory().toArray(new String[]{});
+            List<String> names=optionDAO.getAllMandatoryNames(params);
+            if (!names.isEmpty() && !dto.getMandatory().containsAll(names)) throw new ServiceException("More options are required as mandatory: "+names.toString());
+
+        //check if mandatory options are incompatible with each other
+
+            names=optionDAO.getAllIncompatibleNames(params);
+        if (!names.isEmpty()) throw new ServiceException("Mandatory options are incompatible with each other");
+        }
+
+    }
+
+    private void updatePlainFields(TariffOptionDTO dto,TariffOption based){
+        based.setName(dto.getName());
+        based.setPrice(dto.getPrice());
+        based.setSubscribeCost(dto.getSubscribeCost());
+        based.setDescription(dto.getDescription());
     }
 }

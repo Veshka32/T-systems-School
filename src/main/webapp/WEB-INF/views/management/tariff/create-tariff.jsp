@@ -62,14 +62,18 @@
         <label for="desc">Description:</label>
         <form:input value="${tariff.description}" path="description" class="form-control" id="desc"/>
     </div>
-    <div class="form-group">
+    <div class="form-check form-check-inline">
         <label for="inc">Set options:</label>
-        <form:select multiple="true" path="options" items="${all}" class="form-control" id="inc"/>
+        <br>
+        <c:forEach items="${all}" var="item">
+            <form:checkbox path="options" value="${item}" class="form-check" id="inc"/>
+            <label class="form-check-label" for=inc>${item}</label>
+            <br>
+        </c:forEach>
     </div>
             <input type="hidden" name="id" value=${tariff.id}>
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
     <br>
-
 </body>
 </html>

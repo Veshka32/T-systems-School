@@ -32,7 +32,7 @@ public class MyUser extends AbstractEntity {
             joinColumns = { @JoinColumn(name = "user_id") })
     private Set<Role> roles=new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     private Contract contract;
 
     public void setRole(Role role){

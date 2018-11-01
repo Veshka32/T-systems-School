@@ -6,14 +6,17 @@ import repositories.interfaces.IGenericDAO;
 import java.util.List;
 
 public interface TariffOptionDaoI extends IGenericDAO<TariffOption> {
-    boolean isNameExist(String name);
 
     List<String> getAllNames();
 
     TariffOption findByName(String name);
 
+    List<TariffOption> findByNames(String[] names);
+
     boolean isUsed(int id);
 
-    List<String> getAllMandatory(String[] names);
-    List<String> getAllIncompatible(String[] names);
+    List<String> getAllMandatoryNames(String[] names);
+
+    List<String> getAllIncompatibleNames(String[] names);
+
 }

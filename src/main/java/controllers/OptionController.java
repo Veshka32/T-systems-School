@@ -35,7 +35,9 @@ public class OptionController {
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id, Model model) {
         TariffOption option = optionService.getFull(id);
-        showOption(model, option);
+        model.addAttribute("newOption", option);
+        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
+        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
         return "management/option/show-option";
     }
 
@@ -46,7 +48,7 @@ public class OptionController {
     }
 
     @PostMapping("/management/createOption")
-    public String create(@ModelAttribute("option") @Valid TariffOptionDTO dto, BindingResult result, Model model) {
+    public String create(@ModelAttribute("option") @Valid TariffOptionDTO dto, BindingResult result, Model model,RedirectAttributes attr) {
         if (result.hasErrors()) {
             buildModelForCreate(model,dto);
             return CREATE;
@@ -58,8 +60,8 @@ public class OptionController {
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return CREATE;
         }
-        showOption(model,optionService.getFull(dto.getId()));
-        return "management/option/show-option";
+        attr.addAttribute("id",dto.getId());
+        return "redirect:/management/showOption";
     }
 
     @GetMapping("/management/editOption")
@@ -83,8 +85,9 @@ public class OptionController {
         try {
             optionService.update(dto);
         } catch (ServiceException e) {
-            buildModelForUpdate(model,dto,dto.getName());
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
+            buildModelForUpdate(model,dto,dto.getName());
+
             return EDIT;
         }
         attr.addAttribute("id",dto.getId());
@@ -105,12 +108,6 @@ public class OptionController {
     @ModelAttribute("allOptions")
     public List<TariffOption> getAllOptions() {
         return optionService.getAll();
-    }
-
-    private void showOption(Model model, TariffOption option) {
-        model.addAttribute("newOption", option);
-        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
-        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
     }
 
     private void buildModelForCreate(Model model,TariffOptionDTO dto){

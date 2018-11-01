@@ -56,29 +56,37 @@
     <div class="form-group">
         <label for="price">Price:</label>
         <form:input path="price" value="${option.price}" class="form-control" id="price"/>
-        <form:errors path="price" />
+        <p class="bg-danger"><form:errors path="price" /></p>
     </div>
     <div class="form-group">
         <label for="cost">Subscribe cost:</label>
             <form:input value="${option.subscribeCost}" path="subscribeCost" class="form-control" id="cost"/>
-        <form:errors path="subscribeCost" />
+        <p class="bg-danger"><form:errors path="subscribeCost" /></p>
     </div>
     <div class="form-group">
         <label for="desc">Description:</label>
         <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
     </div>
-    <div class="form-group">
+    <div class="form-check form-check-inline">
         <label for="inc">Incompatible options:</label>
-        <form:select multiple="true" path="incompatible" items="${all}" class="form-control" id="inc"/>
+        <c:forEach items="${all}" var="item">
+            <label class="form-check-label" for=inc>${item}</label>
+            <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
+        </c:forEach>
+
     </div>
-    <div class="form-group">
-        <label for="mand">Mandatory options:</label>
-        <form:select multiple="true" path="mandatory" items="${all}" class="form-control" id="mand"/>
+    <div class="form-check form-check-inline">
+        <label class="form-check-label" for="mand">Mandatory options:</label>
+        <c:forEach items="${all}" var="item">
+            <label class="form-check-label" for=inc>${item}</label>
+            <form:checkbox path="mandatory" value="${item}" class="form-check" id="mand"/>
+
+        </c:forEach>
     </div>
+
             <input type="hidden" name="id" value=${option.id}>
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
     <br>
-
 </body>
 </html>
