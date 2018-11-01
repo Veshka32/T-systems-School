@@ -26,7 +26,6 @@ public class OptionService implements OptionServiceI {
 
     private TariffOptionDaoI optionDAO;
     private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible";
-    private static final String ERROR_MESSAGE1="Mandatory optionsNames are incompatible";
 
     @Autowired
     public void setOptionDAO(TariffOptionDaoI optionDAO) {
@@ -43,25 +42,14 @@ public class OptionService implements OptionServiceI {
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
-        //check if mandatory optionsNames are incompatible with each other
-        for (String mandatory:dto.getMandatory()) {
-            TariffOption m=optionDAO.findByName(mandatory);
-            Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
-            any=incompatible.stream().map(TariffOption::getName).filter(o->dto.getMandatory().contains(o)).findAny();
-            if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE1);
-        }
+        //check if all from mandatory also have its corresponding mandatory options
+        String[] params=dto.getMandatory().toArray(new String[]{});
+        List<String> names=optionDAO.getAllMandatory(params);
+        if (!names.isEmpty()) throw new ServiceException("More options are required as mandatory: "+names.toString());
 
-        /**
-         * TODO find all mandatory options for these mandatory and add them?
-         */
-        Set<TariffOption> alsoMandatory=new HashSet<>();
-        for (String mandatory:dto.getMandatory()){
-            TariffOption m=optionDAO.findByName(mandatory);
-            Set<TariffOption> mans=m.getMandatoryOptions();
-            alsoMandatory.addAll(mans);
-        }
-
-        if (!alsoMandatory.isEmpty()) throw new ServiceException("With this mandatory options also must set up "+alsoMandatory.stream().map(TariffOption::getName).collect(Collectors.joining(",\n")));
+        //check if mandatory options are incompatible with each other
+        names=optionDAO.getAllIncompatible(params);
+        if (!names.isEmpty()) throw new ServiceException("Mandatory options are incompatible with each other");
 
         //set plain fields
         TariffOption based = new TariffOption();
@@ -97,20 +85,14 @@ public class OptionService implements OptionServiceI {
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
-        //check if mandatory optionsNames are incompatible with each other
-        for (String mandatory:dto.getMandatory()) {
-            TariffOption m=optionDAO.findByName(mandatory);
-            Set<TariffOption> incompatible=m.getIncompatibleOptions(); //how to get only ids?
-            any=incompatible.stream().map(TariffOption::getName).filter(o->dto.getMandatory().contains(o)).findAny();
-            if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE1);
-        }
+        //check if all from mandatory also have its corresponding mandatory options
+        String[] params=dto.getMandatory().toArray(new String[]{});
+        List<String> names=optionDAO.getAllMandatory(params);
+        if (!names.isEmpty()) throw new ServiceException("More options are required as mandatory: "+names.toString());
 
-        //check if option is mandatory for some incompatible
-        for (String incom:dto.getIncompatible()){
-            TariffOption m=optionDAO.findByName(incom);
-            Set<TariffOption> mandatory=m.getMandatoryOptions();
-            if (mandatory.contains(op)) throw new ServiceException("Option "+incom+" is mandatory for "+m.getName());
-        }
+        //check if mandatory options are incompatible with each other
+        names=optionDAO.getAllIncompatible(params);
+        if (!names.isEmpty()) throw new ServiceException("Mandatory options are incompatible with each other");
 
         //update plain fields
         op=optionDAO.findOne(dto.getId());

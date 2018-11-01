@@ -21,7 +21,9 @@ import java.util.Set;
         @NamedQuery(name = "is_option_used_in_Contract", query = "select c.id from Contract c join c.options o where o.id=:id"),
         @NamedQuery(name = "is_option_Mandatory", query = "select o.id from TariffOption o join o.mandatoryOptions m where m.id=:id"),
         @NamedQuery(name = "is_option_used_in_Tariff", query = "select t.id from Tariff t join t.options o where o.id=:id"),
-        @NamedQuery(name = "get_options_in_range", query = "from TariffOption o where o.id in (:ids)")
+        @NamedQuery(name = "get_options_in_range", query = "from TariffOption o where o.id in (:ids)"),
+        @NamedQuery(name="get_all_mandatory",query = "select m.name from TariffOption o join o.mandatoryOptions m where o.name in (:names)"),
+        @NamedQuery(name="get_all_incompatible",query = "select i.name from TariffOption o join o.incompatibleOptions i where o.name in (:names)")
 })
 public class TariffOption extends AbstractEntity {
 
@@ -34,16 +36,17 @@ public class TariffOption extends AbstractEntity {
 
     private String description;
 
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "option_IncompatibleOption",
+    @JoinTable(name = "incompatible_options",
             joinColumns = {@JoinColumn(name = "option_id")},
-            inverseJoinColumns = {@JoinColumn(name = "incompatibleOption_id")})
+            inverseJoinColumns = {@JoinColumn(name = "incompatible_id")})
     private Set<TariffOption> incompatibleOptions = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "option_MandatoryOption",
+    @JoinTable(name = "mandatory_options",
             joinColumns = {@JoinColumn(name = "option_id")},
-            inverseJoinColumns = {@JoinColumn(name = "mandatoryOption_id")})
+            inverseJoinColumns = {@JoinColumn(name = "mandatory_id")})
     private Set<TariffOption> mandatoryOptions = new HashSet<>();
 
     public void addIncompatibleOption(TariffOption option) {

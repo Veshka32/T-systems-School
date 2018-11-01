@@ -59,4 +59,16 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> implements TariffO
                 .getResultList().isEmpty();
         return (isUsed || isUsed2 || isMandatory);
     }
+
+    public List<String> getAllMandatory(String[] names){
+         return sessionFactory.getCurrentSession().createNamedQuery("get_all_mandatory")
+                .setParameterList("names",names)
+                .getResultList();
+    }
+
+    public List<String> getAllIncompatible(String[] names){
+        return sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible")
+                .setParameterList("names",names)
+                .getResultList();
+    }
 }

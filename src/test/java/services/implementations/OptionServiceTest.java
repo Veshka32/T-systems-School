@@ -14,6 +14,9 @@ import org.mockito.quality.Strictness;
 import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +29,7 @@ public class OptionServiceTest {
     TariffOption a=new TariffOption();
     TariffOption b=new TariffOption();
     TariffOption c=new TariffOption();
+    TariffOption d=new TariffOption();
 
     @Mock
     TariffOptionDaoI optionDAO;
@@ -39,8 +43,10 @@ public class OptionServiceTest {
         a.setName("a");
         b.setName("b");
         c.setName("c");
+        d.setName("d");
         b.getIncompatibleOptions().add(c); //b incompatible with c
         c.getIncompatibleOptions().add(b); //c incompatible with b
+        a.getMandatoryOptions().add(d); //a requires d
     }
 
     @Test
@@ -64,25 +70,22 @@ public class OptionServiceTest {
         dto.getIncompatible().clear();
         dto.getMandatory().clear();
 
-        //add incompatible options as mandatory for new one
-        dto.getMandatory().add(c.getName());
-        dto.getMandatory().add(b.getName());
+        //check if all from mandatory also have its corresponding mandatory options
+        dto.getMandatory().add(a.getName());
         when(optionDAO.isNameExist(dto.getName())).thenReturn(false);
-        when(optionDAO.findByName("b")).thenReturn(b);
-        when(optionDAO.findByName("c")).thenReturn(c);
+        when(optionDAO.getAllMandatory(new String[]{"a"})).thenReturn(Arrays.asList("d"));
         e=assertThrows(ServiceException.class,()->optionService.create(dto));
-        assertEquals(e.getMessage(),"Mandatory optionsNames are incompatible");
-        dto.getIncompatible().clear();
+        assertEquals(e.getMessage(),"More options are required as mandatory: "+Arrays.asList("d").toString());
         dto.getMandatory().clear();
 
-        //find second level mandatory
-        c.getMandatoryOptions().add(a);
+        //check if mandatory options are incompatible with each other
+        dto.getMandatory().add(b.getName());
         dto.getMandatory().add(c.getName());
         when(optionDAO.isNameExist(dto.getName())).thenReturn(false);
-        when(optionDAO.findByName("a")).thenReturn(a);
-        when(optionDAO.findByName("c")).thenReturn(c);
+        when(optionDAO.getAllMandatory(new String[]{"c","b"})).thenReturn(Arrays.asList());
+        when(optionDAO.getAllIncompatible(new String[]{"b","c"})).thenReturn(Arrays.asList("b","c"));
         e=assertThrows(ServiceException.class,()->optionService.create(dto));
-        assertEquals(e.getMessage(),"With this mandatory options also must set up "+a.getName());
+        assertEquals(e.getMessage(),"Mandatory options are incompatible with each other");
         dto.getIncompatible().clear();
         dto.getMandatory().clear();
     }

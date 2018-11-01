@@ -13,4 +13,7 @@ public interface TariffOptionDaoI extends IGenericDAO<TariffOption> {
     TariffOption findByName(String name);
 
     boolean isUsed(int id);
+
+    List<String> getAllMandatory(String[] names);
+    List<String> getAllIncompatible(String[] names);
 }
