@@ -156,12 +156,12 @@ public class OptionService implements OptionServiceI {
             if (!names.isEmpty() && !dto.getMandatory().containsAll(names)) throw new ServiceException("More options are required as mandatory: "+names.toString());
 
         //check if mandatory options are incompatible with each other
-
             names=optionDAO.getAllIncompatibleNames(params);
-        if (!names.isEmpty()) throw new ServiceException("Mandatory options are incompatible with each other");
+        if (!names.isEmpty()){
+            any=names.stream().filter(name->dto.getMandatory().contains(name)).findFirst();
+            if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible with each other");
         }
-
-    }
+    }}
 
     private void updatePlainFields(TariffOptionDTO dto,TariffOption based){
         based.setName(dto.getName());

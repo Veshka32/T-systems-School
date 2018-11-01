@@ -41,7 +41,15 @@ public class TariffService implements TariffServiceI {
         if (tariffDAO.isNameExist(dto.getName()))
             throw new ServiceException("name is reserved");
 
-        //check if optionsNames are compatible with each other, check if each option has corresponding mandatory
+        //check if all options have its corresponding mandatory options
+        if (!dto.getOptions().isEmpty())
+        {
+            String[] params=dto.getOptions().toArray(new String[]{});
+            List<String> names=optionDAO.getAllMandatoryNames(params);
+            if (!names.isEmpty() && !dto.getOptions().containsAll(names)) throw new ServiceException("Some options are required as mandatory: "+names.toString());}
+
+
+            //check if optionsNames are compatible with each other, check if each option has corresponding mandatory
         for (String name : dto.getOptions()) {
             TariffOption option = optionDAO.findByName(name);
             Optional<String> any = option.getIncompatibleOptions().stream().map(TariffOption::getName).filter(o -> dto.getOptions().contains(o)).findAny();
