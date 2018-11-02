@@ -24,6 +24,7 @@ public class OptionService implements OptionServiceI {
 
     private TariffOptionDaoI optionDAO;
     private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible";
+    private static final String NAME_ERROR_MESSAGE = "name is reserved";
 
     @Autowired
     public void setOptionDAO(TariffOptionDaoI optionDAO) {
@@ -39,9 +40,10 @@ public class OptionService implements OptionServiceI {
     @Override
     public void create(TariffOptionDTO dto) throws ServiceException {
         if (optionDAO.findByName(dto.getName())!=null)
-            throw new ServiceException("name is reserved");
+            throw new ServiceException(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic
+        //throws exception if something is wrong
         checkCompatibility(dto);
 
         //set plain fields
@@ -67,7 +69,7 @@ public class OptionService implements OptionServiceI {
         TariffOption op = optionDAO.findByName(dto.getName());
 
         if (op != null && op.getId() != dto.getId())  //check if there is another option with the same name in database
-            throw new ServiceException("name is reserved");
+            throw new ServiceException(NAME_ERROR_MESSAGE);
 
        //check mandatory and incompatible options compatibility
         checkCompatibility(dto);
@@ -161,7 +163,8 @@ public class OptionService implements OptionServiceI {
             any=names.stream().filter(name->dto.getMandatory().contains(name)).findFirst();
             if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible with each other");
         }
-    }}
+    }
+    }
 
     private void updatePlainFields(TariffOptionDTO dto,TariffOption based){
         based.setName(dto.getName());

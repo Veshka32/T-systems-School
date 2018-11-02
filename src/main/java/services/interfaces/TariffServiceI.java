@@ -19,8 +19,6 @@ public interface TariffServiceI {
 
     Tariff getFull(int id);
 
-    Tariff findByName(String name);
-
     List<Tariff> getAll();
 
     List<String> getAllNames();
