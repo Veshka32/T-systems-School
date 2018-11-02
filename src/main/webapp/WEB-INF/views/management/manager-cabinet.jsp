@@ -40,7 +40,13 @@
 
 <div class="container">
     <h3>Manager cabinet</h3>
-    <p>The .navbar-right class is used to right-align navigation bar buttons.</p>
+    <p>To create Client, go Clients - > Add Client</p>
+    <p>To create contract, go Clients - > Find Client by number or passport id - > Add contract or Clients - > All
+        clients - > Show details - > Add contract </p>
+    <p>You can find client by phone number or by passport id</p>
+    <p>You can find contract by number or find client first</p>
+
+
 </div>
 
 </body>

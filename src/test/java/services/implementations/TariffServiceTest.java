@@ -55,7 +55,7 @@ public class TariffServiceTest {
     public void testCheckCompatibility() {
         TariffDTO dto = new TariffDTO();
 
-        //add option a without its mandatory options
+        //add option a without its' mandatory options
         dto.getOptions().add("a");
         when(tariffDAO.isNameExist(dto.getName())).thenReturn(false);
         when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("b"));

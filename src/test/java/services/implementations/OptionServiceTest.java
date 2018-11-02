@@ -73,7 +73,7 @@ public class OptionServiceTest {
         dto.getIncompatible().clear();
         dto.getMandatory().clear();
 
-        //check if all from mandatory also have its corresponding mandatory options
+        //check if all from mandatory also have its' corresponding mandatory options
         dto.getMandatory().add(a.getName());
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
         when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("b")); //a requires b

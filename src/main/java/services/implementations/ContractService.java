@@ -10,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.interfaces.*;
+import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,78 +56,72 @@ public class ContractService implements ContractServiceI {
     @Override
     public ContractDTO getDTO(int id){
         Contract contract=contractDAO.findOne(id);
-        ContractDTO dto= new ContractDTO(contractDAO.findOne(id));
+        ContractDTO dto = new ContractDTO(contract);
         Set<TariffOption> optionNames=contract.getOptions();
         dto.setOptionsNames(optionNames.stream().map(TariffOption::getName).collect(Collectors.toSet()));
         return dto;
     }
 
     @Override
-    public void create(ContractDTO dto) {
+    public void create(ContractDTO dto) throws ServiceException {
+        //get tariff and it's options
         Tariff tariff=tariffDAO.findByName(dto.getTariffName());
-        Set<TariffOption> options=tariff.getOptions();
-        List<TariffOption> extra=dto.getOptionsNames().stream()
-                .map(name->tariffOptionDAO.findByName(name))
-                .filter(o->!options.contains(o)) //remove option that already in tariff
-                .collect(Collectors.toList());
-
-//        //check if all options has its mandatory
-//        Optional<TariffOption> any=extra.stream().flatMap(o->o.getMandatoryOptions().stream()).filter(o->!(options.contains(o) || extra.contains(o))).findFirst();
-//        if (any.isPresent()) throw new ServiceException("Option "+any.get().getName()+" requires options "+any.get().getMandatoryOptions().toString());
-//
-//        //check if extra are compatible with each other
-//        for (TariffOption op:extra) {
-//        any=op.getIncompatibleOptions().stream().filter(o->extra.contains(o)).findFirst();
-//            if (any.isPresent()) throw new ServiceException("Option "+op.getName()+" incompatible with option "+any.get().getName());
-//        }
-//
-//        //check if extra are compatible with tariff options
-//        for(TariffOption op:extra){
-//            any=op.getIncompatibleOptions().stream().filter(o->options.contains(o)).findFirst();
-//            if (any.isPresent()) throw new ServiceException("Option "+op.getName()+" incompatible with tariff option "+any.get().getName());
-//        }
+        checkCompatibility(dto, tariff);
 
         Contract contract=new Contract();
         contract.setOwner(clientDAO.findOne(dto.getOwnerId()));
-        contract.setOptions(new HashSet<>(extra));
+        if (!dto.getOptionsNames().isEmpty()) {
+            Set<String> extra = dto.getOptionsNames();
+            String[] params = extra.toArray(new String[]{});
+            contract.setOptions(new HashSet<>(tariffOptionDAO.findByNames(params)));
+        }
         contract.setTariff(tariff);
         contract.setNumber(phoneNumberService.getNext());
-
         contractDAO.save(contract);
         dto.setId(contract.getId());
         dto.setNumber(contract.getNumber()+"");
     }
 
-    @Override
-    public void update(ContractDTO dto) {
-        Tariff tariff=tariffDAO.findByName(dto.getTariffName());
-        Set<TariffOption> options=tariff.getOptions();
-        List<TariffOption> extra=dto.getOptionsNames().stream()
-                .map(name->tariffOptionDAO.findByName(name))
-                .filter(o->!options.contains(o)) //remove option that already in tariff
-                .collect(Collectors.toList());
+    private void checkCompatibility(ContractDTO dto, Tariff tariff) throws ServiceException {
 
-//        //check if all options has its mandatory
-//        Optional<TariffOption> any=extra.stream()
-//                .flatMap(o->o.getMandatoryOptions().stream())
-//                .filter(o->!(options.contains(o) || extra.contains(o)))
-//                .findFirst();
-//        if (any.isPresent()) throw new ServiceException("Option "+any.get().getName()+" requires options "+any.get().getMandatoryOptions().toString());
-//
-//        //check if extra are compatible with each other
-//        for (TariffOption op:extra) {
-//            any=op.getIncompatibleOptions().stream().filter(o->extra.contains(o)).findFirst();
-//            if (any.isPresent()) throw new ServiceException("Option "+op.getName()+" incompatible with option "+any.get().getName());
-//        }
-//
-//        //check if extra are compatible with tariff options
-//        for(TariffOption op:extra){
-//            any=op.getIncompatibleOptions().stream().filter(o->options.contains(o)).findFirst();
-//            if (any.isPresent()) throw new ServiceException("Option "+op.getName()+" incompatible with tariff option "+any.get().getName());
-//        }
+        List<String> options = tariffOptionDAO.getOptionsInTariffNames(tariff.getId());
+
+        if (!dto.getOptionsNames().isEmpty()) {
+            //get extra options
+            Set<String> extra = dto.getOptionsNames();
+            extra.removeAll(options); //remove all options that already in tariff
+
+            //check if all options has its' mandatory
+            String[] params = extra.toArray(new String[]{});
+            List<String> names = tariffOptionDAO.getAllMandatoryNames(params);
+            List<String> all = new ArrayList<>(options);
+            all.addAll(extra);
+            if (!names.isEmpty() && !all.containsAll(names))
+                throw new ServiceException("More options are required as mandatory: " + names.toString());
+
+            //check if all options are compatible with each other
+            names = tariffOptionDAO.getAllIncompatibleNames(params);
+            if (!names.isEmpty()) {
+                Optional<String> any = names.stream().filter(name -> all.contains(name)).findFirst();
+                if (any.isPresent())
+                    throw new ServiceException("Option " + any.get() + " are incompatible with each other or with tariff");
+            }
+        }
+    }
+
+    @Override
+    public void update(ContractDTO dto) throws ServiceException {
+        Tariff tariff=tariffDAO.findByName(dto.getTariffName());
+        checkCompatibility(dto, tariff);
 
         Contract contract=contractDAO.findOne(dto.getId());
-        contract.setOptions(new HashSet<>(extra));
+
+        if (!dto.getOptionsNames().isEmpty()) {
+            Set<String> extra = dto.getOptionsNames();
+            String[] params = extra.toArray(new String[]{});
+            contract.setOptions(new HashSet<>(tariffOptionDAO.findByNames(params)));
+        }
+
         contract.setTariff(tariff);
         contractDAO.update(contract);
     }
@@ -169,6 +161,8 @@ public class ContractService implements ContractServiceI {
         Hibernate.initialize(contract.getOptions());
         return contract;
     }
+
+    //client's actions
 
     @Override
     public void addOptions(int id,Collection<TariffOption> options) {

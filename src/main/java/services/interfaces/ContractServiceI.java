@@ -8,7 +8,6 @@ import services.ServiceException;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public interface ContractServiceI {
     Client findClientByPhone(long phone);

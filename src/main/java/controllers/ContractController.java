@@ -9,9 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.*;
-import services.implementations.ClientService;
-import services.implementations.ContractService;
+import services.ServiceException;
 import services.interfaces.ClientServiceI;
 import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
@@ -26,6 +24,7 @@ public class ContractController {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE = "message";
     private static final String MANAGEMENT="management/contract/contract-management";
+    private static final String CONTRACT = "contract";
 
 
     @Autowired
@@ -47,7 +46,7 @@ public class ContractController {
             model.addAttribute(MODEL_MESSAGE, "no such phone number exists");
             return MANAGEMENT;
         }
-        attr.addAttribute("contract", contract);
+        attr.addAttribute(CONTRACT, contract);
         return "management/contract/show-contract";
     }
 
@@ -59,23 +58,23 @@ public class ContractController {
     @GetMapping("/management/showContract")
     public String show(@RequestParam("id") int id, Model model) {
         ContractDTO contract = contractService.getDTO(id);
-        model.addAttribute("contract", contract);
+        model.addAttribute(CONTRACT, contract);
         return "management/contract/show-contract";
     }
 
     @GetMapping("/management/createContract")
     public String create(@RequestParam("clientId") int clientId, Model model) {
         ContractDTO dto = new ContractDTO(clientId);
-        model.addAttribute("contract", dto);
+        model.addAttribute(CONTRACT, dto);
         return "management/contract/create-contract";
     }
 
     @PostMapping("management/createContract")
-    public String edit(@ModelAttribute("contract") ContractDTO dto, Model model, RedirectAttributes attr) {
+    public String edit(@ModelAttribute(CONTRACT) ContractDTO dto, Model model, RedirectAttributes attr) {
         try {
             contractService.create(dto);
         } catch (ServiceException e) {
-            model.addAttribute("contract", dto);
+            model.addAttribute(CONTRACT, dto);
             model.addAttribute(MODEL_MESSAGE, e.getMessage());
             return "management/contract/create-contract";
         }
@@ -90,14 +89,8 @@ public class ContractController {
                              Model model) {
 
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        /**
-         * TODO make Transfer object
-         */
         ContractDTO dto = contractService.getDTO(id);
         model.addAttribute("editedContract", dto);
-        List<String> newOptions=optionService.getAllNames();
-        newOptions.removeIf(o->dto.getOptionsNames().contains(o));
-        model.addAttribute("allOptions",newOptions);
         return "management/contract/edit-contract";
     }
 

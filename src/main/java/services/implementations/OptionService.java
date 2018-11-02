@@ -131,7 +131,7 @@ public class OptionService implements OptionServiceI {
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
 
-        //check if all from mandatory also have its corresponding mandatory options
+        //check if all from mandatory also have its' corresponding mandatory options
         if (!dto.getMandatory().isEmpty()) {
             String[] params = dto.getMandatory().toArray(new String[]{});
             List<String> names = optionDAO.getAllMandatoryNames(params);

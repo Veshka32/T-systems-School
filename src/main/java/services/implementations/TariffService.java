@@ -90,7 +90,7 @@ public class TariffService implements TariffServiceI {
     }
 
     private void checkCompatibility(TariffDTO dto) throws ServiceException {
-        //check if all options also have its corresponding mandatory options
+        //check if all options also have its' corresponding mandatory options
         if (!dto.getOptions().isEmpty())
         {
             String[] params=dto.getOptions().toArray(new String[]{});
