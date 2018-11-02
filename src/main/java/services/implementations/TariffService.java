@@ -15,6 +15,7 @@ import services.ServiceException;
 import services.interfaces.TariffServiceI;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +32,8 @@ public class TariffService implements TariffServiceI {
     public void setTariffDAO(TariffDaoI tariffDAO, TariffOptionDaoI optionDAO) {
         this.tariffDAO = tariffDAO;
         this.optionDAO = optionDAO;
-        tariffDAO.setClass(Tariff.class);
-        optionDAO.setClass(TariffOption.class);
+//        tariffDAO.setClass(Tariff.class);
+//        optionDAO.setClass(TariffOption.class);
     }
 
     @Override
@@ -88,14 +89,16 @@ public class TariffService implements TariffServiceI {
         {
             String[] params=dto.getOptions().toArray(new String[]{});
             List<String> names=optionDAO.getAllMandatoryNames(params);
-            if (!names.isEmpty() && !dto.getOptions().containsAll(names)) throw new ServiceException("More options are required as mandatory: "+names.toString());
+            if (!names.isEmpty() && !dto.getOptions().containsAll(names))
+                throw new ServiceException("More options are required as mandatory: " + names.toString());
 
-//            //check if options are incompatible with each other
-//            names=optionDAO.getAllIncompatibleNames(params);
-//            if (!names.isEmpty()){
-//                Optional<String> any=names.stream().filter(name->dto.getOptions().contains(name)).findFirst();
-//                if (any.isPresent()) throw new ServiceException("Selected options are incompatible with each other");
-//            }
+            //check if options are incompatible with each other
+            names = optionDAO.getAllIncompatibleNames(params);
+            if (!names.isEmpty()) {
+                Optional<String> any = names.stream().filter(name -> dto.getOptions().contains(name)).findFirst();
+                if (any.isPresent())
+                    throw new ServiceException("Selected options are incompatible with each other");
+            }
         }
     }
 
@@ -118,7 +121,7 @@ public class TariffService implements TariffServiceI {
         TariffDTO dto = new TariffDTO(tariff);
         dto.setOptions(tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
         TariffTransfer transfer = new TariffTransfer(dto);
-        List<String> map = optionDAO.getAllNames(); //do not include archived optionsNames
+        List<String> map = optionDAO.getAllNames();
         transfer.setAll(map);
         return transfer;
     }
