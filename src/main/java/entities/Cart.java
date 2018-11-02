@@ -16,26 +16,30 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Cart {
+public class Cart implements CartInterface {
     private Set<Option> options = new HashSet<>();
     private BigDecimal totalSum;
     private int contractId;
 
+    @Override
     public void addItem(Option option) {
         if (options.add(option)) //return true if this set did not already contain the specified element
             totalSum = totalSum.add(option.getSubscribeCost());
     }
 
+    @Override
     public void deleteItem(Option option) {
         if (options.remove(option))
             totalSum = totalSum.subtract(option.getSubscribeCost());
     }
 
+    @Override
     public void clear(){
         options.clear();
         totalSum = BigDecimal.valueOf(0);
     }
 
+    @Override
     public boolean isEmpty(){
         return options.isEmpty();
     }

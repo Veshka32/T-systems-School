@@ -1,6 +1,7 @@
 package entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,11 +11,13 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @NamedQueries({
         @NamedQuery(name="is_passport_exists",query = "select c.passportId from Client c where c.passportId=:id"),
         @NamedQuery(name="is_email_exists",query = "select c.email from Client c where c.email=:email"),
         @NamedQuery(name="find_by_passport",query = "from Client c where c.passportId=:passport"),
+        @NamedQuery(name = "find_by_email", query = "from Client c where c.email=:email"),
 })
 
 public class Client extends AbstractEntity{

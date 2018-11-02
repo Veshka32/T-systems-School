@@ -31,9 +31,9 @@ public class OptionService implements OptionServiceI {
     @Autowired
     public void setOptionDAO(OptionDaoI optionDAO, RelationDaoI relation) {
         this.optionDAO = optionDAO;
-        optionDAO.setClass(Option.class);
+        this.optionDAO.setClass(Option.class);
         this.relationDaoI = relation;
-        relationDaoI.setClass(OptionRelation.class);
+        this.relationDaoI.setClass(OptionRelation.class);
     }
 
     @Override

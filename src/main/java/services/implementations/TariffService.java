@@ -27,13 +27,12 @@ public class TariffService implements TariffServiceI {
     private TariffDaoI tariffDAO;
     private OptionDaoI optionDAO;
 
-
     @Autowired
     public void setTariffDAO(TariffDaoI tariffDAO, OptionDaoI optionDAO) {
         this.tariffDAO = tariffDAO;
         this.optionDAO = optionDAO;
-        tariffDAO.setClass(Tariff.class);
-        optionDAO.setClass(Option.class);
+        this.tariffDAO.setClass(Tariff.class);
+        this.optionDAO.setClass(Option.class);
     }
 
     public TariffDTO getDto(int id) {

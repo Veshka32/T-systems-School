@@ -1,29 +1,26 @@
 package services.implementations;
 
 import entities.Client;
-import entities.Contract;
 import entities.dto.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.interfaces.ClientDaoI;
-import repositories.interfaces.ContractDaoI;
 import services.ServiceException;
 import services.interfaces.ClientServiceI;
 
 import java.util.List;
 
 @Service
+@EnableTransactionManagement
 @Transactional
 public class ClientService implements ClientServiceI {
     private ClientDaoI clientDAO;
-    private ContractDaoI contractDAO;
 
     @Autowired
-    public void setDAO(ClientDaoI clientDAO, ContractDaoI contractDAO) {
+    public void setDAO(ClientDaoI clientDAO) {
         this.clientDAO = clientDAO;
-        this.contractDAO=contractDAO;
-        this.contractDAO.setClass(Contract.class);
         this.clientDAO.setClass(Client.class);
     }
 

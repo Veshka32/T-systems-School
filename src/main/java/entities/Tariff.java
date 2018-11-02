@@ -1,6 +1,7 @@
 package entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "is_tariffName_exists", query = "select o.name from Tariff o where o.name=:name"),
         @NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id"),
@@ -36,8 +38,6 @@ public class Tariff extends AbstractEntity{
             inverseJoinColumns = { @JoinColumn(name = "option_id") }
     )
     private Set<Option> options = new HashSet<>();
-
-    public Tariff(){}
 
     public Tariff(String name){
         this.name=name;

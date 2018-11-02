@@ -2,6 +2,7 @@ package entities.dto;
 
 import entities.Tariff;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.DecimalMin;
@@ -13,7 +14,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@Getter @Setter
+@Getter
+@Setter
+@NoArgsConstructor
 public class TariffDTO {
 
     private int id;
@@ -37,8 +40,6 @@ public class TariffDTO {
     public void setId(int id) {
         this.id = id;
     }
-
-    public TariffDTO(){}
 
     public TariffDTO(Tariff option){
         id=option.getId();

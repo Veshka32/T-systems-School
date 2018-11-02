@@ -1,6 +1,6 @@
 package controllers;
 
-import entities.Cart;
+import entities.CartInterface;
 import entities.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,16 +31,16 @@ public class UserCabinet {
     OptionServiceI optionService;
 
     @Autowired
-    Cart cart;
+    CartInterface cartInterface;
 
     @RequestMapping("/user/cabinet")
     public String create(Model model, Principal user) {
         Contract contract = contractService.findByPhone(Long.parseLong(user.getName()));
         contract=contractService.getFull(contract.getId());
-        cart.setContractId(contract.getId());
+        cartInterface.setContractId(contract.getId());
         model.addAttribute("contract", contract);
         model.addAttribute("availableOptions", optionService.getAll());
-        model.addAttribute("cart",cart);
+        model.addAttribute("cart", cartInterface);
         return CABINET;
     }
 
@@ -51,15 +51,15 @@ public class UserCabinet {
 
     @GetMapping("/user/block")
     public String blockContract( Model model) {
-        contractService.block(cart.getContractId());
-        model.addAttribute("contract",contractService.getFull(cart.getContractId()));
+        contractService.block(cartInterface.getContractId());
+        model.addAttribute("contract", contractService.getFull(cartInterface.getContractId()));
         return CABINET;
     }
 
     @GetMapping("/user/unblock")
     public String unblockContract(Model model) {
-        contractService.unblock(cart.getContractId());
-        model.addAttribute("contract",contractService.getFull(cart.getContractId()));
+        contractService.unblock(cartInterface.getContractId());
+        model.addAttribute("contract", contractService.getFull(cartInterface.getContractId()));
         model.addAttribute("availableOptions", optionService.getAll());
         return REDIRECT_CABINET;
     }
@@ -72,7 +72,7 @@ public class UserCabinet {
 
     @GetMapping("/user/getTariff/{tariffId}")
     public String getTariff(@PathVariable int tariffId) {
-        contractService.setTariff(cart.getContractId(), tariffId);
+        contractService.setTariff(cartInterface.getContractId(), tariffId);
         return REDIRECT_CABINET;
     }
 
@@ -80,10 +80,10 @@ public class UserCabinet {
     public String deleteOption(@PathVariable int optionId, Model model) {
         Contract contract;
         try {
-            contractService.deleteOption(cart.getContractId(), optionId);
+            contractService.deleteOption(cartInterface.getContractId(), optionId);
         } catch (ServiceException e) {
             model.addAttribute("message", e.getMessage());
-            contract = contractService.getFull(cart.getContractId());
+            contract = contractService.getFull(cartInterface.getContractId());
             model.addAttribute("contract", contract);
             model.addAttribute("availableOptions", optionService.getAll());
             return CABINET;
@@ -93,19 +93,19 @@ public class UserCabinet {
 
     @GetMapping("user/addOptionToCart/{optionId}")
     public String addOptionToCart(@PathVariable int optionId) {
-        cart.addItem(optionService.get(optionId));
+        cartInterface.addItem(optionService.get(optionId));
         return REDIRECT_CABINET;
     }
 
     @GetMapping("user/buy")
     public String buy() {
-        contractService.addOptions(cart.getContractId(),cart.getOptions());
-        cart.clear();
+        contractService.addOptions(cartInterface.getContractId(), cartInterface.getOptions());
+        cartInterface.clear();
         return REDIRECT_CABINET;
     }
 
     @GetMapping("user/deleteFromCart/{optionId}")
     public String deleteFromCart(@PathVariable int optionId){
-        cart.deleteItem(optionService.get(optionId));
+        cartInterface.deleteItem(optionService.get(optionId));
         return REDIRECT_CABINET;    }
 }

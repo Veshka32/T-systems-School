@@ -185,7 +185,7 @@
 </nav>
 
 <div class="jumbotron text-center">
-    <h1><img src="spacelogo.jpg">Space mobile</h1>
+    <h1><img src="/resources/spacelogo.jpg">Space mobile</h1>
     <p>We specialize in blablabla</p>
 </div>
 

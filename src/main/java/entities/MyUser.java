@@ -3,6 +3,7 @@ package entities;
 
 import entities.enums.Role;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,7 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@Entity @Getter @Setter
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "user")
 @NamedQuery(name = "find_user_by_login",query = "from MyUser u where u.login=:login")
 public class MyUser extends AbstractEntity {

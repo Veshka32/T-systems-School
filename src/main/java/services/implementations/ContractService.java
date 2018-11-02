@@ -8,8 +8,12 @@ import entities.dto.ContractDTO;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.interfaces.*;
+import repositories.interfaces.ClientDaoI;
+import repositories.interfaces.ContractDaoI;
+import repositories.interfaces.OptionDaoI;
+import repositories.interfaces.TariffDaoI;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;
@@ -18,25 +22,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@EnableTransactionManagement
 @Transactional
 public class ContractService implements ContractServiceI {
-    @Autowired
     ContractDaoI contractDAO;
-
-    @Autowired
-    RelationDaoI relationDaoI;
-
-    @Autowired
     TariffDaoI tariffDAO;
-
-    @Autowired
     OptionDaoI optionDao;
-
-    @Autowired
     ClientDaoI clientDAO;
+    PhoneNumberServiceI phoneNumberService;
 
     @Autowired
-    PhoneNumberServiceI phoneNumberService;
+    public void setDAO(ClientDaoI clientDAO, ContractDaoI contractDAO, OptionDaoI optionDao, TariffDaoI tariffDAO, PhoneNumberServiceI phoneNumberService) {
+        this.clientDAO = clientDAO;
+        this.contractDAO = contractDAO;
+        this.optionDao = optionDao;
+        this.tariffDAO = tariffDAO;
+        this.phoneNumberService = phoneNumberService;
+
+        this.contractDAO.setClass(Contract.class);
+        this.tariffDAO.setClass(Tariff.class);
+        this.optionDao.setClass(Option.class);
+        this.clientDAO.setClass(Client.class);
+    }
 
     @Override
     public Client findClientByPhone(long phone) {
