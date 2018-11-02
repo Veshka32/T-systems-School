@@ -4,10 +4,10 @@ import entities.TariffOption;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -22,11 +22,13 @@ public class TariffOptionDTO {
     @Size(min = 3, max = 50, message = "{option.name.invalid}")
     private String name;
 
-    @Min(value = 0, message = "{option.price.invalid}")
-    private int price;
+    @DecimalMin(value = "0.00", message = "{option.price.invalid}")
+    @Digits(integer = 6,fraction = 2)
+    private BigDecimal price;
 
-    @Min(value = 0, message = "{option.subscribeCost.invalid}")
-    private int subscribeCost;
+    @DecimalMin(value = "0.00", message = "{option.subscribeCost.invalid}")
+    @Digits(integer = 6,fraction = 2)
+    private BigDecimal subscribeCost;
 
     private String description;
 

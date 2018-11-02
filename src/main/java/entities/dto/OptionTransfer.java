@@ -1,4 +1,4 @@
-package entities;
+package entities.dto;
 
 import entities.dto.TariffOptionDTO;
 

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 
@@ -26,41 +27,11 @@ public class TariffOption extends AbstractEntity {
     @Column(unique = true)
     private String name;
 
-    private int price;
+    private BigDecimal price;
 
-    private int subscribeCost;
+    private BigDecimal subscribeCost;
 
     private String description;
-
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name="optionrelation",
-//    joinColumns = {@JoinColumn(name="one_id")},
-//    inverseJoinColumns = {@JoinColumn(name = "another_id")})
-//    Set<OptionRelation> relations;
-
-////    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-////    @JoinTable(name = "incompatible_options",
-////            joinColumns = {@JoinColumn(name = "option_id")},
-////            inverseJoinColumns = {@JoinColumn(name = "incompatible_id")})
-//    private transient Set<TariffOption> incompatibleOptions = new HashSet<>();
-//
-////    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-////    @JoinTable(name = "mandatory_options",
-////            joinColumns = {@JoinColumn(name = "option_id")},
-////            inverseJoinColumns = {@JoinColumn(name = "mandatory_id")})
-//    private transient Set<TariffOption> mandatoryOptions = new HashSet<>();
-
-//    public void addIncompatibleOption(TariffOption option) {
-//        incompatibleOptions.add(option);
-//    }
-//
-//    public void removeIncompatibleOption(TariffOption option) {
-//        incompatibleOptions.remove(option);
-//    }
-//
-//    public void addMandatoryOption(TariffOption option) {
-//        mandatoryOptions.add(option);
-//    }
 
     @Override
     public String toString() {
