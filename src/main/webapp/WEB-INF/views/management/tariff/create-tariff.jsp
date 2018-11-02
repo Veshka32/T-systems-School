@@ -56,7 +56,7 @@
     <div class="form-group">
         <label for="price">Price:</label>
         <form:input path="price" value="${tariff.price}" class="form-control" id="price"/>
-        <form:errors path="price" />
+        <p class="bg-danger"><form:errors path="price"/></p>
     </div>
     <div class="form-group">
         <label for="desc">Description:</label>

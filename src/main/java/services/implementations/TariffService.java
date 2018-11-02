@@ -4,7 +4,6 @@ import entities.Tariff;
 import entities.TariffOption;
 import entities.TariffTransfer;
 import entities.dto.TariffDTO;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -14,6 +13,7 @@ import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.TariffServiceI;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,8 +32,14 @@ public class TariffService implements TariffServiceI {
     public void setTariffDAO(TariffDaoI tariffDAO, TariffOptionDaoI optionDAO) {
         this.tariffDAO = tariffDAO;
         this.optionDAO = optionDAO;
-//        tariffDAO.setClass(Tariff.class);
-//        optionDAO.setClass(TariffOption.class);
+        tariffDAO.setClass(Tariff.class);
+        optionDAO.setClass(TariffOption.class);
+    }
+
+    public TariffDTO getDto(int id) {
+        TariffDTO dto = new TariffDTO(tariffDAO.findOne(id));
+        dto.setOptions(new HashSet<>(optionDAO.getOptionsInTariffNames(id)));
+        return dto;
     }
 
     @Override
@@ -100,13 +106,6 @@ public class TariffService implements TariffServiceI {
                     throw new ServiceException("Selected options are incompatible with each other");
             }
         }
-    }
-
-    @Override
-    public Tariff getFull(int id) {
-        Tariff tariff = tariffDAO.findOne(id);
-        Hibernate.initialize(tariff.getOptions());
-        return tariff;
     }
 
     private void updatePlainFields(TariffDTO dto, Tariff based) {

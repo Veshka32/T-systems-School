@@ -42,10 +42,6 @@ public class Tariff extends AbstractEntity{
         this.name=name;
     }
 
-    public void deleteOption(TariffOption option){
-        options.remove(option);
-    }
-
     public void addOption(TariffOption option){
         options.add(option);
     }

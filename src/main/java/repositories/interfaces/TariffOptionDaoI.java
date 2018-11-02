@@ -18,4 +18,6 @@ public interface TariffOptionDaoI extends IGenericDAO<TariffOption> {
 
     List<String> getAllIncompatibleNames(String[] names);
 
+    List<String> getOptionsInTariffNames(int id);
+
 }

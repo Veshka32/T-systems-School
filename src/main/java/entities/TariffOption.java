@@ -19,6 +19,7 @@ import java.util.Objects;
         @NamedQuery(name = "is_option_Mandatory", query = "from OptionRelation r where r.another.id=:id"),
         @NamedQuery(name = "is_option_used_in_Tariff", query = "select t.id from Tariff t join t.options o where o.id=:id"),
         @NamedQuery(name="find_by_names",query = "from TariffOption o where o.name in (:names)"),
+        @NamedQuery(name = "get_option_in_tariff_names", query = "select o.name from Tariff t join Tariff.options o where t.id=:id"),
 })
 public class TariffOption extends AbstractEntity {
 

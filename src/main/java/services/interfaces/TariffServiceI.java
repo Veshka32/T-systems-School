@@ -17,11 +17,11 @@ public interface TariffServiceI {
 
     Tariff get(int id);
 
-    Tariff getFull(int id);
-
     List<Tariff> getAll();
 
     List<String> getAllNames();
 
     TariffTransfer getTransferForEdit(int id);
+
+    TariffDTO getDto(int id);
 }

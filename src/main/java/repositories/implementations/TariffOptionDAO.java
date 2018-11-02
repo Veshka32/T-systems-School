@@ -58,15 +58,24 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> implements TariffO
         return (notUsed && notUsed1 && notMandatory);
     }
 
+    @Override
     public List<String> getAllMandatoryNames(String[] names){
-         return sessionFactory.getCurrentSession().createNamedQuery("get_all_mandatory_names",String.class)
+        return sessionFactory.getCurrentSession().createNamedQuery("get_all_mandatory_names", String.class)
                 .setParameterList("names",names)
                 .getResultList();
     }
 
+    @Override
     public List<String> getAllIncompatibleNames(String[] names){
         return sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible_names",String.class)
                 .setParameterList("names",names)
+                .getResultList();
+    }
+
+    @Override
+    public List<String> getOptionsInTariffNames(int id) {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_option_in_tariff_names", String.class)
+                .setParameter("id", id)
                 .getResultList();
     }
 }

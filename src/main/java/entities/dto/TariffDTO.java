@@ -23,8 +23,6 @@ public class TariffDTO {
     @Min(value = 0, message = "{tariff.price.invalid}")
     private int price;
 
-    private boolean archived;
-
     private String description;
 
     private Set<String> options = new HashSet<>();

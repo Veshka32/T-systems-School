@@ -1,7 +1,6 @@
 package controllers;
 
 import entities.Tariff;
-import entities.TariffOption;
 import entities.TariffTransfer;
 import entities.dto.TariffDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.interfaces.OptionServiceI;
 import services.ServiceException;
+import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
 import javax.validation.Valid;
@@ -38,8 +37,9 @@ public class TariffController {
 
     @GetMapping("/management/showTariff")
     public String show(@RequestParam("id") int id, Model model) {
-        Tariff tariff = tariffService.getFull(id);
-        showTariff(model, tariff);
+        TariffDTO dto = tariffService.getDto(id);
+        model.addAttribute("newTariff", dto);
+        model.addAttribute("options", dto.getOptions().stream().collect(Collectors.joining(", ")));
         return "management/tariff/show-tariff";
     }
 
@@ -50,7 +50,7 @@ public class TariffController {
     }
 
     @PostMapping("/management/createTariff")
-    public String create(@ModelAttribute("tariff") @Valid TariffDTO dto, BindingResult result, Model model) {
+    public String create(@ModelAttribute("tariff") @Valid TariffDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
             buildModelForCreate(model, dto);
             return CREATE;
@@ -62,8 +62,8 @@ public class TariffController {
             model.addAttribute(MODEL_MESSAGE, e.getMessage());
             return CREATE;
         }
-        showTariff(model,tariffService.getFull(dto.getId()));
-        return "management/tariff/show-tariff";
+        attr.addAttribute("id", dto.getId());
+        return "redirect:/management/showTariff";
     }
 
     @GetMapping("/management/editTariff")
@@ -119,12 +119,7 @@ public class TariffController {
 
     private void buildModelForUpdate(Model model,TariffDTO dto){
         model.addAttribute("editedTariff",dto);
-        List<String> map = optionService.getAllNames(); //do not include archived optionsNames
+        List<String> map = optionService.getAllNames();
         model.addAttribute("all",map);
-    }
-
-    private void showTariff(Model model, Tariff tariff) {
-        model.addAttribute("newTariff", tariff);
-        model.addAttribute("options", tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
     }
 }
