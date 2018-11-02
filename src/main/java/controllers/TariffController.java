@@ -1,8 +1,8 @@
 package controllers;
 
 import entities.Tariff;
-import entities.TariffTransfer;
 import entities.dto.TariffDTO;
+import entities.dto.TariffTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +38,7 @@ public class TariffController {
     @GetMapping("/management/showTariff")
     public String show(@RequestParam("id") int id, Model model) {
         TariffDTO dto = tariffService.getDto(id);
-        model.addAttribute("newTariff", dto);
+        model.addAttribute("tariff", dto);
         model.addAttribute("options", dto.getOptions().stream().collect(Collectors.joining(", ")));
         return "management/tariff/show-tariff";
     }

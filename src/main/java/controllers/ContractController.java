@@ -2,7 +2,7 @@ package controllers;
 
 import entities.Contract;
 import entities.dto.ContractDTO;
-import entities.dto.Phone;
+import entities.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,8 +57,8 @@ public class ContractController {
 
     @GetMapping("/management/showContract")
     public String show(@RequestParam("id") int id, Model model) {
-        ContractDTO contract = contractService.getDTO(id);
-        model.addAttribute(CONTRACT, contract);
+        ContractDTO dto = contractService.getDTO(id);
+        model.addAttribute(CONTRACT, dto);
         return "management/contract/show-contract";
     }
 

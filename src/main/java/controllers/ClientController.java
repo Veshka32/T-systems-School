@@ -2,16 +2,14 @@ package controllers;
 
 import entities.Client;
 import entities.dto.ClientDTO;
-import entities.dto.Passport;
+import entities.helpers.Passport;
+import entities.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.implementations.ClientService;
-import services.implementations.ContractService;
-import entities.dto.Phone;
 import services.ServiceException;
 import services.interfaces.ClientServiceI;
 import services.interfaces.ContractServiceI;
@@ -27,6 +25,7 @@ public class ClientController {
     private static final String SAVE="management/client/show-client";
     private static final String CREATE="management/client/create-client";
     private static final String MANAGEMENT="management/client/client-management";
+    private static final String CLIENT = "client";
 
     @Autowired
     ClientServiceI clientService;
@@ -41,7 +40,7 @@ public class ClientController {
     @GetMapping("/management/showClient")
     public String show(@RequestParam("id") int id, Model model) {
         Client client = clientService.get(id);
-        model.addAttribute("client",client);
+        model.addAttribute(CLIENT, client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(id));
         return SAVE;
     }
@@ -58,7 +57,7 @@ public class ClientController {
             model.addAttribute(MODEL_MESSAGE,"phone number doesn't exist");
             return MANAGEMENT;
         }
-        model.addAttribute("client",client);
+        model.addAttribute(CLIENT, client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
         return SAVE;
     }
@@ -75,31 +74,31 @@ public class ClientController {
             model.addAttribute("message1","passport id doesn't exist");
             return MANAGEMENT;
         }
-        model.addAttribute("client",client);
+        model.addAttribute(CLIENT, client);
         model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
         return SAVE;
     }
 
     @GetMapping("/management/createClient")
     public String createShow(Model model){
-        model.addAttribute("client",new ClientDTO());
+        model.addAttribute(CLIENT, new ClientDTO());
         return CREATE;
     }
 
     @PostMapping("/management/createClient")
     public String create(@Valid ClientDTO dto, BindingResult result,Model model){
         if (result.hasErrors()){
-            model.addAttribute("client",dto);
+            model.addAttribute(CLIENT, dto);
             return CREATE;
         }
         try {
             clientService.create(dto);
         } catch (ServiceException e){
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
-            model.addAttribute("client",dto);
+            model.addAttribute(CLIENT, dto);
             return CREATE;
         }
-       model.addAttribute("client",dto);
+        model.addAttribute(CLIENT, dto);
         return SAVE;
     }
 
@@ -108,20 +107,20 @@ public class ClientController {
                              @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
                              Model model){
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        model.addAttribute("editedClient",clientService.getDTO(id));
+        model.addAttribute(CLIENT, clientService.getDTO(id));
         return EDIT;
     }
 
     @PostMapping("/management/editClient")
-    public String updateClient(@ModelAttribute("editedClient") @Valid ClientDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String updateClient(@ModelAttribute(CLIENT) @Valid ClientDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            model.addAttribute("editedClient",dto);
+            model.addAttribute(CLIENT, dto);
             return EDIT;
         }
         try {
             clientService.update(dto);
         } catch (ServiceException e) {
-            model.addAttribute("editedClient",dto);
+            model.addAttribute(CLIENT, dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return EDIT;
         }

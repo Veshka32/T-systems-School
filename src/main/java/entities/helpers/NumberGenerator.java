@@ -1,9 +1,7 @@
-package entities;
+package entities.helpers;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 public class NumberGenerator{

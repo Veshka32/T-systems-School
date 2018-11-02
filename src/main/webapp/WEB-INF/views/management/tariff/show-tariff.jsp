@@ -52,19 +52,19 @@
         <tbody>
         <tr>
             <td>Id:</td>
-            <td>${newTariff.id} </td>
+            <td>${tariff.id} </td>
         </tr>
         <tr>
             <td>Name:</td>
-            <td>${newTariff.name} </td>
+            <td>${tariff.name} </td>
         </tr>
         <tr>
             <td>Price:</td>
-            <td>${newTariff.price} </td>
+            <td>${tariff.price} </td>
         </tr>
         <tr>
             <td>Description:</td>
-            <td>${newTariff.description} </td>
+            <td>${tariff.description} </td>
         </tr>
 
         <tr>
@@ -75,7 +75,7 @@
     </table>
 
     <form action="editTariff" method="get">
-        <input type="hidden" name="id" value=${newTariff.id}>
+        <input type="hidden" name="id" value=${tariff.id}>
         <input type="submit" value="Edit tariff" class="btn btn-warning"></form>
     <br>
 

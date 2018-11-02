@@ -1,4 +1,4 @@
-package entities.dto;
+package entities.helpers;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

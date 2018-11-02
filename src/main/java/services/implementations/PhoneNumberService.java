@@ -1,10 +1,9 @@
 package services.implementations;
 
-import entities.NumberGenerator;
+import entities.helpers.NumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.implementations.GenericDAO;
 import repositories.interfaces.IGenericDAO;
 import services.interfaces.PhoneNumberServiceI;
 
