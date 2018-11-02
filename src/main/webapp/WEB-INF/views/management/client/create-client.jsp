@@ -15,27 +15,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Space mobile</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="cabinet">Cabinet</a></li>
-            <li class="active"><a href="clients">Clients</a></li>
-            <li class="active"><a href="contracts">Contracts</a></li>
-            <li class="active"><a href="tariffs">Tariffs</a></li>
-            <li class="active"><a href="options">Options</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><c:if test="${pageContext.request.userPrincipal.name != null}">
-                <a href="javascript:document.getElementById('logout').submit()"><span
-                        class="glyphicon glyphicon-log-out"></span>LOG OUT</a>
-            </c:if></li>
-        </ul>
-
-    </div>
-</nav>
+<%@ include file="/resources/navbar.html" %>
 
 <c:url value="/logout" var="logoutUrl"/>
 <form id="logout" action="${logoutUrl}" method="post">

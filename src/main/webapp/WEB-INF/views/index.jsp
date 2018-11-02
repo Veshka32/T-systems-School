@@ -10,158 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            font: 400 15px Lato, sans-serif;
-            line-height: 1.8;
-            color: #818181;
-        }
-        h2 {
-            font-size: 24px;
-            text-transform: uppercase;
-            color: #303030;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-        h4 {
-            font-size: 19px;
-            line-height: 1.375em;
-            color: #303030;
-            font-weight: 400;
-            margin-bottom: 30px;
-        }
-        .jumbotron {
-            background-color: #00284d;
-            color: #fff;
-            padding: 50px 25px;
-            font-family: Montserrat, sans-serif;
-        }
-        .container-fluid {
-            padding: 60px 50px;
-        }
-        .bg-grey {
-            background-color: #cce6ff;
-        }
-        .logo-small {
-            color: #00284d;
-            font-size: 50px;
-        }
-
-        .thumbnail img {
-            width: 100%;
-            height: 100%;
-            margin-bottom: 10px;
-        }
-        .carousel-control.right, .carousel-control.left {
-            background-image: none;
-            color: #00284d;
-        }
-        .carousel-indicators li {
-            border-color: #00284d;
-        }
-        .carousel-indicators li.active {
-            background-color: #00284d;
-        }
-        .item h4 {
-            font-size: 19px;
-            line-height: 1.375em;
-            font-weight: 400;
-            font-style: italic;
-            margin: 70px 0;
-        }
-        .item span {
-            font-style: normal;
-        }
-        .panel {
-            border: 1px solid #00284d;
-            border-radius:0 !important;
-            transition: box-shadow 0.5s;
-        }
-        .panel:hover {
-            box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-        }
-        .panel-heading {
-            color: #fff !important;
-            background-color: #00284d !important;
-            padding: 10px;
-            border-bottom: 1px solid transparent;
-            border-top-left-radius: 0px;
-            border-top-right-radius: 0px;
-            border-bottom-left-radius: 0px;
-            border-bottom-right-radius: 0px;
-        }
-        .panel-footer {
-            background-color: white !important;
-        }
-        .panel-footer h3 {
-            font-size: 32px;
-        }
-        .panel-footer h4 {
-            color: #aaa;
-            font-size: 14px;
-        }
-        .navbar {
-            margin-bottom: 0;
-            background-color: #00284d;
-            z-index: 9999;
-            border: 0;
-            font-size: 12px !important;
-            line-height: 1.42857143 !important;
-            letter-spacing: 4px;
-            border-radius: 0;
-        }
-        .navbar li a, .navbar{
-            color: #fff !important;
-        }
-        .navbar-nav li a:hover, .navbar-nav li.active a {
-            color: #00284d !important;
-            background-color: #fff !important;
-        }
-        .navbar-default .navbar-toggle {
-            border-color: transparent;
-            color: #fff !important;
-        }
-        footer .glyphicon {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: #00284d;
-        }
-        .slideanim {visibility:hidden;}
-        .slide {
-            animation-name: slide;
-            -webkit-animation-name: slide;
-            animation-duration: 1s;
-            -webkit-animation-duration: 1s;
-            visibility: visible;
-        }
-        @keyframes slide {
-            0% {
-                opacity: 0;
-                transform: translateY(70%);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0%);
-            }
-        }
-        @-webkit-keyframes slide {
-            0% {
-                opacity: 0;
-                -webkit-transform: translateY(70%);
-            }
-            100% {
-                opacity: 1;
-                -webkit-transform: translateY(0%);
-            }
-        }
-        @media screen and (max-width: 768px) {
-            .col-sm-4 {
-                text-align: center;
-                margin: 25px 0;
-            }
-        }
-
-    </style>
+    <link href="resources/style.css" rel="stylesheet" type="text/css">
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -185,7 +34,8 @@
 </nav>
 
 <div class="jumbotron text-center">
-    <h1><img src="/resources/spacelogo.jpg">Space mobile</h1>
+    <img src="resources/spacelogo.jpg">
+    <h1>Space mobile</h1>
     <p>We specialize in blablabla</p>
 </div>
 
