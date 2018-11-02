@@ -9,15 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.implementations.TariffDAO;
-import repositories.implementations.TariffOptionDAO;
 import repositories.interfaces.TariffDaoI;
 import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.TariffServiceI;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,12 +90,12 @@ public class TariffService implements TariffServiceI {
             List<String> names=optionDAO.getAllMandatoryNames(params);
             if (!names.isEmpty() && !dto.getOptions().containsAll(names)) throw new ServiceException("More options are required as mandatory: "+names.toString());
 
-            //check if options are incompatible with each other
-            names=optionDAO.getAllIncompatibleNames(params);
-            if (!names.isEmpty()){
-                Optional<String> any=names.stream().filter(name->dto.getOptions().contains(name)).findFirst();
-                if (any.isPresent()) throw new ServiceException("Selected options are incompatible with each other");
-            }
+//            //check if options are incompatible with each other
+//            names=optionDAO.getAllIncompatibleNames(params);
+//            if (!names.isEmpty()){
+//                Optional<String> any=names.stream().filter(name->dto.getOptions().contains(name)).findFirst();
+//                if (any.isPresent()) throw new ServiceException("Selected options are incompatible with each other");
+//            }
         }
     }
 

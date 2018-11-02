@@ -23,5 +23,5 @@ public interface OptionServiceI {
 
     List<String> getAllNames();
 
-    TariffOption getFull(int id);
+    TariffOptionDTO getFull(int id);
 }

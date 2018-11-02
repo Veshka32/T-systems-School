@@ -1,8 +1,8 @@
 package controllers;
 
 import entities.TariffOption;
-import entities.dto.TariffOptionDTO;
 import entities.TariffOptionTransfer;
+import entities.dto.TariffOptionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,10 +34,10 @@ public class OptionController {
 
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id, Model model) {
-        TariffOption option = optionService.getFull(id);
-        model.addAttribute("newOption", option);
-        model.addAttribute("badOptions", option.getIncompatibleOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
-        model.addAttribute("mandatoryOptions", option.getMandatoryOptions().stream().map(TariffOption::getName).collect(Collectors.joining(", ")));
+        TariffOptionDTO dto = optionService.getFull(id);
+        model.addAttribute("newOption", dto);
+        model.addAttribute("badOptions", dto.getIncompatible().stream().collect(Collectors.joining(", ")));
+        model.addAttribute("mandatoryOptions", dto.getMandatory().stream().collect(Collectors.joining(", ")));
         return "management/option/show-option";
     }
 

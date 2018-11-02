@@ -2,7 +2,6 @@ package repositories.implementations;
 
 import entities.TariffOption;
 import org.springframework.stereotype.Repository;
-import repositories.implementations.GenericDAO;
 import repositories.interfaces.TariffOptionDaoI;
 
 import javax.persistence.NoResultException;
@@ -38,7 +37,7 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> implements TariffO
     }
 
     @Override
-    public boolean isUsed(int id){
+    public boolean notUsed(int id) {
         boolean notUsed=sessionFactory.getCurrentSession()
                 .createNamedQuery("is_option_used_in_Contract")
                 .setParameter("id",id)

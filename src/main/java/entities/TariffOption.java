@@ -3,13 +3,11 @@ package entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Getter
@@ -18,10 +16,8 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "find_by_name", query = "from TariffOption o where o.name=:name"),
         @NamedQuery(name = "is_option_used_in_Contract", query = "select c.id from Contract c join c.options o where o.id=:id"),
-        @NamedQuery(name = "is_option_Mandatory", query = "select o.id from TariffOption o join o.mandatoryOptions m where m.id=:id"),
+        @NamedQuery(name = "is_option_Mandatory", query = "from OptionRelation r where r.another.id=:id"),
         @NamedQuery(name = "is_option_used_in_Tariff", query = "select t.id from Tariff t join t.options o where o.id=:id"),
-        @NamedQuery(name="get_all_mandatory_names",query = "select m.name from TariffOption o join o.mandatoryOptions m where o.name in (:names)"),
-        @NamedQuery(name="get_all_incompatible_names",query = "select i.name from TariffOption o join o.incompatibleOptions i where o.name in (:names)"),
         @NamedQuery(name="find_by_names",query = "from TariffOption o where o.name in (:names)"),
 })
 public class TariffOption extends AbstractEntity {
@@ -35,29 +31,35 @@ public class TariffOption extends AbstractEntity {
 
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "incompatible_options",
-            joinColumns = {@JoinColumn(name = "option_id")},
-            inverseJoinColumns = {@JoinColumn(name = "incompatible_id")})
-    private Set<TariffOption> incompatibleOptions = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name="optionrelation",
+//    joinColumns = {@JoinColumn(name="one_id")},
+//    inverseJoinColumns = {@JoinColumn(name = "another_id")})
+//    Set<OptionRelation> relations;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "mandatory_options",
-            joinColumns = {@JoinColumn(name = "option_id")},
-            inverseJoinColumns = {@JoinColumn(name = "mandatory_id")})
-    private Set<TariffOption> mandatoryOptions = new HashSet<>();
+////    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+////    @JoinTable(name = "incompatible_options",
+////            joinColumns = {@JoinColumn(name = "option_id")},
+////            inverseJoinColumns = {@JoinColumn(name = "incompatible_id")})
+//    private transient Set<TariffOption> incompatibleOptions = new HashSet<>();
+//
+////    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+////    @JoinTable(name = "mandatory_options",
+////            joinColumns = {@JoinColumn(name = "option_id")},
+////            inverseJoinColumns = {@JoinColumn(name = "mandatory_id")})
+//    private transient Set<TariffOption> mandatoryOptions = new HashSet<>();
 
-    public void addIncompatibleOption(TariffOption option) {
-        incompatibleOptions.add(option);
-    }
-
-    public void removeIncompatibleOption(TariffOption option) {
-        incompatibleOptions.remove(option);
-    }
-
-    public void addMandatoryOption(TariffOption option) {
-        mandatoryOptions.add(option);
-    }
+//    public void addIncompatibleOption(TariffOption option) {
+//        incompatibleOptions.add(option);
+//    }
+//
+//    public void removeIncompatibleOption(TariffOption option) {
+//        incompatibleOptions.remove(option);
+//    }
+//
+//    public void addMandatoryOption(TariffOption option) {
+//        mandatoryOptions.add(option);
+//    }
 
     @Override
     public String toString() {
