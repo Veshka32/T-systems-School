@@ -1,7 +1,7 @@
 package services.implementations;
 
-import entities.TariffOption;
-import entities.dto.TariffOptionDTO;
+import entities.Option;
+import entities.dto.OptionDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import repositories.interfaces.TariffOptionDaoI;
+import repositories.interfaces.OptionDaoI;
 import services.ServiceException;
 
 import java.util.Arrays;
@@ -26,13 +26,13 @@ public class OptionServiceTest {
     @InjectMocks
     OptionService optionService;
 
-    TariffOption a = new TariffOption();
-    TariffOption b = new TariffOption();
-    TariffOption c = new TariffOption();
-    TariffOption d = new TariffOption();
+    Option a = new Option();
+    Option b = new Option();
+    Option c = new Option();
+    Option d = new Option();
 
     @Mock
-    TariffOptionDaoI optionDAO;
+    OptionDaoI optionDAO;
 
     @BeforeEach
     public void setUp() {
@@ -49,19 +49,19 @@ public class OptionServiceTest {
     @Test
     public void testCreate() {
         //set option dto
-        TariffOptionDTO dto = new TariffOptionDTO();
+        OptionDTO dto = new OptionDTO();
         dto.setName("o1");
 
         //create option with reserved name
         dto.setName("t1");
-        when(optionDAO.findByName(dto.getName())).thenReturn(new TariffOption());
+        when(optionDAO.findByName(dto.getName())).thenReturn(new Option());
         ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "name is reserved");
     }
 
     @Test
     public void testCheckCompatibility() {
-        TariffOptionDTO dto = new TariffOptionDTO();
+        OptionDTO dto = new OptionDTO();
         dto.setName("o1");
 
         //check if no option at the same time are mandatory and incompatible

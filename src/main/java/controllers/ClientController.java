@@ -69,9 +69,9 @@ public class ClientController {
             return MANAGEMENT;
         }
 
-        Client client=clientService.findByPassport(passport.getPassport());
+        Client client = clientService.findByPassport(passport.getPassportNumber());
         if (client==null){
-            model.addAttribute("message1","passport id doesn't exist");
+            model.addAttribute("message1", "passportNumber id doesn't exist");
             return MANAGEMENT;
         }
         model.addAttribute(CLIENT, client);

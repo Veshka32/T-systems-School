@@ -1,15 +1,15 @@
 package services.implementations;
 
+import entities.Option;
 import entities.Tariff;
-import entities.TariffOption;
-import entities.TariffTransfer;
 import entities.dto.TariffDTO;
+import entities.dto.TariffTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import repositories.interfaces.OptionDaoI;
 import repositories.interfaces.TariffDaoI;
-import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 import services.interfaces.TariffServiceI;
 
@@ -25,15 +25,15 @@ public class TariffService implements TariffServiceI {
     private static final String NAME_ERROR_MESSAGE = "name is reserved";
 
     private TariffDaoI tariffDAO;
-    private TariffOptionDaoI optionDAO;
+    private OptionDaoI optionDAO;
 
 
     @Autowired
-    public void setTariffDAO(TariffDaoI tariffDAO, TariffOptionDaoI optionDAO) {
+    public void setTariffDAO(TariffDaoI tariffDAO, OptionDaoI optionDAO) {
         this.tariffDAO = tariffDAO;
         this.optionDAO = optionDAO;
         tariffDAO.setClass(Tariff.class);
-        optionDAO.setClass(TariffOption.class);
+        optionDAO.setClass(Option.class);
     }
 
     public TariffDTO getDto(int id) {
@@ -57,7 +57,7 @@ public class TariffService implements TariffServiceI {
 
         //set complex fields
         for (String name : dto.getOptions()) {
-            TariffOption option = optionDAO.findByName(name);
+            Option option = optionDAO.findByName(name);
             based.addOption(option);
         }
 
@@ -83,7 +83,7 @@ public class TariffService implements TariffServiceI {
         //update complex fields
         t.getOptions().clear();
         for (String name : dto.getOptions()) {
-            TariffOption newOption = optionDAO.findByName(name);
+            Option newOption = optionDAO.findByName(name);
             t.addOption(newOption);
         }
         tariffDAO.update(t);
@@ -118,7 +118,7 @@ public class TariffService implements TariffServiceI {
     public TariffTransfer getTransferForEdit(int id) {
         Tariff tariff = tariffDAO.findOne(id);
         TariffDTO dto = new TariffDTO(tariff);
-        dto.setOptions(tariff.getOptions().stream().map(TariffOption::getName).collect(Collectors.toSet())); //how to get only ids?
+        dto.setOptions(tariff.getOptions().stream().map(Option::getName).collect(Collectors.toSet())); //how to get only ids?
         TariffTransfer transfer = new TariffTransfer(dto);
         List<String> map = optionDAO.getAllNames();
         transfer.setAll(map);

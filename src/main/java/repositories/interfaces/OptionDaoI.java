@@ -1,16 +1,16 @@
 package repositories.interfaces;
 
-import entities.TariffOption;
+import entities.Option;
 
 import java.util.List;
 
-public interface TariffOptionDaoI extends IGenericDAO<TariffOption> {
+public interface OptionDaoI extends IGenericDAO<Option> {
 
     List<String> getAllNames();
 
-    TariffOption findByName(String name);
+    Option findByName(String name);
 
-    List<TariffOption> findByNames(String[] names);
+    List<Option> findByNames(String[] names);
 
     boolean notUsed(int id);
 

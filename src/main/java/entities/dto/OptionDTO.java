@@ -1,20 +1,23 @@
 package entities.dto;
 
-import entities.TariffOption;
+import entities.Option;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.NumberFormat;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class TariffOptionDTO {
+public class OptionDTO {
 
     private int id;
 
@@ -23,11 +26,11 @@ public class TariffOptionDTO {
     private String name;
 
     @DecimalMin(value = "0.00", message = "{option.price.invalid}")
-    @Digits(integer = 6,fraction = 2)
+    @Digits(integer = 6, fraction = 2)
     private BigDecimal price;
 
     @DecimalMin(value = "0.00", message = "{option.subscribeCost.invalid}")
-    @Digits(integer = 6,fraction = 2)
+    @Digits(integer = 6, fraction = 2)
     private BigDecimal subscribeCost;
 
     private String description;
@@ -44,7 +47,7 @@ public class TariffOptionDTO {
         this.id = id;
     }
 
-    public TariffOptionDTO(TariffOption option){
+    public OptionDTO(Option option) {
         id=option.getId();
         name=option.getName();
         price=option.getPrice();

@@ -6,8 +6,6 @@ import entities.dto.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.implementations.ClientDAO;
-import repositories.implementations.ContractDAO;
 import repositories.interfaces.ClientDaoI;
 import repositories.interfaces.ContractDaoI;
 import services.ServiceException;
@@ -42,7 +40,7 @@ public class ClientService implements ClientServiceI {
     @Override
     public void create(ClientDTO dto) throws ServiceException {
         if (clientDAO.isPassportExist(dto.getPassportId()))
-            throw new ServiceException("such a passport Id already exists");
+            throw new ServiceException("such a passportNumber Id already exists");
 
         if (clientDAO.isEmailExists(dto.getEmail()))
             throw new ServiceException("email is reserved");

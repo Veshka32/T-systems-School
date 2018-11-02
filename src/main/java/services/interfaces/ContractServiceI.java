@@ -2,7 +2,7 @@ package services.interfaces;
 
 import entities.Client;
 import entities.Contract;
-import entities.TariffOption;
+import entities.Option;
 import entities.dto.ContractDTO;
 import services.ServiceException;
 
@@ -34,7 +34,7 @@ public interface ContractServiceI {
 
     Contract getFull(int id);
 
-    void addOptions(int id,Collection<TariffOption> options);
+    void addOptions(int id, Collection<Option> options);
 
     void deleteOption(int id, int optionId) throws ServiceException;
 

@@ -1,9 +1,7 @@
 package repositories.implementations;
 
 import entities.Tariff;
-import entities.TariffOption;
 import org.springframework.stereotype.Repository;
-import repositories.implementations.GenericDAO;
 import repositories.interfaces.TariffDaoI;
 
 import javax.persistence.NoResultException;

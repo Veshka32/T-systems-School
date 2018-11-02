@@ -1,8 +1,8 @@
 package controllers;
 
-import entities.TariffOption;
-import entities.TariffOptionTransfer;
-import entities.dto.TariffOptionDTO;
+import entities.Option;
+import entities.dto.OptionDTO;
+import entities.dto.OptionTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +34,7 @@ public class OptionController {
 
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id, Model model) {
-        TariffOptionDTO dto = optionService.getFull(id);
+        OptionDTO dto = optionService.getFull(id);
         model.addAttribute("newOption", dto);
         model.addAttribute("badOptions", dto.getIncompatible().stream().collect(Collectors.joining(", ")));
         model.addAttribute("mandatoryOptions", dto.getMandatory().stream().collect(Collectors.joining(", ")));
@@ -43,12 +43,12 @@ public class OptionController {
 
     @GetMapping("/management/createOption")
     public String createShow(Model model) {
-        buildModelForCreate(model, new TariffOptionDTO());
+        buildModelForCreate(model, new OptionDTO());
         return CREATE;
     }
 
     @PostMapping("/management/createOption")
-    public String create(@ModelAttribute("option") @Valid TariffOptionDTO dto, BindingResult result, Model model,RedirectAttributes attr) {
+    public String create(@ModelAttribute("option") @Valid OptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
             buildModelForCreate(model,dto);
             return CREATE;
@@ -70,14 +70,14 @@ public class OptionController {
                              Model model) {
 
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        TariffOptionTransfer transfer = optionService.getTransferForEdit(id);
+        OptionTransfer transfer = optionService.getTransferForEdit(id);
         String name=transfer.getDTO().getName();
         buildModelForUpdate(model,transfer.getDTO(),name);
         return EDIT;
     }
 
     @PostMapping("/management/editOption")
-    public String updateOption(@ModelAttribute("editedOption") @Valid TariffOptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String updateOption(@ModelAttribute("editedOption") @Valid OptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
             buildModelForUpdate(model,dto,dto.getName());
             return EDIT;
@@ -106,16 +106,16 @@ public class OptionController {
     }
 
     @ModelAttribute("allOptions")
-    public List<TariffOption> getAllOptions() {
+    public List<Option> getAllOptions() {
         return optionService.getAll();
     }
 
-    private void buildModelForCreate(Model model,TariffOptionDTO dto){
+    private void buildModelForCreate(Model model, OptionDTO dto) {
         model.addAttribute("option", dto);
         model.addAttribute("all",optionService.getAllNames());
     }
 
-    private void buildModelForUpdate(Model model,TariffOptionDTO dto,String name){
+    private void buildModelForUpdate(Model model, OptionDTO dto, String name) {
         model.addAttribute("editedOption",dto);
         List<String> all=optionService.getAllNames();
         /**

@@ -1,8 +1,6 @@
 package repositories.interfaces;
 
 import entities.Tariff;
-import entities.TariffOption;
-import repositories.interfaces.IGenericDAO;
 
 import java.util.List;
 

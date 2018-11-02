@@ -4,9 +4,11 @@ import entities.Tariff;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +22,9 @@ public class TariffDTO {
     @Size(min = 3, max = 50, message = "{tariff.name.invalid}")
     private String name;
 
-    @Min(value = 0, message = "{tariff.price.invalid}")
-    private int price;
+    @DecimalMin(value = "0.00", message = "{tariff.price.invalid}")
+    @Digits(integer = 6, fraction = 2)
+    private BigDecimal price;
 
     private String description;
 

@@ -1,6 +1,6 @@
 package controllers;
 
-import entities.CartInterface;
+import entities.Cart;
 import entities.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +31,7 @@ public class UserCabinet {
     OptionServiceI optionService;
 
     @Autowired
-    CartInterface cart;
+    Cart cart;
 
     @RequestMapping("/user/cabinet")
     public String create(Model model, Principal user) {

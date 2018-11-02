@@ -1,27 +1,27 @@
 package services.interfaces;
 
-import entities.TariffOption;
-import entities.TariffOptionTransfer;
-import entities.dto.TariffOptionDTO;
+import entities.Option;
+import entities.dto.OptionDTO;
+import entities.dto.OptionTransfer;
 import services.ServiceException;
 
 import java.util.List;
 
 public interface OptionServiceI {
 
-    void create(TariffOptionDTO dto) throws ServiceException;
+    void create(OptionDTO dto) throws ServiceException;
 
-    TariffOption get(int id);
+    Option get(int id);
 
-    void update(TariffOptionDTO option) throws ServiceException;
+    void update(OptionDTO option) throws ServiceException;
 
     void delete(int id) throws ServiceException;
 
-    TariffOptionTransfer getTransferForEdit(int id);
+    OptionTransfer getTransferForEdit(int id);
 
-    List<TariffOption> getAll();
+    List<Option> getAll();
 
     List<String> getAllNames();
 
-    TariffOptionDTO getFull(int id);
+    OptionDTO getFull(int id);
 }

@@ -46,42 +46,43 @@
     <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
     <h3>Edit client info</h3>
     <p class="bg-danger">${message}</p>
-<form:form method="POST" modelAttribute="editedClient">
+    <form:form method="POST" modelAttribute="client">
 
     <div class="form-group">
         <label for="name">Name:</label>
-        <form:input path="name" value="${editedClient.name}" class="form-control" id="name"/>
+        <form:input path="name" value="${client.name}" class="form-control" id="name"/>
         <p class="bg-danger"><form:errors path="name" /></p>
     </div>
     <div class="form-group">
         <label for="price">Surname:</label>
-        <form:input path="surname" value="${editedClient.surname}" class="form-control" id="price"/>
+        <form:input path="surname" value="${client.surname}" class="form-control" id="price"/>
         <p class="bg-danger"><form:errors path="surname" /></p>
     </div>
     <div class="form-group">
         <label for="cost">Passport:</label>
-            <form:input value="${editedClient.passportId}" path="passportId" class="form-control" id="cost"/>
+        <form:input value="${client.passportId}" path="passportId" class="form-control" id="cost"/>
         <p class="bg-danger"><form:errors path="passportId" /></p>    </div>
     <div class="form-group">
         <label for="desc">Email:</label>
-        <form:input value="${editedClient.email}" path="email" class="form-control" id="desc"/>
+        <form:input value="${client.email}" path="email" class="form-control" id="desc"/>
         <p class="bg-danger"><form:errors path="email" /></p>
     </div>
     <div class="form-group">
         <label for="desc">Birthday:</label>
-        <form:input type="date" value="${editedClient.birthday}" path="birthday" class="form-control" id="desc"/>
+        <form:input type="date" value="${client.birthday}" path="birthday" class="form-control" id="desc"/>
         <p class="bg-danger"><form:errors path="birthday" /></p>
     </div>
     <div class="form-group">
         <label for="arch">Address:</label>
         <form:input path="address" class="form-control" id="arch"/>
-    </div><input type="hidden" name="id" value=${editedClient.id}>
+    </div>
+    <input type="hidden" name="id" value=${client.id}>
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
     <br>
 
     <div class="pull-right"><form action="deleteClient" method="get">
-        <input type="hidden" name="id" value=${editedClient.id}>
+        <input type="hidden" name="id" value=${client.id}>
         <input type="submit" value="Delete client" class="btn btn-danger"></form></div>
 
 </body>

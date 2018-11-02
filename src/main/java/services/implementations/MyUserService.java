@@ -2,12 +2,11 @@ package services.implementations;
 
 import entities.Contract;
 import entities.MyUser;
-import entities.Role;
+import entities.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.implementations.UserDAO;
 import repositories.interfaces.UserDaoI;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;

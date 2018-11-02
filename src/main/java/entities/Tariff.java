@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class Tariff extends AbstractEntity{
 
     private String description;
 
-    private int price;
+    private BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
@@ -34,7 +35,7 @@ public class Tariff extends AbstractEntity{
             joinColumns = { @JoinColumn(name = "tariff_id") },
             inverseJoinColumns = { @JoinColumn(name = "option_id") }
     )
-    private Set<TariffOption> options =new HashSet<>();
+    private Set<Option> options = new HashSet<>();
 
     public Tariff(){}
 
@@ -42,7 +43,7 @@ public class Tariff extends AbstractEntity{
         this.name=name;
     }
 
-    public void addOption(TariffOption option){
+    public void addOption(Option option) {
         options.add(option);
     }
 

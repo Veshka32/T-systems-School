@@ -1,26 +1,26 @@
 package repositories.implementations;
 
-import entities.TariffOption;
+import entities.Option;
 import org.springframework.stereotype.Repository;
-import repositories.interfaces.TariffOptionDaoI;
+import repositories.interfaces.OptionDaoI;
 
 import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
-public class TariffOptionDAO extends GenericDAO<TariffOption> implements TariffOptionDaoI {
+public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
 
     @Override
     public List<String> getAllNames() {
-        return sessionFactory.getCurrentSession().createQuery("select o.name from TariffOption o",String.class)
+        return sessionFactory.getCurrentSession().createQuery("select o.name from Option o", String.class)
                 .getResultList();
     }
 
     @Override
-    public TariffOption findByName(String name){
+    public Option findByName(String name) {
         try {
             return sessionFactory.getCurrentSession()
-                    .createNamedQuery("find_by_name",TariffOption.class)
+                    .createNamedQuery("find_by_name", Option.class)
                     .setParameter("name",name)
                     .getSingleResult();
         } catch (NoResultException e){
@@ -29,9 +29,9 @@ public class TariffOptionDAO extends GenericDAO<TariffOption> implements TariffO
     }
 
     @Override
-    public List<TariffOption> findByNames(String[] names){
+    public List<Option> findByNames(String[] names) {
             return sessionFactory.getCurrentSession()
-                    .createNamedQuery("find_by_names",TariffOption.class)
+                    .createNamedQuery("find_by_names", Option.class)
                     .setParameterList("names",names)
                     .getResultList();
     }

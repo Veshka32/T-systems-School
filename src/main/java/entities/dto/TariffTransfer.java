@@ -1,6 +1,4 @@
-package entities;
-
-import entities.dto.TariffDTO;
+package entities.dto;
 
 import java.util.ArrayList;
 import java.util.List;

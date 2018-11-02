@@ -1,7 +1,7 @@
 package services.implementations;
 
+import entities.Option;
 import entities.Tariff;
-import entities.TariffOption;
 import entities.dto.TariffDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +12,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import repositories.interfaces.OptionDaoI;
 import repositories.interfaces.TariffDaoI;
-import repositories.interfaces.TariffOptionDaoI;
 import services.ServiceException;
 
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class TariffServiceTest {
     TariffDaoI tariffDAO;
 
     @Mock
-    TariffOptionDaoI optionDAO;
+    OptionDaoI optionDAO;
 
     @BeforeEach
     public void createMocks() {
@@ -78,7 +78,7 @@ public class TariffServiceTest {
         when(tariffDAO.isNameExist("t2")).thenReturn(false);
         when(optionDAO.getAllMandatoryNames(new String[]{"b"})).thenReturn(Arrays.asList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"b"})).thenReturn(Arrays.asList());
-        when(optionDAO.findByName("b")).thenReturn(new TariffOption());
+        when(optionDAO.findByName("b")).thenReturn(new Option());
         when(tariffDAO.save(new Tariff())).thenReturn(1);
     }
 }

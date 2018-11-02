@@ -1,22 +1,18 @@
 package entities.dto;
 
-import entities.dto.TariffOptionDTO;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 
-
-public class TariffOptionTransfer {
-    private TariffOptionDTO option;
+public class OptionTransfer {
+    private OptionDTO option;
     private List<String> all = new ArrayList<>();
 
-    public TariffOptionTransfer(TariffOptionDTO dto) {
+    public OptionTransfer(OptionDTO dto) {
         this.option = dto;
     }
 
-    public TariffOptionDTO getDTO() {
+    public OptionDTO getDTO() {
         return option;
     }
 
@@ -28,7 +24,7 @@ public class TariffOptionTransfer {
         this.all = all;
     }
 
-    public void setOption(TariffOptionDTO option) {
+    public void setOption(OptionDTO option) {
         this.option = option;
     }
 }

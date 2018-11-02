@@ -3,7 +3,6 @@ package entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -32,10 +31,10 @@ public class Contract extends AbstractEntity {
     private Tariff tariff;
 
     @ManyToMany
-    @JoinTable(name = "contract_tariffoption",
-            joinColumns = {@JoinColumn(name = "Contract_id")},
-            inverseJoinColumns = {@JoinColumn(name = "options_id")})
-    private Set<TariffOption> options = new HashSet<>();
+    @JoinTable(name = "contract_option",
+            joinColumns = {@JoinColumn(name = "contract_id")},
+            inverseJoinColumns = {@JoinColumn(name = "option_id")})
+    private Set<Option> options = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private MyUser user;
