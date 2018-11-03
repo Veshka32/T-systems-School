@@ -48,10 +48,10 @@ public class OptionDTO {
     }
 
     public OptionDTO(Option option) {
-        id=option.getId();
-        name=option.getName();
-        price=option.getPrice();
-        subscribeCost=option.getSubscribeCost();
-        description=option.getDescription();
+        id = option.getId();
+        name = option.getName();
+        price = option.getPrice();
+        subscribeCost = option.getSubscribeCost();
+        description = option.getDescription();
     }
 }

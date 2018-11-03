@@ -50,6 +50,7 @@
             <br>
         </c:forEach>
     </div>
+    <br>
             <input type="hidden" name="id" value=${tariff.id}>
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>

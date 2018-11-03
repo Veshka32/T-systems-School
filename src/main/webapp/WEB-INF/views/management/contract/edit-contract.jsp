@@ -26,32 +26,35 @@
     <h3>Edit contract</h3>
     <p class="bg-danger">${message}</p>
 <form:form method="POST" modelAttribute="editedContract">
+    <ul class="list-group">
+        <li class="list-group-item"> Phone number: ${editedContract.number}</li>
+        <li class="list-group-item">Current tariff: ${editedContract.tariffName}</li>
+        <li class="list-group-item">Options: ${editedContract.optionsNames}</li>
+    </ul>
 
-    Phone number: ${editedContract.number}<br>
-    Current tariff: ${editedContract.tariffName}<br>
-    Options: ${editedContract.optionsNames}<br>
-
-    <div class="form-check">
-        <label for="bl">Client blocking:</label>
-        <form:checkbox path="blocked" class="form-control" id="bl"/>
+    <div class="checkbox">
+        <label><form:checkbox path="blocked"/>Client blocking</label>
     </div>
 
-    <div class="form-check">
-        <label for="bl1">Admin blocking:</label>
-        <form:checkbox path="blockedByAdmin" class="form-control" id="bl1"/>
+    <div class="checkbox">
+        <label><form:checkbox path="blockedByAdmin"/>Admin blocking</label>
     </div>
+    <br>
 
     <div class="form-group">
         <label for="tr">Choose tariff:</label>
         <form:select path="tariffName" items="${allTariffs}" class="form-control" id="tr"/>
     </div>
 
-    <label for="opt">Set options:</label>
-    <div class="form-check form-check-inline" id="opt">
+
+    <div class="form-check form-check-inline">
+        <label for="opt">Set options:</label><br>
         <c:forEach items="${allOptions}" var="item">
-        <form:checkbox path="optionsNames" value="${item}" class="form-check" id="inc"/>
-        <label class="form-check-label" for=inc>${item}</label>
+            <form:checkbox path="optionsNames" value="${item}" class="form-check" id="opt"/>
+            <label class="form-check-label" for=opt>${item}</label>
+            <br>
     </c:forEach></div>
+    <br>
 
         <form:hidden path="ownerId" value="${editedContract.ownerId}"/>
         <form:hidden path="id" value="${editedContract.id}"/>

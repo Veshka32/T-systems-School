@@ -25,18 +25,21 @@
 <div class="container">
     <h4>Find client by phone:</h4>
     <p class="bg-danger">${message}</p>
-    <form:form method="POST" action="findClientByPhone" modelAttribute="phone">
-        <form:input path="phoneNumber"/><input type="submit" value="Find"/><br>
+    <form:form method="POST" action="findClientByPhone" class="form-inline" modelAttribute="phone">
+        <form:input path="phoneNumber" class="form-control" placeholder="1234567890"/>
+        <input class="input-group btn btn-info" type="submit" value="Find"/><br>
         <p class="bg-danger"><form:errors path="phoneNumber"/></p>
     </form:form>
     <br>
 
     <h4>Find client by passport id:</h4>
     <p class="bg-danger">${message1}</p>
-    <form:form method="POST" action="findClientByPassport" modelAttribute="passport">
-        <form:input path="passportNumber"/><input type="submit" value="Find"/><br>
+    <form:form method="POST" action="findClientByPassport" class="form-inline" modelAttribute="passport">
+        <form:input path="passportNumber" class="form-control" placeholder="1234567890"/>
+        <input class="input-group btn btn-info" type="submit" value="Find"/><br>
         <p class="bg-danger"><form:errors path="passportNumber"/></p>
     </form:form>
+    <br>
 
     <h3>All clients</h3>
     <table class="table table-striped">
@@ -65,7 +68,7 @@
                 <td>
                     <form action="showClient" method="get">
                         <input type="hidden" name="id" value=${client.id} >
-                        <input type="submit" value="Show details" class="btn"></form>
+                        <input type="submit" value="Show details" class="btn btn-info"></form>
                 </td>
             </tr>
         </c:forEach>

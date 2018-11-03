@@ -84,15 +84,16 @@
                 <td>${contract.blocked}</td>
                 <td>${contract.blockedByAdmin}</td>
                 <td>
-                    <form action="showContract" method="get">
-                        <input type="hidden" name="id" value=${contract.id} >
-                        <input type="submit" value="Show details" class="btn"></form>
-                </td>
-                <td>
                     <form action="editContract" method="get">
                         <input type="hidden" name="id" value=${contract.id} >
-                        <input type="submit" value="Edit" class="btn"></form>
+                        <input type="submit" value="Edit" class="btn btn-warning"></form>
                 </td>
+                <td>
+                    <form action="showContract" method="get">
+                        <input type="hidden" name="id" value=${contract.id} >
+                        <input type="submit" value="Show details" class="btn btn-info"></form>
+                </td>
+
             </tr>
         </c:forEach>
         </tbody>

@@ -20,15 +20,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
 
-    @Autowired @Qualifier("userDetailsService")
+    @Autowired
+    @Qualifier("userDetailsService")
     UserDetailsService userDetailsService;
 
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.inMemoryAuthentication()
-          //     .withUser("admin").password(passwordEncoder().encode("pass")).roles("MANAGER"); //temp in-memory auth
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        logger.info("register UserDetailsService bean");
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/");
-        logger.info("configure page access rules");
+        logger.info("configure Http security rules");
     }
 
     @Bean

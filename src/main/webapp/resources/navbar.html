@@ -1,7 +1,19 @@
-<nav class="navbar navbar-inverse">
+<style>
+    .navbar-custom {
+        background-color: #00284d !important;
+    }
+
+    .navbar-custom ul li a {
+        color: lightgrey;
+    }
+
+</style>
+<nav class="navbar navbar-custom">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Space mobile</a>
+            <a class="navbar-brand" href="../">
+                <img src="/resources/spacelogo.jpg" width="30" height="30" alt="">
+            </a>
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="cabinet">Cabinet</a></li>
@@ -18,6 +30,5 @@
                 </c:if>
             </li>
         </ul>
-
     </div>
 </nav>

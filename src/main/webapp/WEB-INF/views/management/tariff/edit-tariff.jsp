@@ -45,12 +45,16 @@
         <form:input value="${editedTariff.description}" path="description" class="form-control" id="desc"/>
     </div>
 
-    <label for="inc">Set options:</label>
-    <div class="form-check form-check-inline"><c:forEach items="${all}" var="item">
-        <form:checkbox path="options" value="${item}" class="form-check" id="inc"/>
-        <label class="form-check-label" for=inc>${item}</label>
-
-    </c:forEach></div>
+    <div class="form-check form-check-inline">
+        <label for="inc">Set options:</label>
+        <br>
+        <c:forEach items="${all}" var="item">
+            <form:checkbox path="options" value="${item}" class="form-check" id="inc"/>
+            <label class="form-check-label" for=inc>${item}</label>
+            <br>
+        </c:forEach>
+    </div>
+    <br>
 
     <input type="hidden" name="id" value=${editedTariff.id}>
     <input type="submit" value="Save" class="btn btn-success"/>

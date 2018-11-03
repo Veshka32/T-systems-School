@@ -23,11 +23,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public InternalResourceViewResolver resolver() {
-        logger.info("Set view resolver");
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
+        logger.info("Set view resolver");
         return resolver;
     }
 
@@ -35,6 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public MessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
         source.setBasename("messages");
+        logger.info("register messageSource bean");
         return source;
     }
 
@@ -43,12 +44,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ResourceHandlerRegistration r = registry
                 .addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
+        logger.info("register resourceHandler");
     }
 
     @Override
     public Validator getValidator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
+        logger.info("register validator factory");
         return validator;
     }
 }

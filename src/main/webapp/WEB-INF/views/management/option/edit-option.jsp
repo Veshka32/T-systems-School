@@ -53,23 +53,37 @@
         <form:input value="${editedOption.description}" path="description" class="form-control" id="desc"/>
     </div>
 
-    <label for="inc">Set incompatible options:</label>
-    <div class="form-check form-check-inline">
-        <c:forEach items="${all}" var="item">
-            <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
-            <label class="form-check-label" for=inc>${item}</label>
-        </c:forEach></div>
+    <div class="row">
+        <fieldset class="col-sm-4">
+            <div class="form-check form-check-inline">
+                <label for="inc">Set incompatible options:</label>
+                <br>
+                <c:forEach items="${all}" var="item">
+                    <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
+                    <label class="form-check-label" for=inc>${item}</label>
+                    <br>
+                </c:forEach></div>
+        </fieldset>
+        <fieldset class="col-sm-4">
+            <div class="form-check form-check-inline">
+                <label for="inc">Set mandatory options:</label>
+                <br>
+                <c:forEach items="${all}" var="item">
+                    <form:checkbox path="mandatory" value="${item}" class="form-check" id="inc"/>
+                    <label class="form-check-label" for=inc>${item}</label>
+                    <br>
+                </c:forEach></div>
+        </fieldset>
+
+
+    </div>
+
+
     <br>
-    <label for="inc">Set mandatory options:</label>
-    <div class="form-check form-check-inline"><c:forEach items="${all}" var="item">
-        <form:checkbox path="mandatory" value="${item}" class="form-check" id="inc"/>
-        <label class="form-check-label" for=inc>${item}</label>
-    </c:forEach></div>
 
     <input type="hidden" name="id" value=${editedOption.id}>
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
-    <br>
 
     <div class="pull-right">
         <form action="deleteOption" method="get">

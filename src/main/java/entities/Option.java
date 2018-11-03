@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -16,6 +13,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "option_")
 @NamedQueries({
         @NamedQuery(name = "find_by_name", query = "from Option o where o.name=:name"),
         @NamedQuery(name = "is_option_used_in_Contract", query = "select c.id from Contract c join c.options o where o.id=:id"),

@@ -21,10 +21,10 @@ import javax.persistence.*;
 )
 public class OptionRelation extends AbstractEntity {
 
-    @ManyToOne
+    @OneToOne
     private Option one;
 
-    @ManyToOne
+    @OneToOne
     private Option another;
 
     @Enumerated(EnumType.STRING)

@@ -50,7 +50,7 @@
                 <td>
                     <form action="showOption" method="get">
                         <input type="hidden" name="id" value=${option.id} >
-                        <input type="submit" value="Show details" class="btn"></form>
+                        <input type="submit" value="Show details" class="btn btn-info"></form>
                 </td>
             </tr>
         </c:forEach>

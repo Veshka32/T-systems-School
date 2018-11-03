@@ -38,20 +38,26 @@
         <form:input path="surname" value="${client.surname}" class="form-control" id="price"/>
         <p class="bg-danger"><form:errors path="surname" /></p>
     </div>
-    <div class="form-group">
-        <label for="cost">Passport:</label>
-        <form:input value="${client.passportId}" path="passportId" class="form-control" id="cost"/>
-        <p class="bg-danger"><form:errors path="passportId" /></p>    </div>
-    <div class="form-group">
-        <label for="desc">Email:</label>
-        <form:input value="${client.email}" path="email" class="form-control" id="desc"/>
-        <p class="bg-danger"><form:errors path="email" /></p>
+
+    <div class="row">
+
+        <div class="form-group col-xs-4">
+            <label for="cost">Passport:</label>
+            <form:input value="${client.passportId}" path="passportId" class="form-control" id="cost"/>
+            <p class="bg-danger"><form:errors path="passportId"/></p></div>
+        <div class="form-group col-xs-4">
+            <label for="desc">Email:</label>
+            <form:input value="${client.email}" path="email" class="form-control" id="desc"/>
+            <p class="bg-danger"><form:errors path="email"/></p>
+        </div>
+        <div class="form-group col-xs-4">
+            <label for="desc">Birthday:</label>
+            <form:input type="date" value="${client.birthday}" path="birthday" class="form-control" id="desc"/>
+            <p class="bg-danger"><form:errors path="birthday"/></p>
+        </div>
+
     </div>
-    <div class="form-group">
-        <label for="desc">Birthday:</label>
-        <form:input type="date" value="${client.birthday}" path="birthday" class="form-control" id="desc"/>
-        <p class="bg-danger"><form:errors path="birthday" /></p>
-    </div>
+
     <div class="form-group">
         <label for="arch">Address:</label>
         <form:input path="address" class="form-control" id="arch"/>

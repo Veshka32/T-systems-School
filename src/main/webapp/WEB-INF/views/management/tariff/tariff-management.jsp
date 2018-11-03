@@ -49,7 +49,7 @@
                 <td>
                     <form action="showTariff" method="get">
                         <input type="hidden" name="id" value=${tariff.id} >
-                        <input type="submit" value="Show details" class="btn"></form>
+                        <input type="submit" value="Show details" class="btn btn-info"></form>
                 </td>
             </tr>
         </c:forEach>

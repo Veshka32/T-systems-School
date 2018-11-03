@@ -32,12 +32,14 @@
         <form:select path="tariffName" items="${allTariffs}" class="form-control" id="tr"/>
     </div>
 
-    <label for="opt">Set options:</label>
     <div class="form-check form-check-inline" id="opt">
+        <label for="opt">Set options:</label><br>
         <c:forEach items="${allOptions}" var="item">
         <form:checkbox path="optionsNames" value="${item}" class="form-check" id="inc"/>
         <label class="form-check-label" for=inc>${item}</label>
+            <br>
     </c:forEach></div>
+    <br>
 
         <form:hidden path="ownerId" value="${contract.ownerId}"/>
 

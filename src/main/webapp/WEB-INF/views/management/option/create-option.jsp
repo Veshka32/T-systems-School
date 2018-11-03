@@ -53,30 +53,37 @@
         <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
     </div>
 
-    <div class="form-group">
-        <label for="mand">Set mandatory options:</label>
-        <div class="form-check form-check-inline">
+        <div class="row">
+            <fieldset class="col-sm-4">
+                <div class="form-check form-check-inline">
+                    <label for="mand">Set mandatory options:</label>
+                    <br>
             <c:forEach items="${all}" var="item">
-                <label class="form-check-label" for=inc>${item}</label>
                 <form:checkbox path="mandatory" value="${item}" class="form-check" id="mand"/>
-            </c:forEach>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="mand">Set incompatible options:</label>
-        <div class="form-check form-check-inline">
-            <c:forEach items="${all}" var="item">
                 <label class="form-check-label" for=inc>${item}</label>
-                <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
+                <br>
             </c:forEach>
-        </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="col-sm-4">
+                <div class="form-check form-check-inline">
+                    <label for="inc">Set incompatible options:</label>
+                    <br>
+            <c:forEach items="${all}" var="item">
+                <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
+                <label class="form-check-label" for=inc>${item}</label>
+                <br>
+            </c:forEach>
+                </div>
+                <br></fieldset>
+            <q></q>
     </div>
 
 
     <input type="hidden" name="id" value=${option.id}>
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
-    <br>
+</div>
 </body>
 </html>
