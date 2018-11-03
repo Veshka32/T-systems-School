@@ -22,7 +22,6 @@
 <div class="container">
     <%--Tariffs--%>
     <h4>Tariffs:</h4>
-        <span class="pull-right"><a href="cabinet" class="btn btn-info" role="button">Back to cabinet</a></span>
     <div class="row" id="options">
         <c:forEach items="${allTariffs}" var="tariff">
             <div class="col-sm-4">
@@ -33,12 +32,16 @@
                             ${tariff.price} per month
                     </div>
                     <div class="panel-footer">
-                        <a href="getTariff/${tariff.id}" role="button" class="btn btn-info">Get tariff</a>
+                        <a href="getTariff/${tariff.id}" role="button" class="btn btn-success">Get tariff</a>
                     </div>
                 </div>
             </div>
         </c:forEach>
     </div>
+    <br>
+    <a href="cabinet" class="btn btn-info" role="button">Back to cabinet</a>
+
+
 </div>
 </body>
 </html>

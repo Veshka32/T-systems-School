@@ -13,7 +13,7 @@ h2 {
 }
 
 h4 {
-    font-size: 19px;
+    font-size: 20px;
     line-height: 1.375em;
     color: #303030;
     font-weight: 400;
@@ -60,15 +60,15 @@ h4 {
 }
 
 .item h4 {
-    font-size: 19px;
+    color: #00284d;
+    font-size: 40px;
     line-height: 1.375em;
     font-weight: 400;
-    font-style: italic;
-    margin: 70px 0;
 }
 
 .item span {
-    font-style: normal;
+    font-size: 30px;
+    font-style: italic;
 }
 
 .panel {
@@ -92,17 +92,20 @@ h4 {
     border-bottom-right-radius: 0px;
 }
 
+.panel-body {
+    font-size: 20px;
+}
+
 .panel-footer {
-    background-color: white !important;
+    background-color: #cce6ff !important;
 }
 
 .panel-footer h3 {
-    font-size: 32px;
+    font-size: 30px;
 }
 
-.panel-footer h4 {
-    color: #aaa;
-    font-size: 14px;
+.panel-footer span {
+    font-size: 20px;
 }
 
 .navbar {

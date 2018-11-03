@@ -1,8 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Theme Made By www.w3schools.com -->
-    <title>Space mobile</title>
+    <title>Universe mobile</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -35,8 +37,8 @@
 
 <div class="jumbotron text-center">
     <img src="resources/spacelogo.jpg">
-    <h1>Space mobile</h1>
-    <p>We specialize in blablabla</p>
+    <h1>Multiverse mobile</h1>
+    <p>Communication through space and time</p>
 </div>
 
 <!-- Container (Services Section) -->
@@ -45,45 +47,51 @@
     <br>
     <div class="row slideanim">
         <div class="col-sm-4">
-            <span class="glyphicon glyphicon-off logo-small"></span>
-            <h4>POWER</h4>
-            <p>Lorem ipsum dolor sit amet..</p>
-        </div>
-        <div class="col-sm-4">
-            <span class="glyphicon glyphicon-heart logo-small"></span>
-            <h4>LOVE</h4>
-            <p>Lorem ipsum dolor sit amet..</p>
+            <span class="glyphicon glyphicon-map-marker logo-small"></span>
+            <h4>Any destination</h4>
+            <p>Calls without time-lag to/from all over the existing universe</p>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-lock logo-small"></span>
-            <h4>JOB DONE</h4>
-            <p>Lorem ipsum dolor sit amet..</p>
+            <h4>Safety</h4>
+            <p>We provide reliable service of time-paradox defence</p>
+        </div>
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-time logo-small"></span>
+            <h4>No time limitation</h4>
+            <p>Call to the past or future with our tachyon-tunnel technology</p>
         </div>
     </div>
 </div>
 
-<!-- Container (Portfolio Section) -->
+<!-- Options Section -->
 <div id="portfolio" class="container-fluid text-center bg-grey">
     <h2>Options</h2>
     <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
+        <%--<!-- Indicators -->--%>
+        <%--<ol class="carousel-indicators">--%>
+        <%--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>--%>
+        <%--<li data-target="#myCarousel" data-slide-to="1"></li>--%>
+        <%--<li data-target="#myCarousel" data-slide-to="2"></li>--%>
+        <%--</ol>--%>
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <h4>"This company is the best. I am so happy with the result!"<br><span>Michael Roe, Vice President, Comment Box</span></h4>
-            </div>
-            <div class="item">
-                <h4>"One word... WOW!!"<br><span>John Doe, Salesman, Rep Inc</span></h4>
-            </div>
-            <div class="item">
-                <h4>"Could I... BE any more happy with this company?"<br><span>Chandler Bing, Actor, FriendsAlot</span></h4>
-            </div>
+            <c:forEach items="${options}" var="option" varStatus="status">
+                <c:choose>
+                    <c:when test="${status.first}">
+                        <div class="item active">
+                            <h4>${option.name}</h4><span>${option.description}</span>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="item">
+                            <h4>${option.name}</h4><span>${option.description}</span>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
         </div>
 
         <!-- Left and right controls -->
@@ -98,26 +106,28 @@
     </div>
 </div>
 
-<!-- Container (Pricing Section) -->
+<!-- Tariffs Section) -->
 <div id="pricing" class="container-fluid">
     <div class="text-center">
         <h2>Tariffs</h2>
     </div>
     <div class="row slideanim">
-        <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
-                <div class="panel-heading">
-                    <h1>Basic</h1>
-                </div>
-                <div class="panel-body">
-                    <p>Lorem</p>
-                </div>
-                <div class="panel-footer">
-                    <h3>$19</h3>
-                    <h4>per month</h4>
+        <c:forEach items="${tariffs}" var="tariff">
+            <div class="col-sm-4">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading">
+                        <h1>${tariff.name}</h1>
+                    </div>
+                    <div class="panel-body">
+                        <p>${tariff.description}</p>
+                    </div>
+                    <div class="panel-footer">
+                        <h3>$${tariff.price}</h3>
+                        <span>per month</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 

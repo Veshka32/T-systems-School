@@ -14,6 +14,14 @@
             font-size: 15px;
         }
 
+        .panel-body span {
+            font-weight: bold;
+        }
+
+        .panel-body p {
+            font-style: italic;
+        }
+
     </style>
 </head>
 <body>
@@ -38,9 +46,9 @@
                     </c:if>
                 </div>
                 <div class="panel-body">
-                    Tariff:${contract.tariff.name}<br>
-                    ${contract.tariff.description}<br>
-                    ${contract.tariff.price} per month
+                    <span>Tariff:</span> ${contract.tariff.name}<br><br>
+                    <p>${contract.tariff.description}</p><br>
+                    <span>Cost: </span>${contract.tariff.price} per month
                 </div>
                 <div class="panel-footer">
                     <c:choose>

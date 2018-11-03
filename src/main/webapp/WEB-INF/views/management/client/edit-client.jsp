@@ -40,7 +40,6 @@
     </div>
 
     <div class="row">
-
         <div class="form-group col-xs-4">
             <label for="cost">Passport:</label>
             <form:input value="${client.passportId}" path="passportId" class="form-control" id="cost"/>
@@ -55,7 +54,6 @@
             <form:input type="date" value="${client.birthday}" path="birthday" class="form-control" id="desc"/>
             <p class="bg-danger"><form:errors path="birthday"/></p>
         </div>
-
     </div>
 
     <div class="form-group">
