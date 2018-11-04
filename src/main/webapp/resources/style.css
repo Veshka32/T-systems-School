@@ -27,6 +27,14 @@ h4 {
     font-family: Montserrat, sans-serif;
 }
 
+.img-valign {
+    vertical-align: bottom;
+}
+
+.image-wrap {
+    padding: 15px;
+}
+
 .container-fluid {
     padding: 60px 50px;
 }

@@ -13,18 +13,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="resources/style.css" rel="stylesheet" type="text/css">
+
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
+        <%--<div class="navbar-header">--%>
+        <%--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">--%>
+        <%--<span class="icon-bar"></span>--%>
+        <%--<span class="icon-bar"></span>--%>
+        <%--<span class="icon-bar"></span>--%>
+        <%--</button>--%>
+        <%--</div>--%>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="user/cabinet">Cabinet</a></li>
@@ -36,9 +37,11 @@
 </nav>
 
 <div class="jumbotron text-center">
-    <img src="resources/spacelogo.jpg">
-    <h1>Multiverse mobile</h1>
-    <p>Communication through space and time</p>
+
+
+    <h1><img src="resources/spacelogo.jpg" class="img-valign" width="150" height="120">Multiverse mobile</h1>
+    <p>Feel free to communicate through space and time</p>
+
 </div>
 
 <!-- Container (Services Section) -->
