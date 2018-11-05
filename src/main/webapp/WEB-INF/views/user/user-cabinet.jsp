@@ -38,10 +38,7 @@
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">Phone number: ${contract.number}
-                    <c:if test="${contract.blocked}">
-                        <span class="label label-danger right-pill">Blocked</span>
-                    </c:if>
-                    <c:if test="${contract.blockedByAdmin}">
+                    <c:if test="${contract.blocked || contract.blockedByAdmin}">
                         <span class="label label-danger right-pill">Blocked</span>
                     </c:if>
                 </div>
@@ -52,7 +49,7 @@
                 </div>
                 <div class="panel-footer">
                     <c:choose>
-                        <c:when test="${contract.blockedByAdmin}">""</c:when>
+                        <c:when test="${contract.blockedByAdmin}"> </c:when>
                         <c:otherwise>
                             <c:choose>
                                 <c:when test="${contract.blocked}"><a href="unblock" role="button"
@@ -111,8 +108,11 @@
                             ${option.price} per month
                     </div>
                     <div class="panel-footer">
-                        <a href="deleteOption/${option.id}" role="button" class="btn btn-info">Delete option</a>
+                        <c:if test="${!contract.blocked && !contract.blockedByAdmin}">
+                            <a href="deleteOption/${option.id}" role="button" class="btn btn-info">Delete option</a>
+                        </c:if>
                     </div>
+
                 </div>
             </div>
         </c:forEach>

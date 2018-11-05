@@ -25,7 +25,7 @@
 <div class="container">
     <h3>Find contract by phone:</h3>
     <p class="bg-danger">${message}</p>
-    <form:form method="POST" action="findContractByPhone" modelAttribute="phone" class="form-inline">
+    <form:form method="POST" action="findContract" modelAttribute="phone" class="form-inline">
         <form:input path="phoneNumber" class="form-control" placeholder="1234567890"/>
     <input class="input-group btn btn-info" type="submit" value="Find"/><br>
         <p class="bg-danger"><form:errors path="phoneNumber"/></p>

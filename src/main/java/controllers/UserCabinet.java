@@ -39,7 +39,9 @@ public class UserCabinet {
         contract=contractService.getFull(contract.getId());
         cartInterface.setContractId(contract.getId());
         model.addAttribute("contract", contract);
-        model.addAttribute("availableOptions", optionService.getAll());
+        if (!contract.isBlocked() && !contract.isBlockedByAdmin()) {
+            model.addAttribute("availableOptions", optionService.getAll());
+        }
         model.addAttribute("cart", cartInterface);
         return CABINET;
     }

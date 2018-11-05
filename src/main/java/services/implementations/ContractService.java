@@ -84,6 +84,8 @@ public class ContractService implements ContractServiceI {
         }
         contract.setTariff(tariff);
         contract.setNumber(phoneNumberService.getNext());
+        contract.setBlockedByAdmin(dto.isBlockedByAdmin());
+        contract.setBlocked(dto.isBlocked());
         contractDAO.save(contract);
         dto.setId(contract.getId());
         dto.setNumber(contract.getNumber()+"");
@@ -130,6 +132,8 @@ public class ContractService implements ContractServiceI {
         }
 
         contract.setTariff(tariff);
+        contract.setBlockedByAdmin(dto.isBlockedByAdmin());
+        contract.setBlocked(dto.isBlocked());
         contractDAO.update(contract);
     }
 

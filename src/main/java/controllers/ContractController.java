@@ -46,8 +46,8 @@ public class ContractController {
             model.addAttribute(MODEL_MESSAGE, "no such phone number exists");
             return MANAGEMENT;
         }
-        attr.addAttribute(CONTRACT, contract);
-        return "management/contract/show-contract";
+        attr.addAttribute("id", contract.getId());
+        return "redirect:/management/showContract";
     }
 
     @RequestMapping("/management/contracts")
