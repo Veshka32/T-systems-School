@@ -25,6 +25,7 @@ public class ContractController {
     private static final String MODEL_MESSAGE = "message";
     private static final String MANAGEMENT="management/contract/contract-management";
     private static final String CONTRACT = "contract";
+    private static final String REDIRECT_SHOW = "redirect:/management/showContract";
 
 
     @Autowired
@@ -47,7 +48,7 @@ public class ContractController {
             return MANAGEMENT;
         }
         attr.addAttribute("id", contract.getId());
-        return "redirect:/management/showContract";
+        return REDIRECT_SHOW;
     }
 
     @RequestMapping("/management/contracts")
@@ -80,7 +81,7 @@ public class ContractController {
         }
         attr.addAttribute("id", dto.getId());
 
-        return "redirect:/management/showContract";
+        return REDIRECT_SHOW;
     }
 
     @GetMapping("/management/editContract")
@@ -104,7 +105,7 @@ public class ContractController {
             return "management/contract/edit-contract";
         }
         attr.addAttribute("id",dto.getId());
-        return "redirect:/management/showContract";
+        return REDIRECT_SHOW;
     }
 
     @GetMapping("/management/deleteContract")

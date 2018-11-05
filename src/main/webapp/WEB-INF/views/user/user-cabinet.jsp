@@ -33,8 +33,8 @@
 </form>
 
 <div class="container">
-    <%--Tariff and cart--%>
     <div class="row">
+        <%--Tariff --%>
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">Phone number: ${contract.number}
@@ -64,6 +64,7 @@
                 </div>
             </div>
         </div>
+        <%--Cart--%>
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading text-left">Cart:<span class="glyphicon glyphicon-shopping-cart pull-right logo-small"></span></div>
@@ -82,6 +83,9 @@
                     </c:choose>
                     </div>
             </div>
+            <br>
+            <p class="bg-danger">${cart.message}</p>
+
         </div>
     </div>
     <%--Options--%>
@@ -136,8 +140,6 @@
             </div>
         </c:forEach>
     </div>
-
-
 </div>
 </body>
 </html>

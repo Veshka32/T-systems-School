@@ -51,18 +51,18 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public Contract findByPhone(long phone){
+    public Contract findByPhone(long phone) {
         return contractDAO.findByPhone(phone);
     }
 
     @Override
-    public Contract get(int id){
+    public Contract get(int id) {
         return contractDAO.findOne(id);
     }
 
     @Override
-    public ContractDTO getDTO(int id){
-        Contract contract=contractDAO.findOne(id);
+    public ContractDTO getDTO(int id) {
+        Contract contract = contractDAO.findOne(id);
         ContractDTO dto = new ContractDTO(contract);
         Set<Option> optionNames = contract.getOptions();
         dto.setOptionsNames(optionNames.stream().map(Option::getName).collect(Collectors.toSet()));
@@ -72,10 +72,10 @@ public class ContractService implements ContractServiceI {
     @Override
     public void create(ContractDTO dto) throws ServiceException {
         //get tariff and it's options
-        Tariff tariff=tariffDAO.findByName(dto.getTariffName());
+        Tariff tariff = tariffDAO.findByName(dto.getTariffName());
         checkCompatibility(dto, tariff);
 
-        Contract contract=new Contract();
+        Contract contract = new Contract();
         contract.setOwner(clientDAO.findOne(dto.getOwnerId()));
         if (!dto.getOptionsNames().isEmpty()) {
             Set<String> extra = dto.getOptionsNames();
@@ -88,7 +88,7 @@ public class ContractService implements ContractServiceI {
         contract.setBlocked(dto.isBlocked());
         contractDAO.save(contract);
         dto.setId(contract.getId());
-        dto.setNumber(contract.getNumber()+"");
+        dto.setNumber(contract.getNumber() + "");
     }
 
     private void checkCompatibility(ContractDTO dto, Tariff tariff) throws ServiceException {
@@ -120,10 +120,10 @@ public class ContractService implements ContractServiceI {
 
     @Override
     public void update(ContractDTO dto) throws ServiceException {
-        Tariff tariff=tariffDAO.findByName(dto.getTariffName());
+        Tariff tariff = tariffDAO.findByName(dto.getTariffName());
         checkCompatibility(dto, tariff);
 
-        Contract contract=contractDAO.findOne(dto.getId());
+        Contract contract = contractDAO.findOne(dto.getId());
 
         if (!dto.getOptionsNames().isEmpty()) {
             Set<String> extra = dto.getOptionsNames();
@@ -138,20 +138,20 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public void delete(int id){
+    public void delete(int id) {
         contractDAO.deleteById(id);
     }
 
     @Override
-    public void block(int id){
-        Contract contract=contractDAO.findOne(id);
+    public void block(int id) {
+        Contract contract = contractDAO.findOne(id);
         if (!contract.isBlocked() && !contract.isBlockedByAdmin())
             contract.setBlocked(true);
     }
 
     @Override
-    public void unblock(int id){
-        Contract contract=contractDAO.findOne(id);
+    public void unblock(int id) {
+        Contract contract = contractDAO.findOne(id);
         if (!contract.isBlockedByAdmin() && contract.isBlocked())
             contract.setBlocked(false);
     }
@@ -160,14 +160,15 @@ public class ContractService implements ContractServiceI {
     public List<Contract> getAllClientContracts(int clientId) {
         return contractDAO.getClientContracts(clientId);
     }
+
     @Override
     public List<Contract> getAll() {
         return contractDAO.findAll();
     }
 
     @Override
-    public Contract getFull(int id){
-        Contract contract=contractDAO.findOne(id);
+    public Contract getFull(int id) {
+        Contract contract = contractDAO.findOne(id);
         Hibernate.initialize(contract.getTariff().getOptions());
         Hibernate.initialize(contract.getOptions());
         return contract;
@@ -176,26 +177,54 @@ public class ContractService implements ContractServiceI {
     //client's actions
 
     @Override
-    public void addOptions(int id, Collection<Option> options) {
-        Contract contract=contractDAO.findOne(id);
+    public void addOptions(int id, Collection<Option> options) throws ServiceException {
+        Contract contract = contractDAO.findOne(id);
+        Set<String> optionInContract = contract.getOptions().stream().map(Option::getName).collect(Collectors.toSet());
+        Set<String> optionsInTariff = contract.getTariff().getOptions().stream().map(Option::getName).collect(Collectors.toSet());
+        Set<String> newOptions = options.stream().map(Option::getName).collect(Collectors.toSet());
+
+        //check if all options has its' mandatory
+        String[] params = newOptions.toArray(new String[]{});
+        List<String> names = optionDao.getAllMandatoryNames(params);
+        List<String> all = new ArrayList<>(optionInContract);
+        all.addAll(optionsInTariff);
+        all.addAll(newOptions);
+        if (!names.isEmpty() && !all.containsAll(names))
+            throw new ServiceException("More options are required as mandatory: " + names.toString());
+
+        //check if all options are compatible with each other
+        names = optionDao.getAllIncompatibleNames(params);
+        if (!names.isEmpty()) {
+            Optional<String> any = names.stream().filter(name -> all.contains(name)).findFirst();
+            if (any.isPresent())
+                throw new ServiceException("Option " + any.get() + " are incompatible with each other or with your tariff");
+        }
+
         contract.getOptions().addAll(options);
         contractDAO.update(contract);
     }
 
     @Override
     public void deleteOption(int id, int optionId) {
-        Contract contract=contractDAO.findOne(id);
+        Contract contract = contractDAO.findOne(id);
         Option option = optionDao.findOne(optionId);
-        // Optional<Option> any=contract.getOptions().stream().filter(o-> option.getMandatoryOptions().contains(option)).findFirst();
-        //if (any.isPresent()) throw new ServiceException("Option "+option.getName()+" is mandatory for option"+any.get().getName());
+        /**
+         * TODO
+         */
+        //check if option is mandatory for some other
+        Set<String> optionInContract = contract.getOptions().stream().map(Option::getName).collect(Collectors.toSet());
+        String[] params = optionInContract.toArray(new String[]{});
+        List<String> names = optionDao.getAllMandatoryNames(params);
+
+
         contract.getOptions().remove(option);
         contractDAO.update(contract);
     }
 
     @Override
-    public void setTariff(int id, int tariffId){
-        Contract contract=contractDAO.findOne(id);
-        Tariff tariff=tariffDAO.findOne(tariffId);
+    public void setTariff(int id, int tariffId) {
+        Contract contract = contractDAO.findOne(id);
+        Tariff tariff = tariffDAO.findOne(tariffId);
         contract.setTariff(tariff);
         contractDAO.update(contract);
     }

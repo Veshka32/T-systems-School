@@ -1,5 +1,6 @@
-package entities;
+package entities.stateful;
 
+import entities.Option;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +19,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class Cart implements CartInterface {
     private Set<Option> options = new HashSet<>();
-    private BigDecimal totalSum;
+    private BigDecimal totalSum = new BigDecimal(0);
     private int contractId;
+    private String message;
 
     @Override
     public void addItem(Option option) {
@@ -37,6 +39,7 @@ public class Cart implements CartInterface {
     public void clear(){
         options.clear();
         totalSum = BigDecimal.valueOf(0);
+        message = null;
     }
 
     @Override

@@ -30,7 +30,7 @@
     <div class="form-group">
         <label for="name">Name:</label>
         <form:input path="name" value="${tariff.name}" class="form-control" id="name"/>
-        <p class="bg-danger"><form:errors path="name" /></p>
+        <p class="bg-danger"><form:errors path="name"/></p>
     </div>
     <div class="form-group">
         <label for="price">Price:</label>

@@ -2,15 +2,12 @@ package repositories.implementations;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import repositories.interfaces.IGenericDAO;
 
 import java.util.List;
 
 @Repository
-@Scope( BeanDefinition.SCOPE_PROTOTYPE )
 public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Autowired

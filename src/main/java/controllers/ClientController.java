@@ -26,6 +26,7 @@ public class ClientController {
     private static final String CREATE="management/client/create-client";
     private static final String MANAGEMENT="management/client/client-management";
     private static final String CLIENT = "client";
+    private static final String CONTRACTS = "clientContracts";
 
     @Autowired
     ClientServiceI clientService;
@@ -41,7 +42,7 @@ public class ClientController {
     public String show(@RequestParam("id") int id, Model model) {
         Client client = clientService.get(id);
         model.addAttribute(CLIENT, client);
-        model.addAttribute("clientContracts",contractService.getAllClientContracts(id));
+        model.addAttribute(CONTRACTS, contractService.getAllClientContracts(id));
         return SAVE;
     }
 
@@ -58,7 +59,7 @@ public class ClientController {
             return MANAGEMENT;
         }
         model.addAttribute(CLIENT, client);
-        model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
+        model.addAttribute(CONTRACTS, contractService.getAllClientContracts(client.getId()));
         return SAVE;
     }
 
@@ -75,7 +76,7 @@ public class ClientController {
             return MANAGEMENT;
         }
         model.addAttribute(CLIENT, client);
-        model.addAttribute("clientContracts",contractService.getAllClientContracts(client.getId()));
+        model.addAttribute(CONTRACTS, contractService.getAllClientContracts(client.getId()));
         return SAVE;
     }
 
@@ -86,7 +87,7 @@ public class ClientController {
     }
 
     @PostMapping("/management/createClient")
-    public String create(@Valid ClientDTO dto, BindingResult result,Model model){
+    public String create(@ModelAttribute(CLIENT) @Valid ClientDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute(CLIENT, dto);
             return CREATE;

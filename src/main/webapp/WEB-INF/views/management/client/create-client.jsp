@@ -35,15 +35,15 @@
     </div>
 
     <div class="form-group">
-        <label for="price">Surname:</label>
-        <form:input path="surname" value="${client.surname}" class="form-control" id="price"/>
+        <label for="surname">Surname:</label>
+        <form:input path="surname" value="${client.surname}" class="form-control" id="surname"/>
         <p class="bg-danger"><form:errors path="surname"/></p>
     </div>
 
     <div class="row">
         <div class="form-group col-xs-4">
-            <label for="cost">Passport:</label>
-            <form:input value="${client.passportId}" path="passportId" class="form-control" id="cost"/>
+            <label for="pass">Passport:</label>
+            <form:input value="${client.passportId}" path="passportId" class="form-control" id="pass"/>
             <p class="bg-danger"><form:errors path="passportId"/></p>
         </div>
 
@@ -59,7 +59,6 @@
             <p class="bg-danger"><form:errors path="birthday"/></p>
         </div>
     </div>
-
 
     <div class="form-group">
         <label for="arch">Address:</label>

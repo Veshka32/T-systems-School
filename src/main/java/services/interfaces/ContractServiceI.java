@@ -34,7 +34,7 @@ public interface ContractServiceI {
 
     Contract getFull(int id);
 
-    void addOptions(int id, Collection<Option> options);
+    void addOptions(int id, Collection<Option> options) throws ServiceException;
 
     void deleteOption(int id, int optionId) throws ServiceException;
 

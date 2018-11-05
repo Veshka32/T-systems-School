@@ -1,4 +1,6 @@
-package entities;
+package entities.stateful;
+
+import entities.Option;
 
 public interface CartInterface {
     void addItem(Option option);
@@ -20,4 +22,6 @@ public interface CartInterface {
     int getContractId();
 
     void setContractId(int contractId);
+
+    void setMessage(String message);
 }

@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
 
+    private static final String NAMES = "names";
+
     @Override
     public List<String> getAllNames() {
         return sessionFactory.getCurrentSession().createQuery("select o.name from Option o", String.class)
@@ -32,7 +34,7 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
     public List<Option> findByNames(String[] names) {
             return sessionFactory.getCurrentSession()
                     .createNamedQuery("find_by_names", Option.class)
-                    .setParameterList("names",names)
+                    .setParameterList(NAMES, names)
                     .getResultList();
     }
 
@@ -61,14 +63,14 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
     @Override
     public List<String> getAllMandatoryNames(String[] names){
         return sessionFactory.getCurrentSession().createNamedQuery("get_all_mandatory_names", String.class)
-                .setParameterList("names",names)
+                .setParameterList(NAMES, names)
                 .getResultList();
     }
 
     @Override
     public List<String> getAllIncompatibleNames(String[] names){
         return sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible_names",String.class)
-                .setParameterList("names",names)
+                .setParameterList(NAMES, names)
                 .getResultList();
     }
 
