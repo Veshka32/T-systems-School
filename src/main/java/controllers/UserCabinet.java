@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
@@ -39,7 +41,7 @@ public class UserCabinet {
     CartInterface cartInterface;
 
     @RequestMapping("/user/cabinet")
-    public String create(Model model, Principal user) {
+    public String create(Model model, Principal user, @RequestParam(value = "message", required = false) String message) {
         Contract contract = contractService.findByPhone(Long.parseLong(user.getName()));
         contract=contractService.getFull(contract.getId());
         cartInterface.setContractId(contract.getId());
@@ -51,6 +53,7 @@ public class UserCabinet {
             available.removeAll(contract.getTariff().getOptions());
             model.addAttribute(AVAILABLE_OPTIONS, available);
         }
+        if (message != null) model.addAttribute("message", message);
 
         model.addAttribute("cart", cartInterface);
         return CABINET;
@@ -89,16 +92,12 @@ public class UserCabinet {
     }
 
     @GetMapping("/user/deleteOption/{optionId}")
-    public String deleteOption(@PathVariable int optionId, Model model) {
-        Contract contract;
+    public String deleteOption(@PathVariable("optionId") int id, RedirectAttributes attr) {
+
         try {
-            contractService.deleteOption(cartInterface.getContractId(), optionId);
+            contractService.deleteOption(cartInterface.getContractId(), id);
         } catch (ServiceException e) {
-            model.addAttribute("message", e.getMessage());
-            contract = contractService.getFull(cartInterface.getContractId());
-            model.addAttribute(CONTRACT, contract);
-            model.addAttribute(AVAILABLE_OPTIONS, optionService.getAll());
-            return CABINET;
+            attr.addAttribute("message", e.getMessage());
         }
         return REDIRECT_CABINET;
     }

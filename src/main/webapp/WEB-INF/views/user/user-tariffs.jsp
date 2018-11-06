@@ -28,8 +28,8 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">${tariff.name}</div>
                     <div class="panel-body">
-                            ${tariff.description}<br>
-                            ${tariff.price} per month
+                        <p class="font-italic">${tariff.description}</p>
+                        <h5>$${tariff.price} per month</h5>
                     </div>
                     <div class="panel-footer">
                         <a href="getTariff/${tariff.id}" role="button" class="btn btn-success">Get tariff</a>

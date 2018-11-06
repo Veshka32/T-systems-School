@@ -20,4 +20,6 @@ public interface OptionDaoI extends IGenericDAO<Option> {
 
     List<String> getOptionsInTariffNames(int id);
 
+    List<String> getMandatoryFor(int id);
+
 }

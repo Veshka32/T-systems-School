@@ -124,11 +124,12 @@ public class ContractService implements ContractServiceI {
         checkCompatibility(dto, tariff);
 
         Contract contract = contractDAO.findOne(dto.getId());
+        contract.getOptions().clear();
 
         if (!dto.getOptionsNames().isEmpty()) {
             Set<String> extra = dto.getOptionsNames();
             String[] params = extra.toArray(new String[]{});
-            contract.setOptions(new HashSet<>(optionDao.findByNames(params)));
+            contract.getOptions().addAll((optionDao.findByNames(params)));
         }
 
         contract.setTariff(tariff);
@@ -205,18 +206,16 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public void deleteOption(int id, int optionId) {
+    public void deleteOption(int id, int optionId) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
         Option option = optionDao.findOne(optionId);
-        /**
-         * TODO
-         */
+
         //check if option is mandatory for some other
         Set<String> optionInContract = contract.getOptions().stream().map(Option::getName).collect(Collectors.toSet());
-        String[] params = optionInContract.toArray(new String[]{});
-        List<String> names = optionDao.getAllMandatoryNames(params);
-
-
+        List<String> names = optionDao.getMandatoryFor(optionId);
+        optionInContract.retainAll(names);
+        if (!optionInContract.isEmpty())
+            throw new ServiceException("Option " + option.getName() + " is mandatory for other options: " + optionInContract.toString() + ". Delete them first");
         contract.getOptions().remove(option);
         contractDAO.update(contract);
     }
