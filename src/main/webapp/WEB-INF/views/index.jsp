@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,20 +30,32 @@
         <%--</div>--%>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="user/cabinet">Cabinet</a></li>
-                <li><a href="login">SIGN IN</a></li>
+                <sec:authorize access="hasRole('MANAGER')">
+                    <li><a href="management/cabinet">Management</a></li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('CLIENT')">
+                    <li><a href="user/cabinet">Cabinet</a></li>
+                </sec:authorize>
+                <sec:authorize access="isAnonymous()">
+                    <li><a href="login">SIGN IN</a></li>
+                </sec:authorize>
                 <li><a href="register">SIGN UP</a></li>
+                <sec:authorize access="isAuthenticated()">
+                    <li>
+                        <form action="logout" method="post">
+                            <input type="submit" value="LOG OUT" role="button" class="btn default navbar-btn">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
+                    </li>
+                </sec:authorize>
             </ul>
         </div>
     </div>
 </nav>
 
 <div class="jumbotron text-center">
-
-
     <h1><img src="resources/spacelogo.jpg" class="img-valign" width="150" height="120">Multiverse mobile</h1>
     <p>Feel free to communicate through space and time</p>
-
 </div>
 
 <!-- Container (Services Section) -->
@@ -142,9 +156,9 @@
 </footer>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         // Add smooth scrolling to all links in navbar + footer link
-        $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+        $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
             // Make sure this.hash has a value before overriding default behavior
             if (this.hash !== "") {
                 // Prevent default anchor click behavior
@@ -157,7 +171,7 @@
                 // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
                 $('html, body').animate({
                     scrollTop: $(hash).offset().top
-                }, 900, function(){
+                }, 900, function () {
 
                     // Add hash (#) to URL when done scrolling (default click behavior)
                     window.location.hash = hash;
@@ -165,8 +179,8 @@
             } // End if
         });
 
-        $(window).scroll(function() {
-            $(".slideanim").each(function(){
+        $(window).scroll(function () {
+            $(".slideanim").each(function () {
                 var pos = $(this).offset().top;
 
                 var winTop = $(window).scrollTop();

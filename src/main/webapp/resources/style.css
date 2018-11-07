@@ -141,6 +141,18 @@ h4 {
     color: #fff !important;
 }
 
+.navbar-btn {
+    border: inherit;
+    background-color: inherit;
+    font: inherit;
+}
+
+.navbar-btn:hover {
+    background-color: #fff !important;
+    color: #00284d !important;
+}
+
+
 footer .glyphicon {
     font-size: 20px;
     margin-bottom: 20px;
