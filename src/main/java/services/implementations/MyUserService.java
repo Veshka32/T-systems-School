@@ -1,5 +1,6 @@
 package services.implementations;
 
+import dao.interfaces.UserDaoI;
 import entities.Contract;
 import entities.MyUser;
 import entities.enums.Role;
@@ -8,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.interfaces.UserDaoI;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.MyUserServiceI;

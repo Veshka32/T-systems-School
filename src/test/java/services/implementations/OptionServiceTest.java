@@ -1,5 +1,6 @@
 package services.implementations;
 
+import dao.interfaces.OptionDaoI;
 import entities.Option;
 import entities.dto.OptionDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import repositories.interfaces.OptionDaoI;
 import services.ServiceException;
 
 import java.util.Arrays;

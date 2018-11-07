@@ -1,12 +1,12 @@
 package services.implementations;
 
+import dao.interfaces.ClientDaoI;
 import entities.Client;
 import entities.dto.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.interfaces.ClientDaoI;
 import services.ServiceException;
 import services.interfaces.ClientServiceI;
 
@@ -37,7 +37,7 @@ public class ClientService implements ClientServiceI {
     @Override
     public void create(ClientDTO dto) throws ServiceException {
         if (clientDAO.isPassportExist(dto.getPassportId()))
-            throw new ServiceException("such a passportNumber Id already exists");
+            throw new ServiceException("passportId is reserved");
 
         if (clientDAO.isEmailExists(dto.getEmail()))
             throw new ServiceException("email is reserved");

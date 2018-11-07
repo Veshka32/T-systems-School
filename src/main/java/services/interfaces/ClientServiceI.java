@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ClientServiceI {
 
+
     Client get(int id);
 
     Client findByPassport(String passport);

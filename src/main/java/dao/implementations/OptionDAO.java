@@ -1,8 +1,8 @@
-package repositories.implementations;
+package dao.implementations;
 
+import dao.interfaces.OptionDaoI;
 import entities.Option;
 import org.springframework.stereotype.Repository;
-import repositories.interfaces.OptionDaoI;
 
 import javax.persistence.NoResultException;
 import java.util.List;

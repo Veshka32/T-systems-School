@@ -1,5 +1,7 @@
 package services.implementations;
 
+import dao.interfaces.OptionDaoI;
+import dao.interfaces.RelationDaoI;
 import entities.Option;
 import entities.OptionRelation;
 import entities.dto.OptionDTO;
@@ -9,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.interfaces.OptionDaoI;
-import repositories.interfaces.RelationDaoI;
 import services.ServiceException;
 import services.interfaces.OptionServiceI;
 

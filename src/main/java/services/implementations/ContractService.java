@@ -1,5 +1,9 @@
 package services.implementations;
 
+import dao.interfaces.ClientDaoI;
+import dao.interfaces.ContractDaoI;
+import dao.interfaces.OptionDaoI;
+import dao.interfaces.TariffDaoI;
 import entities.Client;
 import entities.Contract;
 import entities.Option;
@@ -10,10 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.interfaces.ClientDaoI;
-import repositories.interfaces.ContractDaoI;
-import repositories.interfaces.OptionDaoI;
-import repositories.interfaces.TariffDaoI;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;

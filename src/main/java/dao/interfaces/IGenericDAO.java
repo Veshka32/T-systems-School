@@ -1,4 +1,4 @@
-package repositories.interfaces;
+package dao.interfaces;
 
 import java.util.List;
 public interface IGenericDAO<T> {

@@ -1,5 +1,7 @@
 package services.implementations;
 
+import dao.interfaces.OptionDaoI;
+import dao.interfaces.TariffDaoI;
 import entities.Option;
 import entities.Tariff;
 import entities.dto.TariffDTO;
@@ -12,8 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import repositories.interfaces.OptionDaoI;
-import repositories.interfaces.TariffDaoI;
 import services.ServiceException;
 
 import java.util.Arrays;

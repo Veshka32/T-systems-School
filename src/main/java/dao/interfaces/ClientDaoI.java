@@ -1,7 +1,6 @@
-package repositories.interfaces;
+package dao.interfaces;
 
 import entities.Client;
-import repositories.interfaces.IGenericDAO;
 
 public interface ClientDaoI extends IGenericDAO<Client> {
     boolean isPassportExist(String id);

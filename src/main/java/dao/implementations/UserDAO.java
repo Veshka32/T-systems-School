@@ -1,9 +1,8 @@
-package repositories.implementations;
+package dao.implementations;
 
+import dao.interfaces.UserDaoI;
 import entities.MyUser;
 import org.springframework.stereotype.Repository;
-import repositories.implementations.GenericDAO;
-import repositories.interfaces.UserDaoI;
 
 import javax.persistence.NoResultException;
 

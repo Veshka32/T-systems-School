@@ -1,5 +1,6 @@
 package services.implementations;
 
+import dao.interfaces.UserDaoI;
 import entities.MyUser;
 import entities.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.interfaces.UserDaoI;
 
 import java.util.ArrayList;
 import java.util.HashSet;

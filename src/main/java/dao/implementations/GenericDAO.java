@@ -1,9 +1,9 @@
-package repositories.implementations;
+package dao.implementations;
 
+import dao.interfaces.IGenericDAO;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import repositories.interfaces.IGenericDAO;
 
 import java.util.List;
 

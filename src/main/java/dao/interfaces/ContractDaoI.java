@@ -1,8 +1,7 @@
-package repositories.interfaces;
+package dao.interfaces;
 
 import entities.Client;
 import entities.Contract;
-import repositories.interfaces.IGenericDAO;
 
 import java.util.List;
 

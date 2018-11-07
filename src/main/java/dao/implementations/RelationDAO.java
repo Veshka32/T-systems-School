@@ -1,8 +1,8 @@
-package repositories.implementations;
+package dao.implementations;
 
+import dao.interfaces.RelationDaoI;
 import entities.OptionRelation;
 import org.springframework.stereotype.Repository;
-import repositories.interfaces.RelationDaoI;
 
 @Repository
 public class RelationDAO extends GenericDAO<OptionRelation> implements RelationDaoI {
