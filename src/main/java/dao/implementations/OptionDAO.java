@@ -75,9 +75,16 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
 
     @Override
     public List<String> getAllIncompatibleNames(String[] names){
-        return sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible_names",String.class)
+        List<String> oneSide = sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible_names", String.class)
                 .setParameterList(NAMES, names)
                 .getResultList();
+
+        List<String> anotherSide = sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible_names1", String.class)
+                .setParameterList(NAMES, names)
+                .getResultList();
+
+        anotherSide.addAll(oneSide);
+        return anotherSide;
     }
 
     @Override

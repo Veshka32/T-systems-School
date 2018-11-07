@@ -127,6 +127,7 @@ public class OptionService implements OptionServiceI {
     }
 
     private void checkCompatibility(OptionDTO dto) throws ServiceException {
+
         //check if no option at the same time are mandatory and incompatible
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
@@ -135,6 +136,13 @@ public class OptionService implements OptionServiceI {
         if (!dto.getMandatory().isEmpty()) {
             String[] params = dto.getMandatory().toArray(new String[]{});
             List<String> names = optionDAO.getAllMandatoryNames(params);
+
+            //check if mandatory relation is not bidirectional
+            if (names.contains(dto.getName())) {
+                List<String> names1 = optionDAO.getMandatoryFor(dto.getId());
+                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + names1.toString());
+            }
+
             names.remove(dto.getName()); //prevent itself requiring
             if (!names.isEmpty() && !dto.getMandatory().containsAll(names))
                 throw new ServiceException("More options are required as mandatory: " + names.toString());
@@ -145,6 +153,8 @@ public class OptionService implements OptionServiceI {
                 any = names.stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
                 if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible with each other");
             }
+
+
         }
     }
 
@@ -160,9 +170,7 @@ public class OptionService implements OptionServiceI {
         for (String name : dto.getIncompatible()) {
             Option newIncompatible = optionDAO.findByName(name);
             OptionRelation r = new OptionRelation(op, newIncompatible, RELATION.INCOMPATIBLE);
-            OptionRelation r1 = new OptionRelation(newIncompatible, op, RELATION.INCOMPATIBLE);
             relationDaoI.save(r);
-            relationDaoI.save(r1);
         }
 
         for (String name : dto.getMandatory()) {
