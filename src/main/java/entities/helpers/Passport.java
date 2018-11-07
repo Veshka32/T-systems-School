@@ -10,6 +10,6 @@ import javax.validation.constraints.Pattern;
 @Getter @Setter @NoArgsConstructor
 @Validated
 public class Passport {
-    @Pattern(regexp = "^[0-9]{10}", message = "{passportNumber.passportNumber.invalid}")
+    @Pattern(regexp = "^[0-9]{10}", message = "{passport.passportNumber.invalid}")
     String passportNumber;
 }

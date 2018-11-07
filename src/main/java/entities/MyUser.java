@@ -35,7 +35,7 @@ public class MyUser extends AbstractEntity {
             joinColumns = { @JoinColumn(name = "user_id") })
     private Set<Role> roles=new HashSet<>();
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
     private Contract contract;
 
     public void setRole(Role role){

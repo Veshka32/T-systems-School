@@ -81,6 +81,16 @@ public class OptionServiceTest {
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Arrays.asList("b").toString());
         dto.getMandatory().clear();
 
+        //check if mandatory relation is not bidirectional
+        dto.getMandatory().add("a");
+        dto.setId(1);
+        when(optionDAO.findByName("a")).thenReturn(null);
+        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("o1")); //b already requires "o1
+        when(optionDAO.getMandatoryFor(dto.getId())).thenReturn(Arrays.asList("b"));
+        e = assertThrows(ServiceException.class, () -> optionService.create(dto));
+        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Arrays.asList("b").toString());
+        dto.getMandatory().clear();
+
         //check if mandatory options are incompatible with each other
         dto.getMandatory().add(b.getName());
         dto.getMandatory().add(c.getName());

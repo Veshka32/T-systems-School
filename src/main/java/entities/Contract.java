@@ -36,7 +36,7 @@ public class Contract extends AbstractEntity {
             inverseJoinColumns = {@JoinColumn(name = "option_id")})
     private Set<Option> options = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")
     private MyUser user;
 
     private boolean isBlocked = false;
