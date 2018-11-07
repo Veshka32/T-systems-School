@@ -6,9 +6,20 @@ import services.ServiceException;
 
 import java.util.List;
 
+/**
+ * The {@code ClientServiceI} interface is a service-layer class for manipulating with {@code Client} entity.
+ * <p>
+ *
+ * @author Natalia Makarchuk
+ */
+
 public interface ClientServiceI {
-
-
+    /**
+     * Return {@code Client} entity from database with given id.
+     *
+     * @param id database id of desired entity
+     * @return {@code Client} found by given id or {@code null} if there is no entity with given id
+     */
     Client get(int id);
 
     Client findByPassport(String passport);

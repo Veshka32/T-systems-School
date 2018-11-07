@@ -1,8 +1,8 @@
 package services.interfaces;
 
-import entities.MyUser;
+import entities.dto.MyUserDTO;
 import services.ServiceException;
 
 public interface MyUserServiceI {
-    void create(MyUser dto) throws ServiceException;
+    void create(MyUserDTO dto) throws ServiceException;
 }

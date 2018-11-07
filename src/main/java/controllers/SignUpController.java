@@ -1,10 +1,12 @@
 package controllers;
 
-import entities.MyUser;
+import entities.dto.MyUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ServiceException;
 import services.interfaces.MyUserServiceI;
@@ -18,18 +20,20 @@ public class SignUpController {
 
     @GetMapping(value = "/register")
     public String showRegister(Model model) {
-       model.addAttribute("user",new MyUser());
+        model.addAttribute("user", new MyUserDTO());
        return "sign-up";
     }
 
     @PostMapping(value = "/register")
-    public String addUser(@ModelAttribute("user") MyUser user, Model model, RedirectAttributes attr) {
-        try{userService.create(user);}
+    public String addUser(@ModelAttribute("user") MyUserDTO dto, Model model, RedirectAttributes attr) {
+        try {
+            userService.create(dto);
+        }
         catch (ServiceException e){
             model.addAttribute("message",e.getMessage());
             return "sign-up";
         }
-        attr.addAttribute("id",user.getContract().getId());
+        attr.addAttribute("id", dto.getContractId());
         return "redirect:/user/cabinet";
     }
 

@@ -18,7 +18,6 @@ import javax.persistence.*;
         @NamedQuery(name = "get_all_mandatory_names", query = "select r.another.name from OptionRelation r where  r.relation='MANDATORY' and r.one.name in (:names)"),
         @NamedQuery(name = "get_all_incompatible_names", query = "select r.another.name from OptionRelation  r where r.relation='INCOMPATIBLE' and r.one.name in (:names)"),
         @NamedQuery(name = "get_all_incompatible_names1", query = "select r.one.name from OptionRelation  r where r.relation='INCOMPATIBLE' and r.another.name in (:names)"),
-
         @NamedQuery(name = "get_mandatory_for", query = "select r.one.name from OptionRelation r where  r.relation='MANDATORY' and r.another.id=:id"),
 }
 )
@@ -38,17 +37,4 @@ public class OptionRelation extends AbstractEntity {
         another = o1;
         relation = r;
     }
-
-    public void setIncompatible(Option o, Option o1) {
-        one = o;
-        another = o1;
-        relation = RELATION.INCOMPATIBLE;
-    }
-
-    public void setMandatory(Option o, Option o1) {
-        one = o;
-        another = o1;
-        relation = RELATION.MANDATORY;
-    }
-
 }

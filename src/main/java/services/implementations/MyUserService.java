@@ -3,6 +3,7 @@ package services.implementations;
 import dao.interfaces.UserDaoI;
 import entities.Contract;
 import entities.MyUser;
+import entities.dto.MyUserDTO;
 import entities.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +29,7 @@ public class MyUserService implements MyUserServiceI {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public void create(MyUser dto) throws ServiceException {
+    public void create(MyUserDTO dto) throws ServiceException {
         //check if already exists
         MyUser user=userDAO.findByLogin(dto.getLogin());
         if (user!=null) throw new ServiceException("This phone is already registered");
@@ -40,8 +41,13 @@ public class MyUserService implements MyUserServiceI {
         //hash password
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        dto.setRole(Role.ROLE_CLIENT);
-        dto.setContract(contract);
-        userDAO.save(dto);
+        MyUser newUser = new MyUser();
+        newUser.setRole(Role.ROLE_CLIENT);
+        newUser.setContract(contract);
+        newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userDAO.save(newUser);
+
+        dto.setPassword(null);
+        dto.setContractId(contract.getId());
     }
 }
