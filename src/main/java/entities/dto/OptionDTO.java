@@ -4,6 +4,7 @@ import entities.Option;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -33,6 +34,7 @@ public class OptionDTO {
     @Digits(integer = 6, fraction = 2)
     private BigDecimal subscribeCost;
 
+    @Length(max = 255)
     private String description;
 
     private Set<String> incompatible = new HashSet<>();

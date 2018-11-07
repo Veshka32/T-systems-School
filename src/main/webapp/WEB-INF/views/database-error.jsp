@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Manager cabinet</title>
+    <title>Database error</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
 </head>
 <body>
 <h2>Ooops, it looks like something goes wrong. </h2>
-<a href="/" class="btn btn-info" role="button">Go to main page</a>
+<a href="../" class="btn btn-info" role="button">Go to main page</a>
 
 </body>
 </html>

@@ -4,6 +4,7 @@ import entities.Client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -23,9 +24,11 @@ public class ClientDTO{
     private String passportId;
 
     @NotBlank(message = "{client.name.invalid}")
+    @Length(max = 255)
     private String name;
 
     @NotBlank(message = "{client.surname.invalid}")
+    @Length(max = 255)
     private String surname;
 
     @Past(message = "{client.birthday.invalid}")
@@ -35,6 +38,7 @@ public class ClientDTO{
     @Email(message = "{client.email.invalid}")
     private String email;
 
+    @Length(max = 255)
     private String address;
 
     public ClientDTO(Client client){

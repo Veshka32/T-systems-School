@@ -4,6 +4,7 @@ import entities.Tariff;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -29,6 +30,7 @@ public class TariffDTO {
     @Digits(integer = 6, fraction = 2)
     private BigDecimal price;
 
+    @Length(max = 255)
     private String description;
 
     private Set<String> options = new HashSet<>();
