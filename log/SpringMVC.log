@@ -1390,3 +1390,928 @@ Caused by: java.lang.NumberFormatException: For input string: "options"
 14:56:57,297 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
 14:56:58,261 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
 14:56:58,263 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:18:57,709  INFO WebMvcConfig:37 - register messageSource bean
+18:18:58,466  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+18:18:58,469  INFO Environment:213 - HHH000206: hibernate.properties not found
+18:18:58,622  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+18:18:58,959  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+18:18:59,833  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+18:19:01,149  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+18:19:01,738  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:19:02,817  INFO WebMvcConfig:46 - register resourceHandler
+18:19:02,987  INFO WebMvcConfig:53 - register validator factory
+18:19:03,377  INFO WebMvcConfig:29 - Set view resolver
+18:19:03,664  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:19:03,906  INFO WebMvcConfig:49 - configure Http security rules
+18:19:05,364 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+18:19:05,516 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+18:19:08,038 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+18:19:08,044 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+18:19:15,600 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+18:19:15,605 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+18:19:15,722 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+18:19:15,726 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+18:19:18,866 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:19:18,872 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:19:22,486 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:19:34,306 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:19:34,331 DEBUG SQL:92 - /* insert entities.Option */ insert into option_ (description, name, price, subscribeCost) values (?, ?, ?, ?)
+18:19:34,367 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:19:34,373 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:19:34,376 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:19:34,378 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+18:19:34,380 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:19:37,429 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:19:37,431 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:19:37,433 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:19:37,435 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+18:19:37,438 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:20:52,582 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:20:52,584 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:20:55,574 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:32:22,524  INFO WebMvcConfig:37 - register messageSource bean
+18:32:23,117  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+18:32:23,119  INFO Environment:213 - HHH000206: hibernate.properties not found
+18:32:23,189  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+18:32:23,386  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+18:32:23,991  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+18:32:24,993  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+18:32:25,304  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:32:26,003  INFO WebMvcConfig:46 - register resourceHandler
+18:32:26,118  INFO WebMvcConfig:53 - register validator factory
+18:32:26,373  INFO WebMvcConfig:29 - Set view resolver
+18:32:26,530  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:32:26,703  INFO WebMvcConfig:49 - configure Http security rules
+18:32:50,085 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+18:32:50,122 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+18:32:50,246 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:33:03,026 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:33:12,994 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:33:12,999 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:33:18,599 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:33:18,605 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:34:37,045 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:34:37,051 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:34:37,053 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:34:37,084 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:34:37,097 ERROR GlobalExceptionHandler:15 - Request occured:: http://localhost:8080/mobile/management/createOption
+java.lang.IllegalStateException: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:146)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:157)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1423)
+	at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1463)
+	at dao.implementations.OptionDAO.findByName(OptionDAO.java:27)
+	at services.implementations.OptionService.updateCollectionFields(OptionService.java:174)
+	at services.implementations.OptionService.create(OptionService.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy145.create(Unknown Source)
+	at controllers.OptionController.create(OptionController.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:901)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:124)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.engine.internal.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:279)
+	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:495)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:332)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:343)
+	at org.hibernate.type.TypeHelper.findDirty(TypeHelper.java:305)
+	at org.hibernate.persister.entity.AbstractEntityPersister.findDirty(AbstractEntityPersister.java:4256)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.dirtyCheck(DefaultFlushEntityEventListener.java:538)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.isUpdateNecessary(DefaultFlushEntityEventListener.java:215)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:142)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:216)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:85)
+	at org.hibernate.event.internal.DefaultAutoFlushEventListener.onAutoFlush(DefaultAutoFlushEventListener.java:44)
+	at org.hibernate.internal.SessionImpl.autoFlushIfRequired(SessionImpl.java:1398)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1483)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414)
+	... 91 more
+18:36:30,586 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:36:30,593 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:36:30,602 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:36:31,313 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:36:31,318 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:36:31,320 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:36:34,046 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:36:42,070 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:36:47,898 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:37:46,067 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:37:46,076 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:38:03,952 ERROR GlobalExceptionHandler:15 - Request occured:: http://localhost:8080/mobile/management/createOption
+java.lang.IllegalStateException: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:146)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:157)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1423)
+	at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1463)
+	at dao.implementations.OptionDAO.findByName(OptionDAO.java:27)
+	at services.implementations.OptionService.updateCollectionFields(OptionService.java:174)
+	at services.implementations.OptionService.create(OptionService.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy145.create(Unknown Source)
+	at controllers.OptionController.create(OptionController.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:901)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:124)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.engine.internal.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:279)
+	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:495)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:332)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:343)
+	at org.hibernate.type.TypeHelper.findDirty(TypeHelper.java:305)
+	at org.hibernate.persister.entity.AbstractEntityPersister.findDirty(AbstractEntityPersister.java:4256)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.dirtyCheck(DefaultFlushEntityEventListener.java:538)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.isUpdateNecessary(DefaultFlushEntityEventListener.java:215)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:142)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:216)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:85)
+	at org.hibernate.event.internal.DefaultAutoFlushEventListener.onAutoFlush(DefaultAutoFlushEventListener.java:44)
+	at org.hibernate.internal.SessionImpl.autoFlushIfRequired(SessionImpl.java:1398)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1483)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414)
+	... 91 more
+18:39:25,607 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:39:25,610 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:39:25,613 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:39:26,029 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:39:26,032 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:39:26,036 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:39:27,691 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:39:34,372 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:39:38,388 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:39:43,214 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:39:47,075 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:39:57,088 ERROR GlobalExceptionHandler:15 - Request occured:: http://localhost:8080/mobile/management/createOption
+java.lang.IllegalStateException: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:146)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:157)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1423)
+	at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1463)
+	at dao.implementations.OptionDAO.findByName(OptionDAO.java:27)
+	at services.implementations.OptionService.updateCollectionFields(OptionService.java:174)
+	at services.implementations.OptionService.create(OptionService.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy145.create(Unknown Source)
+	at controllers.OptionController.create(OptionController.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:901)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:124)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.engine.internal.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:279)
+	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:495)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:332)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:343)
+	at org.hibernate.type.TypeHelper.findDirty(TypeHelper.java:305)
+	at org.hibernate.persister.entity.AbstractEntityPersister.findDirty(AbstractEntityPersister.java:4256)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.dirtyCheck(DefaultFlushEntityEventListener.java:538)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.isUpdateNecessary(DefaultFlushEntityEventListener.java:215)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:142)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:216)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:85)
+	at org.hibernate.event.internal.DefaultAutoFlushEventListener.onAutoFlush(DefaultAutoFlushEventListener.java:44)
+	at org.hibernate.internal.SessionImpl.autoFlushIfRequired(SessionImpl.java:1398)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1483)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414)
+	... 91 more
+18:40:02,542 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:40:11,883 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:40:11,889 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:40:23,164 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:40:58,291 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:41:13,693 ERROR GlobalExceptionHandler:15 - Request occured:: http://localhost:8080/mobile/management/createOption
+java.lang.IllegalStateException: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:146)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:157)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1423)
+	at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1463)
+	at dao.implementations.OptionDAO.findByName(OptionDAO.java:27)
+	at services.implementations.OptionService.updateCollectionFields(OptionService.java:174)
+	at services.implementations.OptionService.create(OptionService.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy145.create(Unknown Source)
+	at controllers.OptionController.create(OptionController.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:901)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:124)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.engine.internal.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:279)
+	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:495)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:332)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:343)
+	at org.hibernate.type.TypeHelper.findDirty(TypeHelper.java:305)
+	at org.hibernate.persister.entity.AbstractEntityPersister.findDirty(AbstractEntityPersister.java:4256)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.dirtyCheck(DefaultFlushEntityEventListener.java:538)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.isUpdateNecessary(DefaultFlushEntityEventListener.java:215)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:142)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:216)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:85)
+	at org.hibernate.event.internal.DefaultAutoFlushEventListener.onAutoFlush(DefaultAutoFlushEventListener.java:44)
+	at org.hibernate.internal.SessionImpl.autoFlushIfRequired(SessionImpl.java:1398)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1483)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414)
+	... 91 more
+18:41:18,691 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:41:21,039 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:41:21,043 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:41:42,039 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:42:11,848 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:42:23,568 ERROR GlobalExceptionHandler:15 - Request occured:: http://localhost:8080/mobile/management/createOption
+java.lang.IllegalStateException: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:146)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:157)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1423)
+	at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1463)
+	at dao.implementations.OptionDAO.findByName(OptionDAO.java:27)
+	at services.implementations.OptionService.updateCollectionFields(OptionService.java:174)
+	at services.implementations.OptionService.create(OptionService.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy145.create(Unknown Source)
+	at controllers.OptionController.create(OptionController.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:901)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:124)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.engine.internal.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:279)
+	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:495)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:332)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:343)
+	at org.hibernate.type.TypeHelper.findDirty(TypeHelper.java:305)
+	at org.hibernate.persister.entity.AbstractEntityPersister.findDirty(AbstractEntityPersister.java:4256)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.dirtyCheck(DefaultFlushEntityEventListener.java:538)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.isUpdateNecessary(DefaultFlushEntityEventListener.java:215)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:142)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:216)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:85)
+	at org.hibernate.event.internal.DefaultAutoFlushEventListener.onAutoFlush(DefaultAutoFlushEventListener.java:44)
+	at org.hibernate.internal.SessionImpl.autoFlushIfRequired(SessionImpl.java:1398)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1483)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414)
+	... 91 more
+18:42:27,387 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:42:29,151 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:42:29,155 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:42:31,552 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:42:34,536 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:43:15,088 ERROR GlobalExceptionHandler:15 - Request occured:: http://localhost:8080/mobile/management/createOption
+java.lang.IllegalStateException: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:146)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:157)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1423)
+	at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1463)
+	at dao.implementations.OptionDAO.findByName(OptionDAO.java:27)
+	at services.implementations.OptionService.updateCollectionFields(OptionService.java:174)
+	at services.implementations.OptionService.create(OptionService.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
+	at com.sun.proxy.$Proxy145.create(Unknown Source)
+	at controllers.OptionController.create(OptionController.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:207)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:901)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:124)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: entities.Option
+	at org.hibernate.engine.internal.ForeignKeys.getEntityIdentifierIfNotUnsaved(ForeignKeys.java:279)
+	at org.hibernate.type.EntityType.getIdentifier(EntityType.java:495)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:332)
+	at org.hibernate.type.ManyToOneType.isDirty(ManyToOneType.java:343)
+	at org.hibernate.type.TypeHelper.findDirty(TypeHelper.java:305)
+	at org.hibernate.persister.entity.AbstractEntityPersister.findDirty(AbstractEntityPersister.java:4256)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.dirtyCheck(DefaultFlushEntityEventListener.java:538)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.isUpdateNecessary(DefaultFlushEntityEventListener.java:215)
+	at org.hibernate.event.internal.DefaultFlushEntityEventListener.onFlushEntity(DefaultFlushEntityEventListener.java:142)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEntities(AbstractFlushingEventListener.java:216)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.flushEverythingToExecutions(AbstractFlushingEventListener.java:85)
+	at org.hibernate.event.internal.DefaultAutoFlushEventListener.onAutoFlush(DefaultAutoFlushEventListener.java:44)
+	at org.hibernate.internal.SessionImpl.autoFlushIfRequired(SessionImpl.java:1398)
+	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1483)
+	at org.hibernate.query.internal.AbstractProducedQuery.doList(AbstractProducedQuery.java:1445)
+	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1414)
+	... 91 more
+18:45:53,074  INFO WebMvcConfig:37 - register messageSource bean
+18:45:53,911  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+18:45:53,914  INFO Environment:213 - HHH000206: hibernate.properties not found
+18:45:53,994  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+18:45:54,249  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+18:45:54,893  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+18:45:55,911  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+18:45:56,307  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:45:57,271  INFO WebMvcConfig:46 - register resourceHandler
+18:45:57,383  INFO WebMvcConfig:53 - register validator factory
+18:45:57,643  INFO WebMvcConfig:29 - Set view resolver
+18:45:57,792  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:45:57,923  INFO WebMvcConfig:49 - configure Http security rules
+18:46:03,709 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+18:46:03,749 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+18:46:03,877 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:03,888 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:46:03,896 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:06,778 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:06,783 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:06,786 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:09,378 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:09,381 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:09,382 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:10,483 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:10,485 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:10,487 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:11,636 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:11,639 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:46:11,641 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:13,346 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:13,348 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:46:13,349 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:14,904 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:14,907 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:14,909 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:19,047 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:19,050 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:46:19,052 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:20,202 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:20,205 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:20,207 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:23,249 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:23,253 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:23,255 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:26,836 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:26,839 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:46:26,842 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:28,610 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:28,613 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:28,614 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:46:29,853 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:46:29,856 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:46:29,858 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:10,113  INFO WebMvcConfig:37 - register messageSource bean
+18:48:10,877  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+18:48:10,879  INFO Environment:213 - HHH000206: hibernate.properties not found
+18:48:10,951  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+18:48:11,116  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+18:48:11,723  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+18:48:12,916  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+18:48:13,245  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:48:14,095  INFO WebMvcConfig:46 - register resourceHandler
+18:48:14,202  INFO WebMvcConfig:53 - register validator factory
+18:48:14,510  INFO WebMvcConfig:29 - Set view resolver
+18:48:14,784  INFO WebMvcConfig:31 - register UserDetailsService bean
+18:48:15,072  INFO WebMvcConfig:49 - configure Http security rules
+18:48:21,038 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+18:48:21,080 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+18:48:21,204 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:21,214 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:48:21,218 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:24,168 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:24,174 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:48:24,176 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:25,654 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:25,656 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:48:25,657 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:27,360 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:27,364 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:48:27,366 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:29,770 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:29,779 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:48:29,783 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:48:29,785 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:48:29,787 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+18:48:32,226 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:32,230 DEBUG SQL:92 - /* is_option_used_in_Contract */ select contract0_.id as col_0_0_ from Contract contract0_ inner join contract_option options1_ on contract0_.id=options1_.contract_id inner join option_ option2_ on options1_.option_id=option2_.id where option2_.id=? limit ?
+18:48:32,231 DEBUG SQL:92 - /* is_option_used_in_Tariff */ select tariff0_.id as col_0_0_ from Tariff tariff0_ inner join tariff_option options1_ on tariff0_.id=options1_.tariff_id inner join option_ option2_ on options1_.option_id=option2_.id where option2_.id=? limit ?
+18:48:32,232 DEBUG SQL:92 - /* is_option_Mandatory */ select optionrela0_.id as id1_5_, optionrela0_.another_id as another_3_5_, optionrela0_.one_id as one_id4_5_, optionrela0_.relation as relation2_5_ from optionRelation optionrela0_ where optionrela0_.another_id=? limit ?
+18:48:32,239 DEBUG SQL:92 - /* delete_mandatory */ delete from optionRelation where one_id=? and relation='MANDATORY'
+18:48:32,242 DEBUG SQL:92 - /* delete_incompatible */ delete from optionRelation where (one_id=? or another_id=?) and relation='INCOMPATIBLE'
+18:48:32,243 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:48:32,271 DEBUG SQL:92 - /* delete entities.Option */ delete from option_ where id=?
+18:48:32,288 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:32,291 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:48:32,294 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:35,385 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:35,387 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:48:35,389 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:36,880 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:36,882 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+18:48:36,884 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+18:48:41,099 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:49,323 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:49,433 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:48:49,444 DEBUG SQL:92 - /* insert entities.Option */ insert into option_ (description, name, price, subscribeCost) values (?, ?, ?, ?)
+18:48:54,682 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:48:54,686 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:48:54,687 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:48:54,689 DEBUG SQL:92 - /* insert entities.OptionRelation */ insert into optionRelation (another_id, one_id, relation) values (?, ?, ?)
+18:48:54,702 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:48:54,705 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:48:54,709 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:48:54,710 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:48:54,712 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+18:49:06,130 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:49:06,133 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:49:06,134 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:49:06,135 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+18:49:06,137 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+18:49:12,985 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:49:12,992 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:49:13,001 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (? , ?))
+18:49:17,949 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:49:17,954 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+18:49:17,958 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (? , ? , ?))
+18:49:17,961 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (? , ? , ?))
+18:49:17,966 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (? , ? , ?))
+18:49:27,705 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:49:27,707 DEBUG SQL:92 - /* is_option_used_in_Contract */ select contract0_.id as col_0_0_ from Contract contract0_ inner join contract_option options1_ on contract0_.id=options1_.contract_id inner join option_ option2_ on options1_.option_id=option2_.id where option2_.id=? limit ?
+18:49:27,709 DEBUG SQL:92 - /* is_option_used_in_Tariff */ select tariff0_.id as col_0_0_ from Tariff tariff0_ inner join tariff_option options1_ on tariff0_.id=options1_.tariff_id inner join option_ option2_ on options1_.option_id=option2_.id where option2_.id=? limit ?
+18:49:27,711 DEBUG SQL:92 - /* is_option_Mandatory */ select optionrela0_.id as id1_5_, optionrela0_.another_id as another_3_5_, optionrela0_.one_id as one_id4_5_, optionrela0_.relation as relation2_5_ from optionRelation optionrela0_ where optionrela0_.another_id=? limit ?
+18:49:27,713 DEBUG SQL:92 - /* delete_mandatory */ delete from optionRelation where one_id=? and relation='MANDATORY'
+18:49:27,714 DEBUG SQL:92 - /* delete_incompatible */ delete from optionRelation where (one_id=? or another_id=?) and relation='INCOMPATIBLE'
+18:49:27,716 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+18:49:27,718 DEBUG SQL:92 - /* delete entities.Option */ delete from option_ where id=?
+18:49:27,730 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+18:49:27,735 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+18:49:27,737 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_

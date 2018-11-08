@@ -33,23 +33,23 @@
         <tbody>
         <tr>
             <td >Id:</td>
-            <td>${newOption.id} </td>
+            <td>${option.id} </td>
         </tr>
         <tr>
             <td>Name:</td>
-            <td>${newOption.name} </td>
+            <td>${option.name} </td>
         </tr>
         <tr>
             <td>Price:</td>
-            <td>${newOption.price} </td>
+            <td>${option.price} </td>
         </tr>
         <tr>
             <td>Subscribe cost:</td>
-            <td>${newOption.subscribeCost} </td>
+            <td>${option.subscribeCost} </td>
         </tr>
         <tr>
             <td>Description:</td>
-            <td>${newOption.description} </td>
+            <td>${option.description} </td>
         </tr>
 
         <tr>
@@ -59,13 +59,13 @@
 
         <tr>
             <td>Incompatible options:</td>
-            <td>${badOptions}</td>
+            <td>${incompatibleOptions}</td>
         </tr>
         </tbody>
     </table>
 
     <form action="editOption" method="get">
-        <input type="hidden" name="id" value=${newOption.id}>
+        <input type="hidden" name="id" value=${option.id}>
         <input type="submit" value="Edit option" class="btn btn-warning"></form>
     <br>
 

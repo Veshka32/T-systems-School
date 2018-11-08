@@ -25,32 +25,32 @@
     <span class="pull-right"><a href="options" class="btn btn-info" role="button">Back to options</a></span>
     <h3>Edit option</h3>
     <p class="bg-danger">${message}</p>
-    <form:form method="POST" modelAttribute="editedOption">
+    <form:form method="POST" modelAttribute="option">
 
     <div class="form-group row">
 
     <div class="form-group col-xs-4">
         <label for="name">Name:</label>
-        <form:input path="name" value="${editedOption.name}" class="form-control" id="name"/>
+        <form:input path="name" value="${option.name}" class="form-control" id="name"/>
         <p class="bg-danger"><form:errors path="name"/></p>
     </div>
 
         <div class="form-group col-xs-2">
             <label for="price">Price:</label>
-            <form:input path="price" value="${editedOption.price}" class="form-control" id="price"/>
+            <form:input path="price" value="${option.price}" class="form-control" id="price"/>
             <p class="bg-danger"><form:errors path="price"/></p>
         </div>
 
         <div class="form-group col-xs-2">
             <label for="cost">Subscribe cost:</label>
-            <form:input value="${editedOption.subscribeCost}" path="subscribeCost" class="form-control" id="cost"/>
+            <form:input value="${option.subscribeCost}" path="subscribeCost" class="form-control" id="cost"/>
             <p class="bg-danger"><form:errors path="subscribeCost"/></p>
         </div>
     </div>
 
     <div class="form-group">
         <label for="desc">Description:</label>
-        <form:input value="${editedOption.description}" path="description" class="form-control" id="desc"/>
+        <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
     </div>
 
     <div class="row">
@@ -81,13 +81,13 @@
 
     <br>
 
-    <input type="hidden" name="id" value=${editedOption.id}>
+    <input type="hidden" name="id" value=${option.id}>
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
 
     <div class="pull-right">
         <form action="deleteOption" method="get">
-            <input type="hidden" name="id" value=${editedOption.id}>
+            <input type="hidden" name="id" value=${option.id}>
             <input type="submit" value="Delete option" class="btn btn-danger"></form>
     </div>
 </body>

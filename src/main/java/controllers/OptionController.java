@@ -1,7 +1,8 @@
 package controllers;
 
+import entities.Option;
 import entities.dto.OptionDTO;
-import entities.dto.OptionTransfer;
+import entities.dto.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,80 +23,76 @@ public class OptionController {
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
-    private static final int ROW_PER_PAGE = 3;
+    private static final String OPTION = "option";
+    private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all options
 
     @Autowired
     OptionServiceI optionService;
 
     @RequestMapping(value = {"/management/options"})
     public String showPage(@RequestParam(value = "page", required = false) Integer page, Model model) {
-        if (page == null) page = 1;
-        model.addAttribute("allInPage", optionService.getInRange((page - 1) * ROW_PER_PAGE, ROW_PER_PAGE));
+        PaginateHelper<Option> helper = optionService.getPaginateData(page, ROW_PER_PAGE);
+        model.addAttribute("allInPage", helper.getItems());
         model.addAttribute("currentPage", page);
-        model.addAttribute("pageTotal", optionService.count() / ROW_PER_PAGE + 1);
+        model.addAttribute("pageTotal", helper.getTotal());
         return "management/option/option-management";
     }
 
     @GetMapping("/management/showOption")
     public String show(@RequestParam("id") int id, Model model) {
-        OptionDTO dto = optionService.getFull(id);
-        model.addAttribute("newOption", dto);
-        model.addAttribute("badOptions", dto.getIncompatible().stream().collect(Collectors.joining(", ")));
+        OptionDTO dto = optionService.getDto(id);
+        model.addAttribute(OPTION, dto);
+        model.addAttribute("incompatibleOptions", dto.getIncompatible().stream().collect(Collectors.joining(", ")));
         model.addAttribute("mandatoryOptions", dto.getMandatory().stream().collect(Collectors.joining(", ")));
         return "management/option/show-option";
     }
 
     @GetMapping("/management/createOption")
     public String createShow(Model model) {
-        buildModelForCreate(model, new OptionDTO());
+        model.addAttribute(OPTION, new OptionDTO());
         return CREATE;
     }
 
     @PostMapping("/management/createOption")
-    public String create(@ModelAttribute("option") @Valid OptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String create(@ModelAttribute(OPTION) @Valid OptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            buildModelForCreate(model,dto);
+            model.addAttribute(OPTION, dto);
             return CREATE;
         }
         try {
-            optionService.create(dto);
+            attr.addAttribute("id", optionService.create(dto));
+            return "redirect:/management/showOption";
         } catch (ServiceException e) {
-            buildModelForCreate(model,dto);
+            model.addAttribute(OPTION, dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return CREATE;
         }
-        attr.addAttribute("id",dto.getId());
-        return "redirect:/management/showOption";
     }
 
     @GetMapping("/management/editOption")
-    public String editOption(@RequestParam("id") int id,
-                             @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
-                             Model model) {
+    public String editOption(@RequestParam("id") int id, @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error, Model model) {
 
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        OptionTransfer transfer = optionService.getTransferForEdit(id);
-        String name=transfer.getDTO().getName();
-        buildModelForUpdate(model,transfer.getDTO(),name);
+        OptionDTO dto = optionService.getDto(id);
+        model.addAttribute(OPTION, dto);
         return EDIT;
     }
 
     @PostMapping("/management/editOption")
-    public String updateOption(@ModelAttribute("editedOption") @Valid OptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String updateOption(@ModelAttribute(OPTION) @Valid OptionDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            buildModelForUpdate(model,dto,dto.getName());
+            model.addAttribute(OPTION, dto);
             return EDIT;
         }
         try {
             optionService.update(dto);
+            attr.addAttribute("id", dto.getId());
+            return "redirect:/management/showOption";
         } catch (ServiceException e) {
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
-            buildModelForUpdate(model,dto,dto.getName());
-
+            model.addAttribute(OPTION, dto);
             return EDIT;
         }
-        attr.addAttribute("id",dto.getId());
-        return "redirect:/management/showOption";
     }
 
     @GetMapping("/management/deleteOption")
@@ -109,15 +106,8 @@ public class OptionController {
         return "redirect:/management/options";
     }
 
-    private void buildModelForCreate(Model model, OptionDTO dto) {
-        model.addAttribute("option", dto);
-        model.addAttribute("all",optionService.getAllNames());
-    }
-
-    private void buildModelForUpdate(Model model, OptionDTO dto, String name) {
-        model.addAttribute("editedOption",dto);
-        List<String> all=optionService.getAllNames();
-        all.remove(name);
-        model.addAttribute("all",all);
+    @ModelAttribute("all")
+    public List<String> getAllNames() {
+        return optionService.getAllNames();
     }
 }

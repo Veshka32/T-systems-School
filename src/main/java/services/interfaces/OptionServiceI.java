@@ -2,22 +2,28 @@ package services.interfaces;
 
 import entities.Option;
 import entities.dto.OptionDTO;
-import entities.dto.OptionTransfer;
+import entities.dto.PaginateHelper;
 import services.ServiceException;
 
 import java.util.List;
 
 public interface OptionServiceI {
 
-    void create(OptionDTO dto) throws ServiceException;
+    /**
+     * Return auto-generated id of created entity
+     *
+     * @param dto contains state of new {@code Option} entity
+     * @throws ServiceException if name is not unique or some properties are incompatible with each other
+     */
+    int create(OptionDTO dto) throws ServiceException;
 
     Option get(int id);
+
+    OptionDTO getDto(int id);
 
     void update(OptionDTO option) throws ServiceException;
 
     void delete(int id) throws ServiceException;
-
-    OptionTransfer getTransferForEdit(int id);
 
     List<Option> getAll();
 
@@ -25,7 +31,5 @@ public interface OptionServiceI {
 
     List<String> getAllNames();
 
-    OptionDTO getFull(int id);
-
-    int count();
+    PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage);
 }

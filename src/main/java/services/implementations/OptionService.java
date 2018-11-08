@@ -5,7 +5,7 @@ import dao.interfaces.RelationDaoI;
 import entities.Option;
 import entities.OptionRelation;
 import entities.dto.OptionDTO;
-import entities.dto.OptionTransfer;
+import entities.dto.PaginateHelper;
 import entities.enums.RELATION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import services.ServiceException;
 import services.interfaces.OptionServiceI;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,67 +41,59 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public void create(OptionDTO dto) throws ServiceException {
+    public int create(OptionDTO dto) throws ServiceException {
+        //check name uniqueness
         if (optionDAO.findByName(dto.getName()) != null)
             throw new ServiceException(NAME_ERROR_MESSAGE);
 
-        //check mandatory and incompatible options logic
-        //throws exception if something is wrong
+        //check mandatory and incompatible options logic, throws exception if something is wrong
         checkCompatibility(dto);
 
         //set plain fields
         Option based = new Option();
         updatePlainFields(dto, based);
 
-        //set collections fields
-        updateComplexFields(dto, based);
-
         optionDAO.save(based);
-        dto.setId(based.getId());
+
+        //set collections fields
+        updateCollectionFields(dto, based);
+
+        return based.getId();
     }
 
     @Override
     public void update(OptionDTO dto) throws ServiceException {
-        Option op = optionDAO.findByName(dto.getName());
+        Option option = optionDAO.findByName(dto.getName());
 
-        if (op != null && op.getId() != dto.getId())  //check if there is another option with the same name in database
+        //check if there is another option with the same name in database and it is not proceeded option
+        if (option != null && option.getId() != dto.getId())
             throw new ServiceException(NAME_ERROR_MESSAGE);
 
-        //check mandatory and incompatible options compatibility
+        //check mandatory and incompatible options logic, throws exception if something is wrong
         checkCompatibility(dto);
 
         //update plain fields
-        op = optionDAO.findOne(dto.getId());
-        updatePlainFields(dto, op);
+        option = optionDAO.findOne(dto.getId());
+        updatePlainFields(dto, option);
 
         //clear and set complex fields
-        relationDaoI.deleteAllIncompatible(op.getId());
-        relationDaoI.deleteAllMandatory(op.getId());
-        updateComplexFields(dto, op);
+        relationDaoI.deleteAllIncompatible(option.getId());
+        relationDaoI.deleteAllMandatory(option.getId());
+        updateCollectionFields(dto, option);
 
-        optionDAO.update(op);
+        //save changes in db
+        optionDAO.update(option);
     }
 
     @Override
     public void delete(int id) throws ServiceException {
+        //check if option has any relation with other options, tariffs or contract
         if (!optionDAO.notUsed(id))
             throw new ServiceException("Option is used in contracts/tariffs or is mandatory for another option");
 
         relationDaoI.deleteAllMandatory(id);
         relationDaoI.deleteAllIncompatible(id);
-
         optionDAO.deleteById(id);
-    }
-
-    @Override
-    public OptionTransfer getTransferForEdit(int id) {
-        OptionDTO dto = getFull(id);
-
-        OptionTransfer transfer = new OptionTransfer(dto);
-        List<String> map = optionDAO.getAllNames();
-        map.remove(dto.getName());
-        transfer.setAll(map);
-        return transfer;
     }
 
     @Override
@@ -111,19 +102,12 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public OptionDTO getFull(int id) {
+    public OptionDTO getDto(int id) {
         Option option = optionDAO.findOne(id);
         OptionDTO dto = new OptionDTO(option);
-
-        dto.setIncompatible(new HashSet<>(optionDAO.getAllIncompatibleNames(new String[]{option.getName()})));
-        dto.setMandatory(new HashSet<>(optionDAO.getAllMandatoryNames(new String[]{option.getName()})));
-
+        dto.getIncompatible().addAll(optionDAO.getAllIncompatibleNames(new String[]{option.getName()}));
+        dto.getMandatory().addAll(optionDAO.getAllMandatoryNames(new String[]{option.getName()}));
         return dto;
-    }
-
-    @Override
-    public int count() {
-        return optionDAO.count().intValue();
     }
 
     @Override
@@ -137,10 +121,12 @@ public class OptionService implements OptionServiceI {
     }
 
     private void checkCompatibility(OptionDTO dto) throws ServiceException {
+        dto.getMandatory().remove(dto.getName());
+        dto.getIncompatible().remove(dto.getName());
 
         //check if no option at the same time are mandatory and incompatible
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
-        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE);
+        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE + " :" + any.get());
 
         //check if all from mandatory also have its' corresponding mandatory options
         if (!dto.getMandatory().isEmpty()) {
@@ -163,9 +149,17 @@ public class OptionService implements OptionServiceI {
                 any = names.stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
                 if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible with each other");
             }
-
-
         }
+    }
+
+    @Override
+    public PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage) {
+        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        List<Option> optionsForPage = getInRange((currentPage - 1) * rowPerPage, rowPerPage);
+        int total = optionDAO.count().intValue();
+        int totalPage = total / rowPerPage;
+        if (total % rowPerPage > 0) totalPage++;
+        return new PaginateHelper<>(optionsForPage, totalPage);
     }
 
     private void updatePlainFields(OptionDTO dto, Option based) {
@@ -175,7 +169,7 @@ public class OptionService implements OptionServiceI {
         based.setDescription(dto.getDescription());
     }
 
-    private void updateComplexFields(OptionDTO dto, Option op) {
+    private void updateCollectionFields(OptionDTO dto, Option op) {
         //set collections fields
         for (String name : dto.getIncompatible()) {
             Option newIncompatible = optionDAO.findByName(name);
