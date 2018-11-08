@@ -21,13 +21,6 @@
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-        <%--<div class="navbar-header">--%>
-        <%--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">--%>
-        <%--<span class="icon-bar"></span>--%>
-        <%--<span class="icon-bar"></span>--%>
-        <%--<span class="icon-bar"></span>--%>
-        <%--</button>--%>
-        <%--</div>--%>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="hasRole('MANAGER')">
@@ -39,7 +32,9 @@
                 <sec:authorize access="isAnonymous()">
                     <li><a href="login">SIGN IN</a></li>
                 </sec:authorize>
-                <li><a href="register">SIGN UP</a></li>
+                <sec:authorize access="isAnonymous()">
+                    <li><a href="register">SIGN UP</a></li>
+                </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <li>
                         <form action="logout" method="post">

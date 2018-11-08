@@ -26,10 +26,10 @@ public class OptionServiceTest {
     @InjectMocks
     OptionService optionService;
 
-    Option a = new Option();
-    Option b = new Option();
-    Option c = new Option();
-    Option d = new Option();
+    String A = "a";
+    String B = "b";
+    String C = "c";
+    String O = "o1";
 
     @Mock
     OptionDaoI optionDAO;
@@ -38,19 +38,13 @@ public class OptionServiceTest {
     public void setUp() {
         //enable mocks
         MockitoAnnotations.initMocks(this);
-
-        //create sample options
-        a.setName("a");
-        b.setName("b");
-        c.setName("c");
-        d.setName("d");
     }
 
     @Test
     public void testCreate() {
         //set option dto
         OptionDTO dto = new OptionDTO();
-        dto.setName("o1");
+        dto.setName(O);
 
         //create option with reserved name
         dto.setName("t1");
@@ -62,41 +56,41 @@ public class OptionServiceTest {
     @Test
     public void testCheckCompatibility() {
         OptionDTO dto = new OptionDTO();
-        dto.setName("o1");
+        dto.setName(O);
 
         //check if no option at the same time are mandatory and incompatible
-        dto.getMandatory().add(b.getName());
-        dto.getIncompatible().add(b.getName());
+        dto.getMandatory().add(B);
+        dto.getIncompatible().add(B);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
         ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible");
+        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible :b");
         dto.getIncompatible().clear();
         dto.getMandatory().clear();
 
         //check if all from mandatory also have its' corresponding mandatory options
-        dto.getMandatory().add(a.getName());
+        dto.getMandatory().add(A);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
-        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("b")); //a requires b
+        when(optionDAO.getAllMandatoryNames(new String[]{A})).thenReturn(Arrays.asList(B)); //a requires b
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + Arrays.asList("b").toString());
+        assertEquals(e.getMessage(), "More options are required as mandatory: " + Arrays.asList(B).toString());
         dto.getMandatory().clear();
 
         //check if mandatory relation is not bidirectional
-        dto.getMandatory().add("a");
+        dto.getMandatory().add(A);
         dto.setId(1);
-        when(optionDAO.findByName("a")).thenReturn(null);
-        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("o1")); //b already requires "o1
-        when(optionDAO.getMandatoryFor(dto.getId())).thenReturn(Arrays.asList("b"));
+        when(optionDAO.findByName(A)).thenReturn(null);
+        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList(O)); //b already requires "o1
+        when(optionDAO.getMandatoryFor(dto.getId())).thenReturn(Arrays.asList(B));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Arrays.asList("b").toString());
         dto.getMandatory().clear();
 
         //check if mandatory options are incompatible with each other
-        dto.getMandatory().add(b.getName());
-        dto.getMandatory().add(c.getName());
+        dto.getMandatory().add(B);
+        dto.getMandatory().add(C);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
         when(optionDAO.getAllMandatoryNames(new String[]{})).thenReturn(Arrays.asList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"b", "c"})).thenReturn(Arrays.asList("b", "c"));
+        when(optionDAO.getAllIncompatibleNames(new String[]{B, C})).thenReturn(Arrays.asList(B, C));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "Mandatory options are incompatible with each other");
         dto.getIncompatible().clear();

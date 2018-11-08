@@ -9,7 +9,7 @@ import entities.Contract;
 import entities.Option;
 import entities.Tariff;
 import entities.dto.ContractDTO;
-import entities.dto.PaginateHelper;
+import entities.helpers.PaginateHelper;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

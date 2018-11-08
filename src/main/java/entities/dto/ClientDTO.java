@@ -36,6 +36,7 @@ public class ClientDTO{
     private LocalDate birthday;
 
     @Email(message = "{client.email.invalid}")
+    @Length(max = 255)
     private String email;
 
     @Length(max = 255)

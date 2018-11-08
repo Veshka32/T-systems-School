@@ -3,7 +3,7 @@ package services.implementations;
 import dao.interfaces.ClientDaoI;
 import entities.Client;
 import entities.dto.ClientDTO;
-import entities.dto.PaginateHelper;
+import entities.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

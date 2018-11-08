@@ -2,7 +2,7 @@ package controllers;
 
 import entities.Contract;
 import entities.dto.ContractDTO;
-import entities.dto.PaginateHelper;
+import entities.helpers.PaginateHelper;
 import entities.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

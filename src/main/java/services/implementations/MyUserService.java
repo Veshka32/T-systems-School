@@ -29,7 +29,7 @@ public class MyUserService implements MyUserServiceI {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public void create(MyUserDTO dto) throws ServiceException {
+    public int create(MyUserDTO dto) throws ServiceException {
         //check if already exists
         MyUser user=userDAO.findByLogin(dto.getLogin());
         if (user!=null) throw new ServiceException("This phone is already registered");
@@ -38,16 +38,14 @@ public class MyUserService implements MyUserServiceI {
         Contract contract=contractService.findByPhone(Long.parseLong(dto.getLogin()));
         if (contract==null) throw new ServiceException("There is now such a number");
 
-        //hash password
-        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-
-        MyUser newUser = new MyUser();
-        newUser.setRole(Role.ROLE_CLIENT);
-        newUser.setContract(contract);
-        newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
-        userDAO.save(newUser);
+        user = new MyUser();
+        user.setRole(Role.ROLE_CLIENT);
+        user.setContract(contract);
+        user.setLogin(dto.getLogin());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userDAO.save(user);
 
         dto.setPassword(null);
-        dto.setContractId(contract.getId());
+        return user.getId();
     }
 }

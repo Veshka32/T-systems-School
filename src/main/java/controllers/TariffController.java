@@ -1,9 +1,9 @@
 package controllers;
 
 import entities.Tariff;
-import entities.dto.PaginateHelper;
 import entities.dto.TariffDTO;
 import entities.dto.TariffTransfer;
+import entities.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

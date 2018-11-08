@@ -27,14 +27,14 @@ public class SignUpController {
     @PostMapping(value = "/register")
     public String addUser(@ModelAttribute("user") MyUserDTO dto, Model model, RedirectAttributes attr) {
         try {
-            userService.create(dto);
+            attr.addAttribute("id", userService.create(dto));
+            return "redirect:/user/cabinet";
         }
         catch (ServiceException e){
             model.addAttribute("message",e.getMessage());
             return "sign-up";
         }
-        attr.addAttribute("id", dto.getContractId());
-        return "redirect:/user/cabinet";
+
     }
 
 }

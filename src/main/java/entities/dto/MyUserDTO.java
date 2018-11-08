@@ -4,8 +4,8 @@ package entities.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,11 +16,11 @@ import javax.validation.constraints.NotNull;
 public class MyUserDTO {
 
     @NotBlank
-    @Column(nullable = false)
+    @Length(max = 255)
     private String login;
 
     @NotNull
-    @Column(nullable = false)
+    @Length(max = 255)
     private String password;
 
     private int contractId;

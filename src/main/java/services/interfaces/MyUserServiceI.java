@@ -4,5 +4,5 @@ import entities.dto.MyUserDTO;
 import services.ServiceException;
 
 public interface MyUserServiceI {
-    void create(MyUserDTO dto) throws ServiceException;
+    int create(MyUserDTO dto) throws ServiceException;
 }

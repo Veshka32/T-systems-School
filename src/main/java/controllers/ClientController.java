@@ -2,7 +2,7 @@ package controllers;
 
 import entities.Client;
 import entities.dto.ClientDTO;
-import entities.dto.PaginateHelper;
+import entities.helpers.PaginateHelper;
 import entities.helpers.Passport;
 import entities.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
