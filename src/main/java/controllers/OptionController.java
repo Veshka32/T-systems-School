@@ -29,8 +29,8 @@ public class OptionController {
     @Autowired
     OptionServiceI optionService;
 
-    @RequestMapping(value = {"/management/options"})
-    public String showPage(@RequestParam(value = "page", required = false) Integer page, Model model) {
+    @RequestMapping("/management/options")
+    public String showAll(@RequestParam(value = "page", required = false) Integer page, Model model) {
         PaginateHelper<Option> helper = optionService.getPaginateData(page, ROW_PER_PAGE);
         model.addAttribute("allInPage", helper.getItems());
         model.addAttribute("currentPage", page);

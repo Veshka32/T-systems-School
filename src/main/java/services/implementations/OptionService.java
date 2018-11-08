@@ -115,11 +115,6 @@ public class OptionService implements OptionServiceI {
         return optionDAO.findAll();
     }
 
-    @Override
-    public List<Option> getInRange(int offset, int limit) {
-        return optionDAO.allInRange(offset, limit);
-    }
-
     private void checkCompatibility(OptionDTO dto) throws ServiceException {
         dto.getMandatory().remove(dto.getName());
         dto.getIncompatible().remove(dto.getName());
@@ -155,7 +150,7 @@ public class OptionService implements OptionServiceI {
     @Override
     public PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
-        List<Option> optionsForPage = getInRange((currentPage - 1) * rowPerPage, rowPerPage);
+        List<Option> optionsForPage = optionDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = optionDAO.count().intValue();
         int totalPage = total / rowPerPage;
         if (total % rowPerPage > 0) totalPage++;

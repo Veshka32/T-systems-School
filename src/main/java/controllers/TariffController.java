@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Tariff;
+import entities.dto.PaginateHelper;
 import entities.dto.TariffDTO;
 import entities.dto.TariffTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class TariffController {
     private static final String CREATE = "management/tariff/create-tariff";
     private static final String EDIT = "management/tariff/edit-tariff";
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
+    private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all tariffs
 
     @Autowired
     TariffServiceI tariffService;
@@ -31,7 +33,11 @@ public class TariffController {
     OptionServiceI optionService;
 
     @RequestMapping("/management/tariffs")
-    public String showAll() {
+    public String showAll(@RequestParam(value = "page", required = false) Integer page, Model model) {
+        PaginateHelper<Tariff> helper = tariffService.getPaginateData(page, ROW_PER_PAGE);
+        model.addAttribute("allInPage", helper.getItems());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageTotal", helper.getTotal());
         return "management/tariff/tariff-management";
     }
 

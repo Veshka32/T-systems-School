@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Client;
 import entities.dto.ClientDTO;
+import entities.dto.PaginateHelper;
 import entities.helpers.Passport;
 import entities.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class ClientController {
     private static final String MANAGEMENT="management/client/client-management";
     private static final String CLIENT = "client";
     private static final String CONTRACTS = "clientContracts";
+    private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all clients
+
 
     @Autowired
     ClientServiceI clientService;
@@ -35,7 +38,12 @@ public class ClientController {
     ContractServiceI contractService;
 
     @RequestMapping("/management/clients")
-    public String show(){return MANAGEMENT;
+    public String show(@RequestParam(value = "page", required = false) Integer page, Model model) {
+        PaginateHelper<Client> helper = clientService.getPaginateData(page, ROW_PER_PAGE);
+        model.addAttribute("allInPage", helper.getItems());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageTotal", helper.getTotal());
+        return MANAGEMENT;
     }
 
     @GetMapping("/management/showClient")

@@ -9,12 +9,10 @@ import services.ServiceException;
 import java.util.Collection;
 import java.util.List;
 
-public interface ContractServiceI {
+public interface ContractServiceI extends GenericServiceI<Contract> {
     Client findClientByPhone(long phone);
 
     Contract findByPhone(long phone);
-
-    Contract get(int id);
 
     ContractDTO getDTO(int id);
 
@@ -29,8 +27,6 @@ public interface ContractServiceI {
     void unblock(int id);
 
     List<Contract> getAllClientContracts(int clientId);
-
-    List<Contract> getAll();
 
     Contract getFull(int id);
 

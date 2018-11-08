@@ -3,6 +3,7 @@ package services.implementations;
 import dao.interfaces.ClientDaoI;
 import entities.Client;
 import entities.dto.ClientDTO;
+import entities.dto.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -76,6 +77,16 @@ public class ClientService implements ClientServiceI {
     @Override
     public List<Client> getAll() {
         return clientDAO.findAll();
+    }
+
+    @Override
+    public PaginateHelper<Client> getPaginateData(Integer currentPage, int rowPerPage) {
+        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        List<Client> optionsForPage = clientDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
+        int total = clientDAO.count().intValue();
+        int totalPage = total / rowPerPage;
+        if (total % rowPerPage > 0) totalPage++;
+        return new PaginateHelper<>(optionsForPage, totalPage);
     }
 
     private void updateFields(Client client, ClientDTO dto){

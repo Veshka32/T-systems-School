@@ -7,17 +7,13 @@ import services.ServiceException;
 
 import java.util.List;
 
-public interface TariffServiceI {
+public interface TariffServiceI extends GenericServiceI<Tariff> {
 
     void create(TariffDTO dto) throws ServiceException;
 
     void delete(int id) throws ServiceException;
 
     void update(TariffDTO dto) throws ServiceException;
-
-    Tariff get(int id);
-
-    List<Tariff> getAll();
 
     List<String> getAllNames();
 

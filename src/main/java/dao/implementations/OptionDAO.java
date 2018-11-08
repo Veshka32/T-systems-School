@@ -31,6 +31,15 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
     }
 
     @Override
+    public List<Option> findByNameLike(String name) {
+
+        return sessionFactory.getCurrentSession()
+                .createNamedQuery("find_by_name_like", Option.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+
+    @Override
     public List<Option> findByNames(String[] names) {
             return sessionFactory.getCurrentSession()
                     .createNamedQuery("find_by_names", Option.class)

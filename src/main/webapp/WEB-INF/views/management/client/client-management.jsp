@@ -74,6 +74,38 @@
         </c:forEach>
         </tbody>
     </table>
+    <ul class="pagination">
+        <c:choose>
+            <c:when test="${currentPage eq 1}">
+                <li class="page-item disabled"><a href="">Previous</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a href="?page=${currentPage-1}">Previous</a></li>
+            </c:otherwise>
+        </c:choose>
+
+        <c:forEach begin="${1}" end="${pageTotal}" var="page">
+            <c:choose>
+                <c:when test="${page eq currentPage}">
+                    <li class="page-item active"><a href="?page=${page}">${page}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="?page=${page}">${page}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <c:choose>
+            <c:when test="${currentPage eq pageTotal}">
+                <li class="page-item disabled"><a href="">Next</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a href="?page=${currentPage+1}">Next</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+    <br>
+
     <a href="createClient" role="button" class="btn btn-success">Add new client</a><br></div>
 
 </body>

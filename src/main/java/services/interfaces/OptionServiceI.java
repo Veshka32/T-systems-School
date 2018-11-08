@@ -2,12 +2,11 @@ package services.interfaces;
 
 import entities.Option;
 import entities.dto.OptionDTO;
-import entities.dto.PaginateHelper;
 import services.ServiceException;
 
 import java.util.List;
 
-public interface OptionServiceI {
+public interface OptionServiceI extends GenericServiceI<Option> {
 
     /**
      * Return auto-generated id of created entity
@@ -17,19 +16,11 @@ public interface OptionServiceI {
      */
     int create(OptionDTO dto) throws ServiceException;
 
-    Option get(int id);
-
     OptionDTO getDto(int id);
 
     void update(OptionDTO option) throws ServiceException;
 
     void delete(int id) throws ServiceException;
 
-    List<Option> getAll();
-
-    List<Option> getInRange(int offset, int limit);
-
     List<String> getAllNames();
-
-    PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage);
 }

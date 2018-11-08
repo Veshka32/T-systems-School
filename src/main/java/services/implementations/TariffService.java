@@ -4,6 +4,7 @@ import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
 import entities.Option;
 import entities.Tariff;
+import entities.dto.PaginateHelper;
 import entities.dto.TariffDTO;
 import entities.dto.TariffTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,16 @@ public class TariffService implements TariffServiceI {
         TariffDTO dto = new TariffDTO(tariffDAO.findOne(id));
         dto.setOptions(new HashSet<>(optionDAO.getOptionsInTariffNames(id)));
         return dto;
+    }
+
+    @Override
+    public PaginateHelper<Tariff> getPaginateData(Integer currentPage, int rowPerPage) {
+        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        List<Tariff> tariffsForPage = tariffDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
+        int total = tariffDAO.count().intValue();
+        int totalPage = total / rowPerPage;
+        if (total % rowPerPage > 0) totalPage++;
+        return new PaginateHelper<>(tariffsForPage, totalPage);
     }
 
     @Override

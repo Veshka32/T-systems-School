@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Contract;
 import entities.dto.ContractDTO;
+import entities.dto.PaginateHelper;
 import entities.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class ContractController {
     private static final String MANAGEMENT="management/contract/contract-management";
     private static final String CONTRACT = "contract";
     private static final String REDIRECT_SHOW = "redirect:/management/showContract";
+    private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all contracts
+
 
 
     @Autowired
@@ -52,7 +55,11 @@ public class ContractController {
     }
 
     @RequestMapping("/management/contracts")
-    public String show() {
+    public String show(@RequestParam(value = "page", required = false) Integer page, Model model) {
+        PaginateHelper<Contract> helper = contractService.getPaginateData(page, ROW_PER_PAGE);
+        model.addAttribute("allInPage", helper.getItems());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageTotal", helper.getTotal());
         return MANAGEMENT;
     }
 

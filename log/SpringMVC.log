@@ -2315,3 +2315,96 @@ Caused by: org.hibernate.TransientObjectException: object references an unsaved 
 18:49:27,730 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
 18:49:27,735 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
 18:49:27,737 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:26:14,453  INFO WebMvcConfig:37 - register messageSource bean
+20:26:15,031  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+20:26:15,034  INFO Environment:213 - HHH000206: hibernate.properties not found
+20:26:15,113  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+20:26:15,344  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+20:26:15,984  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+20:26:17,857  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+20:26:18,285  INFO WebMvcConfig:31 - register UserDetailsService bean
+20:26:19,164  INFO WebMvcConfig:46 - register resourceHandler
+20:26:19,258  INFO WebMvcConfig:53 - register validator factory
+20:26:19,494  INFO WebMvcConfig:29 - Set view resolver
+20:26:19,648  INFO WebMvcConfig:31 - register UserDetailsService bean
+20:26:19,826  INFO WebMvcConfig:49 - configure Http security rules
+20:28:33,744 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:33,817 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+20:28:40,948 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+20:28:40,953 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+20:28:41,054 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:41,057 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+20:28:44,961 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:28:44,968 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+20:28:44,972 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:28:47,113 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:47,118 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:28:47,120 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:28:49,525 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:49,529 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:28:49,531 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:28:52,071 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:52,074 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?, ?
+20:28:52,075 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:28:55,367 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:55,370 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?, ?
+20:28:55,371 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:28:57,935 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:57,937 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?, ?
+20:28:57,939 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:28:59,029 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:28:59,033 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:28:59,036 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:29:02,092 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:29:02,097 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+20:29:02,099 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:29:03,600 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:29:03,602 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+20:29:03,603 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:29:12,036 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:29:12,039 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:29:12,040 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:30:36,230 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:30:36,234 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:30:36,236 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:31:24,440 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:31:24,443 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:31:24,445 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:32:22,600  INFO WebMvcConfig:37 - register messageSource bean
+20:32:23,360  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+20:32:23,363  INFO Environment:213 - HHH000206: hibernate.properties not found
+20:32:23,438  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+20:32:23,602  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+20:32:24,165  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+20:32:25,101  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+20:32:25,406  INFO WebMvcConfig:31 - register UserDetailsService bean
+20:32:26,070  INFO WebMvcConfig:46 - register resourceHandler
+20:32:26,179  INFO WebMvcConfig:53 - register validator factory
+20:32:26,452  INFO WebMvcConfig:29 - Set view resolver
+20:32:26,601  INFO WebMvcConfig:31 - register UserDetailsService bean
+20:32:26,729  INFO WebMvcConfig:49 - configure Http security rules
+20:32:34,328 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+20:32:34,365 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+20:32:34,485 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:32:34,500 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?
+20:32:34,502 DEBUG SQL:92 - /* select count(*) from entities.Tariff */ select count(*) as col_0_0_ from Tariff tariff0_
+20:32:37,434 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+20:32:37,439 DEBUG SQL:92 - /* From entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_ limit ?, ?
+20:32:37,441 DEBUG SQL:92 - /* select count(*) from entities.Tariff */ select count(*) as col_0_0_ from Tariff tariff0_
+20:32:39,028 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:32:39,030 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+20:32:39,033 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:32:40,892 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:32:40,894 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+20:32:40,896 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:32:44,067 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:32:44,070 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+20:32:44,072 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+20:32:45,741 DEBUG SQL:92 - /* from entities.Contract */ select contract0_.id as id1_1_, contract0_.isBlocked as isBlocke2_1_, contract0_.isBlockedByAdmin as isBlocke3_1_, contract0_.number as number4_1_, contract0_.owner_id as owner_id5_1_, contract0_.tariff_id as tariff_i6_1_ from Contract contract0_
+20:32:45,745 DEBUG SQL:92 - select client0_.id as id1_0_0_, client0_.address as address2_0_0_, client0_.birthday as birthday3_0_0_, client0_.email as email4_0_0_, client0_.name as name5_0_0_, client0_.passportId as passport6_0_0_, client0_.surname as surname7_0_0_ from Client client0_ where client0_.id=?
+20:32:45,755 DEBUG SQL:92 - select tariff0_.id as id1_6_0_, tariff0_.description as descript2_6_0_, tariff0_.name as name3_6_0_, tariff0_.price as price4_6_0_ from Tariff tariff0_ where tariff0_.id=?
+20:32:45,758 DEBUG SQL:92 - /* load entities.MyUser */ select myuser0_.id as id1_8_3_, myuser0_.contract_id as contract4_8_3_, myuser0_.login as login2_8_3_, myuser0_.password as password3_8_3_, contract1_.id as id1_1_0_, contract1_.isBlocked as isBlocke2_1_0_, contract1_.isBlockedByAdmin as isBlocke3_1_0_, contract1_.number as number4_1_0_, contract1_.owner_id as owner_id5_1_0_, contract1_.tariff_id as tariff_i6_1_0_, client2_.id as id1_0_1_, client2_.address as address2_0_1_, client2_.birthday as birthday3_0_1_, client2_.email as email4_0_1_, client2_.name as name5_0_1_, client2_.passportId as passport6_0_1_, client2_.surname as surname7_0_1_, tariff3_.id as id1_6_2_, tariff3_.description as descript2_6_2_, tariff3_.name as name3_6_2_, tariff3_.price as price4_6_2_ from user myuser0_ left outer join Contract contract1_ on myuser0_.contract_id=contract1_.id left outer join Client client2_ on contract1_.owner_id=client2_.id left outer join Tariff tariff3_ on contract1_.tariff_id=tariff3_.id where myuser0_.contract_id=?
+20:32:45,763 DEBUG SQL:92 - /* load entities.MyUser */ select myuser0_.id as id1_8_3_, myuser0_.contract_id as contract4_8_3_, myuser0_.login as login2_8_3_, myuser0_.password as password3_8_3_, contract1_.id as id1_1_0_, contract1_.isBlocked as isBlocke2_1_0_, contract1_.isBlockedByAdmin as isBlocke3_1_0_, contract1_.number as number4_1_0_, contract1_.owner_id as owner_id5_1_0_, contract1_.tariff_id as tariff_i6_1_0_, client2_.id as id1_0_1_, client2_.address as address2_0_1_, client2_.birthday as birthday3_0_1_, client2_.email as email4_0_1_, client2_.name as name5_0_1_, client2_.passportId as passport6_0_1_, client2_.surname as surname7_0_1_, tariff3_.id as id1_6_2_, tariff3_.description as descript2_6_2_, tariff3_.name as name3_6_2_, tariff3_.price as price4_6_2_ from user myuser0_ left outer join Contract contract1_ on myuser0_.contract_id=contract1_.id left outer join Client client2_ on contract1_.owner_id=client2_.id left outer join Tariff tariff3_ on contract1_.tariff_id=tariff3_.id where myuser0_.contract_id=?
+20:32:45,771 DEBUG SQL:92 - /* select t.name from Tariff t */ select tariff0_.name as col_0_0_ from Tariff tariff0_
+20:32:45,774 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+20:32:55,914 DEBUG SQL:92 - /* from entities.Client */ select client0_.id as id1_0_, client0_.address as address2_0_, client0_.birthday as birthday3_0_, client0_.email as email4_0_, client0_.name as name5_0_, client0_.passportId as passport6_0_, client0_.surname as surname7_0_ from Client client0_

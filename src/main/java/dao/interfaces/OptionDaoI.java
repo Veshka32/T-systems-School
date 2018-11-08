@@ -12,6 +12,8 @@ public interface OptionDaoI extends IGenericDAO<Option> {
 
     List<Option> findByNames(String[] names);
 
+    List<Option> findByNameLike(String name);
+
     boolean notUsed(int id);
 
     List<String> getAllMandatoryNames(String[] names);

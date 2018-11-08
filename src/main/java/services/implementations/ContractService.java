@@ -9,6 +9,7 @@ import entities.Contract;
 import entities.Option;
 import entities.Tariff;
 import entities.dto.ContractDTO;
+import entities.dto.PaginateHelper;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -167,6 +168,16 @@ public class ContractService implements ContractServiceI {
     @Override
     public List<Contract> getAll() {
         return contractDAO.findAll();
+    }
+
+    @Override
+    public PaginateHelper<Contract> getPaginateData(Integer currentPage, int rowPerPage) {
+        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        List<Contract> optionsForPage = contractDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
+        int total = contractDAO.count().intValue();
+        int totalPage = total / rowPerPage;
+        if (total % rowPerPage > 0) totalPage++;
+        return new PaginateHelper<>(optionsForPage, totalPage);
     }
 
     @Override
