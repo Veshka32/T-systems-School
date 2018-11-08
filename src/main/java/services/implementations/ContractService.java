@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 @EnableTransactionManagement
 @Transactional
 public class ContractService implements ContractServiceI {
+    private static final String MESSAGE = "Option ";
+
     ContractDaoI contractDAO;
     TariffDaoI tariffDAO;
     OptionDaoI optionDao;
@@ -111,9 +113,9 @@ public class ContractService implements ContractServiceI {
             //check if all options are compatible with each other
             names = optionDao.getAllIncompatibleNames(params);
             if (!names.isEmpty()) {
-                Optional<String> any = names.stream().filter(name -> all.contains(name)).findFirst();
+                Optional<String> any = names.stream().filter(all::contains).findFirst();
                 if (any.isPresent())
-                    throw new ServiceException("Option " + any.get() + " are incompatible with each other or with tariff");
+                    throw new ServiceException(MESSAGE + any.get() + " are incompatible with each other or with tariff");
             }
         }
     }
@@ -196,9 +198,9 @@ public class ContractService implements ContractServiceI {
         //check if all options are compatible with each other
         names = optionDao.getAllIncompatibleNames(params);
         if (!names.isEmpty()) {
-            Optional<String> any = names.stream().filter(name -> all.contains(name)).findFirst();
+            Optional<String> any = names.stream().filter(all::contains).findFirst();
             if (any.isPresent())
-                throw new ServiceException("Option " + any.get() + " are incompatible with each other or with your tariff");
+                throw new ServiceException(MESSAGE + any.get() + " are incompatible with each other or with your tariff");
         }
 
         contract.getOptions().addAll(options);
@@ -215,7 +217,7 @@ public class ContractService implements ContractServiceI {
         List<String> names = optionDao.getMandatoryFor(optionId);
         optionInContract.retainAll(names);
         if (!optionInContract.isEmpty())
-            throw new ServiceException("Option " + option.getName() + " is mandatory for other options: " + optionInContract.toString() + ". Delete them first");
+            throw new ServiceException(MESSAGE + option.getName() + " is mandatory for other options: " + optionInContract.toString() + ". Delete them first");
         contract.getOptions().remove(option);
         contractDAO.update(contract);
     }

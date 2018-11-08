@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.Option;
 import entities.dto.OptionDTO;
 import entities.dto.OptionTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,17 @@ public class OptionController {
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
+    private static final int ROW_PER_PAGE = 3;
 
     @Autowired
     OptionServiceI optionService;
 
-    @RequestMapping("/management/options")
-    public String showAll() {
+    @RequestMapping(value = {"/management/options"})
+    public String showPage(@RequestParam(value = "page", required = false) Integer page, Model model) {
+        if (page == null) page = 1;
+        model.addAttribute("allInPage", optionService.getInRange((page - 1) * ROW_PER_PAGE, ROW_PER_PAGE));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageTotal", optionService.count() / ROW_PER_PAGE + 1);
         return "management/option/option-management";
     }
 
@@ -103,11 +107,6 @@ public class OptionController {
             return REDIRECT_EDIT;
         }
         return "redirect:/management/options";
-    }
-
-    @ModelAttribute("allOptions")
-    public List<Option> getAllOptions() {
-        return optionService.getAll();
     }
 
     private void buildModelForCreate(Model model, OptionDTO dto) {

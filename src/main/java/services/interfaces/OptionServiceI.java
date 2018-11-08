@@ -21,7 +21,11 @@ public interface OptionServiceI {
 
     List<Option> getAll();
 
+    List<Option> getInRange(int offset, int limit);
+
     List<String> getAllNames();
 
     OptionDTO getFull(int id);
+
+    int count();
 }

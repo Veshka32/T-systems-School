@@ -17,13 +17,13 @@
 
 <%@ include file="/resources/navbar.html" %>
 
-<c:url value="/logout" var="logoutUrl" />
-<form id="logout" action="${logoutUrl}" method="post" >
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<c:url value="/logout" var="logoutUrl"/>
+<form id="logout" action="${logoutUrl}" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
 <div class="container">
-    <h3>All options</h3>
+    <h3>All options</h3><br>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -35,7 +35,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${allOptions}" var="option">
+        <c:forEach items="${allInPage}" var="option">
             <tr>
                 <td>${option.id} </td>
                 <td>${option.name}</td>
@@ -45,20 +45,48 @@
                 <td>
                     <form action="editOption" method="get">
                         <input type="hidden" name="id" value=${option.id}>
-                        <input type="submit" value="Edit"  class="btn btn-warning"></form>
+                        <input type="submit" value="Edit" class="btn btn-warning"></form>
                 </td>
                 <td>
                     <form action="showOption" method="get">
-                        <input type="hidden" name="id" value=${option.id} >
+                        <input type="hidden" name="id" value=${option.id}>
                         <input type="submit" value="Show details" class="btn btn-info"></form>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <ul class="pagination">
+        <c:choose>
+            <c:when test="${currentPage eq 1}">
+                <li class="page-item disabled"><a href="">Previous</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a href="?page=${currentPage-1}">Previous</a></li>
+            </c:otherwise>
+        </c:choose>
 
+        <c:forEach begin="${1}" end="${pageTotal}" var="page">
+            <c:choose>
+                <c:when test="${page eq currentPage}">
+                    <li class="page-item active"><a href="?page=${page}">${page}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="?page=${page}">${page}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
 
-    <a href="createOption" role="button" class="btn btn-success">Create new option</a><br></div>
+        <c:choose>
+            <c:when test="${currentPage eq pageTotal}">
+                <li class="page-item disabled"><a href="">Next</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item"><a href="?page=${currentPage+1}">Next</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+    <p><a href="createOption" role="button" class="btn btn-success">Create new option</a></p></div>
 
 
 </body>

@@ -672,3 +672,721 @@ java.lang.NullPointerException
 	at java.lang.Thread.run(Thread.java:748)
 19:04:31,285 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
 19:04:31,289 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+13:53:01,645  INFO WebMvcConfig:37 - register messageSource bean
+13:53:02,260  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+13:53:02,263  INFO Environment:213 - HHH000206: hibernate.properties not found
+13:53:02,344  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+13:53:02,607  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+13:53:03,398  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+13:53:04,798  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+13:53:05,461  INFO WebMvcConfig:31 - register UserDetailsService bean
+13:53:06,209  INFO WebMvcConfig:46 - register resourceHandler
+13:53:06,348  INFO WebMvcConfig:53 - register validator factory
+13:53:06,593  INFO WebMvcConfig:29 - Set view resolver
+13:53:06,747  INFO WebMvcConfig:31 - register UserDetailsService bean
+13:53:06,919  INFO WebMvcConfig:49 - configure Http security rules
+13:53:08,339 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+13:53:08,463 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+13:53:10,961 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+13:53:10,972 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+13:53:24,299 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+13:53:24,304 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+13:53:24,417 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+13:53:24,420 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+13:53:29,520 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+13:53:29,526 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:08:13,177  INFO WebMvcConfig:37 - register messageSource bean
+14:08:13,708  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+14:08:13,710  INFO Environment:213 - HHH000206: hibernate.properties not found
+14:08:13,789  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+14:08:13,954  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+14:08:14,551  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+14:08:15,577  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+14:08:15,867  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:08:16,518  INFO WebMvcConfig:46 - register resourceHandler
+14:08:16,613  INFO WebMvcConfig:53 - register validator factory
+14:08:16,848  INFO WebMvcConfig:29 - Set view resolver
+14:08:16,994  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:08:17,115  INFO WebMvcConfig:49 - configure Http security rules
+14:08:34,263 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+14:08:34,300 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+14:08:34,421 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:08:34,433 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:08:34,437 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:10:13,851 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:10:13,856 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:10:13,858 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:10:15,526 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:10:15,531 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:10:15,534 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:11:25,236 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:11:25,242 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:11:25,245 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:11:47,807 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:11:47,811 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:11:47,815 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:11:51,812 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:11:51,821 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:11:51,823 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:12:09,158 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:12:09,174 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:12:22,514 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:13:04,875 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:13:04,882 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:13:07,850 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:13:51,532 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:13:51,536 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:00,559 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:14:00,565 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:00,569 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:00,572 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:14:00,586 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:00,590 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:00,593 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:14:00,598 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:00,604 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:00,610 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:14:06,931 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:06,937 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:11,232 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:14:16,863 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:16,870 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:19,158 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:14:24,353 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:24,356 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:28,143 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:14:33,403 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:33,407 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:33,409 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:14:35,116 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:35,119 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:14:35,121 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:14:53,180 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:14:53,199 ERROR GlobalExceptionHandler:17 - Request occured:: http://localhost:8080/mobile/management/options/showOption
+org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: "showOption"
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:132)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:124)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.NumberFormatException: For input string: "showOption"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:580)
+	at java.lang.Integer.valueOf(Integer.java:766)
+	at org.springframework.util.NumberUtils.parseNumber(NumberUtils.java:210)
+	at org.springframework.beans.propertyeditors.CustomNumberEditor.setAsText(CustomNumberEditor.java:115)
+	at org.springframework.beans.TypeConverterDelegate.doConvertTextValue(TypeConverterDelegate.java:466)
+	at org.springframework.beans.TypeConverterDelegate.doConvertValue(TypeConverterDelegate.java:439)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:192)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:99)
+	at org.springframework.beans.TypeConverterSupport.doConvert(TypeConverterSupport.java:73)
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:52)
+	at org.springframework.validation.DataBinder.convertIfNecessary(DataBinder.java:691)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124)
+	... 71 more
+14:15:36,587 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:15:36,590 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:15:36,593 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:20:01,206  INFO WebMvcConfig:37 - register messageSource bean
+14:20:01,891  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+14:20:01,893  INFO Environment:213 - HHH000206: hibernate.properties not found
+14:20:01,959  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+14:20:02,330  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+14:20:02,904  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+14:20:03,946  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+14:20:04,385  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:20:05,056  INFO WebMvcConfig:46 - register resourceHandler
+14:20:05,157  INFO WebMvcConfig:53 - register validator factory
+14:20:05,439  INFO WebMvcConfig:29 - Set view resolver
+14:20:05,615  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:20:05,768  INFO WebMvcConfig:49 - configure Http security rules
+14:20:11,764 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+14:20:11,809 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+14:23:24,109  INFO WebMvcConfig:37 - register messageSource bean
+14:23:25,082  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+14:23:25,087  INFO Environment:213 - HHH000206: hibernate.properties not found
+14:23:25,194  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+14:23:25,387  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+14:23:26,048  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+14:23:27,092  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+14:23:27,406  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:23:28,242  INFO WebMvcConfig:46 - register resourceHandler
+14:23:28,378  INFO WebMvcConfig:53 - register validator factory
+14:23:28,641  INFO WebMvcConfig:29 - Set view resolver
+14:23:28,794  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:23:28,982  INFO WebMvcConfig:49 - configure Http security rules
+14:24:43,897 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+14:24:43,937 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+14:24:44,066 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:44,079 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:24:44,082 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:24:48,875 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:48,883 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:24:48,887 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:24:51,969 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:51,972 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:24:51,973 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:24:53,289 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:53,293 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:24:53,296 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:24:55,251 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:55,254 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:24:55,256 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:24:57,891 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:57,895 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:24:57,897 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:24:59,865 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:24:59,879 ERROR GlobalExceptionHandler:17 - Request occured:: http://localhost:8080/mobile/management/options/showOption
+org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: "showOption"
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:132)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:124)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.NumberFormatException: For input string: "showOption"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:580)
+	at java.lang.Integer.valueOf(Integer.java:766)
+	at org.springframework.util.NumberUtils.parseNumber(NumberUtils.java:210)
+	at org.springframework.beans.propertyeditors.CustomNumberEditor.setAsText(CustomNumberEditor.java:115)
+	at org.springframework.beans.TypeConverterDelegate.doConvertTextValue(TypeConverterDelegate.java:466)
+	at org.springframework.beans.TypeConverterDelegate.doConvertValue(TypeConverterDelegate.java:439)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:192)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:99)
+	at org.springframework.beans.TypeConverterSupport.doConvert(TypeConverterSupport.java:73)
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:52)
+	at org.springframework.validation.DataBinder.convertIfNecessary(DataBinder.java:691)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124)
+	... 71 more
+14:25:37,777 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:25:37,782 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:25:37,785 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:25:39,759 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:25:39,763 ERROR GlobalExceptionHandler:17 - Request occured:: http://localhost:8080/mobile/management/options/createOption
+org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: "createOption"
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:132)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:124)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.NumberFormatException: For input string: "createOption"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:580)
+	at java.lang.Integer.valueOf(Integer.java:766)
+	at org.springframework.util.NumberUtils.parseNumber(NumberUtils.java:210)
+	at org.springframework.beans.propertyeditors.CustomNumberEditor.setAsText(CustomNumberEditor.java:115)
+	at org.springframework.beans.TypeConverterDelegate.doConvertTextValue(TypeConverterDelegate.java:466)
+	at org.springframework.beans.TypeConverterDelegate.doConvertValue(TypeConverterDelegate.java:439)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:192)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:99)
+	at org.springframework.beans.TypeConverterSupport.doConvert(TypeConverterSupport.java:73)
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:52)
+	at org.springframework.validation.DataBinder.convertIfNecessary(DataBinder.java:691)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124)
+	... 71 more
+14:26:11,123 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:26:11,128 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:26:11,131 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:26:12,421 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:26:12,425 ERROR GlobalExceptionHandler:17 - Request occured:: http://localhost:8080/mobile/management/options/editOption
+org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: "editOption"
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:132)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:124)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.NumberFormatException: For input string: "editOption"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:580)
+	at java.lang.Integer.valueOf(Integer.java:766)
+	at org.springframework.util.NumberUtils.parseNumber(NumberUtils.java:210)
+	at org.springframework.beans.propertyeditors.CustomNumberEditor.setAsText(CustomNumberEditor.java:115)
+	at org.springframework.beans.TypeConverterDelegate.doConvertTextValue(TypeConverterDelegate.java:466)
+	at org.springframework.beans.TypeConverterDelegate.doConvertValue(TypeConverterDelegate.java:439)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:192)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:99)
+	at org.springframework.beans.TypeConverterSupport.doConvert(TypeConverterSupport.java:73)
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:52)
+	at org.springframework.validation.DataBinder.convertIfNecessary(DataBinder.java:691)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124)
+	... 71 more
+14:27:32,385  INFO WebMvcConfig:37 - register messageSource bean
+14:27:33,051  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+14:27:33,054  INFO Environment:213 - HHH000206: hibernate.properties not found
+14:27:33,135  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+14:27:33,336  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+14:27:34,089  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+14:27:35,198  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+14:27:35,552  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:27:36,308  INFO WebMvcConfig:46 - register resourceHandler
+14:27:36,801  INFO WebMvcConfig:53 - register validator factory
+14:27:37,032  INFO WebMvcConfig:29 - Set view resolver
+14:27:37,170  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:27:37,311  INFO WebMvcConfig:49 - configure Http security rules
+14:28:16,720 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+14:28:16,756 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+14:28:27,323 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:28:27,328 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:28:27,779 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:28:27,782 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:28:30,150 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+14:28:30,158 DEBUG SQL:92 - /* from entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
+14:28:37,304 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:28:37,307 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:29:29,283 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:29:29,287 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:30:23,759 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:30:23,762 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:30:25,893 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:30:25,896 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:31:25,419 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:31:25,421 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:32:28,947 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:32:28,950 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:32:51,583 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:32:51,585 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:32:53,305 ERROR GlobalExceptionHandler:17 - Request occured:: http://localhost:8080/mobile/management/options/options
+org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: "options"
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:132)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:124)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:998)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:890)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:875)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:66)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:800)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:806)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1498)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.NumberFormatException: For input string: "options"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:580)
+	at java.lang.Integer.valueOf(Integer.java:766)
+	at org.springframework.util.NumberUtils.parseNumber(NumberUtils.java:210)
+	at org.springframework.beans.propertyeditors.CustomNumberEditor.setAsText(CustomNumberEditor.java:115)
+	at org.springframework.beans.TypeConverterDelegate.doConvertTextValue(TypeConverterDelegate.java:466)
+	at org.springframework.beans.TypeConverterDelegate.doConvertValue(TypeConverterDelegate.java:439)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:192)
+	at org.springframework.beans.TypeConverterDelegate.convertIfNecessary(TypeConverterDelegate.java:99)
+	at org.springframework.beans.TypeConverterSupport.doConvert(TypeConverterSupport.java:73)
+	at org.springframework.beans.TypeConverterSupport.convertIfNecessary(TypeConverterSupport.java:52)
+	at org.springframework.validation.DataBinder.convertIfNecessary(DataBinder.java:691)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124)
+	... 71 more
+14:33:37,509 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:33:37,513 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:33:38,504 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:33:38,507 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:33:46,890 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:33:46,892 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:33:51,199 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:33:51,203 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:37:05,108  INFO WebMvcConfig:37 - register messageSource bean
+14:37:05,801  INFO Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+14:37:05,804  INFO Environment:213 - HHH000206: hibernate.properties not found
+14:37:05,876  INFO Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+14:37:06,054  INFO Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+14:37:06,687  INFO Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+14:37:07,622  INFO QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+14:37:07,987  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:37:08,703  INFO WebMvcConfig:46 - register resourceHandler
+14:37:08,851  INFO WebMvcConfig:53 - register validator factory
+14:37:09,118  INFO WebMvcConfig:29 - Set view resolver
+14:37:09,282  INFO WebMvcConfig:31 - register UserDetailsService bean
+14:37:09,407  INFO WebMvcConfig:49 - configure Http security rules
+14:37:36,109 DEBUG SQL:92 - /* find_user_by_login */ select myuser0_.id as id1_8_, myuser0_.contract_id as contract4_8_, myuser0_.login as login2_8_, myuser0_.password as password3_8_ from user myuser0_ where myuser0_.login=?
+14:37:36,145 DEBUG SQL:92 - select roles0_.user_id as user_id1_9_0_, roles0_.roles as roles2_9_0_ from user_roles roles0_ where roles0_.user_id=?
+14:37:36,272 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:36,275 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:37:41,130 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:41,133 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:37:42,476 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:42,478 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:37:44,252 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:44,255 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:37:46,370 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:46,372 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:37:47,707 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:47,709 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:37:48,725 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:48,726 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:37:50,543 DEBUG SQL:92 - /* from entities.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
+14:37:51,763 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:51,764 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:37:53,141 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+14:37:53,148 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+14:37:53,150 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+14:37:53,152 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+14:37:53,155 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+14:37:53,158 DEBUG SQL:92 - /* select o.name from Option o */ select option0_.name as col_0_0_ from option_ option0_
+14:37:55,510 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:37:55,513 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:37:56,990 DEBUG SQL:92 - select option0_.id as id1_4_0_, option0_.description as descript2_4_0_, option0_.name as name3_4_0_, option0_.price as price4_4_0_, option0_.subscribeCost as subscrib5_4_0_ from option_ option0_ where option0_.id=?
+14:37:56,991 DEBUG SQL:92 - /* get_all_incompatible_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+14:37:56,994 DEBUG SQL:92 - /* get_all_incompatible_names1 */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.one_id=option1_.id and optionrela0_.another_id=option2_.id and optionrela0_.relation='INCOMPATIBLE' and (option2_.name in (?))
+14:37:56,996 DEBUG SQL:92 - /* get_all_mandatory_names */ select option1_.name as col_0_0_ from optionRelation optionrela0_ cross join option_ option1_ cross join option_ option2_ where optionrela0_.another_id=option1_.id and optionrela0_.one_id=option2_.id and optionrela0_.relation='MANDATORY' and (option2_.name in (?))
+14:38:00,206 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:38:00,208 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:41:07,033 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:41:07,036 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:41:10,068 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:41:10,069 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:41:13,031 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:41:13,033 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:41:16,764 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:41:16,767 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:41:17,350 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:41:17,352 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:41:19,712 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:41:19,715 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:54:40,831 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:54:40,834 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:55:38,868 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:55:38,870 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:55:44,479 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:55:44,481 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:56:44,046 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:44,049 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:56:48,144 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:48,145 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:56:50,887 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:50,890 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:56:51,893 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:51,895 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:56:52,875 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:52,878 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:56:53,948 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:53,950 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?
+14:56:57,295 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:57,297 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?
+14:56:58,261 DEBUG SQL:92 - /* select count(*) from entities.Option */ select count(*) as col_0_0_ from option_ option0_
+14:56:58,263 DEBUG SQL:92 - /* From entities.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ limit ?, ?

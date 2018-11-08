@@ -122,8 +122,18 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    public int count() {
+        return optionDAO.count().intValue();
+    }
+
+    @Override
     public List<Option> getAll() {
         return optionDAO.findAll();
+    }
+
+    @Override
+    public List<Option> getInRange(int offset, int limit) {
+        return optionDAO.allInRange(offset, limit);
     }
 
     private void checkCompatibility(OptionDTO dto) throws ServiceException {

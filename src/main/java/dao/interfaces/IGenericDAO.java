@@ -7,6 +7,8 @@ public interface IGenericDAO<T> {
 
         List<T> findAll();
 
+    List<T> allInRange(int offset, int limit);
+
         int save(final T entity);
 
         void update(final T entity);
@@ -16,5 +18,7 @@ public interface IGenericDAO<T> {
         void deleteById(final int entityId);
 
         void setClass( Class< T > clazzToSet);
+
+    Long count();
 
 }
