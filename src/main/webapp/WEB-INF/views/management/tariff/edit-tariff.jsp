@@ -21,23 +21,23 @@
     <span class="pull-right"><a href="tariffs" class="btn btn-info" role="button">Back to tariffs</a></span>
     <h3>Edit tariff</h3>
     <p class="bg-danger">${message}</p>
-    <form:form method="POST" modelAttribute="editedTariff">
+    <form:form method="POST" modelAttribute="tariff">
 
     <div class="form-group">
         <label for="name">Name:</label>
-        <form:input path="name" value="${editedTariff.name}" class="form-control" id="name"/>
+        <form:input path="name" value="${tariff.name}" class="form-control" id="name"/>
         <p class="bg-danger"><form:errors path="name"/></p>
     </div>
 
     <div class="form-group">
         <label for="price">Price:</label>
-        <form:input path="price" value="${editedTariff.price}" class="form-control" id="price"/>
+        <form:input path="price" value="${tariff.price}" class="form-control" id="price"/>
         <p class="bg-danger"><form:errors path="price"/></p>
     </div>
 
     <div class="form-group">
         <label for="desc">Description:</label>
-        <form:input value="${editedTariff.description}" path="description" class="form-control" id="desc"/>
+        <form:input value="${tariff.description}" path="description" class="form-control" id="desc"/>
     </div>
 
     <div class="form-check form-check-inline">
@@ -51,14 +51,14 @@
     </div>
     <br>
 
-    <input type="hidden" name="id" value=${editedTariff.id}>
+    <input type="hidden" name="id" value=${tariff.id}>
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
     <br>
 
 
     <div class="pull-right"><form action="deleteTariff" method="get">
-        <input type="hidden" name="id" value=${editedTariff.id}>
+        <input type="hidden" name="id" value=${tariff.id}>
         <input type="submit" value="Delete tariff" class="btn btn-danger"></form></div>
 </body>
 </html>

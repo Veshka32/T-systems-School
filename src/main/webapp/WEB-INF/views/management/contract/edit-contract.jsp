@@ -38,13 +38,13 @@
 
     <div class="form-group">
         <label for="tr">Choose tariff:</label>
-        <form:select path="tariffName" items="${allTariffs}" class="form-control" id="tr"/>
+        <form:select path="tariffName" items="${allTariffsNames}" class="form-control" id="tr"/>
     </div>
 
 
     <div class="form-check form-check-inline">
         <label for="opt">Set options:</label><br>
-        <c:forEach items="${allOptions}" var="item">
+        <c:forEach items="${allOptionsNames}" var="item">
             <form:checkbox path="optionsNames" value="${item}" class="form-check" id="opt"/>
             <label class="form-check-label" for=opt>${item}</label>
             <br>

@@ -5,7 +5,6 @@ import dao.interfaces.TariffDaoI;
 import entities.Option;
 import entities.Tariff;
 import entities.dto.TariffDTO;
-import entities.dto.TariffTransfer;
 import entities.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import services.interfaces.TariffServiceI;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
@@ -44,7 +42,7 @@ public class TariffService implements TariffServiceI {
 
     @Override
     public PaginateHelper<Tariff> getPaginateData(Integer currentPage, int rowPerPage) {
-        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        if (currentPage == null) currentPage = 1;  //if no page specified, return first page
         List<Tariff> tariffsForPage = tariffDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = tariffDAO.count().intValue();
         int totalPage = total / rowPerPage;
@@ -53,7 +51,7 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public void create(TariffDTO dto) throws ServiceException {
+    public int create(TariffDTO dto) throws ServiceException {
         if (tariffDAO.isNameExist(dto.getName()))
             throw new ServiceException(NAME_ERROR_MESSAGE);
 
@@ -71,15 +69,15 @@ public class TariffService implements TariffServiceI {
             based.addOption(option);
         }
 
-        tariffDAO.save(based);
-        dto.setId(based.getId());
+        return tariffDAO.save(based);
     }
 
     @Override
     public void update(TariffDTO dto) throws ServiceException {
-        Tariff t = tariffDAO.findByName(dto.getName());
+        Tariff tariff = tariffDAO.findByName(dto.getName());
 
-        if (t != null && t.getId() != dto.getId())  //check if there is another tariff with the same name in database
+        //check if there is another tariff with the same name in database
+        if (tariff != null && tariff.getId() != dto.getId())
             throw new ServiceException(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic
@@ -87,16 +85,16 @@ public class TariffService implements TariffServiceI {
         checkCompatibility(dto);
 
         //update plain fields
-        t = tariffDAO.findOne(dto.getId());
-        updatePlainFields(dto, t);
+        tariff = tariffDAO.findOne(dto.getId());
+        updatePlainFields(dto, tariff);
 
         //update complex fields
-        t.getOptions().clear();
+        tariff.getOptions().clear();
         for (String name : dto.getOptions()) {
             Option newOption = optionDAO.findByName(name);
-            t.addOption(newOption);
+            tariff.addOption(newOption);
         }
-        tariffDAO.update(t);
+        tariffDAO.update(tariff);
     }
 
     private void checkCompatibility(TariffDTO dto) throws ServiceException {
@@ -122,17 +120,6 @@ public class TariffService implements TariffServiceI {
         based.setName(dto.getName());
         based.setPrice(dto.getPrice());
         based.setDescription(dto.getDescription());
-    }
-
-    @Override
-    public TariffTransfer getTransferForEdit(int id) {
-        Tariff tariff = tariffDAO.findOne(id);
-        TariffDTO dto = new TariffDTO(tariff);
-        dto.setOptions(tariff.getOptions().stream().map(Option::getName).collect(Collectors.toSet())); //how to get only ids?
-        TariffTransfer transfer = new TariffTransfer(dto);
-        List<String> map = optionDAO.getAllNames();
-        transfer.setAll(map);
-        return transfer;
     }
 
     @Override

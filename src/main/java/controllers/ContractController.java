@@ -24,12 +24,10 @@ public class ContractController {
 
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE = "message";
-    private static final String MANAGEMENT="management/contract/contract-management";
     private static final String CONTRACT = "contract";
+    private static final String MANAGEMENT="management/contract/contract-management";
     private static final String REDIRECT_SHOW = "redirect:/management/showContract";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all contracts
-
-
 
     @Autowired
     ContractServiceI contractService;
@@ -80,15 +78,14 @@ public class ContractController {
     @PostMapping("management/createContract")
     public String edit(@ModelAttribute(CONTRACT) ContractDTO dto, Model model, RedirectAttributes attr) {
         try {
-            contractService.create(dto);
+            attr.addAttribute("id", contractService.create(dto));
+            return REDIRECT_SHOW;
+
         } catch (ServiceException e) {
             model.addAttribute(CONTRACT, dto);
             model.addAttribute(MODEL_MESSAGE, e.getMessage());
             return "management/contract/create-contract";
         }
-        attr.addAttribute("id", dto.getId());
-
-        return REDIRECT_SHOW;
     }
 
     @GetMapping("/management/editContract")
@@ -106,13 +103,13 @@ public class ContractController {
     public String updateOption(@ModelAttribute("editedContract") ContractDTO dto, Model model, RedirectAttributes attr) {
         try {
             contractService.update(dto);
+            attr.addAttribute("id", dto.getId());
+            return REDIRECT_SHOW;
         } catch (ServiceException e) {
             model.addAttribute("editedContract",dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return "management/contract/edit-contract";
         }
-        attr.addAttribute("id",dto.getId());
-        return REDIRECT_SHOW;
     }
 
     @GetMapping("/management/deleteContract")
@@ -122,18 +119,12 @@ public class ContractController {
         return "redirect:/management/showClient";
     }
 
-
-    @ModelAttribute("allContracts")
-    public List<Contract> getAll() {
-        return contractService.getAll();
-    }
-
-    @ModelAttribute("allTariffs")
+    @ModelAttribute("allTariffsNames")
     public List<String> getAllTariffs() {
         return tariffService.getAllNames();
     }
 
-    @ModelAttribute("allOptions")
+    @ModelAttribute("allOptionsNames")
     public List<String> getAllOptions() {
         return optionService.getAllNames();
     }

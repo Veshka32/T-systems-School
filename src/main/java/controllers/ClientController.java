@@ -16,7 +16,6 @@ import services.interfaces.ClientServiceI;
 import services.interfaces.ContractServiceI;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class ClientController {
@@ -48,7 +47,7 @@ public class ClientController {
 
     @GetMapping("/management/showClient")
     public String show(@RequestParam("id") int id, Model model) {
-        Client client = clientService.get(id);
+        ClientDTO client = clientService.getDTO(id);
         model.addAttribute(CLIENT, client);
         model.addAttribute(CONTRACTS, contractService.getAllClientContracts(id));
         return SAVE;
@@ -102,13 +101,13 @@ public class ClientController {
         }
         try {
             clientService.create(dto);
+            model.addAttribute(CLIENT, dto);
+            return SAVE;
         } catch (ServiceException e){
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             model.addAttribute(CLIENT, dto);
             return CREATE;
         }
-        model.addAttribute(CLIENT, dto);
-        return SAVE;
     }
 
     @GetMapping("/management/editClient")
@@ -128,24 +127,20 @@ public class ClientController {
         }
         try {
             clientService.update(dto);
+            attr.addAttribute("id", dto.getId());
+            return "redirect:/management/showClient";
         } catch (ServiceException e) {
             model.addAttribute(CLIENT, dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return EDIT;
         }
-        attr.addAttribute("id",dto.getId());
-        return "redirect:/management/showClient";
+
     }
 
     @GetMapping("/management/deleteClient")
     public String deleteClient(@RequestParam("id") int id) {
         clientService.delete(id);
         return "redirect:/management/clients";
-    }
-
-    @ModelAttribute("allClients")
-    public List<Client> getAllClients() {
-        return clientService.getAll();
     }
 
     @ModelAttribute("phone")

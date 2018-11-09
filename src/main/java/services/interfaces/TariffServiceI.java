@@ -2,14 +2,19 @@ package services.interfaces;
 
 import entities.Tariff;
 import entities.dto.TariffDTO;
-import entities.dto.TariffTransfer;
 import services.ServiceException;
 
 import java.util.List;
 
 public interface TariffServiceI extends GenericServiceI<Tariff> {
 
-    void create(TariffDTO dto) throws ServiceException;
+    /**
+     * Return auto-generated id of created entity
+     *
+     * @param dto contains state of new {@code Tariff} entity
+     * @throws ServiceException if name is not unique or some properties are incompatible with each other
+     */
+    int create(TariffDTO dto) throws ServiceException;
 
     void delete(int id) throws ServiceException;
 
@@ -17,7 +22,11 @@ public interface TariffServiceI extends GenericServiceI<Tariff> {
 
     List<String> getAllNames();
 
-    TariffTransfer getTransferForEdit(int id);
-
+    /**
+     * Build data transfer object for specific {@code Tariff}
+     *
+     * @param id database id of desired {@code Tariff} object
+     * @return {@code TariffDTO} object including only names of all {@code Option} in this {@code Tariff};
+     */
     TariffDTO getDto(int id);
 }

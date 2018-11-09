@@ -36,7 +36,7 @@ public class MyUserService implements MyUserServiceI {
 
         //check if number exists
         Contract contract=contractService.findByPhone(Long.parseLong(dto.getLogin()));
-        if (contract==null) throw new ServiceException("There is now such a number");
+        if (contract == null) throw new ServiceException("There is no such a number");
 
         user = new MyUser();
         user.setRole(Role.ROLE_CLIENT);

@@ -2,7 +2,6 @@ package controllers;
 
 import entities.Tariff;
 import entities.dto.TariffDTO;
-import entities.dto.TariffTransfer;
 import entities.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,7 @@ public class TariffController {
     private static final String CREATE = "management/tariff/create-tariff";
     private static final String EDIT = "management/tariff/edit-tariff";
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
+    private static final String TARIFF = "tariff";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all tariffs
 
     @Autowired
@@ -44,32 +44,32 @@ public class TariffController {
     @GetMapping("/management/showTariff")
     public String show(@RequestParam("id") int id, Model model) {
         TariffDTO dto = tariffService.getDto(id);
-        model.addAttribute("tariff", dto);
+        model.addAttribute(TARIFF, dto);
         model.addAttribute("options", dto.getOptions().stream().collect(Collectors.joining(", ")));
         return "management/tariff/show-tariff";
     }
 
     @GetMapping("/management/createTariff")
     public String createShow(Model model) {
-        buildModelForCreate(model, new TariffDTO());
+        buildModel(model, new TariffDTO());
         return CREATE;
     }
 
     @PostMapping("/management/createTariff")
-    public String create(@ModelAttribute("tariff") @Valid TariffDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String create(@ModelAttribute(TARIFF) @Valid TariffDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            buildModelForCreate(model, dto);
+            buildModel(model, dto);
             return CREATE;
         }
         try {
-            tariffService.create(dto);
+            attr.addAttribute("id", tariffService.create(dto));
+            return "redirect:/management/showTariff";
+
         } catch (ServiceException e) {
-            buildModelForCreate(model, dto);
+            buildModel(model, dto);
             model.addAttribute(MODEL_MESSAGE, e.getMessage());
             return CREATE;
         }
-        attr.addAttribute("id", dto.getId());
-        return "redirect:/management/showTariff";
     }
 
     @GetMapping("/management/editTariff")
@@ -77,27 +77,25 @@ public class TariffController {
                              @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
                              Model model) {
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
-        TariffTransfer transfer = tariffService.getTransferForEdit(id);
-        model.addAttribute("editedTariff",transfer.getDto());
-        model.addAttribute("all", transfer.getAll());
+        buildModel(model, tariffService.getDto(id));
         return EDIT;
     }
 
     @PostMapping("/management/editTariff")
-    public String updateTariff(@ModelAttribute("editedTariff") @Valid TariffDTO dto, BindingResult result, RedirectAttributes attr, Model model) {
+    public String updateTariff(@ModelAttribute(TARIFF) @Valid TariffDTO dto, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            buildModelForUpdate(model,dto);
+            buildModel(model, dto);
             return EDIT;
         }
         try {
             tariffService.update(dto);
+            attr.addAttribute("id", dto.getId());
+            return "redirect:/management/showTariff";
         } catch (ServiceException e) {
-            buildModelForUpdate(model,dto);
+            buildModel(model, dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             return EDIT;
         }
-        attr.addAttribute("id",dto.getId());
-        return "redirect:/management/showTariff";
     }
 
 
@@ -105,12 +103,12 @@ public class TariffController {
     public String deleteTariff(@RequestParam("id") int id, RedirectAttributes attr) {
         try {
             tariffService.delete(id);
+            return "redirect:/management/tariffs";
         } catch (ServiceException e) {
             attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
             attr.addAttribute("id",id);
             return REDIRECT_EDIT;
         }
-        return "redirect:/management/tariffs";
     }
 
     @ModelAttribute("allTariffs")
@@ -118,14 +116,8 @@ public class TariffController {
         return tariffService.getAll();
     }
 
-    private void buildModelForCreate(Model model, TariffDTO dto) {
-        model.addAttribute("tariff", dto);
+    private void buildModel(Model model, TariffDTO dto) {
+        model.addAttribute(TARIFF, dto);
         model.addAttribute("all", optionService.getAllNames());
-    }
-
-    private void buildModelForUpdate(Model model,TariffDTO dto){
-        model.addAttribute("editedTariff",dto);
-        List<String> map = optionService.getAllNames();
-        model.addAttribute("all",map);
     }
 }

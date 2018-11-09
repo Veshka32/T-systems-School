@@ -14,9 +14,21 @@ public interface ContractServiceI extends GenericServiceI<Contract> {
 
     Contract findByPhone(long phone);
 
+    /**
+     * Build data transfer object for specific {@code Contract}
+     *
+     * @param id database id of desired {@code Contract} object
+     * @return {@code ContractDTO} object including only names of all {@code Option} in this {@code Contract};
+     */
     ContractDTO getDTO(int id);
 
-    void create(ContractDTO dto) throws ServiceException;
+    /**
+     * Return auto-generated id of created entity
+     *
+     * @param dto contains state of new {@code Contract} entity
+     * @throws ServiceException if some {@code Option}s are incompatible with each other
+     */
+    int create(ContractDTO dto) throws ServiceException;
 
     void update(ContractDTO dto) throws ServiceException;
 
