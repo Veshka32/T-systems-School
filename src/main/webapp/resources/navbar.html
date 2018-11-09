@@ -24,11 +24,13 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <c:if test="${pageContext.request.userPrincipal.name != null}">
-                    <a href="javascript:document.getElementById('logout').submit()"><span
-                            class="glyphicon glyphicon-log-out"></span>LOG OUT</a>
-                </c:if>
+                <a href="javascript:document.getElementById('logout').submit()"><span
+                        class="glyphicon glyphicon-log-out"></span>LOG OUT</a>
+                <form id="logout" action="../logout" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
             </li>
         </ul>
     </div>
 </nav>
+

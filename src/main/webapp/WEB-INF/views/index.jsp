@@ -24,21 +24,46 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
                 <sec:authorize access="hasRole('MANAGER')">
-                    <li><a href="management/cabinet">Management</a></li>
+                    <li><a href="management/cabinet">MANAGEMENT</a></li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('CLIENT')">
                     <li><a href="user/cabinet">Cabinet</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cart<span class="glyphicon glyphicon-shopping-cart"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-item">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body text-left">
+                                        <c:forEach items="${cart.options}" var="opt">
+                                            ${opt.name}: $${opt.subscribeCost} <a
+                                                href="deleteFromCart/${opt.id}"><span
+                                                class="glyphicon glyphicon-remove-circle logo-small"></span></a><br>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="panel-footer text-left">
+                                        Total: $${cart.totalSum}
+                                        <a href="user/cabinet">Go ro cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
-                    <li><a href="login">SIGN IN</a></li>
+                    <li><a href="login">SIGN IN<span class="glyphicon glyphicon-log-in"></span></a></li>
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
-                    <li><a href="register">SIGN UP</a></li>
+                    <li><a href="register">SIGN UP<span class="glyphicon glyphicon-user"></span></a></li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <li>
-                        <form action="logout" method="post">
-                            <input type="submit" value="LOG OUT" role="button" class="btn default navbar-btn">
+                        <a href="javascript:document.getElementById('logout').submit()">LOG OUT <span
+                                class="glyphicon glyphicon-log-out"></span></a>
+                        <form id="logout" action="logout" method="post">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </li>

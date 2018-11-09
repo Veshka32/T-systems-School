@@ -14,11 +14,6 @@
 
 <%@ include file="/resources/user-navbar.html" %>
 
-<c:url value="/logout" var="logoutUrl"/>
-<form id="logout" action="${logoutUrl}" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
-
 <div class="container">
     <%--Tariffs--%>
     <h4>Tariffs:</h4>

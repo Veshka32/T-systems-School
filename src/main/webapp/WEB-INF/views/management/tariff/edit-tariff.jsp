@@ -17,11 +17,6 @@
 
 <%@ include file="/resources/navbar.html" %>
 
-<c:url value="/logout" var="logoutUrl"/>
-<form id="logout" action="${logoutUrl}" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
-
 <div class="container">
     <span class="pull-right"><a href="tariffs" class="btn btn-info" role="button">Back to tariffs</a></span>
     <h3>Edit tariff</h3>

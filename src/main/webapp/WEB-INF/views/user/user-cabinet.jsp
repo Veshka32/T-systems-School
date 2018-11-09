@@ -22,18 +22,13 @@
         .panel-body p {
             font-style: italic;
         }
-
     </style>
 </head>
 <body>
 <%@ include file="/resources/user-navbar.html" %>
 
-<c:url value="/logout" var="logoutUrl"/>
-<form id="logout" action="${logoutUrl}" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
-
 <div class="container">
+    <%--Info and cart--%>
     <div class="row">
         <%--Tariff --%>
         <div class="col-sm-4">
@@ -73,13 +68,13 @@
                         class="glyphicon glyphicon-shopping-cart pull-right logo-small"></span></div>
                 <div class="panel-body text-left">
                     <c:forEach items="${cart.options}" var="opt">
-                        ${opt.name}: <span class="pull-right">$${opt.subscribeCost} cents <a
+                        ${opt.name}: <span class="pull-right">$${opt.subscribeCost}<a
                             href="deleteFromCart/${opt.id}"><span
                             class="glyphicon glyphicon-remove-circle logo-small"></span></a></span><br>
                     </c:forEach>
                 </div>
                 <div class="panel-footer text-left">
-                    Total: ${cart.totalSum} cents
+                    Total: $${cart.totalSum}
                     <c:choose>
                         <c:when test="${cart.isEmpty()}">
                             <div class="text-right">
@@ -99,43 +94,42 @@
     </div>
     <%--Options--%>
     <h4>Active options:</h4>
-    <div class="row well well-sm">
+    <p class="bg-danger">${message}</p>
+    <div class="row">
         <%--Options in tariff--%>
         <c:forEach items="${contract.tariff.options}" var="option">
             <div class="col-sm-4">
                 <div class="panel panel-info">
                     <div class="panel-heading">${option.name}</div>
-                    <p class="panel-body">
-                    <p class="font-italic"> ${option.description}</p>
-                    <h5>$${option.price} per month</h5>
+                    <div class="panel-body">
+                        <p class="font-italic"> ${option.description}</p>
+                        <h5>$${option.price} per month</h5>
                     </div>
                     <div class="panel-footer">Can't be deactivated</div>
                 </div>
             </div>
         </c:forEach>
-    <%--Options in contract--%>
-    <p class="bg-danger">${message}</p>
-    <c:forEach items="${contract.options}" var="option">
-        <div class="col-sm-4">
-            <div class="panel panel-info">
-                <div class="panel-heading">${option.name}</div>
-                <div class="panel-body">
-                    <p class="font-italic">${option.description}</p>
-                    <h5>$${option.price} per month</h5>
+        <%--Options in contract--%>
+        <c:forEach items="${contract.options}" var="option">
+            <div class="col-sm-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">${option.name}</div>
+                    <div class="panel-body">
+                        <p class="font-italic">${option.description}</p>
+                        <h5>$${option.price} per month</h5>
+                    </div>
+                    <div class="panel-footer">
+                        <c:if test="${!contract.blocked && !contract.blockedByAdmin}">
+                            <a href="deleteOption/${option.id}" role="button" class="btn btn-danger">Delete</a>
+                        </c:if>
+                    </div>
                 </div>
-                <div class="panel-footer">
-                    <c:if test="${!contract.blocked && !contract.blockedByAdmin}">
-                        <a href="deleteOption/${option.id}" role="button" class="btn btn-danger">Delete option</a>
-                    </c:if>
-                </div>
-
             </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
     </div>
     <%--Available options--%>
     <h4>Available options:</h4>
-    <div class="row" id="options">
+    <div class="row">
         <c:forEach items="${availableOptions}" var="option">
             <div class="col-sm-4">
                 <div class="panel panel-success">
@@ -146,7 +140,7 @@
                         <h5>$${option.subscribeCost} for subscribe</h5>
                     </div>
                     <div class="panel-footer">
-                        <a href="addOptionToCart/${option.id}" role="button" class="btn btn-info">Get option</a>
+                        <a href="addOptionToCart/${option.id}" role="button" class="btn btn-info">Get</a>
                     </div>
                 </div>
             </div>

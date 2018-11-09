@@ -17,11 +17,6 @@
 
 <%@ include file="/resources/navbar.html" %>
 
-<c:url value="/logout" var="logoutUrl"/>
-<form id="logout" action="${logoutUrl}" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-</form>
-
 <div class="container">
     <h3>Create contract</h3>
     <p class="bg-danger">${message}</p>
