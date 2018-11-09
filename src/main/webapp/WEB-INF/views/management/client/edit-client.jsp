@@ -61,7 +61,8 @@
     </form:form>
     <br>
 
-    <div class="pull-right"><form action="deleteClient" method="get">
+    <div class="pull-right">
+        <form action="deleteClient" method="post">
         <input type="hidden" name="id" value=${client.id}>
         <input type="submit" value="Delete client" class="btn btn-danger"></form></div>
 

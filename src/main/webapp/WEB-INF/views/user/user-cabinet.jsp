@@ -120,7 +120,9 @@
                     </div>
                     <div class="panel-footer">
                         <c:if test="${!contract.blocked && !contract.blockedByAdmin}">
-                            <a href="deleteOption/${option.id}" role="button" class="btn btn-danger">Delete</a>
+                            <form action="deleteOption" method="post">
+                                <input type="hidden" name="id" value=${option.id}>
+                                <input type="submit" value="Delete" class="btn btn-danger"></form>
                         </c:if>
                     </div>
                 </div>

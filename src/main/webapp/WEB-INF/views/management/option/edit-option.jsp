@@ -81,7 +81,7 @@
     </form:form>
 
     <div class="pull-right">
-        <form action="deleteOption" method="get">
+        <form action="deleteOption" method="post">
             <input type="hidden" name="id" value=${option.id}>
             <input type="submit" value="Delete option" class="btn btn-danger"></form>
     </div>

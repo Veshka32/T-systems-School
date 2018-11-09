@@ -6,10 +6,7 @@ import entities.stateful.CartInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
@@ -91,11 +88,11 @@ public class UserCabinet {
         return REDIRECT_CABINET;
     }
 
-    @GetMapping("/user/deleteOption/{optionId}")
-    public String deleteOption(@PathVariable("optionId") int id, RedirectAttributes attr) {
+    @PostMapping("/user/deleteOption")
+    public String deleteOption(@RequestParam("id") int optionId, RedirectAttributes attr) {
 
         try {
-            contractService.deleteOption(cartInterface.getContractId(), id);
+            contractService.deleteOption(cartInterface.getContractId(), optionId);
         } catch (ServiceException e) {
             attr.addAttribute("message", e.getMessage());
         }

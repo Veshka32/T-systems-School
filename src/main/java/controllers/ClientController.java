@@ -137,7 +137,7 @@ public class ClientController {
 
     }
 
-    @GetMapping("/management/deleteClient")
+    @PostMapping("/management/deleteClient")
     public String deleteClient(@RequestParam("id") int id) {
         clientService.delete(id);
         return "redirect:/management/clients";

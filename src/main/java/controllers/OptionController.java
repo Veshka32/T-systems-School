@@ -95,7 +95,7 @@ public class OptionController {
         }
     }
 
-    @GetMapping("/management/deleteOption")
+    @PostMapping("/management/deleteOption")
     public String deleteOption(@RequestParam("id") int id,RedirectAttributes attr) {
         try{optionService.delete(id);}
         catch (ServiceException e){

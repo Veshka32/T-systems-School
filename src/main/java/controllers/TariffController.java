@@ -99,7 +99,7 @@ public class TariffController {
     }
 
 
-    @GetMapping("/management/deleteTariff")
+    @PostMapping("/management/deleteTariff")
     public String deleteTariff(@RequestParam("id") int id, RedirectAttributes attr) {
         try {
             tariffService.delete(id);

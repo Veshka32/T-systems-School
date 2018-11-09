@@ -57,7 +57,8 @@
     <br>
 
 
-    <div class="pull-right"><form action="deleteTariff" method="get">
+    <div class="pull-right">
+        <form action="deleteTariff" method="post">
         <input type="hidden" name="id" value=${tariff.id}>
         <input type="submit" value="Delete tariff" class="btn btn-danger"></form></div>
 </body>

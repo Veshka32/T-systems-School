@@ -57,7 +57,8 @@
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
 
-    <div class="pull-right"><form action="deleteContract" method="get">
+    <div class="pull-right">
+        <form action="deleteContract" method="post">
         <input type="hidden" name="id" value=${editedContract.id}>
         <input type="hidden" name="clientId" value=${editedContract.ownerId}>
         <input type="submit" value="Delete contract" class="btn btn-danger"></form></div>

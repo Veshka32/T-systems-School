@@ -112,7 +112,7 @@ public class ContractController {
         }
     }
 
-    @GetMapping("/management/deleteContract")
+    @PostMapping("/management/deleteContract")
     public String deleteClient(@RequestParam("id") int id, @RequestParam("clientId") int clientId,RedirectAttributes attr) {
         contractService.delete(id);
         attr.addAttribute("id",clientId);

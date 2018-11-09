@@ -34,7 +34,6 @@ public class SignUpController {
             model.addAttribute("message",e.getMessage());
             return "sign-up";
         }
-
     }
 
 }
