@@ -1,6 +1,6 @@
 package dao.interfaces;
 
-import entities.Option;
+import model.entity.Option;
 
 import java.util.List;
 

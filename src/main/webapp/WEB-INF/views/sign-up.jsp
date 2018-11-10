@@ -31,14 +31,18 @@
                 </div>
                 <div class="panel-body">
 
-                    <c:if test="${not empty message}"><div class="bg-danger">${message}</div></c:if><br>
+                    <c:if test="${not empty message1}">
+                        <div class="bg-danger">${message1}</div>
+                    </c:if><br>
                     <form:form  method='POST' modelAttribute="user">
                         <fieldset>
                             <div class="form-group">
                                 <form:input type="text" path="login" class="form-control" placeholder="9062107057"  />
+                                <p class="bg-danger"><form:errors path="login"/></p>
                             </div>
                             <div class="form-group">
                                 <form:input type="password" path="password" class="form-control" placeholder="password" />
+                                <p class="bg-danger"><form:errors path="password"/></p>
                             </div>
                             <input class="btn btn-lg btn-success btn-block" type="submit"
                                    value="Sign up"/>
@@ -48,6 +52,38 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Sign In</h3>
+                </div>
+                <div class="panel-body">
+
+                    <c:if test="${not empty message}">
+                        <div>${message}</div>
+                    </c:if>
+
+                    <form role="form" action="<c:url value='login' />" method='POST'>
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="9062107057" name="username" type="text"
+                                       autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="password" name="password" type="password"
+                                       value="">
+                            </div>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <input class="btn btn-lg btn-success btn-block" name="submit" type="submit"
+                                   value="Sign in"/>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 

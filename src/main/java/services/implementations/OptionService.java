@@ -2,11 +2,11 @@ package services.implementations;
 
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.RelationDaoI;
-import entities.Option;
-import entities.OptionRelation;
-import entities.dto.OptionDTO;
-import entities.enums.RELATION;
-import entities.helpers.PaginateHelper;
+import model.dto.OptionDTO;
+import model.entity.Option;
+import model.entity.OptionRelation;
+import model.enums.RELATION;
+import model.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -150,6 +150,7 @@ public class OptionService implements OptionServiceI {
     @Override
     public PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
         List<Option> optionsForPage = optionDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = optionDAO.count().intValue();
         int totalPage = total / rowPerPage;

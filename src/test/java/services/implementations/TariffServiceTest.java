@@ -2,9 +2,10 @@ package services.implementations;
 
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
-import entities.Option;
-import entities.Tariff;
-import entities.dto.TariffDTO;
+import model.dto.TariffDTO;
+import model.entity.Option;
+import model.entity.Tariff;
+import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +18,10 @@ import org.mockito.quality.Strictness;
 import services.ServiceException;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,38 +38,37 @@ public class TariffServiceTest {
     OptionDaoI optionDAO;
 
     @BeforeEach
-    public void createMocks() {
+    void createMocks() {
         //enable mocks
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testCreate() {
+    void testCreate() {
         TariffDTO dto = new TariffDTO();
 
-        //create tariff with reserved name
+        //createClient tariff with reserved name
         dto.setName("t1");
         when(tariffDAO.isNameExist(dto.getName())).thenReturn(true);
         assertThrows(ServiceException.class, () -> tariffService.create(dto), "name is reserved");
     }
 
     @Test
-    public void testCheckCompatibility() {
+    void testCheckCompatibility() {
         TariffDTO dto = new TariffDTO();
 
         //add option a without its' mandatory options
         dto.getOptions().add("a");
         when(tariffDAO.isNameExist(dto.getName())).thenReturn(false);
-        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Arrays.asList("b"));
+        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Collections.singletonList("b"));
         ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + Arrays.asList("b"));
+        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("b"));
         dto.getOptions().clear();
 
         //add a with incompatible options b
         dto.getOptions().add("a");
         dto.getOptions().add("b");
-        when(tariffDAO.isNameExist("t2")).thenReturn(false);
-        when(optionDAO.getAllMandatoryNames(new String[]{"a", "b"})).thenReturn(Arrays.asList());
+        when(optionDAO.getAllMandatoryNames(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"a", "b"})).thenReturn(Arrays.asList("a", "b"));
         e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
         assertEquals(e.getMessage(), "Selected options are incompatible with each other");
@@ -75,10 +76,40 @@ public class TariffServiceTest {
         //add only b
         dto.getOptions().clear();
         dto.getOptions().add("b");
-        when(tariffDAO.isNameExist("t2")).thenReturn(false);
-        when(optionDAO.getAllMandatoryNames(new String[]{"b"})).thenReturn(Arrays.asList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"b"})).thenReturn(Arrays.asList());
+        when(optionDAO.getAllMandatoryNames(new String[]{"b"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getAllIncompatibleNames(new String[]{"b"})).thenReturn(Collections.emptyList());
         when(optionDAO.findByName("b")).thenReturn(new Option());
-        when(tariffDAO.save(new Tariff())).thenReturn(1);
+        assertDoesNotThrow(() -> tariffService.create(dto));
+    }
+
+    @Test
+    void updateTest() {
+        Tariff t = new Tariff();
+        t.setId(2);
+        TariffDTO dto = new TariffDTO();
+        dto.setId(1);
+        dto.setName("t");
+
+        //check if name is reserved
+        when(tariffDAO.findByName("t")).thenReturn(t);
+        assertThrows(ServiceException.class, () -> tariffService.update(dto));
+    }
+
+    @Test
+    void delete() {
+        when(tariffDAO.isUsed(1)).thenReturn(true);
+        assertThrows(ServiceException.class, () -> tariffService.delete(1));
+    }
+
+    @Test
+    void getPaginateData() {
+        List<Tariff> tariffs = Collections.singletonList(new Tariff());
+        assertThrows(IllegalArgumentException.class, () -> tariffService.getPaginateData(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> tariffService.getPaginateData(1, -1));
+        when(tariffDAO.allInRange(0, 3)).thenReturn(tariffs);
+        when(tariffDAO.count()).thenReturn(10L);
+        PaginateHelper<Tariff> helper = tariffService.getPaginateData(null, 3);
+        assert (helper.getItems().equals(tariffs));
+        assert (helper.getTotal() == 4);
     }
 }

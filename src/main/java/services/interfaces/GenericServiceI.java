@@ -1,6 +1,6 @@
 package services.interfaces;
 
-import entities.helpers.PaginateHelper;
+import model.helpers.PaginateHelper;
 
 import java.util.List;
 

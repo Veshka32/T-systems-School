@@ -2,7 +2,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page isELIgnored="false" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,13 +69,8 @@
                     <br>
                 </c:forEach></div>
         </fieldset>
-
-
     </div>
-
-
     <br>
-
     <input type="hidden" name="id" value=${option.id}>
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>

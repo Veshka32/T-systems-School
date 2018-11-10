@@ -1,10 +1,10 @@
-package entities.helpers;
+package model.helpers;
 
 import java.util.List;
 
 public class PaginateHelper<T> {
-    List<T> items;
-    int total;
+    private List<T> items;
+    private int total;
 
     public PaginateHelper(List<T> items, int total) {
         this.items = items;

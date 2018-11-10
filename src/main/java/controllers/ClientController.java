@@ -1,10 +1,10 @@
 package controllers;
 
-import entities.Client;
-import entities.dto.ClientDTO;
-import entities.helpers.PaginateHelper;
-import entities.helpers.Passport;
-import entities.helpers.Phone;
+import model.dto.ClientDTO;
+import model.entity.Client;
+import model.helpers.PaginateHelper;
+import model.helpers.Passport;
+import model.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class ClientController {
     private static final String MODEL_MESSAGE="message";
     private static final String EDIT = "management/client/edit-client";
     private static final String SAVE="management/client/show-client";
-    private static final String CREATE="management/client/create-client";
+    private static final String CREATE = "management/client/createClient-client";
     private static final String MANAGEMENT="management/client/client-management";
     private static final String CLIENT = "client";
     private static final String CONTRACTS = "clientContracts";

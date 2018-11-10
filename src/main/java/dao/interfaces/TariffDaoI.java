@@ -1,6 +1,6 @@
 package dao.interfaces;
 
-import entities.Tariff;
+import model.entity.Tariff;
 
 import java.util.List;
 

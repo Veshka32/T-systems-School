@@ -1,9 +1,9 @@
-package entities;
+package model.entity;
 
-import entities.enums.RELATION;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.RELATION;
 
 import javax.persistence.*;
 

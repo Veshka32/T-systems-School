@@ -1,3 +1,10 @@
+#login-dp {
+    min-width: 250px;
+    padding: 14px 14px 14px;
+    overflow: hidden;
+    color: #00284d;
+}
+
 body {
     font: 400 15px Lato, sans-serif;
     line-height: 1.8;
@@ -86,7 +93,7 @@ h4 {
 }
 
 .panel:hover {
-    box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+    box-shadow: 5px 0 40px rgba(0, 0, 0, .2);
 }
 
 .panel-heading {
@@ -94,10 +101,10 @@ h4 {
     background-color: #00284d !important;
     padding: 10px;
     border-bottom: 1px solid transparent;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .panel-body {

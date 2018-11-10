@@ -1,6 +1,6 @@
 package dao.interfaces;
 
-import entities.MyUser;
+import model.entity.MyUser;
 
 public interface UserDaoI extends IGenericDAO<MyUser> {
     MyUser findByLogin(String login);

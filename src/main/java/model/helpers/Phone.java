@@ -1,4 +1,4 @@
-package entities.helpers;
+package model.helpers;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -26,7 +26,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("entities");
+        sessionFactory.setPackagesToScan("model");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
@@ -48,7 +48,7 @@ public class HibernateConfiguration {
         return transactionManager;
     }
 
-    private final Properties hibernateProperties() {
+    private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.connection.driver_class", env.getProperty("hibernate.driverClass"));
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));

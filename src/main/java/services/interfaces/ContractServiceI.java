@@ -1,9 +1,9 @@
 package services.interfaces;
 
-import entities.Client;
-import entities.Contract;
-import entities.Option;
-import entities.dto.ContractDTO;
+import model.dto.ContractDTO;
+import model.entity.Client;
+import model.entity.Contract;
+import model.entity.Option;
 import services.ServiceException;
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface ContractServiceI extends GenericServiceI<Contract> {
     Client findClientByPhone(long phone);
 
-    Contract findByPhone(long phone);
+    Integer findByPhone(long phone);
 
     /**
      * Build data transfer object for specific {@code Contract}

@@ -1,7 +1,7 @@
 package services.interfaces;
 
-import entities.Option;
-import entities.dto.OptionDTO;
+import model.dto.OptionDTO;
+import model.entity.Option;
 import services.ServiceException;
 
 import java.util.List;

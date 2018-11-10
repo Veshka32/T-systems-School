@@ -1,8 +1,8 @@
 package controllers;
 
-import entities.Tariff;
-import entities.dto.TariffDTO;
-import entities.helpers.PaginateHelper;
+import model.dto.TariffDTO;
+import model.entity.Tariff;
+import model.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class TariffController {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
-    private static final String CREATE = "management/tariff/create-tariff";
+    private static final String CREATE = "management/tariff/createClient-tariff";
     private static final String EDIT = "management/tariff/edit-tariff";
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
     private static final String TARIFF = "tariff";

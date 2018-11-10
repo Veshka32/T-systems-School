@@ -1,10 +1,10 @@
 
-package entities;
+package model.entity;
 
-import entities.enums.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.Role;
 
 import javax.persistence.*;
 import java.util.HashSet;

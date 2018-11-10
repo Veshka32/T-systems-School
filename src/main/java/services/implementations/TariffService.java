@@ -2,10 +2,10 @@ package services.implementations;
 
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
-import entities.Option;
-import entities.Tariff;
-import entities.dto.TariffDTO;
-import entities.helpers.PaginateHelper;
+import model.dto.TariffDTO;
+import model.entity.Option;
+import model.entity.Tariff;
+import model.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -43,6 +43,8 @@ public class TariffService implements TariffServiceI {
     @Override
     public PaginateHelper<Tariff> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, return first page
+        if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
+
         List<Tariff> tariffsForPage = tariffDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = tariffDAO.count().intValue();
         int totalPage = total / rowPerPage;

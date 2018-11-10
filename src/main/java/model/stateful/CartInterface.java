@@ -1,6 +1,6 @@
-package entities.stateful;
+package model.stateful;
 
-import entities.Option;
+import model.entity.Option;
 
 public interface CartInterface {
     void addItem(Option option);

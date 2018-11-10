@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"controllers", "dao", "services", "entities", "config"})
+@ComponentScan(basePackages = {"controllers", "dao", "services", "model", "config"})
 public class WebMvcConfig implements WebMvcConfigurer {
     private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
 

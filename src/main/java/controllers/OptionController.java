@@ -1,8 +1,8 @@
 package controllers;
 
-import entities.Option;
-import entities.dto.OptionDTO;
-import entities.helpers.PaginateHelper;
+import model.dto.OptionDTO;
+import model.entity.Option;
+import model.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Controller
 public class OptionController {
     private static final String EDIT = "management/option/edit-option";
-    private static final String CREATE = "management/option/create-option";
+    private static final String CREATE = "management/option/createClient-option";
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";

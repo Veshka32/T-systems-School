@@ -1,7 +1,7 @@
 package dao.interfaces;
 
-import entities.Client;
-import entities.Contract;
+import model.entity.Client;
+import model.entity.Contract;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ public interface ContractDaoI extends IGenericDAO<Contract> {
 
     Client findClientByPhone(long phone);
 
-    Contract findByPhone(long phone);
+    Integer findByPhone(long phone);
 }

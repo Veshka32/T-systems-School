@@ -1,7 +1,7 @@
 package services.interfaces;
 
-import entities.Client;
-import entities.dto.ClientDTO;
+import model.dto.ClientDTO;
+import model.entity.Client;
 import services.ServiceException;
 
 /**

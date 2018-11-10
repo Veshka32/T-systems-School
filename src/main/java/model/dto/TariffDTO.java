@@ -1,9 +1,9 @@
-package entities.dto;
+package model.dto;
 
-import entities.Tariff;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.entity.Tariff;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;

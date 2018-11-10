@@ -30,9 +30,6 @@
                 </div>
                 <div class="panel-body">
 
-                    <c:if test="${not empty error}">
-                        <div>${error}</div>
-                    </c:if>
                     <c:if test="${not empty message}">
                         <div>${message}</div>
                     </c:if>
@@ -49,7 +46,7 @@
                             </div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <input class="btn btn-lg btn-success btn-block" name="submit" type="submit"
-                                   value="Sign in"/></td>
+                                   value="Sign in"/>
                         </fieldset>
                     </form>
                 </div>

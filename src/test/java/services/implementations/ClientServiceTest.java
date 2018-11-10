@@ -1,8 +1,8 @@
 package services.implementations;
 
 import dao.interfaces.ClientDaoI;
-import entities.Client;
-import entities.dto.ClientDTO;
+import model.dto.ClientDTO;
+import model.entity.Client;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,18 +20,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
 class ClientServiceTest {
-    String passport = "123457890";
-    String email = "test@mail.com";
-    ClientDTO dto = new ClientDTO();
+    private String passport = "123457890";
+    private String email = "test@mail.com";
+    private ClientDTO dto = new ClientDTO();
 
     @InjectMocks
-    ClientService clientService;
+    private ClientService clientService;
 
     @Mock
-    ClientDaoI clientDaoI;
+    private ClientDaoI clientDaoI;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         //enable mocks
         MockitoAnnotations.initMocks(this);
 

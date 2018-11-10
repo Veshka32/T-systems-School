@@ -1,8 +1,8 @@
 package dao.implementations;
 
 import dao.interfaces.ContractDaoI;
-import entities.Client;
-import entities.Contract;
+import model.entity.Client;
+import model.entity.Contract;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
@@ -29,9 +29,9 @@ public class ContractDAO extends GenericDAO<Contract> implements ContractDaoI {
     }
 
     @Override
-    public Contract findByPhone(long phone)  {
+    public Integer findByPhone(long phone) {
         try {
-            return sessionFactory.getCurrentSession().createNamedQuery("get_contract_by_phone", Contract.class)
+            return sessionFactory.getCurrentSession().createNamedQuery("get_contractId_by_phone", Integer.class)
                     .setParameter("phone",phone)
                     .getSingleResult();
         } catch (NoResultException e){

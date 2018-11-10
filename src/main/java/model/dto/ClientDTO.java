@@ -1,9 +1,9 @@
-package entities.dto;
+package model.dto;
 
-import entities.Client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.entity.Client;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 

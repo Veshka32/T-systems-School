@@ -1,7 +1,7 @@
 package dao.implementations;
 
 import dao.interfaces.RelationDaoI;
-import entities.OptionRelation;
+import model.entity.OptionRelation;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,7 +1,7 @@
 package services.interfaces;
 
-import entities.Tariff;
-import entities.dto.TariffDTO;
+import model.dto.TariffDTO;
+import model.entity.Tariff;
 import services.ServiceException;
 
 import java.util.List;

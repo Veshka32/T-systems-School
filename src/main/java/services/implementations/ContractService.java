@@ -4,12 +4,12 @@ import dao.interfaces.ClientDaoI;
 import dao.interfaces.ContractDaoI;
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
-import entities.Client;
-import entities.Contract;
-import entities.Option;
-import entities.Tariff;
-import entities.dto.ContractDTO;
-import entities.helpers.PaginateHelper;
+import model.dto.ContractDTO;
+import model.entity.Client;
+import model.entity.Contract;
+import model.entity.Option;
+import model.entity.Tariff;
+import model.helpers.PaginateHelper;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public Contract findByPhone(long phone) {
+    public Integer findByPhone(long phone) {
         return contractDAO.findByPhone(phone);
     }
 
@@ -171,6 +171,7 @@ public class ContractService implements ContractServiceI {
     @Override
     public PaginateHelper<Contract> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
         List<Contract> optionsForPage = contractDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = contractDAO.count().intValue();
         int totalPage = total / rowPerPage;
@@ -233,8 +234,12 @@ public class ContractService implements ContractServiceI {
 
     @Override
     public void setTariff(int id, int tariffId) {
+        /*
+         * replace with another logic: do not clear old options, but check compatibility with options in new tariff
+         */
         Contract contract = contractDAO.findOne(id);
         Tariff tariff = tariffDAO.findOne(tariffId);
+        contract.getOptions().clear();
         contract.setTariff(tariff);
         contractDAO.update(contract);
     }

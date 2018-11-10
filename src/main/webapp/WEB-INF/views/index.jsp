@@ -1,6 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,29 +35,13 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cart<span class="glyphicon glyphicon-shopping-cart"></span>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <div class="dropdown-item">
-                                <div class="panel panel-primary">
-                                    <div class="panel-body text-left">
-                                        <c:forEach items="${cart.options}" var="opt">
-                                            ${opt.name}: $${opt.subscribeCost} <a
-                                                href="deleteFromCart/${opt.id}"><span
-                                                class="glyphicon glyphicon-remove-circle logo-small"></span></a><br>
-                                        </c:forEach>
-                                    </div>
-                                    <div class="panel-footer text-left">
-                                        Total: $${cart.totalSum}
-                                        <a href="user/cabinet">Go ro cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </li>
 
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
                     <li><a href="login">SIGN IN<span class="glyphicon glyphicon-log-in"></span></a></li>
                 </sec:authorize>
+
                 <sec:authorize access="isAnonymous()">
                     <li><a href="register">SIGN UP<span class="glyphicon glyphicon-user"></span></a></li>
                 </sec:authorize>

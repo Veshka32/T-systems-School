@@ -1,7 +1,7 @@
 package services.implementations;
 
 import dao.interfaces.IGenericDAO;
-import entities.helpers.NumberGenerator;
+import model.helpers.NumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,7 +12,7 @@ import services.interfaces.PhoneNumberServiceI;
 @EnableTransactionManagement
 @Transactional
 public class PhoneNumberService implements PhoneNumberServiceI {
-    IGenericDAO<NumberGenerator>  numberGeneratorDAO;
+    private IGenericDAO<NumberGenerator> numberGeneratorDAO;
     private static final int GENERATOR_ID=1;
 
     @Autowired

@@ -1,9 +1,9 @@
 package controllers;
 
-import entities.Contract;
-import entities.dto.ContractDTO;
-import entities.helpers.PaginateHelper;
-import entities.helpers.Phone;
+import model.dto.ContractDTO;
+import model.entity.Contract;
+import model.helpers.PaginateHelper;
+import model.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,12 +43,12 @@ public class ContractController {
         if (result.hasErrors())
             return MANAGEMENT;
 
-        Contract contract = contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
-        if (contract == null) {
+        Integer contractId = contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
+        if (contractId == null) {
             model.addAttribute(MODEL_MESSAGE, "no such phone number exists");
             return MANAGEMENT;
         }
-        attr.addAttribute("id", contract.getId());
+        attr.addAttribute("id", contractId);
         return REDIRECT_SHOW;
     }
 

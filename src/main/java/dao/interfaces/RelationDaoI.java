@@ -1,6 +1,6 @@
 package dao.interfaces;
 
-import entities.OptionRelation;
+import model.entity.OptionRelation;
 
 
 public interface RelationDaoI extends IGenericDAO<OptionRelation> {

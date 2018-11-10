@@ -1,7 +1,7 @@
 package dao.implementations;
 
 import dao.interfaces.TariffDaoI;
-import entities.Tariff;
+import model.entity.Tariff;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
@@ -12,7 +12,7 @@ public class TariffDAO extends GenericDAO<Tariff> implements TariffDaoI {
 
     @Override
     public List<String> getAllNames() {
-        return (List<String>)sessionFactory.getCurrentSession().createQuery("select t.name from Tariff t")
+        return sessionFactory.getCurrentSession().createQuery("select t.name from Tariff t", String.class)
                 .getResultList();
     }
 

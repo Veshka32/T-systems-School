@@ -1,8 +1,8 @@
 package services.implementations;
 
 import dao.interfaces.UserDaoI;
-import entities.MyUser;
-import entities.enums.Role;
+import model.entity.MyUser;
+import model.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDaoI userDAO;
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(final String username) {
 
         MyUser user = userDAO.findByLogin(username);

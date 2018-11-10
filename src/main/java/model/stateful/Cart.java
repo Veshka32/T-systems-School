@@ -1,9 +1,9 @@
-package entities.stateful;
+package model.stateful;
 
-import entities.Option;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.entity.Option;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
