@@ -103,13 +103,17 @@ public class TariffServiceTest {
 
     @Test
     void getPaginateData() {
+        long total = 10L;
+        int perPage = 3;
+        int limit = 10;
+
         List<Tariff> tariffs = Collections.singletonList(new Tariff());
         assertThrows(IllegalArgumentException.class, () -> tariffService.getPaginateData(0, 0));
         assertThrows(IllegalArgumentException.class, () -> tariffService.getPaginateData(1, -1));
-        when(tariffDAO.allInRange(0, 3)).thenReturn(tariffs);
-        when(tariffDAO.count()).thenReturn(10L);
-        PaginateHelper<Tariff> helper = tariffService.getPaginateData(null, 3);
+        when(tariffDAO.allInRange(0, perPage)).thenReturn(tariffs);
+        when(tariffDAO.count()).thenReturn(total);
+        PaginateHelper<Tariff> helper = tariffService.getPaginateData(null, perPage);
         assert (helper.getItems().equals(tariffs));
-        assert (helper.getTotal() == 4);
+        assert (helper.getTotal() == limit / perPage + limit % perPage); // 10clients / 3 per page=3+1 page
     }
 }

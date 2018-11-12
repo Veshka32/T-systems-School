@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +27,8 @@ public class TariffDTO {
     private String name;
 
     @DecimalMin(value = "0.00", message = "{tariff.price.invalid}")
-    @Digits(integer = 6, fraction = 2)
+    @Digits(integer = 6, fraction = 2, message = "{tariff.price.invalid}")
+    @NotNull(message = "{tariff.price.invalid}")
     private BigDecimal price;
 
     @Length(max = 255)

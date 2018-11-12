@@ -18,6 +18,7 @@
 <%@ include file="/resources/navbar.html" %>
 
 <div class="container">
+    <span class="pull-right"><a href="contracts" class="btn btn-info" role="button">Back to contracts</a></span>
     <h3>Edit contract</h3>
     <p class="bg-danger">${message}</p>
 <form:form method="POST" modelAttribute="editedContract">
@@ -61,7 +62,9 @@
         <form action="deleteContract" method="post">
         <input type="hidden" name="id" value=${editedContract.id}>
         <input type="hidden" name="clientId" value=${editedContract.ownerId}>
-        <input type="submit" value="Delete contract" class="btn btn-danger"></form></div>
+            <input type="submit" value="Delete contract" class="btn btn-danger">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></form>
+    </div>
 
 </body>
 </html>

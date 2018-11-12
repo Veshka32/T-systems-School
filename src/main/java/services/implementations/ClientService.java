@@ -81,9 +81,9 @@ public class ClientService implements ClientServiceI {
 
     @Override
     public PaginateHelper<Client> getPaginateData(Integer currentPage, int rowPerPage) {
+
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
         if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
-
         List<Client> optionsForPage = clientDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = clientDAO.count().intValue();
         int totalPage = total / rowPerPage;

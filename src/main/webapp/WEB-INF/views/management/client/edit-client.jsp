@@ -64,7 +64,8 @@
     <div class="pull-right">
         <form action="deleteClient" method="post">
         <input type="hidden" name="id" value=${client.id}>
-        <input type="submit" value="Delete client" class="btn btn-danger"></form></div>
-
+            <input type="submit" value="Delete client" class="btn btn-danger">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></form>
+    </div>
 </body>
 </html>

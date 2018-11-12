@@ -88,7 +88,7 @@
                 </div>
             </div>
             <br>
-            <p class="bg-danger">${cart.message}</p>
+            <p class="bg-danger">${cart.getMessage()}</p>
 
         </div>
     </div>
@@ -122,7 +122,8 @@
                         <c:if test="${!contract.blocked && !contract.blockedByAdmin}">
                             <form action="deleteOption" method="post">
                                 <input type="hidden" name="id" value=${option.id}>
-                                <input type="submit" value="Delete" class="btn btn-danger"></form>
+                                <input type="submit" value="Delete" class="btn btn-danger">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></form>
                         </c:if>
                     </div>
                 </div>

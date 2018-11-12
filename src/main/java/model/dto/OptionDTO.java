@@ -6,10 +6,7 @@ import lombok.Setter;
 import model.entity.Option;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,11 +24,13 @@ public class OptionDTO {
     private String name;
 
     @DecimalMin(value = "0.00", message = "{option.price.invalid}")
-    @Digits(integer = 6, fraction = 2)
+    @Digits(integer = 6, fraction = 2, message = "{option.price.invalid}")
+    @NotNull(message = "{option.price.invalid}")
     private BigDecimal price;
 
     @DecimalMin(value = "0.00", message = "{option.subscribeCost.invalid}")
-    @Digits(integer = 6, fraction = 2)
+    @Digits(integer = 6, fraction = 2, message = "{option.price.invalid}")
+    @NotNull(message = "{option.price.invalid}")
     private BigDecimal subscribeCost;
 
     @Length(max = 255)

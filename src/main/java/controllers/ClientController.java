@@ -23,7 +23,7 @@ public class ClientController {
     private static final String MODEL_MESSAGE="message";
     private static final String EDIT = "management/client/edit-client";
     private static final String SAVE="management/client/show-client";
-    private static final String CREATE = "management/client/createClient-client";
+    private static final String CREATE = "management/client/create-client";
     private static final String MANAGEMENT="management/client/client-management";
     private static final String CLIENT = "client";
     private static final String CONTRACTS = "clientContracts";
@@ -38,10 +38,7 @@ public class ClientController {
 
     @RequestMapping("/management/clients")
     public String show(@RequestParam(value = "page", required = false) Integer page, Model model) {
-        PaginateHelper<Client> helper = clientService.getPaginateData(page, ROW_PER_PAGE);
-        model.addAttribute("allInPage", helper.getItems());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageTotal", helper.getTotal());
+        buildModel(page, model);
         return MANAGEMENT;
     }
 
@@ -57,12 +54,14 @@ public class ClientController {
     public String find(@Valid Phone phone, BindingResult result, Model model){
         if (result.hasErrors()){
             model.addAttribute("phone",phone);
+            buildModel(1, model);
             return MANAGEMENT;
         }
 
         Client client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
         if (client==null){
             model.addAttribute(MODEL_MESSAGE,"phone number doesn't exist");
+            buildModel(1, model);
             return MANAGEMENT;
         }
         model.addAttribute(CLIENT, client);
@@ -74,12 +73,14 @@ public class ClientController {
     public String find(@Valid Passport passport, BindingResult result, Model model){
         if (result.hasErrors()){
             model.addAttribute("passport",passport);
+            buildModel(1, model);
             return MANAGEMENT;
         }
 
         Client client = clientService.findByPassport(passport.getPassportNumber());
         if (client==null){
             model.addAttribute("message1", "passportNumber id doesn't exist");
+            buildModel(1, model);
             return MANAGEMENT;
         }
         model.addAttribute(CLIENT, client);
@@ -151,5 +152,12 @@ public class ClientController {
     @ModelAttribute("passport")
     public Passport passport() {
         return new Passport();
+    }
+
+    private void buildModel(Integer page, Model model) {
+        PaginateHelper<Client> helper = clientService.getPaginateData(page, ROW_PER_PAGE);
+        model.addAttribute("allInPage", helper.getItems());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageTotal", helper.getTotal());
     }
 }

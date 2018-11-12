@@ -40,7 +40,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${allContracts}" var="contract">
+        <c:forEach items="${allInPage}" var="contract">
             <tr>
                 <td>${contract.id} </td>
                 <td>${contract.number}</td>

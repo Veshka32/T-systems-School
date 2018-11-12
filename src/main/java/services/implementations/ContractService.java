@@ -187,11 +187,12 @@ public class ContractService implements ContractServiceI {
         return contract;
     }
 
-    //client's actions
+    //client's actions. Admin blocking check must be done before any actions
 
     @Override
     public void addOptions(int id, Collection<Option> options) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
+        if (contract.isBlockedByAdmin()) return;
         Set<String> optionInContract = contract.getOptions().stream().map(Option::getName).collect(Collectors.toSet());
         Set<String> optionsInTariff = contract.getTariff().getOptions().stream().map(Option::getName).collect(Collectors.toSet());
         Set<String> newOptions = options.stream().map(Option::getName).collect(Collectors.toSet());
@@ -220,6 +221,7 @@ public class ContractService implements ContractServiceI {
     @Override
     public void deleteOption(int id, int optionId) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
+        if (contract.isBlockedByAdmin()) return;
         Option option = optionDao.findOne(optionId);
 
         //check if option is mandatory for some other
@@ -238,6 +240,7 @@ public class ContractService implements ContractServiceI {
          * replace with another logic: do not clear old options, but check compatibility with options in new tariff
          */
         Contract contract = contractDAO.findOne(id);
+        if (contract.isBlockedByAdmin()) return;
         Tariff tariff = tariffDAO.findOne(tariffId);
         contract.getOptions().clear();
         contract.setTariff(tariff);

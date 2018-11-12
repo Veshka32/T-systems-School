@@ -48,18 +48,6 @@ public class OptionServiceTest {
     }
 
     @Test
-    void testCreate() {
-        //set option dto
-        OptionDTO dto = new OptionDTO();
-
-        //createClient option with reserved name
-        dto.setName("t1");
-        when(optionDAO.findByName(dto.getName())).thenReturn(new Option());
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "name is reserved");
-    }
-
-    @Test
     void testUpdate() {
         //set option dto
         OptionDTO dto = new OptionDTO();
@@ -88,18 +76,31 @@ public class OptionServiceTest {
         when(optionDAO.notUsed(1)).thenReturn(false);
         ServiceException e = assertThrows(ServiceException.class, () -> optionService.delete(1));
         assertEquals(e.getMessage(), "Option is used in contracts/tariffs or is mandatory for another option");
+
+        when(optionDAO.notUsed(1)).thenReturn(true);
+        doNothing().when(relationDaoI).deleteAllIncompatible(1);
+        doNothing().when(relationDaoI).deleteAllMandatory(1);
+        doNothing().when(optionDAO).deleteById(1);
     }
 
     @Test
     void createTest() {
+        //set option dto
         OptionDTO dto = new OptionDTO();
+
+        //createClient option with reserved name
+        dto.setName("t1");
+        when(optionDAO.findByName(dto.getName())).thenReturn(new Option());
+        ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
+        assertEquals(e.getMessage(), "name is reserved");
+
         dto.setName(O);
 
         //check if no option at the same time are mandatory and incompatible
         dto.getMandatory().add(B);
         dto.getIncompatible().add(B);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
+        e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible :b");
         dto.getIncompatible().clear();
         dto.getMandatory().clear();
@@ -133,13 +134,17 @@ public class OptionServiceTest {
 
     @Test
     void getPaginateDataTest() {
+        long total = 10L;
+        int perPage = 3;
+        int limit = 10;
+
         List<Option> optionList = Collections.singletonList(new Option());
         assertThrows(IllegalArgumentException.class, () -> optionService.getPaginateData(0, 0));
         assertThrows(IllegalArgumentException.class, () -> optionService.getPaginateData(1, -1));
-        when(optionDAO.allInRange(0, 3)).thenReturn(optionList);
-        when(optionDAO.count()).thenReturn(10L);
-        PaginateHelper<Option> helper = optionService.getPaginateData(null, 3);
+        when(optionDAO.allInRange(0, perPage)).thenReturn(optionList);
+        when(optionDAO.count()).thenReturn(total);
+        PaginateHelper<Option> helper = optionService.getPaginateData(null, perPage);
         assert (helper.getItems().equals(optionList));
-        assert (helper.getTotal() == 4);
+        assert (helper.getTotal() == limit / perPage + limit % perPage); // 10clients / 3 per page=3+1 page
     }
 }

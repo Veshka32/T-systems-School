@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class TariffController {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
-    private static final String CREATE = "management/tariff/createClient-tariff";
+    private static final String CREATE = "management/tariff/create-tariff";
     private static final String EDIT = "management/tariff/edit-tariff";
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
     private static final String TARIFF = "tariff";
@@ -97,7 +97,6 @@ public class TariffController {
             return EDIT;
         }
     }
-
 
     @PostMapping("/management/deleteTariff")
     public String deleteTariff(@RequestParam("id") int id, RedirectAttributes attr) {

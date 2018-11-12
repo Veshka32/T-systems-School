@@ -3,6 +3,7 @@ package services.implementations;
 import dao.interfaces.ClientDaoI;
 import model.dto.ClientDTO;
 import model.entity.Client;
+import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import services.ServiceException;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -76,5 +80,20 @@ class ClientServiceTest {
         when(clientDaoI.findByEmail(email)).thenReturn(client);
         e = assertThrows(ServiceException.class, () -> clientService.update(dto));
         assertEquals(e.getMessage(), "email is reserved");
+    }
+
+    @Test
+    void getPaginateData() {
+        long total = 10L;
+        int perPage = 3;
+        int limit = 10;
+        List<Client> clients = Collections.singletonList(new Client());
+        assertThrows(IllegalArgumentException.class, () -> clientService.getPaginateData(0, 0));
+        assertThrows(IllegalArgumentException.class, () -> clientService.getPaginateData(1, -1));
+        when(clientDaoI.allInRange(0, perPage)).thenReturn(clients);
+        when(clientDaoI.count()).thenReturn(total);
+        PaginateHelper<Client> helper = clientService.getPaginateData(null, 3);
+        assert (helper.getItems().equals(clients));
+        assert (helper.getTotal() == limit / perPage + limit % perPage); // 10clients / 3 per page=3+1 page
     }
 }

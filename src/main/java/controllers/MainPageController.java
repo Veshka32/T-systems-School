@@ -16,11 +16,11 @@ public class MainPageController {
     @Autowired
     OptionServiceI optionServiceI;
 
-    @RequestMapping("/")
+    @RequestMapping({"/", "/index"})
     public String root(Model model) {
         model.addAttribute("tariffs", tariffServiceI.getAll());
         model.addAttribute("options", optionServiceI.getAll());
         model.addAttribute("user", new MyUserDTO());
-        return "/index";
+        return "index";
     }
 }

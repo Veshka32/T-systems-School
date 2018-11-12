@@ -1,8 +1,6 @@
 package model.stateful;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import model.entity.Option;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -14,8 +12,6 @@ import java.util.Set;
 
 @Component
 @Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Getter
-@Setter
 @NoArgsConstructor
 public class Cart implements CartInterface {
     private Set<Option> options = new HashSet<>();
@@ -45,5 +41,44 @@ public class Cart implements CartInterface {
     @Override
     public boolean isEmpty(){
         return options.isEmpty();
+    }
+
+    @Override
+    public Set<Option> getOptions() {
+        return options;
+    }
+
+    @Override
+    public void setOptions(Set<Option> options) {
+        this.options = options;
+    }
+
+    @Override
+    public BigDecimal getTotalSum() {
+        return totalSum;
+    }
+
+    @Override
+    public void setTotalSum(BigDecimal totalSum) {
+        this.totalSum = totalSum;
+    }
+
+    @Override
+    public int getContractId() {
+        return contractId;
+    }
+
+    @Override
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

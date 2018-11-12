@@ -40,12 +40,15 @@ public class ContractController {
 
     @PostMapping("/management/findContract")
     public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr, Model model) {
-        if (result.hasErrors())
+        if (result.hasErrors()) {
+            buildModel(1, model);
             return MANAGEMENT;
+        }
 
         Integer contractId = contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
         if (contractId == null) {
             model.addAttribute(MODEL_MESSAGE, "no such phone number exists");
+            buildModel(1, model);
             return MANAGEMENT;
         }
         attr.addAttribute("id", contractId);
@@ -54,10 +57,7 @@ public class ContractController {
 
     @RequestMapping("/management/contracts")
     public String show(@RequestParam(value = "page", required = false) Integer page, Model model) {
-        PaginateHelper<Contract> helper = contractService.getPaginateData(page, ROW_PER_PAGE);
-        model.addAttribute("allInPage", helper.getItems());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageTotal", helper.getTotal());
+        buildModel(page, model);
         return MANAGEMENT;
     }
 
@@ -132,6 +132,13 @@ public class ContractController {
     @ModelAttribute("phone")
     public Phone getPhone() {
         return new Phone();
+    }
+
+    private void buildModel(Integer page, Model model) {
+        PaginateHelper<Contract> helper = contractService.getPaginateData(page, ROW_PER_PAGE);
+        model.addAttribute("allInPage", helper.getItems());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageTotal", helper.getTotal());
     }
 
 }

@@ -2,6 +2,7 @@ package services.implementations;
 
 import dao.interfaces.UserDaoI;
 import model.dto.MyUserDTO;
+import model.entity.Contract;
 import model.entity.MyUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +13,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import services.ServiceException;
 import services.interfaces.ContractServiceI;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 
@@ -34,7 +35,7 @@ class UserServiceTest {
     ContractServiceI contractService;
 
     @Mock
-    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @BeforeEach
     void setUp() {
@@ -59,5 +60,11 @@ class UserServiceTest {
         when(contractService.findByPhone(Long.parseLong(login))).thenReturn(null);
         e = assertThrows(ServiceException.class, () -> userService.createClient(dto));
         assertEquals(e.getMessage(), "There is no such a number");
+
+        //check fields update
+        when(contractService.findByPhone(Long.parseLong(login))).thenReturn(1);
+        when(contractService.get(1)).thenReturn(new Contract());
+        when(userDAO.save(new MyUser())).thenReturn(1);
+        assertDoesNotThrow(() -> userService.createClient(dto));
     }
 }

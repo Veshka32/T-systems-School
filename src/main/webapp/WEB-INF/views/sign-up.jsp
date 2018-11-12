@@ -52,38 +52,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
-                </div>
-                <div class="panel-body">
-
-                    <c:if test="${not empty message}">
-                        <div>${message}</div>
-                    </c:if>
-
-                    <form role="form" action="<c:url value='login' />" method='POST'>
-                        <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="9062107057" name="username" type="text"
-                                       autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="password" name="password" type="password"
-                                       value="">
-                            </div>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            <input class="btn btn-lg btn-success btn-block" name="submit" type="submit"
-                                   value="Sign in"/>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 </body>
 

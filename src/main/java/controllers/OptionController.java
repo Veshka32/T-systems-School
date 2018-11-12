@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Controller
 public class OptionController {
     private static final String EDIT = "management/option/edit-option";
-    private static final String CREATE = "management/option/createClient-option";
+    private static final String CREATE = "management/option/create-option";
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
@@ -97,7 +97,9 @@ public class OptionController {
 
     @PostMapping("/management/deleteOption")
     public String deleteOption(@RequestParam("id") int id,RedirectAttributes attr) {
-        try{optionService.delete(id);}
+        try {
+            optionService.delete(id);
+        }
         catch (ServiceException e){
             attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
             attr.addAttribute("id",id);

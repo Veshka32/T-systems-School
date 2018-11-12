@@ -50,6 +50,29 @@ class ContractServiceTest {
     }
 
     @Test
+    void createTest() {
+        ContractDTO dto = new ContractDTO();
+        Tariff tariff = new Tariff();
+        tariff.setId(1);
+        dto.setOptionsNames(new HashSet<>(Arrays.asList("a", "b", "c")));
+        dto.setTariffName("test");
+        List<String> optionsInTariff = Arrays.asList("a", "b", "d");
+
+        //check if all options has its' mandatory
+        when(tariffDAO.findByName("test")).thenReturn(tariff);
+        when(optionDAO.getOptionsInTariffNames(1)).thenReturn(optionsInTariff);
+        when(optionDAO.getAllMandatoryNames(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
+        ServiceException e = assertThrows(ServiceException.class, () -> contractService.create(dto));
+        assertTrue(e.getMessage().contains("More options are required as mandatory: "));
+
+        //check if all options are compatible with each other
+        when(optionDAO.getAllMandatoryNames(new String[]{"c"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getAllIncompatibleNames(new String[]{"c"})).thenReturn(Collections.singletonList("d")); //someone are incompatible with d
+        e = assertThrows(ServiceException.class, () -> contractService.create(dto));
+        assertTrue(e.getMessage().contains(" are incompatible with each other or with tariff"));
+    }
+
+    @Test
     void updateTest() {
         ContractDTO dto = new ContractDTO();
         Tariff tariff = new Tariff();
@@ -116,8 +139,13 @@ class ContractServiceTest {
         b.setName("b");
         List<Option> options = Arrays.asList(a, b);
 
-        //check if all options has its' mandatory
+        //check if contract is blocked
+        contract.setBlockedByAdmin(true);
         when(contractDAO.findOne(id)).thenReturn(contract);
+        assertDoesNotThrow(() -> contractService.addOptions(id, options));
+        contract.setBlockedByAdmin(false);
+
+        //check if all options has its' mandatory
         when(optionDAO.getAllMandatoryNames(new String[]{"a", "b"})).thenReturn(Collections.singletonList("c")); // one of the options requires "c";
         ServiceException e = assertThrows(ServiceException.class, () -> contractService.addOptions(id, options));
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("c").toString());
@@ -143,6 +171,12 @@ class ContractServiceTest {
         contract.getOptions().add(a);
         contract.getOptions().add(b);
 
+        //check if contract is blocked
+        contract.setBlockedByAdmin(true);
+        when(contractDAO.findOne(id)).thenReturn(contract);
+        assertDoesNotThrow(() -> contractService.deleteOption(id, id));
+        contract.setBlockedByAdmin(false);
+
         //check if option is mandatory for some other
         when(contractDAO.findOne(id)).thenReturn(contract);
         when(optionDAO.findOne(id)).thenReturn(a); //try to delete a
@@ -152,23 +186,35 @@ class ContractServiceTest {
 
     @Test
     void setTariffTest() {
+        int id = 1;
         Contract contract = new Contract();
-        when(contractDAO.findOne(1)).thenReturn(contract);
-        when(tariffDAO.findOne(1)).thenReturn(new Tariff());
+        when(contractDAO.findOne(id)).thenReturn(contract);
+
+        //check if contract is blocked
+        contract.setBlockedByAdmin(true);
+        when(contractDAO.findOne(id)).thenReturn(contract);
+        assertDoesNotThrow(() -> contractService.setTariff(id, id));
+        contract.setBlockedByAdmin(false);
+
+        when(tariffDAO.findOne(id)).thenReturn(new Tariff());
         doNothing().when(contractDAO).update(contract);
-        contractService.setTariff(1, 1);
+        contractService.setTariff(id, id);
         assert contract.getOptions().isEmpty();
     }
 
     @Test
     void getPaginateData() {
+        long total = 10L;
+        int perPage = 3;
+        int limit = 10;
+
         List<Contract> contracts = Collections.singletonList(new Contract());
         assertThrows(IllegalArgumentException.class, () -> contractService.getPaginateData(0, 0));
         assertThrows(IllegalArgumentException.class, () -> contractService.getPaginateData(1, -1));
-        when(contractDAO.allInRange(0, 3)).thenReturn(contracts);
-        when(contractDAO.count()).thenReturn(10L);
-        PaginateHelper<Contract> helper = contractService.getPaginateData(null, 3);
+        when(contractDAO.allInRange(0, perPage)).thenReturn(contracts);
+        when(contractDAO.count()).thenReturn(total);
+        PaginateHelper<Contract> helper = contractService.getPaginateData(null, perPage);
         assert (helper.getItems().equals(contracts));
-        assert (helper.getTotal() == 4);
+        assert (helper.getTotal() == limit / perPage + limit % perPage); // 10clients / 3 per page=3+1 page
     }
 }
