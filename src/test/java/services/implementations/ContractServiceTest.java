@@ -6,6 +6,7 @@ import dao.implementations.TariffDAO;
 import model.dto.ContractDTO;
 import model.entity.Contract;
 import model.entity.Option;
+import model.entity.OptionRelation;
 import model.entity.Tariff;
 import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,48 +56,74 @@ class ContractServiceTest {
 
     @Test
     void createTest() {
+        int id = 1;
         ContractDTO dto = new ContractDTO();
         Tariff tariff = new Tariff();
         tariff.setId(1);
-        dto.setOptionsNames(new HashSet<>(Arrays.asList("a", "b", "c")));
+        dto.setOptionsNames(new HashSet<>(Arrays.asList("a", "c")));
         dto.setTariffName("test");
-        List<String> optionsInTariff = Arrays.asList("a", "b", "d");
+        List<String> optionsInTariff = Arrays.asList("c", "d");
+        String[] params = new String[]{"a"};
+
+        String A = "a";
+        String B = "b";
+        OptionRelation relation = new OptionRelation();
+        Option a = new Option();
+        a.setName(A);
+        Option b = new Option();
+        b.setName(B);
+        relation.setOne(a);
+        relation.setAnother(b); //a requires b
 
         //check if all options has its' mandatory
         when(tariffDAO.findByName("test")).thenReturn(tariff);
-        when(optionDAO.getOptionsInTariffNames(1)).thenReturn(optionsInTariff);
-        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
+        when(optionDAO.getOptionsInTariffNames(id)).thenReturn(optionsInTariff);
+        when(optionDAO.getMandatoryFor(params)).thenReturn(Collections.singletonList(relation)); // a requires b
         ServiceException e = assertThrows(ServiceException.class, () -> contractService.create(dto));
         assertTrue(e.getMessage().contains("More options are required as mandatory: "));
 
         //check if all options are compatible with each other
-        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.emptyList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"c"})).thenReturn(Collections.singletonList("d")); //someone are incompatible with d
+        optionsInTariff = Arrays.asList("a", "b");
+        when(optionDAO.getMandatoryFor(params)).thenReturn(Collections.emptyList());
+        when(optionDAO.getIncompatibleFor(params)).thenReturn(Collections.singletonList(relation)); //a is incompatible with b
         e = assertThrows(ServiceException.class, () -> contractService.create(dto));
-        assertTrue(e.getMessage().contains(" are incompatible with each other or with tariff"));
+        assertTrue(e.getMessage().contains(A + " and " + B));
     }
 
     @Test
     void updateTest() {
+        int id = 1;
         ContractDTO dto = new ContractDTO();
         Tariff tariff = new Tariff();
         tariff.setId(1);
-        dto.setOptionsNames(new HashSet<>(Arrays.asList("a", "b", "c")));
+        dto.setOptionsNames(new HashSet<>(Arrays.asList("a", "c")));
         dto.setTariffName("test");
-        List<String> optionsInTariff = Arrays.asList("a", "b", "d");
+        List<String> optionsInTariff = Arrays.asList("c", "d");
+        String[] params = new String[]{"a"};
+
+        String A = "a";
+        String B = "b";
+        OptionRelation relation = new OptionRelation();
+        Option a = new Option();
+        a.setName(A);
+        Option b = new Option();
+        b.setName(B);
+        relation.setOne(a);
+        relation.setAnother(b); //a requires b
 
         //check if all options has its' mandatory
         when(tariffDAO.findByName("test")).thenReturn(tariff);
-        when(optionDAO.getOptionsInTariffNames(1)).thenReturn(optionsInTariff);
-        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
+        when(optionDAO.getOptionsInTariffNames(id)).thenReturn(optionsInTariff);
+        when(optionDAO.getMandatoryFor(params)).thenReturn(Collections.singletonList(relation)); // a requires b
         ServiceException e = assertThrows(ServiceException.class, () -> contractService.update(dto));
         assertTrue(e.getMessage().contains("More options are required as mandatory: "));
 
         //check if all options are compatible with each other
-        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.emptyList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"c"})).thenReturn(Collections.singletonList("d")); //someone are incompatible with d
+        optionsInTariff = Arrays.asList("a", "b");
+        when(optionDAO.getMandatoryFor(params)).thenReturn(Collections.emptyList());
+        when(optionDAO.getIncompatibleFor(params)).thenReturn(Collections.singletonList(relation)); //a is incompatible with b
         e = assertThrows(ServiceException.class, () -> contractService.update(dto));
-        assertTrue(e.getMessage().contains(" are incompatible with each other or with tariff"));
+        assertTrue(e.getMessage().contains(A + " and " + B));
     }
 
     @Test
@@ -147,20 +174,6 @@ class ContractServiceTest {
         contract.setBlockedByAdmin(true);
         when(contractDAO.findOne(id)).thenReturn(contract);
         assertDoesNotThrow(() -> contractService.addOptions(id, options));
-        contract.setBlockedByAdmin(false);
-
-        //check if all options has its' mandatory
-        when(optionDAO.getMandatoryFor(new String[]{"a", "b"})).thenReturn(Collections.singletonList("c")); // one of the options requires "c";
-        ServiceException e = assertThrows(ServiceException.class, () -> contractService.addOptions(id, options));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("c").toString());
-
-        //check if all options are compatible with each other
-        Option c = new Option();
-        c.setName("c");
-        contract.getOptions().add(c);
-        when(optionDAO.getMandatoryFor(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"a", "b"})).thenReturn(Collections.singletonList("c")); //one of the option incompatible with "c";
-        assertThrows(ServiceException.class, () -> contractService.addOptions(id, options));
     }
 
     @Test

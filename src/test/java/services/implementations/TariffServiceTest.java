@@ -4,6 +4,7 @@ import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
 import model.dto.TariffDTO;
 import model.entity.Option;
+import model.entity.OptionRelation;
 import model.entity.Tariff;
 import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import services.ServiceException;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,31 +58,32 @@ class TariffServiceTest {
 
     @Test
     void testCheckCompatibility() {
+        String A = "a";
+        String B = "b";
+        String[] params = new String[]{A, B};
+        String[] params1 = new String[]{A};
         TariffDTO dto = new TariffDTO();
+        OptionRelation relation = new OptionRelation();
+        Option a = new Option();
+        a.setName(A);
+        Option b = new Option();
+        b.setName(B);
+        relation.setOne(a);
+        relation.setAnother(b); //a requires b
 
         //add option a without its' mandatory options
-        dto.getOptions().add("a");
+        dto.getOptions().add(A);
         when(tariffDAO.findByName(dto.getName())).thenReturn(null);
-        when(optionDAO.getMandatoryFor(new String[]{"a"})).thenReturn(Collections.singletonList("b"));
+        when(optionDAO.getMandatoryFor(params1)).thenReturn(Collections.singletonList(relation));
         ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("b"));
-        dto.getOptions().clear();
+        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList(B));
 
         //add a with incompatible options b
-        dto.getOptions().add("a");
-        dto.getOptions().add("b");
-        when(optionDAO.getMandatoryFor(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"a", "b"})).thenReturn(Arrays.asList("a", "b"));
+        dto.getOptions().add(B);
+        when(optionDAO.getMandatoryFor(params)).thenReturn(Collections.emptyList());
+        when(optionDAO.getIncompatibleFor(params)).thenReturn(Collections.singletonList(relation));
         e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertEquals(e.getMessage(), "Selected options are incompatible with each other");
-
-        //add only b
-        dto.getOptions().clear();
-        dto.getOptions().add("b");
-        when(optionDAO.getMandatoryFor(new String[]{"b"})).thenReturn(Collections.emptyList());
-        when(optionDAO.getAllIncompatibleNames(new String[]{"b"})).thenReturn(Collections.emptyList());
-        when(optionDAO.findByName("b")).thenReturn(new Option());
-        assertDoesNotThrow(() -> tariffService.create(dto));
+        assertTrue(e.getMessage().contains(A + " and " + B));
     }
 
     @Test

@@ -32,10 +32,8 @@ class OptionServiceTest {
     private
     OptionService optionService;
 
-    private String A = "a";
-    private String B = "b";
-    private String C = "c";
-    private String O = "o1";
+    private String Z = "z";
+    private int id = 1;
 
     @Mock
     private
@@ -55,10 +53,10 @@ class OptionServiceTest {
     void testUpdate() {
         //set option dto
         OptionDTO dto = new OptionDTO();
-        dto.setName(O);
-        dto.setId(1);
+        dto.setName(Z);
+        dto.setId(id);
         Option old = new Option();
-        old.setName(O);
+        old.setName(Z);
         old.setId(2);
 
         //createClient option with reserved name
@@ -67,38 +65,50 @@ class OptionServiceTest {
         assertEquals(e.getMessage(), "name is reserved");
 
         //set new name same as old one
-        old.setId(1);
-        when(optionDAO.findOne(1)).thenReturn(old);
-        doNothing().when(relationDaoI).deleteAllIncompatible(1);
-        doNothing().when(relationDaoI).deleteAllMandatory(1);
+        old.setId(id);
+        when(optionDAO.findOne(id)).thenReturn(old);
+        doNothing().when(relationDaoI).deleteAllIncompatible(id);
+        doNothing().when(relationDaoI).deleteAllMandatory(id);
         doNothing().when(optionDAO).update(old);
         assertDoesNotThrow(() -> optionService.update(dto));
     }
 
     @Test
     void testDelete() {
-        when(optionDAO.notUsed(1)).thenReturn(false);
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.delete(1));
+        when(optionDAO.notUsed(id)).thenReturn(false);
+        ServiceException e = assertThrows(ServiceException.class, () -> optionService.delete(id));
         assertEquals(e.getMessage(), "Option is used in contracts/tariffs or is mandatory for another option");
 
-        when(optionDAO.notUsed(1)).thenReturn(true);
-        doNothing().when(relationDaoI).deleteAllIncompatible(1);
-        doNothing().when(relationDaoI).deleteAllMandatory(1);
-        doNothing().when(optionDAO).deleteById(1);
+        when(optionDAO.notUsed(id)).thenReturn(true);
+        doNothing().when(relationDaoI).deleteAllIncompatible(id);
+        doNothing().when(relationDaoI).deleteAllMandatory(id);
+        doNothing().when(optionDAO).deleteById(id);
     }
 
     @Test
     void createTest() {
-        //set option dto
+        //set mocks
+        String A = "a";
+        String B = "b";
         OptionDTO dto = new OptionDTO();
+        OptionRelation relation = new OptionRelation();
+        Option a = new Option();
+        a.setName("a");
+        Option b = new Option();
+        b.setName("b");
+        Option z = new Option();
+        z.setName("z");
+        relation.setOne(a);
+        relation.setAnother(b); //a requires b
+        OptionRelation relation1 = new OptionRelation();
+        relation1.setOne(a);
+        relation1.setAnother(z); //a requires z
 
         //createClient option with reserved name
-        dto.setName("t1");
+        dto.setName(Z);
         when(optionDAO.findByName(dto.getName())).thenReturn(new Option());
         ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "name is reserved");
-
-        dto.setName(O);
 
         //check if no option at the same time are mandatory and incompatible
         dto.getMandatory().add(B);
@@ -111,7 +121,7 @@ class OptionServiceTest {
 
         //check if all from mandatory also have its' corresponding mandatory options
         dto.getMandatory().add(A);
-        when(optionDAO.getMandatoryFor(new String[]{A})).thenReturn(Collections.singletonList(B)); //a requires b
+        when(optionDAO.getMandatoryFor(new String[]{A})).thenReturn(Collections.singletonList(relation)); //a requires b
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList(B).toString());
         dto.getMandatory().clear();
@@ -119,27 +129,21 @@ class OptionServiceTest {
         //check if mandatory relation is not bidirectional
         dto.getMandatory().add(A);
         dto.getMandatory().add(B);
-        dto.setId(1);
 
-        when(optionDAO.getMandatoryFor(new String[]{A, B})).thenReturn(Arrays.asList(O, A)); //b already requires a and o1
-        when(optionDAO.isMandatoryFor(dto.getId(), new String[]{A, B})).thenReturn(Collections.singletonList(B));
+        when(optionDAO.getMandatoryFor(new String[]{A, B})).thenReturn(Arrays.asList(relation, relation1)); //a requires b and z
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Collections.singletonList(B).toString());
+        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Collections.singletonList(A).toString());
         dto.getMandatory().clear();
 
         //check if mandatory options are incompatible with each other
+        dto.getMandatory().add(A);
         dto.getMandatory().add(B);
-        dto.getMandatory().add(C);
-        OptionRelation r = new OptionRelation();
-        Option c = new Option();
-        c.setName(C);
-        Option b = new Option();
-        b.setName(B);
-        r.setOne(b);
-        r.setAnother(c);
-        when(optionDAO.getIncompatibleFor(new String[]{B, C})).thenReturn(Collections.singletonList(r));
+        relation.setOne(a);
+        relation.setAnother(b); //a incompatible with b
+        when(optionDAO.getMandatoryFor(new String[]{A, B})).thenReturn(Collections.emptyList()); //a requires b and z
+        when(optionDAO.getIncompatibleFor(new String[]{A, B})).thenReturn(Collections.singletonList(relation));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertTrue(e.getMessage().contains("b and c"));
+        assertTrue(e.getMessage().contains("a and b"));
     }
 
     @Test

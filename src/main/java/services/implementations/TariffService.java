@@ -104,20 +104,20 @@ public class TariffService implements TariffServiceI {
         if (dto.getOptions().isEmpty()) return;
 
         //check if all from mandatory also have its' corresponding mandatory options
-        String[] mandatoryNames = dto.getOptions().toArray(new String[]{});
-        List<OptionRelation> names = optionDAO.getMandatoryFor(mandatoryNames);
+        String[] names = dto.getOptions().toArray(new String[]{});
+        List<OptionRelation> relations = optionDAO.getMandatoryFor(names);
 
-        if (!names.isEmpty()) {
-            List<String> allMandatories = names.stream().map(r -> r.getAnother().getName()).filter(name -> !dto.getOptions().contains(name)).collect(Collectors.toList());
+        if (!relations.isEmpty()) {
+            List<String> allMandatories = relations.stream().map(r -> r.getAnother().getName()).filter(name -> !dto.getOptions().contains(name)).collect(Collectors.toList());
             if (!allMandatories.isEmpty()) {
                 throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
             }
         }
 
         //check if mandatory options are incompatible with each other
-        List<OptionRelation> pairs = optionDAO.getIncompatibleFor(mandatoryNames);
-        if (!pairs.isEmpty()) {
-            String s = pairs.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+        relations = optionDAO.getIncompatibleFor(names);
+        if (!relations.isEmpty()) {
+            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
         }
     }
