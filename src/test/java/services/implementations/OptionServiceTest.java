@@ -4,6 +4,7 @@ import dao.interfaces.OptionDaoI;
 import dao.interfaces.RelationDaoI;
 import model.dto.OptionDTO;
 import model.entity.Option;
+import model.entity.OptionRelation;
 import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -114,22 +115,28 @@ public class OptionServiceTest {
 
         //check if mandatory relation is not bidirectional
         dto.getMandatory().add(A);
+        dto.getMandatory().add(B);
         dto.setId(1);
 
-        when(optionDAO.getAllMandatoryNames(new String[]{A})).thenReturn(Collections.singletonList(O)); //b already requires "o1
-        when(optionDAO.getMandatoryFor(dto.getId())).thenReturn(Collections.singletonList(B));
+        when(optionDAO.getAllMandatoryNames(new String[]{A, B})).thenReturn(Arrays.asList(O, A)); //b already requires a and o1
+        when(optionDAO.isMandatoryFor(dto.getId(), new String[]{A, B})).thenReturn(Collections.singletonList(B));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Arrays.asList("b").toString());
+        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Collections.singletonList(B).toString());
         dto.getMandatory().clear();
 
         //check if mandatory options are incompatible with each other
         dto.getMandatory().add(B);
         dto.getMandatory().add(C);
-        when(optionDAO.getAllIncompatibleNames(new String[]{B, C})).thenReturn(Arrays.asList(B, C));
+        OptionRelation r = new OptionRelation();
+        Option c = new Option();
+        c.setName(C);
+        Option b = new Option();
+        b.setName(B);
+        r.setOne(b);
+        r.setAnother(c);
+        when(optionDAO.getIncompatibleFor(new String[]{B, C})).thenReturn(Collections.singletonList(r));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Mandatory options are incompatible with each other");
-        dto.getIncompatible().clear();
-        dto.getMandatory().clear();
+        assertTrue(e.getMessage().contains("b and c"));
     }
 
     @Test

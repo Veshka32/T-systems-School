@@ -16,6 +16,7 @@ import services.interfaces.OptionServiceI;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
@@ -125,12 +126,12 @@ public class OptionService implements OptionServiceI {
 
         //check if all from mandatory also have its' corresponding mandatory options
         if (!dto.getMandatory().isEmpty()) {
-            String[] params = dto.getMandatory().toArray(new String[]{});
-            List<String> names = optionDAO.getAllMandatoryNames(params);
+            String[] mandatoryNames = dto.getMandatory().toArray(new String[]{});
+            List<String> names = optionDAO.getAllMandatoryNames(mandatoryNames);
 
             //check if mandatory relation is not bidirectional
             if (names.contains(dto.getName())) {
-                List<String> names1 = optionDAO.getMandatoryFor(dto.getId());
+                List<String> names1 = optionDAO.isMandatoryFor(dto.getId(), mandatoryNames);
                 throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + names1.toString());
             }
 
@@ -139,10 +140,10 @@ public class OptionService implements OptionServiceI {
                 throw new ServiceException("More options are required as mandatory: " + names.toString());
 
             //check if mandatory options are incompatible with each other
-            names = optionDAO.getAllIncompatibleNames(params);
-            if (!names.isEmpty()) {
-                any = names.stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
-                if (any.isPresent()) throw new ServiceException("Mandatory options are incompatible with each other");
+            List<OptionRelation> pairs = optionDAO.getIncompatibleFor(mandatoryNames);
+            if (!pairs.isEmpty()) {
+                String s = pairs.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+                throw new ServiceException("Options " + s + " incompatible with each other");
             }
         }
     }

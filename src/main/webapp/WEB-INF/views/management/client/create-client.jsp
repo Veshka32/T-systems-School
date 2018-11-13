@@ -18,7 +18,7 @@
 <%@ include file="/resources/navbar.html" %>
 
 <div class="container">
-    <span class="pull-right"><a href="options" class="btn btn-info" role="button">Back to options</a></span>
+    <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
     <h3>Create client</h3>
     <p class="bg-danger">${message}</p>
     <form:form method="POST" modelAttribute="client">

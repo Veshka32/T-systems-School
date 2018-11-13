@@ -2,6 +2,7 @@ package dao.implementations;
 
 import dao.interfaces.OptionDaoI;
 import model.entity.Option;
+import model.entity.OptionRelation;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
@@ -82,6 +83,13 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
                 .getResultList();
     }
 
+    public List<String> isMandatoryFor(int id, String[] names) {
+        return sessionFactory.getCurrentSession().createNamedQuery("is_mandatory_for", String.class)
+                .setParameter("id", id)
+                .setParameterList("names", names)
+                .getResultList();
+    }
+
     @Override
     public List<String> getAllIncompatibleNames(String[] names){
         List<String> oneSide = sessionFactory.getCurrentSession().createNamedQuery("get_all_incompatible_names", String.class)
@@ -94,6 +102,13 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
 
         anotherSide.addAll(oneSide);
         return anotherSide;
+    }
+
+    @Override
+    public List<OptionRelation> getIncompatibleFor(String[] names) {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_for", OptionRelation.class)
+                .setParameterList("names", names)
+                .getResultList();
     }
 
     @Override

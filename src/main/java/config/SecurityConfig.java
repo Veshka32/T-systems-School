@@ -2,7 +2,6 @@ package config;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,11 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
 
     @Autowired
-    @Qualifier("userDetailsService")
     UserDetailsService userDetailsService;
 
     @Override
-    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         logger.info("register UserDetailsService bean");
