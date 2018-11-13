@@ -1,8 +1,9 @@
+<%--suppress ALL --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page isELIgnored="false" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
     <form:form method="POST" action="findContract" modelAttribute="phone" class="form-inline">
         <form:input path="phoneNumber" class="form-control" placeholder="1234567890"/>
     <input class="input-group btn btn-info" type="submit" value="Find"/><br>
-        <p class="bg-danger"><form:errors path="phoneNumber"/></p>
+    <p class="bg-danger"><form:errors path="phoneNumber"/></p>
     </form:form>
     <br>
 
@@ -51,7 +52,7 @@
                 <td>
                     <form action="editContract" method="get">
                         <input type="hidden" name="id" value=${contract.id}>
-                        <input type="submit" value="Edit"  class="btn btn-warning"></form>
+                        <input type="submit" value="Edit" class="btn btn-warning"></form>
                 </td>
                 <td>
                     <form action="showContract" method="get">

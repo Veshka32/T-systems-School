@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 public class ContractService implements ContractServiceI {
     private static final String MESSAGE = "Option ";
 
-    ContractDaoI contractDAO;
-    TariffDaoI tariffDAO;
-    OptionDaoI optionDao;
-    ClientDaoI clientDAO;
-    PhoneNumberServiceI phoneNumberService;
+    private ContractDaoI contractDAO;
+    private TariffDaoI tariffDAO;
+    private OptionDaoI optionDao;
+    private ClientDaoI clientDAO;
+    private PhoneNumberServiceI phoneNumberService;
 
     @Autowired
     public void setDAO(ClientDaoI clientDAO, ContractDaoI contractDAO, OptionDaoI optionDao, TariffDaoI tariffDAO, PhoneNumberServiceI phoneNumberService) {
@@ -267,7 +267,7 @@ public class ContractService implements ContractServiceI {
                     contract.getOptions().remove(o);
                 }
             });
-            
+
         }
         contract.setTariff(tariff);
         contractDAO.update(contract);

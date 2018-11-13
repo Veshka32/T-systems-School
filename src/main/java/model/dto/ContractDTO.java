@@ -18,6 +18,8 @@ public class ContractDTO {
 
     private int ownerId;
 
+    private String ownerName;
+
     private String tariffName;
 
     private Set<String> optionsNames = new HashSet<>();
@@ -33,6 +35,7 @@ public class ContractDTO {
         this.id=contract.getId();
         this.number=contract.getNumber()+"";
         this.ownerId=contract.getOwner().getId();
+        this.ownerName = contract.getOwner().toString();
         this.tariffName=contract.getTariff().getName();
         this.isBlocked=contract.isBlocked();
         this.isBlockedByAdmin=contract.isBlockedByAdmin();

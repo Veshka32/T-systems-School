@@ -26,12 +26,15 @@ import static org.mockito.Mockito.when;
 @MockitoSettings(strictness = Strictness.WARN)
 class UserServiceTest {
     @InjectMocks
+    private
     UserService userService;
 
     @Mock
+    private
     UserDaoI userDAO;
 
     @Mock
+    private
     ContractServiceI contractService;
 
     @Mock

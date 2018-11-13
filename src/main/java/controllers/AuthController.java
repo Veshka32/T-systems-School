@@ -38,11 +38,11 @@ public class AuthController {
         }
         try {
             attr.addAttribute("id", userService.createClient(dto));
-            model.addAttribute("message1", "Success! Now you can log in");
+            model.addAttribute("message", "Success! Now you can log in");
             return "redirect:/user/cabinet";
         }
         catch (ServiceException e){
-            model.addAttribute("message1", e.getMessage());
+            model.addAttribute("message", e.getMessage());
             return SIGN_UP;
         }
     }

@@ -2,7 +2,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page isELIgnored="false" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +24,7 @@
 <form:form method="POST" modelAttribute="editedContract">
     <ul class="list-group">
         <li class="list-group-item"> Phone number: ${editedContract.number}</li>
+        <li class="list-group-item"> Owner: ${editedContract.ownerName}</li>
         <li class="list-group-item">Current tariff: ${editedContract.tariffName}</li>
         <li class="list-group-item">Options: ${editedContract.optionsNames}</li>
     </ul>

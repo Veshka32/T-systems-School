@@ -32,15 +32,19 @@ import static org.mockito.Mockito.when;
 @MockitoSettings(strictness = Strictness.WARN)
 class ContractServiceTest {
     @InjectMocks
+    private
     ContractService contractService;
 
     @Mock
+    private
     ContractDAO contractDAO;
 
     @Mock
+    private
     OptionDAO optionDAO;
 
     @Mock
+    private
     TariffDAO tariffDAO;
 
     @BeforeEach

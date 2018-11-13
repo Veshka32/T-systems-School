@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public String handleSQLException(HttpServletRequest request, Exception ex) {
-        logger.error("Request occured:: " + request.getRequestURL(), ex);
+        logger.error("Request occurred:: " + request.getRequestURL(), ex);
         return "database-error";
     }
 }

@@ -27,19 +27,22 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class OptionServiceTest {
+class OptionServiceTest {
     @InjectMocks
+    private
     OptionService optionService;
 
-    String A = "a";
-    String B = "b";
-    String C = "c";
-    String O = "o1";
+    private String A = "a";
+    private String B = "b";
+    private String C = "c";
+    private String O = "o1";
 
     @Mock
+    private
     OptionDaoI optionDAO;
 
     @Mock
+    private
     RelationDaoI relationDaoI;
 
     @BeforeEach

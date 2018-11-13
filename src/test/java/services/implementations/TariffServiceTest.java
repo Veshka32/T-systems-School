@@ -26,15 +26,18 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class TariffServiceTest {
+class TariffServiceTest {
 
     @InjectMocks
+    private
     TariffService tariffService;
 
     @Mock
+    private
     TariffDaoI tariffDAO;
 
     @Mock
+    private
     OptionDaoI optionDAO;
 
     @BeforeEach
