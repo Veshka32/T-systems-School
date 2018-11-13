@@ -55,7 +55,7 @@ public class TariffService implements TariffServiceI {
 
     @Override
     public int create(TariffDTO dto) throws ServiceException {
-        if (tariffDAO.isNameExist(dto.getName()))
+        if (tariffDAO.findByName(dto.getName()) != null)
             throw new ServiceException(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic

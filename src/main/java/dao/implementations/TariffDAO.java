@@ -17,18 +17,6 @@ public class TariffDAO extends GenericDAO<Tariff> implements TariffDaoI {
     }
 
     @Override
-    public boolean isNameExist(String name) {
-        try {
-            sessionFactory.getCurrentSession().createNamedQuery("is_tariffName_exists")
-                    .setParameter("name",name)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public Tariff findByName(String name){
         try {
             return sessionFactory.getCurrentSession()

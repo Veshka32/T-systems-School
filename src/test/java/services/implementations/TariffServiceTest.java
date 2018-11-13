@@ -52,7 +52,7 @@ class TariffServiceTest {
 
         //createClient tariff with reserved name
         dto.setName("t1");
-        when(tariffDAO.isNameExist(dto.getName())).thenReturn(true);
+        when(tariffDAO.findByName(dto.getName())).thenReturn(new Tariff());
         assertThrows(ServiceException.class, () -> tariffService.create(dto), "name is reserved");
     }
 
@@ -62,7 +62,7 @@ class TariffServiceTest {
 
         //add option a without its' mandatory options
         dto.getOptions().add("a");
-        when(tariffDAO.isNameExist(dto.getName())).thenReturn(false);
+        when(tariffDAO.findByName(dto.getName())).thenReturn(null);
         when(optionDAO.getMandatoryFor(new String[]{"a"})).thenReturn(Collections.singletonList("b"));
         ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("b"));

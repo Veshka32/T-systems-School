@@ -5,6 +5,7 @@ import dao.interfaces.ContractDaoI;
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
 import model.dto.ContractDTO;
+import model.dto.ContractHelper;
 import model.entity.*;
 import model.helpers.PaginateHelper;
 import org.hibernate.Hibernate;
@@ -190,6 +191,19 @@ public class ContractService implements ContractServiceI {
         Hibernate.initialize(contract.getTariff().getOptions());
         Hibernate.initialize(contract.getOptions());
         return contract;
+    }
+
+    public ContractHelper getHelper(int id) {
+        ContractHelper helper = new ContractHelper();
+        Contract contract = contractDAO.findOne(id);
+        helper.setPhone(contract.getNumber());
+        helper.setTariff(contract.getTariff());
+        helper.getOptions().addAll(contract.getOptions());
+        helper.getInTariff().addAll(contract.getTariff().getOptions());
+        List<Option> all = optionDao.findAll();
+        all.removeAll(helper.getInTariff());
+        all.removeAll(helper.getOptions());
+        return helper;
     }
 
     //client's actions. Admin blocking check must be done before any actions

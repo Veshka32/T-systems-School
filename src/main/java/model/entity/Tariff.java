@@ -16,7 +16,6 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @NamedQueries({
-        @NamedQuery(name = "is_tariffName_exists", query = "select o.name from Tariff o where o.name=:name"),
         @NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id"),
         @NamedQuery(name = "find_tariff_by_name", query = "from Tariff o where o.name=:name"),
         @NamedQuery(name="is_used",query = "select c.id from Contract c where c.tariff.id=:id")

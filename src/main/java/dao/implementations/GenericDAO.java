@@ -48,7 +48,7 @@ public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Override
     public int save(T entity) {
-        return (int)sessionFactory.getCurrentSession().save(entity);
+        return (int) sessionFactory.getCurrentSession().save(entity);
     }
 
     @Override
@@ -65,4 +65,5 @@ public class GenericDAO<T> implements IGenericDAO<T> {
     public void deleteById(int entityId) {
         T entity = findOne(entityId);
         delete(entity);
-    }}
+    }
+}
