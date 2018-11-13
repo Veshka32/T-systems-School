@@ -20,6 +20,7 @@ import javax.validation.Valid;
 @Controller
 public class AuthController {
     private static final String SIGN_UP = "sign-up";
+    private static final String MESSAGE = "message";
 
     @Autowired
     UserServiceI userService;
@@ -38,26 +39,20 @@ public class AuthController {
         }
         try {
             attr.addAttribute("id", userService.createClient(dto));
-            model.addAttribute("message", "Success! Now you can log in");
             return "redirect:/user/cabinet";
         }
         catch (ServiceException e){
-            model.addAttribute("message", e.getMessage());
+            model.addAttribute(MESSAGE, e.getMessage());
             return SIGN_UP;
         }
     }
 
     @GetMapping(value = "/login")
-    public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
-                                  @RequestParam(value = "logout", required = false) String logout) {
+    public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error) {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("message", "Invalid Credentials provided.");
-        }
-
-        if (logout != null) {
-            model.addObject("message", "Logged out successfully.");
+            model.addObject(MESSAGE, "Invalid Credentials provided.");
         }
         return model;
     }
