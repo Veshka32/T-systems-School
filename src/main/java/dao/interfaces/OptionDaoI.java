@@ -17,12 +17,30 @@ public interface OptionDaoI extends IGenericDAO<Option> {
 
     boolean notUsed(int id);
 
-    List<String> getAllMandatoryNames(String[] names);
+    /**
+     * Get names of all mandatory options for specific option
+     *
+     * @param id
+     * @return
+     */
+    List<String> getAllMandatoryNames(int id);
 
-    List<String> getAllIncompatibleNames(String[] names);
+    /**
+     * Get names of all incompatible  options for specific option
+     *
+     * @param id
+     * @return
+     */
+    List<String> getAllIncompatibleNames(int id);
 
     List<String> getOptionsInTariffNames(int id);
 
+    /**
+     * get all option names which is mandatory for specific option
+     *
+     * @param id
+     * @return
+     */
     List<String> getMandatoryFor(int id);
 
     /**
@@ -39,5 +57,14 @@ public interface OptionDaoI extends IGenericDAO<Option> {
      * @return Return list of incompatible options pairs from names
      */
     List<OptionRelation> getIncompatibleFor(String[] names);
+
+    /**
+     * Get all OptionRelation of type MANDATORY where OptionRelation.one name in specific range
+     *
+     * @param names
+     * @return
+     */
+
+    List<OptionRelation> getMandatoryFor(String[] names);
 
 }

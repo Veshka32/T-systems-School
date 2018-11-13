@@ -4,6 +4,7 @@ import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
 import model.dto.TariffDTO;
 import model.entity.Option;
+import model.entity.OptionRelation;
 import model.entity.Tariff;
 import model.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import services.interfaces.TariffServiceI;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @EnableTransactionManagement
@@ -100,21 +101,24 @@ public class TariffService implements TariffServiceI {
     }
 
     private void checkCompatibility(TariffDTO dto) throws ServiceException {
-        //check if all options also have its' corresponding mandatory options
-        if (!dto.getOptions().isEmpty())
-        {
-            String[] params=dto.getOptions().toArray(new String[]{});
-            List<String> names=optionDAO.getAllMandatoryNames(params);
-            if (!names.isEmpty() && !dto.getOptions().containsAll(names))
-                throw new ServiceException("More options are required as mandatory: " + names.toString());
+        if (dto.getOptions().isEmpty()) return;
 
-            //check if options are incompatible with each other
-            names = optionDAO.getAllIncompatibleNames(params);
-            if (!names.isEmpty()) {
-                Optional<String> any = names.stream().filter(name -> dto.getOptions().contains(name)).findFirst();
-                if (any.isPresent())
-                    throw new ServiceException("Selected options are incompatible with each other");
+        //check if all from mandatory also have its' corresponding mandatory options
+        String[] mandatoryNames = dto.getOptions().toArray(new String[]{});
+        List<OptionRelation> names = optionDAO.getMandatoryFor(mandatoryNames);
+
+        if (!names.isEmpty()) {
+            List<String> allMandatories = names.stream().map(r -> r.getAnother().getName()).filter(name -> !dto.getOptions().contains(name)).collect(Collectors.toList());
+            if (!allMandatories.isEmpty()) {
+                throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
             }
+        }
+
+        //check if mandatory options are incompatible with each other
+        List<OptionRelation> pairs = optionDAO.getIncompatibleFor(mandatoryNames);
+        if (!pairs.isEmpty()) {
+            String s = pairs.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+            throw new ServiceException("Options " + s + " incompatible with each other");
         }
     }
 

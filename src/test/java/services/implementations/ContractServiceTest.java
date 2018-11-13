@@ -61,12 +61,12 @@ class ContractServiceTest {
         //check if all options has its' mandatory
         when(tariffDAO.findByName("test")).thenReturn(tariff);
         when(optionDAO.getOptionsInTariffNames(1)).thenReturn(optionsInTariff);
-        when(optionDAO.getAllMandatoryNames(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
+        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
         ServiceException e = assertThrows(ServiceException.class, () -> contractService.create(dto));
         assertTrue(e.getMessage().contains("More options are required as mandatory: "));
 
         //check if all options are compatible with each other
-        when(optionDAO.getAllMandatoryNames(new String[]{"c"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.emptyList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"c"})).thenReturn(Collections.singletonList("d")); //someone are incompatible with d
         e = assertThrows(ServiceException.class, () -> contractService.create(dto));
         assertTrue(e.getMessage().contains(" are incompatible with each other or with tariff"));
@@ -84,12 +84,12 @@ class ContractServiceTest {
         //check if all options has its' mandatory
         when(tariffDAO.findByName("test")).thenReturn(tariff);
         when(optionDAO.getOptionsInTariffNames(1)).thenReturn(optionsInTariff);
-        when(optionDAO.getAllMandatoryNames(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
+        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.singletonList("e")); // d is mandatory for someone
         ServiceException e = assertThrows(ServiceException.class, () -> contractService.update(dto));
         assertTrue(e.getMessage().contains("More options are required as mandatory: "));
 
         //check if all options are compatible with each other
-        when(optionDAO.getAllMandatoryNames(new String[]{"c"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMandatoryFor(new String[]{"c"})).thenReturn(Collections.emptyList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"c"})).thenReturn(Collections.singletonList("d")); //someone are incompatible with d
         e = assertThrows(ServiceException.class, () -> contractService.update(dto));
         assertTrue(e.getMessage().contains(" are incompatible with each other or with tariff"));
@@ -146,7 +146,7 @@ class ContractServiceTest {
         contract.setBlockedByAdmin(false);
 
         //check if all options has its' mandatory
-        when(optionDAO.getAllMandatoryNames(new String[]{"a", "b"})).thenReturn(Collections.singletonList("c")); // one of the options requires "c";
+        when(optionDAO.getMandatoryFor(new String[]{"a", "b"})).thenReturn(Collections.singletonList("c")); // one of the options requires "c";
         ServiceException e = assertThrows(ServiceException.class, () -> contractService.addOptions(id, options));
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("c").toString());
 
@@ -154,7 +154,7 @@ class ContractServiceTest {
         Option c = new Option();
         c.setName("c");
         contract.getOptions().add(c);
-        when(optionDAO.getAllMandatoryNames(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMandatoryFor(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"a", "b"})).thenReturn(Collections.singletonList("c")); //one of the option incompatible with "c";
         assertThrows(ServiceException.class, () -> contractService.addOptions(id, options));
     }

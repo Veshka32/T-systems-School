@@ -106,8 +106,8 @@ public class OptionService implements OptionServiceI {
     public OptionDTO getDto(int id) {
         Option option = optionDAO.findOne(id);
         OptionDTO dto = new OptionDTO(option);
-        dto.getIncompatible().addAll(optionDAO.getAllIncompatibleNames(new String[]{option.getName()}));
-        dto.getMandatory().addAll(optionDAO.getAllMandatoryNames(new String[]{option.getName()}));
+        dto.getIncompatible().addAll(optionDAO.getAllIncompatibleNames(id));
+        dto.getMandatory().addAll(optionDAO.getAllMandatoryNames(id));
         return dto;
     }
 
@@ -124,27 +124,32 @@ public class OptionService implements OptionServiceI {
         Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
         if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE + " :" + any.get());
 
+        if (dto.getMandatory().isEmpty()) return;
+
         //check if all from mandatory also have its' corresponding mandatory options
-        if (!dto.getMandatory().isEmpty()) {
-            String[] mandatoryNames = dto.getMandatory().toArray(new String[]{});
-            List<String> names = optionDAO.getAllMandatoryNames(mandatoryNames);
 
+        String[] mandatoryNames = dto.getMandatory().toArray(new String[]{});
+        List<OptionRelation> relations = optionDAO.getMandatoryFor(mandatoryNames);
+
+        if (!relations.isEmpty()) {
             //check if mandatory relation is not bidirectional
-            if (names.contains(dto.getName())) {
-                List<String> names1 = optionDAO.isMandatoryFor(dto.getId(), mandatoryNames);
-                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + names1.toString());
-            }
+            List<String> mandatoryFor = relations.stream().filter(r -> r.getAnother().getName().equals(dto.getName())).map(r -> r.getOne().getName()).collect(Collectors.toList());
+            if (!mandatoryFor.isEmpty())
+                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + mandatoryFor.toString());
 
-            if (!names.isEmpty() && !dto.getMandatory().containsAll(names))
-                throw new ServiceException("More options are required as mandatory: " + names.toString());
-
-            //check if mandatory options are incompatible with each other
-            List<OptionRelation> pairs = optionDAO.getIncompatibleFor(mandatoryNames);
-            if (!pairs.isEmpty()) {
-                String s = pairs.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
-                throw new ServiceException("Options " + s + " incompatible with each other");
+            List<String> allMandatories = relations.stream().map(r -> r.getAnother().getName()).filter(name -> !dto.getMandatory().contains(name)).collect(Collectors.toList());
+            if (!allMandatories.isEmpty()) {
+                throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
             }
         }
+
+        //check if mandatory options are incompatible with each other
+        relations = optionDAO.getIncompatibleFor(mandatoryNames);
+        if (!relations.isEmpty()) {
+            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+            throw new ServiceException("Options " + s + " incompatible with each other");
+        }
+
     }
 
     @Override

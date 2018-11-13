@@ -108,7 +108,7 @@ public class OptionServiceTest {
 
         //check if all from mandatory also have its' corresponding mandatory options
         dto.getMandatory().add(A);
-        when(optionDAO.getAllMandatoryNames(new String[]{A})).thenReturn(Collections.singletonList(B)); //a requires b
+        when(optionDAO.getMandatoryFor(new String[]{A})).thenReturn(Collections.singletonList(B)); //a requires b
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList(B).toString());
         dto.getMandatory().clear();
@@ -118,7 +118,7 @@ public class OptionServiceTest {
         dto.getMandatory().add(B);
         dto.setId(1);
 
-        when(optionDAO.getAllMandatoryNames(new String[]{A, B})).thenReturn(Arrays.asList(O, A)); //b already requires a and o1
+        when(optionDAO.getMandatoryFor(new String[]{A, B})).thenReturn(Arrays.asList(O, A)); //b already requires a and o1
         when(optionDAO.isMandatoryFor(dto.getId(), new String[]{A, B})).thenReturn(Collections.singletonList(B));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Collections.singletonList(B).toString());

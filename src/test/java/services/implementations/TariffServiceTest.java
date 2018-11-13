@@ -60,7 +60,7 @@ public class TariffServiceTest {
         //add option a without its' mandatory options
         dto.getOptions().add("a");
         when(tariffDAO.isNameExist(dto.getName())).thenReturn(false);
-        when(optionDAO.getAllMandatoryNames(new String[]{"a"})).thenReturn(Collections.singletonList("b"));
+        when(optionDAO.getMandatoryFor(new String[]{"a"})).thenReturn(Collections.singletonList("b"));
         ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
         assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList("b"));
         dto.getOptions().clear();
@@ -68,7 +68,7 @@ public class TariffServiceTest {
         //add a with incompatible options b
         dto.getOptions().add("a");
         dto.getOptions().add("b");
-        when(optionDAO.getAllMandatoryNames(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMandatoryFor(new String[]{"a", "b"})).thenReturn(Collections.emptyList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"a", "b"})).thenReturn(Arrays.asList("a", "b"));
         e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
         assertEquals(e.getMessage(), "Selected options are incompatible with each other");
@@ -76,7 +76,7 @@ public class TariffServiceTest {
         //add only b
         dto.getOptions().clear();
         dto.getOptions().add("b");
-        when(optionDAO.getAllMandatoryNames(new String[]{"b"})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMandatoryFor(new String[]{"b"})).thenReturn(Collections.emptyList());
         when(optionDAO.getAllIncompatibleNames(new String[]{"b"})).thenReturn(Collections.emptyList());
         when(optionDAO.findByName("b")).thenReturn(new Option());
         assertDoesNotThrow(() -> tariffService.create(dto));

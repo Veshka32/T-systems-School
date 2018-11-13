@@ -5,10 +5,7 @@ import dao.interfaces.ContractDaoI;
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
 import model.dto.ContractDTO;
-import model.entity.Client;
-import model.entity.Contract;
-import model.entity.Option;
-import model.entity.Tariff;
+import model.entity.*;
 import model.helpers.PaginateHelper;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,10 @@ import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,27 +94,35 @@ public class ContractService implements ContractServiceI {
 
     private void checkCompatibility(ContractDTO dto, Tariff tariff) throws ServiceException {
 
-        List<String> options = optionDao.getOptionsInTariffNames(tariff.getId());
+        List<String> optionsInTariff = optionDao.getOptionsInTariffNames(tariff.getId());
 
         if (!dto.getOptionsNames().isEmpty()) {
-            //get extra options
-            Set<String> extra = dto.getOptionsNames();
-            extra.removeAll(options); //remove all options that already in tariff
+
+            //get options in contract
+            Set<String> optionsInContract = dto.getOptionsNames();
+            optionsInContract.removeAll(optionsInTariff); //remove all options that already in tariff
+
+            if (optionsInContract.isEmpty()) return;
 
             //check if all options has its' mandatory
-            String[] params = extra.toArray(new String[]{});
-            List<String> names = optionDao.getAllMandatoryNames(params);
-            List<String> all = new ArrayList<>(options);
-            all.addAll(extra);
-            if (!names.isEmpty() && !all.containsAll(names))
-                throw new ServiceException("More options are required as mandatory: " + names.toString());
+            String[] params = optionsInContract.toArray(new String[]{});
+
+            List<OptionRelation> relations = optionDao.getMandatoryFor(params);
+            List<String> allMandatories = relations.stream()
+                    .map(r -> r.getAnother().getName())
+                    .filter(name -> !(optionsInTariff.contains(name) || optionsInContract.contains(name)))
+                    .collect(Collectors.toList());
+
+            if (!allMandatories.isEmpty())
+                throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
 
             //check if all options are compatible with each other
-            names = optionDao.getAllIncompatibleNames(params);
-            if (!names.isEmpty()) {
-                Optional<String> any = names.stream().filter(all::contains).findFirst();
-                if (any.isPresent())
-                    throw new ServiceException(MESSAGE + any.get() + " are incompatible with each other or with tariff");
+            relations = optionDao.getIncompatibleFor(params);
+            if (!relations.isEmpty()) {
+                String s = relations.stream()
+                        .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
+                        .collect(Collectors.joining(", "));
+                throw new ServiceException("Options " + s + " incompatible with each other");
             }
         }
     }
@@ -193,25 +201,25 @@ public class ContractService implements ContractServiceI {
     public void addOptions(int id, Collection<Option> options) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
         if (contract.isBlockedByAdmin()) return;
-        Set<String> optionInContract = contract.getOptions().stream().map(Option::getName).collect(Collectors.toSet());
-        Set<String> optionsInTariff = contract.getTariff().getOptions().stream().map(Option::getName).collect(Collectors.toSet());
-        Set<String> newOptions = options.stream().map(Option::getName).collect(Collectors.toSet());
+        Set<Option> optionInContract = contract.getOptions();
+        Set<Option> optionsInTariff = contract.getTariff().getOptions();
 
         //check if all options has its' mandatory
-        String[] params = newOptions.toArray(new String[]{});
-        List<String> names = optionDao.getAllMandatoryNames(params);
-        List<String> all = new ArrayList<>(optionInContract);
-        all.addAll(optionsInTariff);
-        all.addAll(newOptions);
-        if (!names.isEmpty() && !all.containsAll(names))
-            throw new ServiceException("More options are required as mandatory: " + names.toString());
+        String[] params = options.stream().map(Option::getName).collect(Collectors.toList()).toArray(new String[]{});
+        List<OptionRelation> relations = optionDao.getMandatoryFor(params);
+        List<String> allMandatories = relations.stream()
+                .filter(relation -> !(optionInContract.contains(relation.getAnother()) || optionsInTariff.contains(relation.getAnother())))
+                .map(relation -> relation.getAnother().getName())
+                .collect(Collectors.toList());
+        if (!allMandatories.isEmpty()) {
+            throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
+        }
 
         //check if all options are compatible with each other
-        names = optionDao.getAllIncompatibleNames(params);
-        if (!names.isEmpty()) {
-            Optional<String> any = names.stream().filter(all::contains).findFirst();
-            if (any.isPresent())
-                throw new ServiceException(MESSAGE + any.get() + " are incompatible with each other or with your tariff");
+        relations = optionDao.getIncompatibleFor(params);
+        if (!relations.isEmpty()) {
+            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+            throw new ServiceException("Options " + s + " incompatible with each other");
         }
 
         contract.getOptions().addAll(options);

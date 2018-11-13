@@ -15,11 +15,13 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "delete_incompatible", query = "delete from OptionRelation r where (r.one.id=:id or r.another.id=:id) and r.relation='INCOMPATIBLE'"),
         @NamedQuery(name = "delete_mandatory", query = "delete from OptionRelation r where r.one.id=:id  and r.relation='MANDATORY'"),
-        @NamedQuery(name = "get_all_mandatory_names", query = "select r.another.name from OptionRelation r where  r.relation='MANDATORY' and r.one.name in (:names)"),
-        @NamedQuery(name = "get_all_incompatible_names", query = "select r.another.name from OptionRelation  r where r.relation='INCOMPATIBLE' and r.one.name in (:names)"),
-        @NamedQuery(name = "get_all_incompatible_names1", query = "select r.one.name from OptionRelation  r where r.relation='INCOMPATIBLE' and r.another.name in (:names)"),
+        @NamedQuery(name = "get_all_mandatory", query = "from OptionRelation r where  r.relation='MANDATORY' and r.one.name in (:names)"),
+        @NamedQuery(name = "get_all_mandatory_names", query = "select r.another.name from OptionRelation r where  r.relation='MANDATORY' and r.one.id=:id"),
+        @NamedQuery(name = "get_all_incompatible_names", query = "select r.another.name from OptionRelation  r where r.relation='INCOMPATIBLE' and r.one.id=:id"),
+        @NamedQuery(name = "get_all_incompatible_names1", query = "select r.one.name from OptionRelation  r where r.relation='INCOMPATIBLE' and r.another.id=:id"),
         @NamedQuery(name = "get_incompatible_for", query = "from OptionRelation r where r.one.name in (:names) and r.another.name in (:names) and r.relation='INCOMPATIBLE'"),
         @NamedQuery(name = "get_mandatory_for", query = "select r.one.name from OptionRelation r where  r.relation='MANDATORY' and r.another.id=:id"),
+        @NamedQuery(name = "is_mandatory_for", query = "select r.one.name from OptionRelation r where r.one.name in (:names) and r.another.id=:id and r.relation='MANDATORY'"),
 }
 )
 public class OptionRelation extends AbstractEntity {
