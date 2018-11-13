@@ -77,19 +77,15 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
                 .getResultList();
     }
 
-    @Override
-    public List<String> getAllMandatoryNames(int id) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_all_mandatory_names", String.class)
-                .setParameter("id", id)
-                .getResultList();
-    }
 
+    @Override
     public List<String> getMandatoryFor(int id) {
         return sessionFactory.getCurrentSession().createNamedQuery("get_mandatory_for", String.class)
                 .setParameter("id", id)
                 .getResultList();
     }
 
+    @Override
     public List<String> isMandatoryFor(int id, String[] names) {
         return sessionFactory.getCurrentSession().createNamedQuery("is_mandatory_for", String.class)
                 .setParameter("id", id)
@@ -110,6 +106,14 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
         anotherSide.addAll(oneSide);
         return anotherSide;
     }
+
+    @Override
+    public List<String> getAllMandatoryNames(int id) {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_all_mandatory_names", String.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
 
     @Override
     public List<OptionRelation> getIncompatibleFor(String[] names) {

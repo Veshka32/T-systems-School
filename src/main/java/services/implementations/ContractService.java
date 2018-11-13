@@ -16,10 +16,7 @@ import services.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -244,13 +241,34 @@ public class ContractService implements ContractServiceI {
 
     @Override
     public void setTariff(int id, int tariffId) {
-        /*
-         * replace with another logic: do not clear old options, but check compatibility with options in new tariff
-         */
+
         Contract contract = contractDAO.findOne(id);
         if (contract.isBlockedByAdmin()) return;
         Tariff tariff = tariffDAO.findOne(tariffId);
-        contract.getOptions().clear();
+
+
+        //check compatibility for options in contract and new tariff
+        if (!contract.getOptions().isEmpty()) {
+            //remove option from contract if it is not compatible with someone in the new tariff
+            String[] names = optionDao.getOptionsInTariffNames(tariffId).toArray(new String[]{});
+            List<OptionRelation> relations = optionDao.getIncompatibleFor(names);
+
+            if (!relations.isEmpty()) {
+                List<Option> forDelete = relations.stream().map(OptionRelation::getAnother).collect(Collectors.toList());
+                contract.getOptions().removeAll(forDelete);
+            }
+
+            //remove option from contract if it has no more it's mandatory options
+            Set<String> all = new HashSet<>(Arrays.asList(names));
+            all.addAll(contract.getOptions().stream().map(Option::getName).collect(Collectors.toList()));
+            contract.getOptions().forEach(o -> {
+                if (!all.containsAll(optionDao.getAllMandatoryNames(o.getId()))) {
+                    all.remove(o.getName());
+                    contract.getOptions().remove(o);
+                }
+            });
+            
+        }
         contract.setTariff(tariff);
         contractDAO.update(contract);
     }
