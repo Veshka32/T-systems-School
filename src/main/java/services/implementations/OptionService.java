@@ -135,7 +135,6 @@ public class OptionService implements OptionServiceI {
                 throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + names1.toString());
             }
 
-            names.remove(dto.getName()); //prevent itself requiring
             if (!names.isEmpty() && !dto.getMandatory().containsAll(names))
                 throw new ServiceException("More options are required as mandatory: " + names.toString());
 
