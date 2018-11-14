@@ -10,10 +10,9 @@ import java.util.List;
 @Repository
 public class TariffDAO extends GenericDAO<Tariff> implements TariffDaoI {
 
-    @Override
-    public List<String> getAllNames() {
-        return sessionFactory.getCurrentSession().createQuery("select t.name from Tariff t", String.class)
-                .getResultList();
+
+    public List<Object[]> getAllNamesAndIds() {
+        return sessionFactory.getCurrentSession().createQuery("select t.id,t.name from Tariff t", Object[].class).getResultList();
     }
 
     @Override

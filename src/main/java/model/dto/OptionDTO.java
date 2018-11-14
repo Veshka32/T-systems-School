@@ -36,9 +36,13 @@ public class OptionDTO {
     @Length(max = 255)
     private String description;
 
-    private Set<String> incompatible = new HashSet<>();
+    private Set<Integer> incompatible = new HashSet<>();
 
-    private Set<String> mandatory = new HashSet<>();
+    private Set<Integer> mandatory = new HashSet<>();
+
+    private String incompatibleNames;
+
+    private String mandatoryNames;
 
     public int getId() {
         return id;

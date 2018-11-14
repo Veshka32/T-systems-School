@@ -21,8 +21,10 @@ public class ContractDTO {
     private String ownerName;
 
     private String tariffName;
+    private int tariffId;
 
-    private Set<String> optionsNames = new HashSet<>();
+    private Set<Integer> optionsIds = new HashSet<>();
+    private String optionNames;
 
     private boolean isBlocked = false;
     private boolean isBlockedByAdmin = false;
@@ -36,6 +38,7 @@ public class ContractDTO {
         this.number=contract.getNumber()+"";
         this.ownerId=contract.getOwner().getId();
         this.ownerName = contract.getOwner().toString();
+        this.tariffId = contract.getTariff().getId();
         this.tariffName=contract.getTariff().getName();
         this.isBlocked=contract.isBlocked();
         this.isBlockedByAdmin=contract.isBlockedByAdmin();

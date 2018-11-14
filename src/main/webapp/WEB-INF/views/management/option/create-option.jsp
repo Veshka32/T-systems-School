@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 <body>
 
 <%@ include file="/resources/navbar.html" %>
@@ -23,61 +26,54 @@
     <p class="bg-danger">${message}</p>
     <form:form method="POST" modelAttribute="option">
 
-    <div class="form-group row">
-        <div class="form-group col-xs-4">
-            <label for="name">Name:</label>
-            <form:input path="name" value="${option.name}" class="form-control" id="name"/>
-            <p class="bg-danger"><form:errors path="name"/></p>
+        <div class="form-group row">
+            <div class="form-group col-xs-4">
+                <label for="name">Name:</label>
+                <form:input path="name" value="${option.name}" class="form-control" id="name"/>
+                <p class="bg-danger"><form:errors path="name"/></p>
+            </div>
+
+            <div class="form-group col-xs-2">
+                <label for="price">Price:</label>
+                <form:input path="price" value="${option.price}" class="form-control" id="price"/>
+                <p class="bg-danger"><form:errors path="price"/></p>
+            </div>
+            <div class="form-group col-xs-2">
+                <label for="cost">Subscribe cost:</label>
+                <form:input value="${option.subscribeCost}" path="subscribeCost" class="form-control" id="cost"/>
+                <p class="bg-danger"><form:errors path="subscribeCost"/></p>
+            </div>
         </div>
 
-        <div class="form-group col-xs-2">
-            <label for="price">Price:</label>
-            <form:input path="price" value="${option.price}" class="form-control" id="price"/>
-            <p class="bg-danger"><form:errors path="price"/></p>
+
+        <div class="form-group">
+            <label for="desc">Description:</label>
+            <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
         </div>
-        <div class="form-group col-xs-2">
-            <label for="cost">Subscribe cost:</label>
-            <form:input value="${option.subscribeCost}" path="subscribeCost" class="form-control" id="cost"/>
-            <p class="bg-danger"><form:errors path="subscribeCost"/></p>
+
+        <div class="form-group">
+            <label for="mand">Set mandatory options:</label>
+            <form:select path="mandatory" multiple="multiple" id="mand" class="selectpicker"
+                         data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+                <c:forEach items="${all}" var="item">
+                    <form:option label="${item.key}" value="${item.value}"/>
+                </c:forEach>
+            </form:select>
         </div>
-    </div>
+
+        <div class="form-group">
+            <label for="inc">Set incompatible options:</label>
+            <form:select path="incompatible" multiple="multiple" id="inc" class="selectpicker"
+                         data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+                <c:forEach items="${all}" var="item">
+                    <form:option label="${item.key}" value="${item.value}"/>
+                </c:forEach>
+            </form:select>
+        </div>
 
 
-    <div class="form-group">
-        <label for="desc">Description:</label>
-        <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
-    </div>
-
-        <div class="row">
-            <fieldset class="col-sm-4">
-                <div class="form-check form-check-inline">
-                    <label for="mand">Set mandatory options:</label>
-                    <br>
-            <c:forEach items="${all}" var="item">
-                <form:checkbox path="mandatory" value="${item}" class="form-check" id="mand"/>
-                <label class="form-check-label" for=inc>${item}</label>
-                <br>
-            </c:forEach>
-                </div>
-            </fieldset>
-
-            <fieldset class="col-sm-4">
-                <div class="form-check form-check-inline">
-                    <label for="inc">Set incompatible options:</label>
-                    <br>
-            <c:forEach items="${all}" var="item">
-                <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
-                <label class="form-check-label" for=inc>${item}</label>
-                <br>
-            </c:forEach>
-                </div>
-                <br></fieldset>
-            <q></q>
-    </div>
-
-
-    <input type="hidden" name="id" value=${option.id}>
-    <input type="submit" value="Save" class="btn btn-success"/>
+        <input type="hidden" name="id" value=${option.id}>
+        <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
 </div>
 </body>

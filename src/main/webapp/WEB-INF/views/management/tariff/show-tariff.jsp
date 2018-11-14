@@ -45,7 +45,7 @@
 
         <tr>
             <td>Options:</td>
-            <td>${options}</td>
+            <td>${tariff.optionsNames}</td>
         </tr>
         </tbody>
     </table>

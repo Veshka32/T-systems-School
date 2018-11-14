@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <%@ include file="/resources/navbar.html" %>
@@ -48,28 +52,26 @@
         <form:input value="${option.description}" path="description" class="form-control" id="desc"/>
     </div>
 
-    <div class="row">
-        <fieldset class="col-sm-4">
-            <div class="form-check form-check-inline">
-                <label for="inc">Set incompatible options:</label>
-                <br>
-                <c:forEach items="${all}" var="item">
-                    <form:checkbox path="incompatible" value="${item}" class="form-check" id="inc"/>
-                    <label class="form-check-label" for=inc>${item}</label>
-                    <br>
-                </c:forEach></div>
-        </fieldset>
-        <fieldset class="col-sm-4">
-            <div class="form-check form-check-inline">
-                <label for="inc">Set mandatory options:</label>
-                <br>
-                <c:forEach items="${all}" var="item">
-                    <form:checkbox path="mandatory" value="${item}" class="form-check" id="inc"/>
-                    <label class="form-check-label" for=inc>${item}</label>
-                    <br>
-                </c:forEach></div>
-        </fieldset>
+    <div class="form-group">
+        <label for="mand">Set mandatory options:</label>
+        <form:select path="mandatory" multiple="multiple" id="mand" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${all}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
     </div>
+
+    <div class="form-group">
+        <label for="inc">Set incompatible options:</label>
+        <form:select path="incompatible" multiple="multiple" id="inc" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${all}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
+    </div>
+
     <br>
     <input type="hidden" name="id" value=${option.id}>
     <input type="submit" value="Save" class="btn btn-success"/>

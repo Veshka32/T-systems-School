@@ -49,12 +49,12 @@
 
         <tr>
             <td>Mandatory options:</td>
-            <td>${mandatoryOptions}</td>
+            <td>${option.mandatoryNames}</td>
         </tr>
 
         <tr>
             <td>Incompatible options:</td>
-            <td>${incompatibleOptions}</td>
+            <td>${option.incompatibleNames}</td>
         </tr>
         </tbody>
     </table>

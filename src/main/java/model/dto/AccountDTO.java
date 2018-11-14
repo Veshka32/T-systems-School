@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MyUserDTO {
+public class AccountDTO {
 
     @NotBlank
     @Length(max = 255)

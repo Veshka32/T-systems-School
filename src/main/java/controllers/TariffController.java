@@ -9,13 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.ServiceException;
+import services.exceptions.ServiceException;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class TariffController {
@@ -45,12 +43,11 @@ public class TariffController {
     public String show(@RequestParam("id") int id, Model model) {
         TariffDTO dto = tariffService.getDto(id);
         model.addAttribute(TARIFF, dto);
-        model.addAttribute("options", dto.getOptions().stream().collect(Collectors.joining(", ")));
         return "management/tariff/show-tariff";
     }
 
     @GetMapping("/management/createTariff")
-    public String createShow(Model model) {
+    public String create(Model model) {
         buildModel(model, new TariffDTO());
         return CREATE;
     }
@@ -82,7 +79,7 @@ public class TariffController {
     }
 
     @PostMapping("/management/editTariff")
-    public String updateTariff(@ModelAttribute(TARIFF) @Valid TariffDTO dto, BindingResult result, RedirectAttributes attr, Model model) {
+    public String editTariff(@ModelAttribute(TARIFF) @Valid TariffDTO dto, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
             buildModel(model, dto);
             return EDIT;
@@ -110,13 +107,8 @@ public class TariffController {
         }
     }
 
-    @ModelAttribute("allTariffs")
-    public List<Tariff> getAllTariffs() {
-        return tariffService.getAll();
-    }
-
     private void buildModel(Model model, TariffDTO dto) {
         model.addAttribute(TARIFF, dto);
-        model.addAttribute("all", optionService.getAllNames());
+        model.addAttribute("all", optionService.getAllNamesWithIds());
     }
 }

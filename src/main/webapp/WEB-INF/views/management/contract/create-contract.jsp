@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 <body>
 
 <%@ include file="/resources/navbar.html" %>
@@ -24,18 +27,23 @@
 
     <div class="form-group">
         <label for="tr">Choose tariff:</label>
-        <form:select path="tariffName" items="${allTariffsNames}" class="form-control" id="tr"/>
+        <form:select path="tariffId" id="tr" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${allTariffs}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
     </div>
 
-    <div class="form-check form-check-inline" id="opt">
-        <label for="opt">Set options:</label><br>
-        <c:forEach items="${allOptionsNames}" var="item">
-        <form:checkbox path="optionsNames" value="${item}" class="form-check" id="inc"/>
-        <label class="form-check-label" for=inc>${item}</label>
-            <br>
-    </c:forEach></div>
-    <br>
-
+    <div class="form-group">
+        <label for="inc">Set options:</label>
+        <form:select path="optionsIds" multiple="multiple" id="inc" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${allOption}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
+    </div>
         <form:hidden path="ownerId" value="${contract.ownerId}"/>
 
     <input type="submit" value="Save" class="btn btn-success"/>

@@ -11,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.ServiceException;
+import services.exceptions.ServiceException;
 import services.interfaces.OptionServiceI;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,16 +97,19 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public List<String> getAllNames() {
-        return optionDAO.getAllNames();
+    public Map<String, Integer> getAllNamesWithIds() {
+        List<Object[]> all = optionDAO.getAllNamesAndIds();
+        return all.stream().collect(HashMap::new, (m, array) -> m.put((String) array[1], (Integer) array[0]), Map::putAll);
     }
 
     @Override
     public OptionDTO getDto(int id) {
         Option option = optionDAO.findOne(id);
         OptionDTO dto = new OptionDTO(option);
-        dto.getIncompatible().addAll(optionDAO.getAllIncompatibleNames(id));
-        dto.getMandatory().addAll(optionDAO.getAllMandatoryNames(id));
+        dto.setMandatoryNames(optionDAO.getMandatoryNamesFor(id).stream().collect(Collectors.joining(", ")));
+        dto.setIncompatibleNames(optionDAO.getIncompatibleNamesFor(id).stream().collect(Collectors.joining(", ")));
+        dto.getMandatory().addAll(optionDAO.getMandatoryIdsFor(new Integer[]{id}));
+        dto.getIncompatible().addAll(optionDAO.getIncompatibleIdsFor(new Integer[]{id}));
         return dto;
     }
 
@@ -117,36 +119,41 @@ public class OptionService implements OptionServiceI {
     }
 
     private void checkCompatibility(OptionDTO dto) throws ServiceException {
-        dto.getMandatory().remove(dto.getName());
-        dto.getIncompatible().remove(dto.getName());
+        dto.getMandatory().remove(dto.getId());
+        dto.getIncompatible().remove(dto.getId());
 
         //check if no option at the same time are mandatory and incompatible
-        Optional<String> any = dto.getIncompatible().stream().filter(name -> dto.getMandatory().contains(name)).findFirst();
-        if (any.isPresent()) throw new ServiceException(ERROR_MESSAGE + " :" + any.get());
+        Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
+        if (any.isPresent())
+            throw new ServiceException(ERROR_MESSAGE + " :" + optionDAO.getNamesByIds(new Integer[]{any.get()}).toString());
 
         if (dto.getMandatory().isEmpty()) return;
 
         //check if all from mandatory also have its' corresponding mandatory options
 
-        String[] mandatoryNames = dto.getMandatory().toArray(new String[]{});
-        List<OptionRelation> relations = optionDAO.getMandatoryFor(mandatoryNames);
+        Integer[] mandatoryIds = dto.getMandatory().toArray(new Integer[]{});
+        List<Integer> relations = optionDAO.getMandatoryIdsFor(mandatoryIds);
 
         if (!relations.isEmpty()) {
             //check if mandatory relation is not bidirectional
-            List<String> mandatoryFor = relations.stream().filter(r -> r.getAnother().getName().equals(dto.getName())).map(r -> r.getOne().getName()).collect(Collectors.toList());
+            List<Integer> mandatoryFor = relations.stream().
+                    filter(r -> r.equals(dto.getId()))
+                    .collect(Collectors.toList());
             if (!mandatoryFor.isEmpty())
-                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + mandatoryFor.toString());
+                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + optionDAO.getNamesByIds(mandatoryFor.toArray(new Integer[]{})).toString());
 
-            List<String> allMandatories = relations.stream().map(r -> r.getAnother().getName()).filter(name -> !dto.getMandatory().contains(name)).collect(Collectors.toList());
+            Set<Integer> allMandatories = relations.stream()
+                    .filter(r -> !dto.getMandatory().contains(r))
+                    .collect(Collectors.toSet());
             if (!allMandatories.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
+                throw new ServiceException("More options are required as mandatory: " + optionDAO.getNamesByIds(allMandatories.toArray(new Integer[]{})).toString());
             }
         }
 
         //check if mandatory options are incompatible with each other
-        relations = optionDAO.getIncompatibleFor(mandatoryNames);
-        if (!relations.isEmpty()) {
-            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+        List<OptionRelation> relations1 = optionDAO.getIncompatibleRelation(mandatoryIds);
+        if (!relations1.isEmpty()) {
+            String s = relations1.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
         }
 
@@ -172,14 +179,14 @@ public class OptionService implements OptionServiceI {
 
     private void updateCollectionFields(OptionDTO dto, Option op) {
         //set collections fields
-        for (String name : dto.getIncompatible()) {
-            Option newIncompatible = optionDAO.findByName(name);
+        for (int id : dto.getIncompatible()) {
+            Option newIncompatible = optionDAO.findOne(id);
             OptionRelation r = new OptionRelation(op, newIncompatible, RELATION.INCOMPATIBLE);
             relationDaoI.save(r);
         }
 
-        for (String name : dto.getMandatory()) {
-            Option newMandatory = optionDAO.findByName(name);
+        for (int id : dto.getMandatory()) {
+            Option newMandatory = optionDAO.findOne(id);
             OptionRelation r = new OptionRelation(op, newMandatory, RELATION.MANDATORY);
             relationDaoI.save(r);
         }

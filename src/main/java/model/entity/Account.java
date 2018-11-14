@@ -16,8 +16,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Table(name = "user")
-@NamedQuery(name = "find_user_by_login",query = "from MyUser u where u.login=:login")
-public class MyUser extends AbstractEntity {
+@NamedQuery(name = "find_user_by_login", query = "from Account u where u.login=:login")
+public class Account extends AbstractEntity {
 
     @Column(nullable = false)
     private String login;

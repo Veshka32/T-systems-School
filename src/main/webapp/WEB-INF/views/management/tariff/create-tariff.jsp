@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <%@ include file="/resources/navbar.html" %>
@@ -36,17 +40,18 @@
         <label for="desc">Description:</label>
         <form:input value="${tariff.description}" path="description" class="form-control" id="desc"/>
     </div>
-    <div class="form-check form-check-inline">
+
+    <div class="form-group">
         <label for="inc">Set options:</label>
-        <br>
-        <c:forEach items="${all}" var="item">
-            <form:checkbox path="options" value="${item}" class="form-check" id="inc"/>
-            <label class="form-check-label" for=inc>${item}</label>
-            <br>
-        </c:forEach>
+        <form:select path="options" multiple="multiple" id="inc" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${all}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
     </div>
-    <br>
-            <input type="hidden" name="id" value=${tariff.id}>
+
+    <input type="hidden" name="id" value=${tariff.id}>
             <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
     <br>

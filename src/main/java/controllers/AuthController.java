@@ -1,6 +1,6 @@
 package controllers;
 
-import model.dto.MyUserDTO;
+import model.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.ServiceException;
-import services.interfaces.UserServiceI;
+import services.exceptions.AccountCreateException;
+import services.interfaces.AccountServiceI;
 
 import javax.validation.Valid;
 
@@ -23,25 +23,24 @@ public class AuthController {
     private static final String MESSAGE = "message";
 
     @Autowired
-    UserServiceI userService;
+    AccountServiceI userService;
 
     @GetMapping(value = "/register")
     public String showRegister(Model model) {
-        model.addAttribute("user", new MyUserDTO());
+        model.addAttribute("user", new AccountDTO());
         return SIGN_UP;
     }
 
     @PostMapping(value = "/register")
-    public String addUser(@ModelAttribute("user") @Valid MyUserDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String addUser(@ModelAttribute("user") @Valid AccountDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
             model.addAttribute("user", dto);
             return SIGN_UP;
         }
         try {
-            attr.addAttribute("id", userService.createClient(dto));
+            attr.addAttribute("id", userService.createAccount(dto));
             return "redirect:/user/cabinet";
-        }
-        catch (ServiceException e){
+        } catch (AccountCreateException e) {
             model.addAttribute(MESSAGE, e.getMessage());
             return SIGN_UP;
         }
@@ -52,7 +51,7 @@ public class AuthController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject(MESSAGE, "Invalid Credentials provided.");
+            model.addObject(MESSAGE, "Invalid credentials provided.");
         }
         return model;
     }

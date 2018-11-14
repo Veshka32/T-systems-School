@@ -1,7 +1,9 @@
 .idea
 /out
-/Tests
 *.ser
 /target
 /lib
-/log
+log/
+/log/*
+/log/*
+/log/SpringMVC.log

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.ServiceException;
+import services.exceptions.ServiceException;
 import services.interfaces.ClientServiceI;
 
 import java.util.List;
@@ -23,11 +23,6 @@ public class ClientService implements ClientServiceI {
     public void setDAO(ClientDaoI clientDAO) {
         this.clientDAO = clientDAO;
         this.clientDAO.setClass(Client.class);
-    }
-
-    @Override
-    public Client get(int id) {
-        return clientDAO.findOne(id);
     }
 
     @Override
@@ -72,11 +67,6 @@ public class ClientService implements ClientServiceI {
     @Override
     public ClientDTO getDTO(int id){
         return new ClientDTO(clientDAO.findOne(id));
-    }
-
-    @Override
-    public List<Client> getAll() {
-        return clientDAO.findAll();
     }
 
     @Override

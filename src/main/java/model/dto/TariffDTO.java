@@ -34,7 +34,8 @@ public class TariffDTO {
     @Length(max = 255)
     private String description;
 
-    private Set<String> options = new HashSet<>();
+    private Set<Integer> options = new HashSet<>();
+    private String optionsNames;
 
     public int getId() {
         return id;

@@ -1,7 +1,7 @@
 package services.implementations;
 
 import dao.interfaces.UserDaoI;
-import model.entity.MyUser;
+import model.entity.Account;
 import model.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,12 +29,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) {
 
-        MyUser user = userDAO.findByLogin(username);
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
-        return buildUserForAuthentication(user, authorities);
+        Account account = userDAO.findByLogin(username);
+        List<GrantedAuthority> authorities = buildUserAuthority(account.getRoles());
+        return buildUserForAuthentication(account, authorities);
     }
 
-    private User buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
+    private User buildUserForAuthentication(Account user, List<GrantedAuthority> authorities) {
         return new User(user.getLogin(), user.getPassword(), authorities);
     }
 

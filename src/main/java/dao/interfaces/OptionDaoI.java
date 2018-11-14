@@ -7,32 +7,30 @@ import java.util.List;
 
 public interface OptionDaoI extends IGenericDAO<Option> {
 
-    List<String> getAllNames();
+    List<Object[]> getAllNamesAndIds();
 
     Option findByName(String name);
 
-    List<Option> findByNames(String[] names);
+    List<Option> findByIds(Integer[] ids);
 
     List<Option> findByNameLike(String name);
 
     boolean notUsed(int id);
 
     /**
-     * Get names of all mandatory options for specific option
+     * get ids of options in specific tariff
      *
      * @param id
      * @return
      */
-    List<String> getAllMandatoryNames(int id);
+    List<Integer> getOptionsInTariffIds(int id);
 
     /**
-     * Get names of all incompatible  options for specific option
+     * get names of options in specific tariff
      *
      * @param id
      * @return
      */
-    List<String> getAllIncompatibleNames(int id);
-
     List<String> getOptionsInTariffNames(int id);
 
     /**
@@ -41,30 +39,35 @@ public interface OptionDaoI extends IGenericDAO<Option> {
      * @param id
      * @return
      */
-    List<String> getMandatoryFor(int id);
+    List<String> getMandatoryNamesFor(int id);
 
     /**
-     * Return sub-list from option names such as option with specific id is mandatory for them
+     * get all option names which is incompatible with specific option
      *
      * @param id
-     * @param names
      * @return
      */
-    List<String> isMandatoryFor(int id, String[] names);
+    List<String> getIncompatibleNamesFor(int id);
+
 
     /**
-     * @param names
-     * @return Return list of incompatible options pairs from names
+     * @param ids
+     * @return Return list of incompatible options pairs with ids in specific range
      */
-    List<OptionRelation> getIncompatibleFor(String[] names);
+    List<OptionRelation> getIncompatibleRelation(Integer[] ids);
+
+    List<Integer> getIncompatibleIdsFor(Integer[] ids);
 
     /**
-     * Get all OptionRelation of type MANDATORY where OptionRelation.one name in specific range
+     * Get all OptionRelation of type MANDATORY where OptionRelation.one id in specific range
      *
-     * @param names
+     * @param ids
      * @return
      */
+    List<OptionRelation> getMandatoryRelation(Integer[] ids);
 
-    List<OptionRelation> getMandatoryFor(String[] names);
+    List<Integer> getMandatoryIdsFor(Integer[] ids);
+
+    List<String> getNamesByIds(Integer[] ids);
 
 }

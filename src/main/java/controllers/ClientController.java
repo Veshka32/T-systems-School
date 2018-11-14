@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.ServiceException;
+import services.exceptions.ServiceException;
 import services.interfaces.ClientServiceI;
 import services.interfaces.ContractServiceI;
 
@@ -19,7 +19,6 @@ import javax.validation.Valid;
 
 @Controller
 public class ClientController {
-    private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
     private static final String EDIT = "management/client/edit-client";
     private static final String SAVE="management/client/show-client";
@@ -43,7 +42,7 @@ public class ClientController {
     }
 
     @GetMapping("/management/showClient")
-    public String show(@RequestParam("id") int id, Model model) {
+    public String showClient(@RequestParam("id") int id, Model model) {
         ClientDTO client = clientService.getDTO(id);
         model.addAttribute(CLIENT, client);
         model.addAttribute(CONTRACTS, contractService.getAllClientContracts(id));
@@ -51,10 +50,10 @@ public class ClientController {
     }
 
     @PostMapping("/management/findClientByPhone")
-    public String find(@Valid Phone phone, BindingResult result, Model model){
+    public String findByPhone(@Valid Phone phone, BindingResult result, Model model) {
         if (result.hasErrors()){
-            model.addAttribute("phone",phone);
             buildModel(1, model);
+            model.addAttribute("phone", phone);
             return MANAGEMENT;
         }
 
@@ -70,10 +69,10 @@ public class ClientController {
     }
 
     @PostMapping("/management/findClientByPassport")
-    public String find(@Valid Passport passport, BindingResult result, Model model){
+    public String findByPassport(@Valid Passport passport, BindingResult result, Model model) {
         if (result.hasErrors()){
-            model.addAttribute("passport",passport);
             buildModel(1, model);
+            model.addAttribute("passport", passport);
             return MANAGEMENT;
         }
 
@@ -89,7 +88,7 @@ public class ClientController {
     }
 
     @GetMapping("/management/createClient")
-    public String createShow(Model model){
+    public String create(Model model) {
         model.addAttribute(CLIENT, new ClientDTO());
         return CREATE;
     }
@@ -112,16 +111,13 @@ public class ClientController {
     }
 
     @GetMapping("/management/editClient")
-    public String editClient(@RequestParam("id") int id,
-                             @RequestParam(value = ERROR_ATTRIBUTE, required = false) String error,
-                             Model model){
-        if (error != null) model.addAttribute(MODEL_MESSAGE, error);
+    public String editClient(@RequestParam("id") int id, Model model) {
         model.addAttribute(CLIENT, clientService.getDTO(id));
         return EDIT;
     }
 
     @PostMapping("/management/editClient")
-    public String updateClient(@ModelAttribute(CLIENT) @Valid ClientDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
+    public String editClient(@ModelAttribute(CLIENT) @Valid ClientDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
             model.addAttribute(CLIENT, dto);
             return EDIT;
@@ -144,20 +140,12 @@ public class ClientController {
         return "redirect:/management/clients";
     }
 
-    @ModelAttribute("phone")
-    public Phone getPhone() {
-        return new Phone();
-    }
-
-    @ModelAttribute("passport")
-    public Passport passport() {
-        return new Passport();
-    }
-
     private void buildModel(Integer page, Model model) {
         PaginateHelper<Client> helper = clientService.getPaginateData(page, ROW_PER_PAGE);
         model.addAttribute("allInPage", helper.getItems());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageTotal", helper.getTotal());
+        model.addAttribute("phone", new Phone());
+        model.addAttribute("passport", new Passport());
     }
 }

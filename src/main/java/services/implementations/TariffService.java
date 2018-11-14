@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.ServiceException;
+import services.exceptions.ServiceException;
 import services.interfaces.TariffServiceI;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,8 @@ public class TariffService implements TariffServiceI {
 
     public TariffDTO getDto(int id) {
         TariffDTO dto = new TariffDTO(tariffDAO.findOne(id));
-        dto.setOptions(new HashSet<>(optionDAO.getOptionsInTariffNames(id)));
+        dto.getOptions().addAll(optionDAO.getOptionsInTariffIds(id));
+        dto.setOptionsNames(optionDAO.getOptionsInTariffNames(id).stream().collect(Collectors.joining(", ")));
         return dto;
     }
 
@@ -67,8 +69,8 @@ public class TariffService implements TariffServiceI {
         updatePlainFields(dto, based);
 
         //set complex fields
-        for (String name : dto.getOptions()) {
-            Option option = optionDAO.findByName(name);
+        for (Integer id : dto.getOptions()) {
+            Option option = optionDAO.findOne(id);
             based.addOption(option);
         }
 
@@ -93,8 +95,8 @@ public class TariffService implements TariffServiceI {
 
         //update complex fields
         tariff.getOptions().clear();
-        for (String name : dto.getOptions()) {
-            Option newOption = optionDAO.findByName(name);
+        for (Integer id : dto.getOptions()) {
+            Option newOption = optionDAO.findOne(id);
             tariff.addOption(newOption);
         }
         tariffDAO.update(tariff);
@@ -104,18 +106,18 @@ public class TariffService implements TariffServiceI {
         if (dto.getOptions().isEmpty()) return;
 
         //check if all from mandatory also have its' corresponding mandatory options
-        String[] names = dto.getOptions().toArray(new String[]{});
-        List<OptionRelation> relations = optionDAO.getMandatoryFor(names);
+        Integer[] names = dto.getOptions().toArray(new Integer[]{});
+        List<Integer> ids = optionDAO.getMandatoryIdsFor(names);
 
-        if (!relations.isEmpty()) {
-            List<String> allMandatories = relations.stream().map(r -> r.getAnother().getName()).filter(name -> !dto.getOptions().contains(name)).collect(Collectors.toList());
+        if (!ids.isEmpty()) {
+            List<Integer> allMandatories = ids.stream().filter(name -> !dto.getOptions().contains(name)).collect(Collectors.toList());
             if (!allMandatories.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
+                throw new ServiceException("More options are required as mandatory: " + optionDAO.getNamesByIds(allMandatories.toArray(new Integer[]{})).toString());
             }
         }
 
         //check if mandatory options are incompatible with each other
-        relations = optionDAO.getIncompatibleFor(names);
+        List<OptionRelation> relations = optionDAO.getIncompatibleRelation(names);
         if (!relations.isEmpty()) {
             String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
@@ -135,18 +137,15 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public Tariff get(int id) {
-        return tariffDAO.findOne(id);
-    }
-
-    @Override
     public List<Tariff> getAll() {
         return tariffDAO.findAll();
     }
 
+
     @Override
-    public List<String> getAllNames() {
-        return tariffDAO.getAllNames();
+    public Map<String, Integer> getAllNamesWithIds() {
+        List<Object[]> all = tariffDAO.getAllNamesAndIds();
+        return all.stream().collect(HashMap::new, (m, array) -> m.put((String) array[1], (Integer) array[0]), Map::putAll);
     }
 
 }

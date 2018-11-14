@@ -37,7 +37,7 @@ public class Contract extends AbstractEntity {
     private Set<Option> options = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")
-    private MyUser user;
+    private Account user;
 
     private boolean isBlocked = false;
     private boolean isBlockedByAdmin = false;

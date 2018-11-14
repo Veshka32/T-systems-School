@@ -1,22 +1,22 @@
 package services.implementations;
 
 import dao.interfaces.UserDaoI;
-import model.dto.MyUserDTO;
-import model.entity.MyUser;
+import model.dto.AccountDTO;
+import model.entity.Account;
 import model.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.ServiceException;
+import services.exceptions.AccountCreateException;
+import services.interfaces.AccountServiceI;
 import services.interfaces.ContractServiceI;
-import services.interfaces.UserServiceI;
 
 @Service
 @EnableTransactionManagement
 @Transactional
-public class UserService implements UserServiceI {
+public class AccountService implements AccountServiceI {
 
     @Autowired
     UserDaoI userDAO;
@@ -28,16 +28,16 @@ public class UserService implements UserServiceI {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public int createClient(MyUserDTO dto) throws ServiceException {
+    public int createAccount(AccountDTO dto) throws AccountCreateException {
         //check if already exists
-        MyUser user=userDAO.findByLogin(dto.getLogin());
-        if (user!=null) throw new ServiceException("This phone is already registered");
+        Account user = userDAO.findByLogin(dto.getLogin());
+        if (user != null) throw new AccountCreateException("This phone is already registered");
 
         //check if number exists
         Integer id = contractService.findByPhone(Long.parseLong(dto.getLogin()));
-        if (id == null) throw new ServiceException("There is no such a number");
+        if (id == null) throw new AccountCreateException("There is no such a number");
 
-        user = new MyUser();
+        user = new Account();
         user.setRole(Role.ROLE_CLIENT);
         user.setContract(contractService.get(id));
         user.setLogin(dto.getLogin());

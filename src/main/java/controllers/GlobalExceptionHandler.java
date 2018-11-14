@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
     private static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler({Exception.class})
-    public String handleSQLException(HttpServletRequest request, Exception ex) {
+    public String handleException(HttpServletRequest request, Exception ex) {
         logger.error("Request occurred:: " + request.getRequestURL(), ex);
         return "database-error";
     }

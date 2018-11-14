@@ -1,7 +1,7 @@
 package services.exceptions;
 
-public class ServiceException extends Exception {
-    public ServiceException(String message){
+public class AccountCreateException extends Exception {
+    public AccountCreateException(String message) {
         super(message);
     }
 

@@ -1,8 +1,12 @@
 package services.interfaces;
 
-import org.springframework.transaction.annotation.Transactional;
+
 
 public interface PhoneNumberServiceI {
-    @Transactional
+    /**
+     * Generate next unique phone number for new {@code Contract}
+     *
+     * @return phone number
+     */
     long getNext();
 }

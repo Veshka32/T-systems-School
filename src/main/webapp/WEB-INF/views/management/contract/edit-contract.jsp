@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 
@@ -26,7 +30,7 @@
         <li class="list-group-item"> Phone number: ${editedContract.number}</li>
         <li class="list-group-item"> Owner: ${editedContract.ownerName}</li>
         <li class="list-group-item">Current tariff: ${editedContract.tariffName}</li>
-        <li class="list-group-item">Options: ${editedContract.optionsNames}</li>
+        <li class="list-group-item">Options: ${editedContract.optionNames}</li>
     </ul>
 
     <div class="checkbox">
@@ -40,29 +44,34 @@
 
     <div class="form-group">
         <label for="tr">Choose tariff:</label>
-        <form:select path="tariffName" items="${allTariffsNames}" class="form-control" id="tr"/>
+        <form:select path="tariffId" id="tr" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${allTariffs}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
     </div>
 
+    <div class="form-group">
+        <label for="inc">Set options:</label>
+        <form:select path="optionsIds" multiple="multiple" id="inc" class="selectpicker"
+                     data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
+            <c:forEach items="${allOptions}" var="item">
+                <form:option label="${item.key}" value="${item.value}"/>
+            </c:forEach>
+        </form:select>
+    </div>
 
-    <div class="form-check form-check-inline">
-        <label for="opt">Set options:</label><br>
-        <c:forEach items="${allOptionsNames}" var="item">
-            <form:checkbox path="optionsNames" value="${item}" class="form-check" id="opt"/>
-            <label class="form-check-label" for=opt>${item}</label>
-            <br>
-    </c:forEach></div>
-    <br>
-
-        <form:hidden path="ownerId" value="${editedContract.ownerId}"/>
-        <form:hidden path="id" value="${editedContract.id}"/>
+        <form:hidden path="ownerId" value="${contract.ownerId}"/>
+        <form:hidden path="id" value="${contract.id}"/>
 
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
 
     <div class="pull-right">
         <form action="deleteContract" method="post">
-        <input type="hidden" name="id" value=${editedContract.id}>
-        <input type="hidden" name="clientId" value=${editedContract.ownerId}>
+            <input type="hidden" name="id" value=${contract.id}>
+            <input type="hidden" name="clientId" value=${contract.ownerId}>
             <input type="submit" value="Delete contract" class="btn btn-danger">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></form>
     </div>

@@ -43,7 +43,7 @@
         </tr>
         <tr>
             <td>Options:</td>
-            <td>${contract.optionsNames} </td>
+            <td>${contract.optionNames} </td>
         </tr>
         <tr>
             <td>Is blocked:</td>
