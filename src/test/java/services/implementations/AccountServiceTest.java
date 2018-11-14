@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import services.exceptions.ServiceException;
+import services.exceptions.AccountCreateException;
 import services.interfaces.ContractServiceI;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,20 +25,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
 class AccountServiceTest {
+    @Mock
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
     @InjectMocks
-    private
-    AccountService accountService;
-
+    private AccountService accountService;
     @Mock
-    private
-    UserDaoI userDAO;
-
+    private UserDaoI userDAO;
     @Mock
-    private
-    ContractServiceI contractService;
+    private ContractServiceI contractService;
 
-    @Mock
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @BeforeEach
     void setUp() {
@@ -55,13 +50,13 @@ class AccountServiceTest {
 
         //check if login is reserved
         when(userDAO.findByLogin(login)).thenReturn(new Account());
-        ServiceException e = assertThrows(ServiceException.class, () -> accountService.createAccount(dto));
+        AccountCreateException e = assertThrows(AccountCreateException.class, () -> accountService.createAccount(dto));
         assertEquals(e.getMessage(), "This phone is already registered");
 
         //check if number exists
         when(userDAO.findByLogin(login)).thenReturn(null);
         when(contractService.findByPhone(Long.parseLong(login))).thenReturn(null);
-        e = assertThrows(ServiceException.class, () -> accountService.createAccount(dto));
+        e = assertThrows(AccountCreateException.class, () -> accountService.createAccount(dto));
         assertEquals(e.getMessage(), "There is no such a number");
 
         //check fields update

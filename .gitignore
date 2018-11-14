@@ -3,7 +3,5 @@
 *.ser
 /target
 /lib
-log/
-/log/*
-/log/*
-/log/SpringMVC.log
+/log
+
