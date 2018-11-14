@@ -24,7 +24,7 @@ public class OptionService implements OptionServiceI {
 
     private OptionDaoI optionDAO;
     private RelationDaoI relationDaoI;
-    private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible";
+    private static final String ERROR_MESSAGE = "Option must not be both mandatory and incompatible: ";
     private static final String NAME_ERROR_MESSAGE = "name is reserved";
 
     @Autowired
@@ -125,12 +125,11 @@ public class OptionService implements OptionServiceI {
         //check if no option at the same time are mandatory and incompatible
         Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
         if (any.isPresent())
-            throw new ServiceException(ERROR_MESSAGE + " :" + optionDAO.getNamesByIds(new Integer[]{any.get()}).toString());
+            throw new ServiceException(ERROR_MESSAGE + optionDAO.getNamesByIds(new Integer[]{any.get()}).toString());
 
         if (dto.getMandatory().isEmpty()) return;
 
         //check if all from mandatory also have its' corresponding mandatory options
-
         Integer[] mandatoryIds = dto.getMandatory().toArray(new Integer[]{});
         List<Integer> relations = optionDAO.getMandatoryIdsFor(mandatoryIds);
 
