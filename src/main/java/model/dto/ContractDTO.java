@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class ContractDTO {
-    private int id;
+    private Integer id;
 
     private String number;
 

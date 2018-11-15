@@ -20,14 +20,12 @@ import javax.validation.Valid;
 @Controller
 public class ClientController {
     private static final String MODEL_MESSAGE="message";
-    private static final String EDIT = "management/client/edit-client";
     private static final String SAVE="management/client/show-client";
     private static final String CREATE = "management/client/create-client";
     private static final String MANAGEMENT="management/client/client-management";
     private static final String CLIENT = "client";
     private static final String CONTRACTS = "clientContracts";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all clients
-
 
     @Autowired
     ClientServiceI clientService;
@@ -113,14 +111,14 @@ public class ClientController {
     @GetMapping("/management/editClient")
     public String editClient(@RequestParam("id") int id, Model model) {
         model.addAttribute(CLIENT, clientService.getDTO(id));
-        return EDIT;
+        return CREATE;
     }
 
     @PostMapping("/management/editClient")
     public String editClient(@ModelAttribute(CLIENT) @Valid ClientDTO dto, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
             model.addAttribute(CLIENT, dto);
-            return EDIT;
+            return CREATE;
         }
         try {
             clientService.update(dto);
@@ -129,7 +127,7 @@ public class ClientController {
         } catch (ServiceException e) {
             model.addAttribute(CLIENT, dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
-            return EDIT;
+            return CREATE;
         }
 
     }

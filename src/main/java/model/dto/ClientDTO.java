@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ClientDTO{
 
-    private int id;
+    private Integer id;
 
     @Pattern(regexp = "^[0-9]{10}",message = "{client.passportId.invalid}")
     private String passportId;

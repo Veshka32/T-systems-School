@@ -21,7 +21,7 @@
 
 <div class="container">
     <span class="pull-right"><a href="options" class="btn btn-info" role="button">Back to options</a></span>
-    <h3>Create option</h3>
+    <h3>Option details</h3>
     <c:if test="${not empty message}"><p class="bg-danger">${message}</p></c:if>
     <form:form method="POST" modelAttribute="option">
 
@@ -67,7 +67,7 @@
             </form:select>
         </div>
 
-        <c:if test="${not empty option.id}"><input type="hidden" name="id" value=${option.id}></c:if>
+        <c:if test="${not empty option.id}"><form:hidden path="id" value="${option.id}"/></c:if>
         <input type="submit" value="Save" class="btn btn-success"/>
 
         <c:if test="${not empty option.id}">

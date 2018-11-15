@@ -21,7 +21,7 @@
 
 <div class="container">
     <span class="pull-right"><a href="tariffs" class="btn btn-info" role="button">Back to tariffs</a></span>
-    <h3>Create tariff</h3>
+    <h3>Tariff details</h3>
     <c:if test="${not empty message}"><p class="bg-danger">${message}</p></c:if>
 <form:form method="POST" modelAttribute="tariff">
 
@@ -52,7 +52,9 @@
         </form:select>
     </div>
 
-    <c:if test="${not empty tariff.id}"><input type="hidden" name="id" value=${tariff.id}></c:if>
+    <c:if test="${not empty tariff.id}">
+        <form:hidden path="id" value="${tariff.id}"/>
+    </c:if>
     <input type="submit" value="Save" class="btn btn-success"/>
 
     <c:if test="${not empty tariff.id}">

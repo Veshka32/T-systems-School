@@ -16,10 +16,7 @@ import services.exceptions.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -106,9 +103,7 @@ public class ContractService implements ContractServiceI {
             if (optionsInContract.isEmpty()) return;
 
             //check if all options has its' mandatory
-            Integer[] params = optionsInContract.toArray(new Integer[]{});
-
-            List<Integer> ids = optionDao.getMandatoryIdsFor(params);
+            List<Integer> ids = optionDao.getMandatoryIdsFor(optionsInContract.toArray(new Integer[]{}));
             List<Integer> allMandatories = ids.stream()
                     .filter(id -> !(optionsInTariff.contains(id) || optionsInContract.contains(id)))
                     .collect(Collectors.toList());
@@ -116,8 +111,10 @@ public class ContractService implements ContractServiceI {
             if (!allMandatories.isEmpty())
                 throw new ServiceException("More options are required as mandatory: " + optionDao.getNamesByIds(allMandatories.toArray(new Integer[]{})).toString());
 
-            //check if all options are compatible with each other
-            List<OptionRelation> relations = optionDao.getIncompatibleRelation(params);
+            //check if all options are compatible with each other and with options in tariff
+            List<Integer> params = new ArrayList<>(optionsInContract);
+            params.addAll(optionsInTariff);
+            List<OptionRelation> relations = optionDao.getIncompatibleRelation(params.toArray(new Integer[]{}));
             if (!relations.isEmpty()) {
                 String s = relations.stream()
                         .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())

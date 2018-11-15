@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Create client</title>
+    <title>Client details</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -60,8 +60,15 @@
         <label for="arch">Address:</label>
         <form:input path="address" class="form-control" id="arch"/>
     </div>
-    <input type="hidden" name="id" value=${client.id}>
+        <form:hidden path="id" value="${client.id}"/>
     <input type="submit" value="Save" class="btn btn-success"/>
+    <c:if test="${not empty client.id}">
+    <form action="deleteClient" method="post">
+        <input type="hidden" name="id" value=${client.id}>
+        <input type="submit" value="Delete client" class="btn btn-danger pull-right">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></form>
+    </c:if>
+
     </form:form>
     <br>
 

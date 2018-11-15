@@ -23,6 +23,7 @@ public class ContractController {
 
     private static final String MODEL_MESSAGE = "message";
     private static final String CONTRACT = "contract";
+    private static final String EDIT = "management/contract/create-contract";
     private static final String MANAGEMENT="management/contract/contract-management";
     private static final String REDIRECT_SHOW = "redirect:/management/showContract";
     private static final int ROW_PER_PAGE = 3; //specify number of rows per page in the table with all contracts
@@ -70,7 +71,7 @@ public class ContractController {
     @GetMapping("/management/createContract")
     public String create(@RequestParam("clientId") int clientId, Model model) {
         buildModel(model, new ContractDTO(clientId));
-        return "management/contract/create-contract";
+        return EDIT;
     }
 
     @PostMapping("management/createContract")
@@ -89,7 +90,7 @@ public class ContractController {
     @GetMapping("/management/editContract")
     public String edit(@RequestParam("id") int id, Model model) {
         buildModel(model, contractService.getDTO(id));
-        return "management/contract/edit-contract";
+        return EDIT;
     }
 
     @PostMapping("/management/editContract")
@@ -101,7 +102,7 @@ public class ContractController {
         } catch (ServiceException e) {
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
             buildModel(model, dto);
-            return "management/contract/edit-contract";
+            return EDIT;
         }
     }
 
