@@ -16,8 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 public class OptionController {
-    private static final String EDIT = "management/option/edit-option";
-    private static final String CREATE = "management/option/create-option";
+    private static final String EDIT = "management/option/create-option";
     private static final String REDIRECT_EDIT = "redirect:/management/editOption";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE = "message";
@@ -47,7 +46,7 @@ public class OptionController {
     public String createShow(Model model) {
         model.addAttribute(OPTION, new OptionDTO());
         model.addAttribute("all", optionService.getAllNamesWithIds());
-        return CREATE;
+        return EDIT;
     }
 
     @PostMapping("/management/createOption")
@@ -55,7 +54,7 @@ public class OptionController {
         if (result.hasErrors()) {
             model.addAttribute(OPTION, dto);
             model.addAttribute("all", optionService.getAllNamesWithIds());
-            return CREATE;
+            return EDIT;
         }
         try {
             attr.addAttribute("id", optionService.create(dto));
@@ -64,7 +63,7 @@ public class OptionController {
             model.addAttribute(OPTION, dto);
             model.addAttribute(MODEL_MESSAGE, e.getMessage());
             model.addAttribute("all", optionService.getAllNamesWithIds());
-            return CREATE;
+            return EDIT;
         }
     }
 

@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class TariffDTO {
 
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "{tariff.name.empty}")
     @Length(min = 3, max = 255, message = "{tariff.name.invalid}")
@@ -37,18 +37,10 @@ public class TariffDTO {
     private Set<Integer> options = new HashSet<>();
     private String optionsNames;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public TariffDTO(Tariff option){
-        id=option.getId();
-        name=option.getName();
-        price=option.getPrice();
-        description=option.getDescription();
+    public TariffDTO(Tariff tariff) {
+        id = tariff.getId();
+        name = tariff.getName();
+        price = tariff.getPrice();
+        description = tariff.getDescription();
     }
 }

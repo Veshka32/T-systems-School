@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class OptionDTO {
 
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "{option.name.empty}")
     @Size(min = 3, max = 50, message = "{option.name.invalid}")
@@ -43,14 +43,6 @@ public class OptionDTO {
     private String incompatibleNames;
 
     private String mandatoryNames;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public OptionDTO(Option option) {
         id = option.getId();

@@ -20,7 +20,6 @@ public class TariffController {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MODEL_MESSAGE="message";
     private static final String CREATE = "management/tariff/create-tariff";
-    private static final String EDIT = "management/tariff/edit-tariff";
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
     private static final String TARIFF = "tariff";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all tariffs
@@ -75,14 +74,14 @@ public class TariffController {
                              Model model) {
         if (error != null) model.addAttribute(MODEL_MESSAGE, error);
         buildModel(model, tariffService.getDto(id));
-        return EDIT;
+        return CREATE;
     }
 
     @PostMapping("/management/editTariff")
     public String editTariff(@ModelAttribute(TARIFF) @Valid TariffDTO dto, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
             buildModel(model, dto);
-            return EDIT;
+            return CREATE;
         }
         try {
             tariffService.update(dto);
@@ -91,7 +90,7 @@ public class TariffController {
         } catch (ServiceException e) {
             buildModel(model, dto);
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
-            return EDIT;
+            return CREATE;
         }
     }
 
