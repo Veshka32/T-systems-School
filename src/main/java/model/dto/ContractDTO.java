@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.entity.Contract;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -25,6 +27,9 @@ public class ContractDTO {
 
     private Set<Integer> optionsIds = new HashSet<>();
     private String optionNames;
+
+    Map<String, Integer> allOptions = new HashMap<>();
+    Map<String, Integer> allTariffs = new HashMap<>();
 
     private boolean isBlocked = false;
     private boolean isBlockedByAdmin = false;

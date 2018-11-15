@@ -63,14 +63,15 @@ public class ContractController {
 
     @GetMapping("/management/showContract")
     public String show(@RequestParam("id") int id, Model model) {
-        ContractDTO dto = contractService.getDTO(id);
-        model.addAttribute(CONTRACT, dto);
+        model.addAttribute(CONTRACT, contractService.getDTO(id));
         return "management/contract/show-contract";
     }
 
     @GetMapping("/management/createContract")
     public String create(@RequestParam("clientId") int clientId, Model model) {
-        buildModel(model, new ContractDTO(clientId));
+        ContractDTO dto = new ContractDTO(clientId);
+        contractService.addData(dto);
+        model.addAttribute(CONTRACT, dto);
         return EDIT;
     }
 
@@ -82,14 +83,17 @@ public class ContractController {
 
         } catch (ServiceException e) {
             model.addAttribute(MODEL_MESSAGE, e.getMessage());
-            buildModel(model, dto);
-            return "management/contract/create-contract";
+            contractService.addData(dto);
+            model.addAttribute(CONTRACT, dto);
+            return EDIT;
         }
     }
 
     @GetMapping("/management/editContract")
     public String edit(@RequestParam("id") int id, Model model) {
-        buildModel(model, contractService.getDTO(id));
+        ContractDTO dto = contractService.getDTO(id);
+        contractService.addData(dto);
+        model.addAttribute(CONTRACT, dto);
         return EDIT;
     }
 
@@ -101,7 +105,8 @@ public class ContractController {
             return REDIRECT_SHOW;
         } catch (ServiceException e) {
             model.addAttribute(MODEL_MESSAGE,e.getMessage());
-            buildModel(model, dto);
+            contractService.addData(dto);
+            model.addAttribute(CONTRACT, dto);
             return EDIT;
         }
     }
@@ -119,11 +124,5 @@ public class ContractController {
         model.addAttribute("currentPage", page);
         model.addAttribute("pageTotal", helper.getTotal());
         model.addAttribute("phone", new Phone());
-    }
-
-    private void buildModel(Model model, ContractDTO dto) {
-        model.addAttribute(CONTRACT, dto);
-        model.addAttribute("allOptions", optionService.getAllNamesWithIds());
-        model.addAttribute("allTariffs", tariffService.getAllNamesWithIds());
     }
 }

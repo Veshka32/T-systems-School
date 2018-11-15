@@ -70,6 +70,13 @@ public class ContractService implements ContractServiceI {
         return dto;
     }
 
+    public void addData(ContractDTO dto) {
+        Map<String, Integer> m = dto.getAllOptions();
+        optionDao.getAllNamesAndIds().forEach(array -> m.put((String) array[1], (Integer) array[0]));
+        Map<String, Integer> m1 = dto.getAllTariffs();
+        tariffDAO.getAllNamesAndIds().forEach(array -> m1.put((String) array[1], (Integer) array[0]));
+    }
+
     @Override
     public int create(ContractDTO dto) throws ServiceException {
         //get tariff and it's options

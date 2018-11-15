@@ -73,7 +73,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${clientContracts}" var="contract">
+        <c:forEach items="${client.contractsList}" var="contract">
             <tr>
                 <td>${contract.number} </td>
                 <td>${contract.tariff}</td>

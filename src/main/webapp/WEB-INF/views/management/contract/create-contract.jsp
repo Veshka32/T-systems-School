@@ -49,7 +49,7 @@
         <label for="tr">Choose tariff:</label>
         <form:select path="tariffId" id="tr" class="selectpicker"
                      data-live-search="true" data-size="5" data-actions-box="true" data-width="75%">
-            <c:forEach items="${allTariffs}" var="item">
+            <c:forEach items="${contract.allTariffs}" var="item">
                 <form:option label="${item.key}" value="${item.value}"/>
             </c:forEach>
         </form:select>
@@ -58,7 +58,7 @@
     <div class="form-group">
         <label for="opt">Set options:</label>
         <form:select path="optionsIds" multiple="multiple" id="opt">
-            <c:forEach items="${allOptions}" var="item">
+            <c:forEach items="${contract.allOptions}" var="item">
                 <form:option label="${item.key}" value="${item.value}"/>
             </c:forEach>
         </form:select>

@@ -43,7 +43,7 @@ public class ClientController {
     public String showClient(@RequestParam("id") int id, Model model) {
         ClientDTO client = clientService.getDTO(id);
         model.addAttribute(CLIENT, client);
-        model.addAttribute(CONTRACTS, contractService.getAllClientContracts(id));
+        //model.addAttribute(CONTRACTS, contractService.getAllClientContracts(id));
         return SAVE;
     }
 
@@ -80,8 +80,8 @@ public class ClientController {
             buildModel(1, model);
             return MANAGEMENT;
         }
-        model.addAttribute(CLIENT, client);
-        model.addAttribute(CONTRACTS, contractService.getAllClientContracts(client.getId()));
+        ClientDTO dto = clientService.getDTO(client.getId());
+        model.addAttribute(CLIENT, dto);
         return SAVE;
     }
 

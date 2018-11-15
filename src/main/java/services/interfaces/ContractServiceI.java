@@ -44,6 +44,8 @@ public interface ContractServiceI {
      */
     ContractDTO getDTO(int id);
 
+    void addData(ContractDTO dto);
+
     /**
      * Create new {@code Contract} based on dto properties
      *

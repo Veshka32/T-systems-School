@@ -40,8 +40,7 @@ public class TariffController {
 
     @GetMapping("/management/showTariff")
     public String show(@RequestParam("id") int id, Model model) {
-        TariffDTO dto = tariffService.getDto(id);
-        model.addAttribute(TARIFF, dto);
+        model.addAttribute(TARIFF, tariffService.getDto(id));
         return "management/tariff/show-tariff";
     }
 

@@ -1,8 +1,10 @@
 package services.implementations;
 
 import dao.interfaces.ClientDaoI;
+import dao.interfaces.ContractDaoI;
 import model.dto.ClientDTO;
 import model.entity.Client;
+import model.entity.Contract;
 import model.helpers.PaginateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +20,14 @@ import java.util.List;
 @Transactional
 public class ClientService implements ClientServiceI {
     private ClientDaoI clientDAO;
+    private ContractDaoI contractDaoI;
 
     @Autowired
-    public void setDAO(ClientDaoI clientDAO) {
+    public void setDAO(ClientDaoI clientDAO, ContractDaoI contractDaoI) {
         this.clientDAO = clientDAO;
         this.clientDAO.setClass(Client.class);
+        this.contractDaoI = contractDaoI;
+        contractDaoI.setClass(Contract.class);
     }
 
     @Override
@@ -66,7 +71,9 @@ public class ClientService implements ClientServiceI {
 
     @Override
     public ClientDTO getDTO(int id){
-        return new ClientDTO(clientDAO.findOne(id));
+        ClientDTO dto = new ClientDTO(clientDAO.findOne(id));
+        dto.setContractsList(contractDaoI.getClientContracts(id));
+        return dto;
     }
 
     @Override

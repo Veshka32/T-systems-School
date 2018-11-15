@@ -98,8 +98,8 @@ public class OptionService implements OptionServiceI {
 
     @Override
     public Map<String, Integer> getAllNamesWithIds() {
-        List<Object[]> all = optionDAO.getAllNamesAndIds();
-        return all.stream().collect(HashMap::new, (m, array) -> m.put((String) array[1], (Integer) array[0]), Map::putAll);
+
+        return optionDAO.getAllNamesAndIds().stream().collect(HashMap::new, (m, array) -> m.put((String) array[1], (Integer) array[0]), Map::putAll);
     }
 
     @Override
