@@ -36,8 +36,8 @@
             <th>Phone</th>
             <th>Tariff</th>
             <th>Owner</th>
-            <th>Is blocked</th>
-            <th>Blocked by admin</th>
+            <th>Client block</th>
+            <th>Blocked</th>
         </tr>
         </thead>
         <tbody>
@@ -47,8 +47,8 @@
                 <td>${contract.number}</td>
                 <td>${contract.tariff.toString()}</td>
                 <td>${contract.owner.toString()}</td>
-                <td>${contract.blocked}</td>
-                <td>${contract.blockedByAdmin}</td>
+                <td><c:if test="${contract.blocked}"><span class="label label-danger">Blocked</span></c:if></td>
+                <td><c:if test="${contract.blockedByAdmin}"><span class="label label-danger">Blocked</span></c:if></td>
                 <td>
                     <form action="editContract" method="get">
                         <input type="hidden" name="id" value=${contract.id}>

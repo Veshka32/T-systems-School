@@ -19,6 +19,9 @@
 
     <script src="/mobile/resources/jquery.bootstrap-duallistbox.js"></script>
     <link rel="stylesheet" type="text/css" href="/mobile/resources/bootstrap-duallistbox.css">
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <body>
 
 <%@ include file="/resources/navbar.html" %>
@@ -27,7 +30,7 @@
     <h3>Contract details</h3>
     <c:if test="${not empty message}"><p class="bg-danger">${message}</p></c:if>
 
-<form:form method="POST" modelAttribute="contract">
+    <form:form method="POST" modelAttribute="contract">
     <c:if test="${not empty contract.id}">
     <ul class="list-group">
         <li class="list-group-item"> Phone number: ${contract.number}</li>
@@ -36,11 +39,15 @@
         <li class="list-group-item">Options: ${contract.optionNames}</li>
     </ul>
     <div class="checkbox">
-        <label><form:checkbox path="blocked"/>Client blocking</label>
+        <label><form:checkbox path="blocked" id="b1"
+                              data-toggle="toggle" data-onstyle="danger" data-offstyle="success" data-on="Blocked"
+                              data-off="Active"/>Client blocking</label>
     </div>
 
     <div class="checkbox">
-        <label><form:checkbox path="blockedByAdmin"/>Admin blocking</label>
+        <label><form:checkbox path="blockedByAdmin" id="b2"
+                              data-toggle="toggle" data-onstyle="danger"
+                              data-offstyle="success" data-on="Blocked" data-off="Active"/>Admin blocking</label>
     </div>
     <br>
     </c:if>
@@ -81,6 +88,14 @@
 
     <script>
         $("#opt").bootstrapDualListbox();
+
+        $(function () {
+            $('#b1').bootstrapToggle({});
+        })
+
+        $(function () {
+            $('#b2').bootstrapToggle({});
+        })
     </script>
 
 </body>

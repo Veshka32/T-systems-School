@@ -46,12 +46,12 @@
             <td>${contract.optionNames} </td>
         </tr>
         <tr>
-            <td>Is blocked:</td>
-            <td>${contract.blocked} </td>
+            <td>Client block:</td>
+            <td><c:if test="${contract.blocked}"><span class="label label-danger">Blocked</span></c:if></td>
         </tr>
         <tr>
-            <td>Is blocked by admin:</td>
-            <td>${contract.blockedByAdmin} </td>
+            <td>Admin block:</td>
+            <td><c:if test="${contract.blockedByAdmin}"><span class="label label-danger">Blocked</span></c:if></td>
         </tr>
         <tr>
             <td>Owner:</td>
