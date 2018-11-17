@@ -1,5 +1,0 @@
-websocketService\WebSocketServer.class
-jms\Receiver.class
-servlets\HomeController.class
-websocketService\SessionHandler.class
-jms\StartupDataLoader.class

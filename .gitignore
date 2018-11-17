@@ -1,7 +1,11 @@
 .idea
-/out
+mobileIS/out
+mobile2/out
 *.ser
-/target
-/lib
-/log
+mobileIS/target
+mobileIS/lib
+mobileIS/log
+mobile2/target
+.log
 
+/log
