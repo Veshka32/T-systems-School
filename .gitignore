@@ -6,6 +6,5 @@ mobileIS/target
 mobileIS/lib
 mobileIS/log
 mobile2/target
-.log
-
 /log
+/target

@@ -8,7 +8,6 @@ socket.onmessage = onMessage;
 
 function onMessage(event) {
     let data = JSON.parse(event.data);
-    alert(data);
 
     if (data.hasOwnProperty("tariffs")) {
         for (let k=0;k<data.tariffs.length;k++){
@@ -19,7 +18,6 @@ function onMessage(event) {
 }
 
 function buildTariff(tariff){
-    alert(tariff);
     let col = document.createElement("div");
     col.setAttribute("class", "col-sm-4");
 
