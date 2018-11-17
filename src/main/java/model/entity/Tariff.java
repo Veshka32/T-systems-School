@@ -1,5 +1,6 @@
 package model.entity;
 
+import com.google.gson.annotations.Expose;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,11 +23,14 @@ import java.util.Set;
 })
 public class Tariff extends AbstractEntity{
 
+    @Expose
     @Column(unique = true,nullable = false)
     private String name;
 
+    @Expose
     private String description;
 
+    @Expose
     private BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY)

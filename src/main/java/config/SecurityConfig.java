@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/hotTariffs").permitAll()
                 .antMatchers("/management/**").hasRole("MANAGER")
                 .antMatchers("/user/**").hasRole("CLIENT")
                     .and()
