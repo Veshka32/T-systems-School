@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>test up</b> <span class="caret"></span></a>
+    <ul id="login-dp" class="dropdown-menu">
+        <li>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="signUp">Enter phone number and password</label>
+                    <c:if test="${not empty message}"><div class="bg-danger">${message}</div></c:if><br>
+                    <form:form  method='POST' modelAttribute="user" id="signUp" action="register">
+                        <fieldset>
+                            <div class="form-group">
+                                <form:input type="text" path="login" class="form-control" placeholder="9062107057"  />
+                                <p class="bg-danger"><form:errors path="login" /></p>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="password" path="password" class="form-control" placeholder="password" />
+                                <p class="bg-danger"><form:errors path="password" /></p>
+
+                            </div>
+
+                            <a class="btn btn-lg btn-success btn-block" href="javascript:document.getElementById('signUp').submit()">Sign Up</a>
+
+                        </fieldset>
+                    </form:form>
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+</body>
+</html>
+
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <div class="dropdown-item">
+        <div class="panel panel-primary">
+            <div class="panel-body text-left">
+                <c:forEach items="${cart.options}" var="opt">
+                    ${opt.name}: $${opt.subscribeCost} <a
+                        href="deleteFromCart/${opt.id}"><span
+                        class="glyphicon glyphicon-remove-circle logo-small"></span></a><br>
+                </c:forEach>
+            </div>
+            <div class="panel-footer text-left">
+                Total: $${cart.totalSum}
+                <a href="user/cabinet">Go ro cart</a>
+            </div>
+        </div>
+    </div>
+</div>
