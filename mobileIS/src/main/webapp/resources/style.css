@@ -136,22 +136,32 @@ h4 {
     background-color: #fff !important;
 }
 
-.navbar-btn {
-    border: inherit;
-    background-color: inherit;
-    font: inherit;
-}
-
-.navbar-btn:hover {
-    background-color: #fff !important;
-    color: #00284d !important;
-}
-
-
 footer .glyphicon {
     font-size: 20px;
     margin-bottom: 20px;
     color: #00284d;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+}
+
+.open .dropdown-toggle {
+    color: #00284d;
+    background-color: white !important;
+}
+
+.dropdown-menu {
+    color: #00284d !important;
+    min-width: 200px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+}
+
+.dropdown-menu a {
+    color: #00284d !important;
+    padding: 5px;
 }
 
 .slideanim {

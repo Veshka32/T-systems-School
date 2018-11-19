@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<%@ include file="/resources/navbar.html" %>
+<%@include file="/resources/navbar.jsp" %>
 
 
 <c:url value="/logout" var="logoutUrl" />

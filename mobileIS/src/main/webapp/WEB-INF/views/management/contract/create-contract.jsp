@@ -17,14 +17,14 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 
-    <script src="/mobile/resources/jquery.bootstrap-duallistbox.js"></script>
-    <link rel="stylesheet" type="text/css" href="/mobile/resources/bootstrap-duallistbox.css">
+    <script src="<c:url value="/resources/jquery.bootstrap-duallistbox.js"/>"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/bootstrap-duallistbox.css"/>">
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <body>
 
-<%@ include file="/resources/navbar.html" %>
+<%@include file="/resources/navbar.jsp" %>
 
 <div class="container">
     <h3>Contract details</h3>
@@ -91,7 +91,7 @@
 
         $(function () {
             $('#b1').bootstrapToggle({});
-        })
+        });
 
         $(function () {
             $('#b2').bootstrapToggle({});

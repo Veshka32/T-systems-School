@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<%@ include file="/resources/user-navbar.html" %>
+<%@include file="/resources/navbar.jsp" %>
 
 <div class="container">
     <%--Tariffs--%>

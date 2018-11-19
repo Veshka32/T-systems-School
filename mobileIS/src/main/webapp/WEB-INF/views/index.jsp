@@ -7,7 +7,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Theme Made By www.w3schools.com -->
     <title>Universe mobile</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="resources/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css"/>">
 
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -30,11 +29,17 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('CLIENT')">
                     <li><a href="user/cabinet">Cabinet</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cart<span class="glyphicon glyphicon-shopping-cart"></span>
-                        </a>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="user/cabinet">CART
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <c:forEach items="${cart.options}" var="opt">
+                                <li>${opt.name}: <span class="pull-right">$${opt.subscribeCost}</span></li>
+                                <br>
+                            </c:forEach>
+                            <li class="dropdown-divider"></li>
+                            <li>Total: $${cart.totalSum}</li>
+                        </ul>
                     </li>
 
                 </sec:authorize>
@@ -60,7 +65,8 @@
 </nav>
 
 <div class="jumbotron text-center">
-    <h1><img src="resources/spacelogo.jpg" class="img-valign" width="150" height="120">Multiverse mobile</h1>
+    <h1><img src="<c:url value="/resources/spacelogo.jpg"/>" class="img-valign" width="150" height="120">Multiverse
+        mobile</h1>
     <p>Feel free to communicate through space and time</p>
 </div>
 

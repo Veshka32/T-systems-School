@@ -13,11 +13,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="/mobile/resources/jquery.bootstrap-duallistbox.js"></script>
-    <link rel="stylesheet" type="text/css" href="/mobile/resources/bootstrap-duallistbox.css">
+    <script src="<c:url value="/resources/jquery.bootstrap-duallistbox.js"/>"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/bootstrap-duallistbox.css"/>">
 </head>
 <body>
-<%@ include file="/resources/navbar.html" %>
+<%@include file="/resources/navbar.jsp" %>
 
 <div class="container">
     <span class="pull-right"><a href="tariffs" class="btn btn-info" role="button">Back to tariffs</a></span>

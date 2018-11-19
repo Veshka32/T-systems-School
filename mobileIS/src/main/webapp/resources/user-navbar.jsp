@@ -1,3 +1,4 @@
+
 <style>
     .navbar-custom {
         background-color: #00284d !important;
@@ -8,19 +9,18 @@
     }
 
 </style>
+
 <nav class="navbar navbar-custom">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-left" href="../WEB-INF/views/management">
-                <img src="spacelogo.jpg" width="50" height="40" alt="">
+            <a class="navbar-left" href="../">
+                <img src="<c:url value="/resources/spacelogo.jpg"/>" width="50" height="40" alt="">
             </a>
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="cabinet">Cabinet</a></li>
-            <li class="active"><a href="clients">Clients</a></li>
-            <li class="active"><a href="contracts">Contracts</a></li>
-            <li class="active"><a href="tariffs">Tariffs</a></li>
-            <li class="active"><a href="options">Options</a></li>
+            <li class="active"><a href="showTariffs">Tariffs</a></li>
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
@@ -33,4 +33,3 @@
         </ul>
     </div>
 </nav>
-

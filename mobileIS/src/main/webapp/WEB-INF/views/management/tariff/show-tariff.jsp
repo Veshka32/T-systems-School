@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<%@ include file="/resources/navbar.html" %>
+<%@include file="/resources/navbar.jsp" %>
 
 <div class="container">
     <h3>Tariff details</h3>

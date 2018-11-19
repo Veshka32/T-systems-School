@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<%@ include file="/resources/navbar.html" %>
+<%@include file="/resources/navbar.jsp" %>
 
 <div class="container">
     <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
