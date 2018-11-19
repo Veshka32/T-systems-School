@@ -220,17 +220,17 @@
 //    }
 //
 //    @Test
-//    void getPaginateData() {
+//    void getInRange() {
 //        long total = 10L;
 //        int perPage = 3;
 //        int limit = 10;
 //
 //        List<Contract> contracts = Collections.singletonList(new Contract());
-//        assertThrows(IllegalArgumentException.class, () -> contractService.getPaginateData(0, 0));
-//        assertThrows(IllegalArgumentException.class, () -> contractService.getPaginateData(1, -1));
+//        assertThrows(IllegalArgumentException.class, () -> contractService.getInRange(0, 0));
+//        assertThrows(IllegalArgumentException.class, () -> contractService.getInRange(1, -1));
 //        when(contractDAO.allInRange(0, perPage)).thenReturn(contracts);
 //        when(contractDAO.count()).thenReturn(total);
-//        PaginateHelper<Contract> helper = contractService.getPaginateData(null, perPage);
+//        PaginateHelper<Contract> helper = contractService.getInRange(null, perPage);
 //        assert (helper.getItems().equals(contracts));
 //        assert (helper.getTotal() == limit / perPage + limit % perPage); // 10clients / 3 per page=3+1 page
 //    }

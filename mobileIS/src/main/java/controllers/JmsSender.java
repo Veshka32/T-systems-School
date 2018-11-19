@@ -7,11 +7,7 @@ import com.google.gson.JsonObject;
 import model.entity.Tariff;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import services.implementations.TariffService;
 import services.interfaces.TariffServiceI;
 
 import javax.annotation.Resource;
@@ -30,6 +26,7 @@ public class JmsSender {
     TariffServiceI tariffServiceI;
 
     private static final Logger logger = Logger.getLogger(JmsSender.class);
+    private static final int numberOfTariffs = 3;
 
     public void sendData(){
         try (
@@ -49,7 +46,7 @@ public class JmsSender {
     }
 
     private String buildJson(){
-        List<Tariff> tariffList=tariffServiceI.getAll();
+        List<Tariff> tariffList = tariffServiceI.getLast(numberOfTariffs);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         JsonElement element=new JsonObject();

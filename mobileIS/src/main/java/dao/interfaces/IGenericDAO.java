@@ -10,6 +10,8 @@ public interface IGenericDAO<T> {
 
     List<T> allInRange(int offset, int limit);
 
+    List<T> getLast(int limit);
+
     int save(final T entity);
 
     void update(final T entity);

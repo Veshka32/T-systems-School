@@ -19,7 +19,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id"),
         @NamedQuery(name = "find_tariff_by_name", query = "from Tariff o where o.name=:name"),
-        @NamedQuery(name="is_used",query = "select c.id from Contract c where c.tariff.id=:id")
+        @NamedQuery(name = "is_used", query = "select c.id from Contract c where c.tariff.id=:id"),
 })
 public class Tariff extends AbstractEntity{
 
