@@ -1,8 +1,7 @@
 //window.onload = init;
 const tcp = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
 const host = window.location.host;
-//const path = window.location.pathname;
-let path="/board/test";
+let path="/mobile2/test";
 const socket = new WebSocket(tcp + host + path);
 socket.onmessage = onMessage;
 
