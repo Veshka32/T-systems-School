@@ -2,7 +2,6 @@ package websocketService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -34,6 +33,7 @@ public class WebSocketServer {
 
     @OnMessage
     public void handleMessage(String message, Session session) {
+        //never get message from html page
     }
 
     @OnClose
@@ -52,12 +52,11 @@ public class WebSocketServer {
             URL url=new URL(URI);
             HttpURLConnection connection=(HttpURLConnection)(url.openConnection());
             int status = connection.getResponseCode();
-            System.out.println("status"+status);
+            Logger.getLogger(WebSocketServer.class.getName()).log(Level.INFO, null, "response status " + status);
         } catch (ProtocolException | MalformedURLException e) {
-            System.out.println(e.getMessage());
+            Logger.getLogger(WebSocketServer.class.getName()).log(Level.SEVERE, null, e);
         } catch (IOException e){
-            System.out.println(e.getMessage());
-
+            Logger.getLogger(WebSocketServer.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }
