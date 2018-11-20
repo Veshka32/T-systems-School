@@ -1,17 +1,10 @@
 package model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "option_")
 @NamedQueries({
@@ -36,6 +29,9 @@ public class Option extends AbstractEntity {
 
     private String description;
 
+    public Option() {
+    }
+
     @Override
     public String toString() {
         return name + ": " + description;
@@ -50,5 +46,37 @@ public class Option extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getSubscribeCost() {
+        return this.subscribeCost;
+    }
+
+    public void setSubscribeCost(BigDecimal subscribeCost) {
+        this.subscribeCost = subscribeCost;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

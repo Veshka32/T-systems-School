@@ -1,16 +1,9 @@
 package model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @NamedQueries({
         @NamedQuery(name = "get_client_contracts", query = "from Contract c where c.owner.id=:clientId"),
@@ -47,6 +40,9 @@ public class Contract extends AbstractEntity {
         number = phone;
     }
 
+    public Contract() {
+    }
+
     @Override
     public int hashCode() {
         return (int) number;
@@ -61,5 +57,61 @@ public class Contract extends AbstractEntity {
     @Override
     public String toString() {
         return "number: " + number + ", tariff:" + tariff.toString() + ", owner: " + owner.toString();
+    }
+
+    public long getNumber() {
+        return this.number;
+    }
+
+    public void setNumber(long number) {
+        this.number = number;
+    }
+
+    public Client getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
+    }
+
+    public Tariff getTariff() {
+        return this.tariff;
+    }
+
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
+    }
+
+    public Set<Option> getOptions() {
+        return this.options;
+    }
+
+    public void setOptions(Set<Option> options) {
+        this.options = options;
+    }
+
+    public Account getUser() {
+        return this.user;
+    }
+
+    public void setUser(Account user) {
+        this.user = user;
+    }
+
+    public boolean isBlocked() {
+        return this.isBlocked;
+    }
+
+    public void setBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
+    }
+
+    public boolean isBlockedByAdmin() {
+        return this.isBlockedByAdmin;
+    }
+
+    public void setBlockedByAdmin(boolean isBlockedByAdmin) {
+        this.isBlockedByAdmin = isBlockedByAdmin;
     }
 }

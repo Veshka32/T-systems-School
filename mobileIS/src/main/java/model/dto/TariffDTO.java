@@ -1,8 +1,5 @@
 package model.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import model.entity.Tariff;
 
 import javax.validation.constraints.*;
@@ -10,10 +7,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
 public class TariffDTO {
 
     private Integer id;
@@ -38,5 +31,53 @@ public class TariffDTO {
         name = tariff.getName();
         price = tariff.getPrice();
         description = tariff.getDescription();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Integer> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Set<Integer> options) {
+        this.options = options;
+    }
+
+    public String getOptionsNames() {
+        return optionsNames;
+    }
+
+    public void setOptionsNames(String optionsNames) {
+        this.optionsNames = optionsNames;
     }
 }

@@ -1,8 +1,5 @@
 package model.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import model.entity.Option;
 
 import javax.validation.constraints.*;
@@ -10,10 +7,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
 public class OptionDTO {
 
     private Integer id;
@@ -49,5 +42,13 @@ public class OptionDTO {
         price = option.getPrice();
         subscribeCost = option.getSubscribeCost();
         description = option.getDescription();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

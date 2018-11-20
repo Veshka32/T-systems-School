@@ -1,15 +1,9 @@
 package model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import model.enums.RELATION;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "optionRelation")
 @NamedQueries({
@@ -40,5 +34,32 @@ public class OptionRelation extends AbstractEntity {
         one = o;
         another = o1;
         relation = r;
+    }
+
+    public OptionRelation() {
+    }
+
+    public Option getOne() {
+        return this.one;
+    }
+
+    public void setOne(Option one) {
+        this.one = one;
+    }
+
+    public Option getAnother() {
+        return this.another;
+    }
+
+    public void setAnother(Option another) {
+        this.another = another;
+    }
+
+    public RELATION getRelation() {
+        return this.relation;
+    }
+
+    public void setRelation(RELATION relation) {
+        this.relation = relation;
     }
 }

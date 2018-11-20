@@ -1,6 +1,5 @@
 package model.stateful;
 
-import lombok.NoArgsConstructor;
 import model.entity.Option;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -12,12 +11,14 @@ import java.util.Set;
 
 @Component
 @Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)
-@NoArgsConstructor
 public class Cart implements CartInterface {
     private Set<Option> options = new HashSet<>();
     private BigDecimal totalSum = new BigDecimal(0);
     private int contractId;
     private String message;
+
+    public Cart() {
+    }
 
     @Override
     public void addItem(Option option) {

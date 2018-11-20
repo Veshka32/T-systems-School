@@ -1,8 +1,4 @@
 package model.dto;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import model.entity.Contract;
 
 import java.util.HashMap;
@@ -10,9 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class ContractDTO {
     private Integer id;
 
@@ -47,6 +41,102 @@ public class ContractDTO {
         this.tariffName=contract.getTariff().getName();
         this.isBlocked=contract.isBlocked();
         this.isBlockedByAdmin=contract.isBlockedByAdmin();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getTariffName() {
+        return tariffName;
+    }
+
+    public void setTariffName(String tariffName) {
+        this.tariffName = tariffName;
+    }
+
+    public int getTariffId() {
+        return tariffId;
+    }
+
+    public void setTariffId(int tariffId) {
+        this.tariffId = tariffId;
+    }
+
+    public Set<Integer> getOptionsIds() {
+        return optionsIds;
+    }
+
+    public void setOptionsIds(Set<Integer> optionsIds) {
+        this.optionsIds = optionsIds;
+    }
+
+    public String getOptionNames() {
+        return optionNames;
+    }
+
+    public void setOptionNames(String optionNames) {
+        this.optionNames = optionNames;
+    }
+
+    public Map<String, Integer> getAllOptions() {
+        return allOptions;
+    }
+
+    public void setAllOptions(Map<String, Integer> allOptions) {
+        this.allOptions = allOptions;
+    }
+
+    public Map<String, Integer> getAllTariffs() {
+        return allTariffs;
+    }
+
+    public void setAllTariffs(Map<String, Integer> allTariffs) {
+        this.allTariffs = allTariffs;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public boolean isBlockedByAdmin() {
+        return isBlockedByAdmin;
+    }
+
+    public void setBlockedByAdmin(boolean blockedByAdmin) {
+        isBlockedByAdmin = blockedByAdmin;
     }
 
     @Override

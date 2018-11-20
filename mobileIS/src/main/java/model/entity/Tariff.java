@@ -1,9 +1,6 @@
 package model.entity;
 
 import com.google.gson.annotations.Expose;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -13,9 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "get_options",query = "select t.options from Tariff t where t.id=:id"),
         @NamedQuery(name = "find_tariff_by_name", query = "from Tariff o where o.name=:name"),
@@ -46,6 +40,9 @@ public class Tariff extends AbstractEntity{
         this.name=name;
     }
 
+    public Tariff() {
+    }
+
     public void addOption(Option option) {
         options.add(option);
     }
@@ -53,5 +50,37 @@ public class Tariff extends AbstractEntity{
     @Override
     public String toString(){
         return name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Set<Option> getOptions() {
+        return this.options;
+    }
+
+    public void setOptions(Set<Option> options) {
+        this.options = options;
     }
 }

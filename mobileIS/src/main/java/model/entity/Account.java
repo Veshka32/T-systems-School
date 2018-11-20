@@ -1,9 +1,6 @@
 
 package model.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import model.enums.Role;
 
 import javax.persistence.*;
@@ -12,9 +9,6 @@ import java.util.Set;
 
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 @Table(name = "user")
 @NamedQuery(name = "find_user_by_login", query = "from Account u where u.login=:login")
 public class Account extends AbstractEntity {
@@ -34,7 +28,42 @@ public class Account extends AbstractEntity {
     @OneToOne
     private Contract contract;
 
+    public Account() {
+    }
+
     public void setRole(Role role){
         roles.add(role);
+    }
+
+    public String getLogin() {
+        return this.login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Contract getContract() {
+        return this.contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 }
