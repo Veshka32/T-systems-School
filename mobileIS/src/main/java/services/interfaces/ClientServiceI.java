@@ -47,7 +47,7 @@ public interface ClientServiceI {
     void update(ClientDTO dto) throws ServiceException;
 
     /**
-     * Delete {@code Client} with specific id from database and all its corresponding {@code Contract} and {@code Account}
+     * Delete {@code Client} with specific id from database and all its corresponding {@code Contract} and {@code User}
      *
      * @param id id of client to delete
      */

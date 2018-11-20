@@ -66,7 +66,7 @@ public interface ContractServiceI {
     void update(ContractDTO dto) throws ServiceException;
 
     /**
-     * Delete {@code Contract} with specific id from database and its corresponding {@code Account}
+     * Delete {@code Contract} with specific id from database and its corresponding {@code User}
      *
      * @param id id of contract to delete
      */

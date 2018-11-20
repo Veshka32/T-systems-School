@@ -1,12 +1,11 @@
 package services.implementations;
 
 import dao.interfaces.UserDaoI;
-import model.entity.Account;
+import model.entity.User;
 import model.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ import java.util.Set;
 
 @EnableTransactionManagement
 @Transactional
-@Service("userDetailsService")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -29,13 +28,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) {
 
-        Account account = userDAO.findByLogin(username);
-        List<GrantedAuthority> authorities = buildUserAuthority(account.getRoles());
-        return buildUserForAuthentication(account, authorities);
+        User user = userDAO.findByLogin(username);
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
+        return buildUserForAuthentication(user, authorities);
     }
 
-    private User buildUserForAuthentication(Account user, List<GrantedAuthority> authorities) {
-        return new User(user.getLogin(), user.getPassword(), authorities);
+    private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
     }
 
 

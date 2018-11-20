@@ -31,7 +31,7 @@ public class Contract extends AbstractEntity {
     private Set<Option> options = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "contract")
-    private Account user;
+    private User user;
 
     private boolean isBlocked = false;
     private boolean isBlockedByAdmin = false;
@@ -92,11 +92,11 @@ public class Contract extends AbstractEntity {
         this.options = options;
     }
 
-    public Account getUser() {
+    public User getUser() {
         return this.user;
     }
 
-    public void setUser(Account user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

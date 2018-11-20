@@ -2,8 +2,8 @@ package services.implementations;
 
 import dao.interfaces.UserDaoI;
 import model.dto.AccountDTO;
-import model.entity.Account;
 import model.entity.Contract;
+import model.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,11 +24,11 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-class AccountServiceTest {
+class UserServiceTest {
     @Mock
     PasswordEncoder encoder = new BCryptPasswordEncoder();
     @InjectMocks
-    private AccountService accountService;
+    private UserService userService;
     @Mock
     private UserDaoI userDAO;
     @Mock
@@ -49,20 +49,20 @@ class AccountServiceTest {
         dto.setPassword("password");
 
         //check if login is reserved
-        when(userDAO.findByLogin(login)).thenReturn(new Account());
-        AccountCreateException e = assertThrows(AccountCreateException.class, () -> accountService.createAccount(dto));
+        when(userDAO.findByLogin(login)).thenReturn(new User());
+        AccountCreateException e = assertThrows(AccountCreateException.class, () -> userService.createAccount(dto));
         assertEquals(e.getMessage(), "This phone is already registered");
 
         //check if number exists
         when(userDAO.findByLogin(login)).thenReturn(null);
         when(contractService.getJson(login)).thenReturn(null);
-        e = assertThrows(AccountCreateException.class, () -> accountService.createAccount(dto));
+        e = assertThrows(AccountCreateException.class, () -> userService.createAccount(dto));
         assertEquals(e.getMessage(), "There is no such a number");
 
         //check fields update
         when(contractService.getJson(login)).thenReturn("");
         when(contractService.get(1)).thenReturn(new Contract());
-        when(userDAO.save(new Account())).thenReturn(1);
-        assertDoesNotThrow(() -> accountService.createAccount(dto));
+        when(userDAO.save(new User())).thenReturn(1);
+        assertDoesNotThrow(() -> userService.createAccount(dto));
     }
 }

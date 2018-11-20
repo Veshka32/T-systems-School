@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.exceptions.AccountCreateException;
-import services.interfaces.AccountServiceI;
+import services.interfaces.UserServiceI;
 
 import javax.validation.Valid;
 
@@ -23,7 +23,7 @@ public class AuthController {
     private static final String MESSAGE = "message";
 
     @Autowired
-    AccountServiceI userService;
+    UserServiceI userService;
 
     @GetMapping(value = "/register")
     public String showRegister(Model model) {

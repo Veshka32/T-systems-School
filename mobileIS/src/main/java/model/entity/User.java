@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-@NamedQuery(name = "find_user_by_login", query = "from Account u where u.login=:login")
-public class Account extends AbstractEntity {
+@NamedQuery(name = "find_user_by_login", query = "from User u where u.login=:login")
+public class User extends AbstractEntity {
 
     @Column(nullable = false)
     private String login;
@@ -28,7 +28,7 @@ public class Account extends AbstractEntity {
     @OneToOne
     private Contract contract;
 
-    public Account() {
+    public User() {
     }
 
     public void setRole(Role role){

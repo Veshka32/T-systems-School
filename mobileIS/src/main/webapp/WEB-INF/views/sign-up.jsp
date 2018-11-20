@@ -75,8 +75,8 @@
                 </div>
                 <div class="panel-body">
 
-                    <c:if test="${not empty message1}">
-                        <div class="bg-danger">${message1}</div>
+                    <c:if test="${not empty message}">
+                        <div class="bg-danger">${message}</div>
                     </c:if>
                     <form:form  method='POST' modelAttribute="user">
                         <fieldset>
