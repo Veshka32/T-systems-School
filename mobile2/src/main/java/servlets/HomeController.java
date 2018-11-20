@@ -6,12 +6,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(urlPatterns = "/test")
 public class HomeController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("index.html").forward(req,resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            req.getRequestDispatcher("index.html").forward(req, resp);
+        } catch (
+                ServletException | IOException e
+                ) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 }

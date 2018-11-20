@@ -43,7 +43,6 @@ public class ClientController {
     public String showClient(@RequestParam("id") int id, Model model) {
         ClientDTO client = clientService.getDTO(id);
         model.addAttribute(CLIENT, client);
-        //model.addAttribute(CONTRACTS, contractService.getAllClientContracts(id));
         return SAVE;
     }
 

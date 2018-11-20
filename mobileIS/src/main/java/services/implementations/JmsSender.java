@@ -1,4 +1,4 @@
-package controllers;
+package services.implementations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import model.entity.Tariff;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import services.interfaces.TariffServiceI;
 
@@ -15,18 +16,18 @@ import javax.jms.*;
 import java.util.List;
 
 @Service
+@Profile({"production"})
 public class JmsSender {
+    private static final int COUNT = 3;
     @Resource(lookup = "java:/mobile/MyConnectionFactory")
-    ConnectionFactory connectionFactory;
-
-    @Resource(lookup = "java:/mobile/MyQueue")
-    Destination destination;
+    private ConnectionFactory connectionFactory;
 
     @Autowired
     TariffServiceI tariffServiceI;
 
     private static final Logger logger = Logger.getLogger(JmsSender.class);
-    private static final int numberOfTariffs = 3;
+    @Resource(lookup = "java:/mobile/MyQueue")
+    private Destination destination;
 
     public void sendData(){
         try (
@@ -46,7 +47,7 @@ public class JmsSender {
     }
 
     private String buildJson(){
-        List<Tariff> tariffList = tariffServiceI.getLast(numberOfTariffs);
+        List<Tariff> tariffList = tariffServiceI.getLast(COUNT);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         JsonElement element=new JsonObject();

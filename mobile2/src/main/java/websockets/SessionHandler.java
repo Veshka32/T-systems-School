@@ -1,4 +1,4 @@
-package websocketService;
+package websockets;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.Session;
@@ -24,7 +24,7 @@ public class SessionHandler {
         }
     }
 
-    void sendToSession(Session session, String message) {
+    private void sendToSession(Session session, String message) {
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException ex) {

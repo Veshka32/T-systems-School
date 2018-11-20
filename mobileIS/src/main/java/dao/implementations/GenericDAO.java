@@ -40,7 +40,7 @@ public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Override
     public List<T> allInRange(int offset, int limit) {
-        Query<T> query = sessionFactory.getCurrentSession().createQuery("From " + clazz.getName() + "c  order by c.id", clazz);
+        Query<T> query = sessionFactory.getCurrentSession().createQuery("From " + clazz.getName() + " c  order by c.id", clazz);
         query.setFirstResult(offset);
         query.setMaxResults(limit);
         return query.list();
@@ -48,7 +48,7 @@ public class GenericDAO<T> implements IGenericDAO<T> {
 
     @Override
     public List<T> getLast(int limit) {
-        Query<T> query = sessionFactory.getCurrentSession().createQuery("From " + clazz.getName() + "c  order by c.id desc", clazz);
+        Query<T> query = sessionFactory.getCurrentSession().createQuery("From " + clazz.getName() + " c  order by c.id desc", clazz);
         query.setMaxResults(limit);
         return query.list();
     }

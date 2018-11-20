@@ -1,9 +1,6 @@
 package jms;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import websocketService.SessionHandler;
-import websocketService.WebSocketServer;
+import websockets.WebSocketServer;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -24,7 +21,7 @@ import java.util.logging.Logger;
 public class Receiver implements MessageListener {
 
     @Inject
-    WebSocketServer socketServer;
+    private WebSocketServer socketServer;
 
     public void onMessage(Message message) {
         if (message instanceof TextMessage) {

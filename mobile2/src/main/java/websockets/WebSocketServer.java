@@ -1,13 +1,14 @@
-package websocketService;
+package websockets;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.websocket.*;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,11 +32,6 @@ public class WebSocketServer {
         askData();
     }
 
-    @OnMessage
-    public void handleMessage(String message, Session session) {
-        //never get message from html page
-    }
-
     @OnClose
     public void close(Session session) {
         sessionHandler.removeSession(session);
@@ -53,8 +49,6 @@ public class WebSocketServer {
             HttpURLConnection connection=(HttpURLConnection)(url.openConnection());
             int status = connection.getResponseCode();
             Logger.getLogger(WebSocketServer.class.getName()).log(Level.INFO, null, "response status " + status);
-        } catch (ProtocolException | MalformedURLException e) {
-            Logger.getLogger(WebSocketServer.class.getName()).log(Level.SEVERE, null, e);
         } catch (IOException e){
             Logger.getLogger(WebSocketServer.class.getName()).log(Level.SEVERE, null, e);
         }

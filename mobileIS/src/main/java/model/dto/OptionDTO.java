@@ -19,7 +19,7 @@ public class OptionDTO {
 
     private Integer id;
 
-    @NotBlank(message = "{option.name.empty}")
+    @NotBlank(message = "{option.name.blank}")
     @Size(min = 3, max = 50, message = "{option.name.invalid}")
     private String name;
 

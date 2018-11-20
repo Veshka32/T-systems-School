@@ -1,4 +1,4 @@
-;(function ($, window, document, undefined) {
+;(function ($, window, document, undef) {
     // Create the defaults once
     var pluginName = 'bootstrapDualListbox',
         defaults = {
@@ -791,7 +791,7 @@
         var args = arguments;
 
         // Is the first parameter an object (options), or was omitted, instantiate a new instance of the plugin.
-        if (options === undefined || typeof options === 'object') {
+        if (options === undef || typeof options === 'object') {
             return this.each(function () {
                 // If this is not a select
                 if (!$(this).is('select')) {
@@ -825,7 +825,7 @@
 
             // If the earlier cached method gives a value back return the value,
             // otherwise return this to preserve chainability.
-            return returns !== undefined ? returns : this;
+            return returns !== undef ? returns : this;
         }
 
     };
