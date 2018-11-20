@@ -81,7 +81,7 @@
                     <form:form  method='POST' modelAttribute="user">
                         <fieldset>
                             <div class="form-group">
-                                <form:input type="text" path="login" class="form-control" placeholder="9062107057"  />
+                                <form:input type="number" path="login" class="form-control" placeholder="9062107057"/>
                                 <p class="bg-danger"><form:errors path="login"/></p>
                             </div>
                             <div class="form-group">

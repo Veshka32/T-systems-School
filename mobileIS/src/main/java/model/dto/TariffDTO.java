@@ -26,6 +26,9 @@ public class TariffDTO {
     private Set<Integer> options = new HashSet<>();
     private String optionsNames;
 
+    public TariffDTO() {
+    }
+
     public TariffDTO(Tariff tariff) {
         id = tariff.getId();
         name = tariff.getName();

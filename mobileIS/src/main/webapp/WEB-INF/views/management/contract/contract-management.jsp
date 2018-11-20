@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="<c:url value="/resources/script.js"/>"></script>
 </head>
 <body>
 
@@ -20,13 +21,38 @@
 
 <div class="container">
     <h3>Find contract by phone:</h3>
-    <p class="bg-danger">${message}</p>
-    <form:form method="POST" action="findContract" modelAttribute="phone" class="form-inline">
-        <form:input path="phoneNumber" class="form-control" placeholder="1234567890"/>
+    <p class="bg-danger" id="message">${message}</p>
+    <form id="find" method="POST" action="findContract" modelAttribute="phone" class="form-inline">
+        <input type="number" id="phoneNumber" class="form-control" placeholder="1234567890"/>
     <input class="input-group btn btn-info" type="submit" value="Find"/><br>
     <p class="bg-danger"><form:errors path="phoneNumber"/></p>
-    </form:form>
+    </form>
     <br>
+    <div id="result"></div>
+
+    <script>
+        $("#find").submit(function (event) {
+            event.preventDefault();
+            var $form = $(this), url = $form.attr('action');
+            $.ajax({
+                url: url,
+                data: {
+                    "phone": $("#phoneNumber").val(),
+                },
+                success: function (result) {
+                    var data = JSON.parse(result);
+                    if (data.status == "error") {
+                        $("#message").html(data.message);
+                    } else {
+                        $("#message").empty();
+                        $("#result").html("<h3>Search result</h3>");
+                        $("#result").append(buildContractSearchResult(data.contract));
+                    }
+                }
+            });
+
+        });
+    </script>
 
     <h3>All contracts</h3>
     <table class="table table-striped">
@@ -93,6 +119,6 @@
             </c:otherwise>
         </c:choose>
     </ul>
-
+</div>
 </body>
 </html>

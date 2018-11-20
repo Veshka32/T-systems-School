@@ -1,5 +1,8 @@
 package services.implementations;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import dao.interfaces.ClientDaoI;
 import dao.interfaces.ContractDaoI;
 import dao.interfaces.OptionDaoI;
@@ -51,8 +54,26 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public Integer findByPhone(long phone) {
-        return contractDAO.findByPhone(phone);
+    public String getJson(String phone) {
+        Gson gson = new Gson();
+        JsonElement element = new JsonObject();
+
+        if (!phone.matches("^[0-9]{10}")) {
+            element.getAsJsonObject().addProperty("status", "error");
+            element.getAsJsonObject().addProperty("message", "must be 10 digits");
+        } else {
+            Contract contract = contractDAO.findByPhone(Long.parseLong(phone));
+            if (contract == null) {
+                element.getAsJsonObject().addProperty("status", "error");
+                element.getAsJsonObject().addProperty("message", "there is no such contract");
+            } else {
+                ContractDTO dto = new ContractDTO(contract);
+                element.getAsJsonObject().addProperty("status", "success");
+                element.getAsJsonObject().add("contract", gson.toJsonTree(dto));
+            }
+        }
+
+        return gson.toJson(element);
     }
 
     @Override
@@ -192,6 +213,12 @@ public class ContractService implements ContractServiceI {
         Hibernate.initialize(contract.getTariff().getOptions());
         Hibernate.initialize(contract.getOptions());
         return contract;
+    }
+
+    @Override
+    public Contract getFullByPhone(long phone) {
+        Integer id = contractDAO.getIdByPhone(phone);
+        return getFull(id);
     }
 
     //client's actions. Admin blocking check must be done before any actions

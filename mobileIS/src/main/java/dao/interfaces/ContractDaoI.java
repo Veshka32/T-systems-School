@@ -10,5 +10,7 @@ public interface ContractDaoI extends IGenericDAO<Contract> {
 
     Client findClientByPhone(long phone);
 
-    Integer findByPhone(long phone);
+    Integer getIdByPhone(long phone);
+
+    Contract findByPhone(long phone);
 }

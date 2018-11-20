@@ -27,7 +27,7 @@
     <h4>Find client by phone:</h4>
     <p class="bg-danger">${message}</p>
     <form:form method="POST" action="findClientByPhone" class="form-inline" modelAttribute="phone">
-        <form:input path="phoneNumber" class="form-control" placeholder="1234567890"/>
+        <form:input path="phoneNumber" class="form-control" placeholder="1234567890" type="number"/>
         <input class="input-group btn btn-info" type="submit" value="Find"/><br>
         <p class="bg-danger"><form:errors path="phoneNumber"/></p>
     </form:form>
@@ -36,7 +36,7 @@
     <h4>Find client by passport id:</h4>
     <p class="bg-danger">${message1}</p>
     <form:form method="POST" action="findClientByPassport" class="form-inline" modelAttribute="passport">
-        <form:input path="passportNumber" class="form-control" placeholder="1234567890"/>
+        <form:input path="passportNumber" class="form-control" placeholder="1234567890" type="number"/>
         <input class="input-group btn btn-info" type="submit" value="Find"/><br>
         <p class="bg-danger"><form:errors path="passportNumber"/></p>
     </form:form>

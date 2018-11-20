@@ -39,7 +39,7 @@
     <div class="row">
         <div class="form-group col-xs-4">
             <label for="pass">Passport:</label>
-            <form:input value="${client.passportId}" path="passportId" class="form-control" id="pass"/>
+            <form:input value="${client.passportId}" path="passportId" class="form-control" id="pass" type="number"/>
             <p class="bg-danger"><form:errors path="passportId"/></p>
         </div>
 

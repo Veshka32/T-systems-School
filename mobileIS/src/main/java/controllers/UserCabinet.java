@@ -39,9 +39,8 @@ public class UserCabinet {
 
     @RequestMapping("/user/cabinet")
     public String create(Model model, Principal user, @RequestParam(value = "message", required = false) String message) {
-        Integer contractId = contractService.findByPhone(Long.parseLong(user.getName()));
-        Contract contract = contractService.getFull(contractId);
-        cartInterface.setContractId(contractId);
+        Contract contract = contractService.getFullByPhone(Long.parseLong(user.getName()));
+        cartInterface.setContractId(contract.getId());
         model.addAttribute(CONTRACT, contract);
 
         if (!contract.isBlocked() && !contract.isBlockedByAdmin()) {

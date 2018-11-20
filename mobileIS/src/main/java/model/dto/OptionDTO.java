@@ -36,6 +36,8 @@ public class OptionDTO {
 
     private String mandatoryNames;
 
+    public OptionDTO() {
+    }
     public OptionDTO(Option option) {
         id = option.getId();
         name = option.getName();
@@ -50,5 +52,69 @@ public class OptionDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getSubscribeCost() {
+        return subscribeCost;
+    }
+
+    public void setSubscribeCost(BigDecimal subscribeCost) {
+        this.subscribeCost = subscribeCost;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Integer> getIncompatible() {
+        return incompatible;
+    }
+
+    public void setIncompatible(Set<Integer> incompatible) {
+        this.incompatible = incompatible;
+    }
+
+    public Set<Integer> getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(Set<Integer> mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public String getIncompatibleNames() {
+        return incompatibleNames;
+    }
+
+    public void setIncompatibleNames(String incompatibleNames) {
+        this.incompatibleNames = incompatibleNames;
+    }
+
+    public String getMandatoryNames() {
+        return mandatoryNames;
+    }
+
+    public void setMandatoryNames(String mandatoryNames) {
+        this.mandatoryNames = mandatoryNames;
     }
 }

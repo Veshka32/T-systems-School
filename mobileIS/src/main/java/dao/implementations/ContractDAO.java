@@ -29,12 +29,23 @@ public class ContractDAO extends GenericDAO<Contract> implements ContractDaoI {
     }
 
     @Override
-    public Integer findByPhone(long phone) {
+    public Integer getIdByPhone(long phone) {
         try {
             return sessionFactory.getCurrentSession().createNamedQuery("get_contractId_by_phone", Integer.class)
                     .setParameter("phone",phone)
                     .getSingleResult();
         } catch (NoResultException e){
+            return null;
+        }
+    }
+
+    @Override
+    public Contract findByPhone(long phone) {
+        try {
+            return sessionFactory.getCurrentSession().createNamedQuery("find_by_phone", Contract.class)
+                    .setParameter("phone", phone)
+                    .getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
     }

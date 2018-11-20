@@ -26,7 +26,9 @@ public interface ContractServiceI {
      * @param phone phone number
      * @return id of Contract or {@code null} if there is no such contract
      */
-    Integer findByPhone(long phone);
+    String getJson(String phone);
+
+
 
     /**
      * Return contract with specific id
@@ -99,6 +101,14 @@ public interface ContractServiceI {
      * @return {@code Contract} with fully loaded fields from database
      */
     Contract getFull(int id);
+
+    /**
+     * Return contract with eager fetched collection fields (no proxies)
+     *
+     * @param id id {@code Contract}
+     * @return {@code Contract} with fully loaded fields from database
+     */
+    Contract getFullByPhone(long phone);
 
     /**
      * Add options into the specific contract

@@ -1,8 +1,10 @@
 package services.implementations;
 
+import dao.interfaces.ContractDaoI;
 import dao.interfaces.UserDaoI;
 import model.dto.AccountDTO;
 import model.entity.Account;
+import model.entity.Contract;
 import model.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import services.exceptions.AccountCreateException;
 import services.interfaces.AccountServiceI;
-import services.interfaces.ContractServiceI;
 
 @Service
 @EnableTransactionManagement
@@ -22,7 +23,7 @@ public class AccountService implements AccountServiceI {
     UserDaoI userDAO;
 
     @Autowired
-    ContractServiceI contractService;
+    ContractDaoI contractDaoI;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -34,12 +35,12 @@ public class AccountService implements AccountServiceI {
         if (user != null) throw new AccountCreateException("This phone is already registered");
 
         //check if number exists
-        Integer id = contractService.findByPhone(Long.parseLong(dto.getLogin()));
-        if (id == null) throw new AccountCreateException("There is no such a number");
+        Contract contract = contractDaoI.findByPhone(Long.parseLong(dto.getLogin()));
+        if (contract == null) throw new AccountCreateException("There is no such a number");
 
         user = new Account();
         user.setRole(Role.ROLE_CLIENT);
-        user.setContract(contractService.get(id));
+        user.setContract(contract);
         user.setLogin(dto.getLogin());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         userDAO.save(user);

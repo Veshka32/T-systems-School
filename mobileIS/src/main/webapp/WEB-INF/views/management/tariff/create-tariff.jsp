@@ -33,7 +33,7 @@
     <div class="row">
         <div class="form-group col-xs-4">
             <label for="price">Price:</label>
-            <form:input path="price" value="${tariff.price}" class="form-control" id="price"/>
+            <form:input path="price" value="${tariff.price}" class="form-control" id="price" type="number" step="0.01"/>
             <p class="bg-danger"><form:errors path="price"/></p>
         </div>
     </div>

@@ -3,11 +3,9 @@ package controllers;
 import model.dto.ContractDTO;
 import model.entity.Contract;
 import model.helpers.PaginateHelper;
-import model.helpers.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.exceptions.ServiceException;
@@ -15,8 +13,6 @@ import services.interfaces.ClientServiceI;
 import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
-
-import javax.validation.Valid;
 
 @Controller
 public class ContractController {
@@ -37,22 +33,10 @@ public class ContractController {
     @Autowired
     ClientServiceI clientService;
 
-    @PostMapping("/management/findContract")
-    public String find(@Valid Phone phone, BindingResult result, RedirectAttributes attr, Model model) {
-        if (result.hasErrors()) {
-            buildModel(1, model);
-            model.addAttribute("phone", phone);
-            return MANAGEMENT;
-        }
-
-        Integer contractId = contractService.findByPhone(Long.parseLong(phone.getPhoneNumber()));
-        if (contractId == null) {
-            model.addAttribute(MODEL_MESSAGE, "no such phone number exists");
-            buildModel(1, model);
-            return MANAGEMENT;
-        }
-        attr.addAttribute("id", contractId);
-        return REDIRECT_SHOW;
+    @GetMapping("management/findContract")
+    @ResponseBody
+    public String findByAjax(@RequestParam(value = "phone", required = false) String phone) {
+        return contractService.getJson(phone);
     }
 
     @RequestMapping("/management/contracts")
@@ -123,6 +107,5 @@ public class ContractController {
         model.addAttribute("allInPage", helper.getItems());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageTotal", helper.getTotal());
-        model.addAttribute("phone", new Phone());
     }
 }
