@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.entity.Option;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -19,21 +18,21 @@ public class OptionDTO {
 
     private Integer id;
 
-    @NotBlank(message = "{option.name.blank}")
-    @Size(min = 3, max = 50, message = "{option.name.invalid}")
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String name;
 
-    @DecimalMin(value = "0.00", message = "{option.price.invalid}")
-    @Digits(integer = 6, fraction = 2, message = "{option.price.invalid}")
-    @NotNull(message = "{option.price.invalid}")
+    @DecimalMin(value = "0.00")
+    @Digits(integer = 6, fraction = 2)
+    @NotNull
     private BigDecimal price;
 
-    @DecimalMin(value = "0.00", message = "{option.subscribeCost.invalid}")
-    @Digits(integer = 6, fraction = 2, message = "{option.price.invalid}")
-    @NotNull(message = "{option.price.invalid}")
+    @DecimalMin(value = "0.00")
+    @Digits(integer = 6, fraction = 2)
+    @NotNull
     private BigDecimal subscribeCost;
 
-    @Length(max = 255)
+    @Size(max = 255)
     private String description;
 
     private Set<Integer> incompatible = new HashSet<>();

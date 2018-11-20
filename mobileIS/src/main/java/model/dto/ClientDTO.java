@@ -5,13 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.entity.Client;
 import model.entity.Contract;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,26 +18,26 @@ public class ClientDTO{
 
     private Integer id;
 
-    @Pattern(regexp = "^[0-9]{10}",message = "{client.passportId.invalid}")
+    @Pattern(regexp = "^[0-9]{10}")
     private String passportId;
 
-    @NotBlank(message = "{client.name.invalid}")
-    @Length(max = 255)
+    @NotBlank
+    @Size(max = 255)
     private String name;
 
-    @NotBlank(message = "{client.surname.invalid}")
-    @Length(max = 255)
+    @NotBlank
+    @Size(max = 255)
     private String surname;
 
-    @Past(message = "{client.birthday.invalid}")
+    @Past
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthday;
 
-    @Email(message = "{client.email.invalid}")
-    @Length(max = 255)
+    @Email
+    @Size(max = 255)
     private String email;
 
-    @Length(max = 255)
+    @Size(max = 255)
     private String address;
 
     private List<Contract> contractsList;

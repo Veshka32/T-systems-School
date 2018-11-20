@@ -4,10 +4,10 @@ package model.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @Getter
@@ -16,12 +16,12 @@ import javax.validation.constraints.Pattern;
 public class AccountDTO {
 
     @NotBlank
-    @Length(max = 255)
-    @Pattern(regexp = "^[0-9]{10}", message = "{myUserDTO.login.invalid}")
+    @Size(max = 255)
+    @Pattern(regexp = "^[0-9]{10}")
     private String login;
 
-    @NotBlank(message = "{myUserDTO.password.invalid}")
-    @Length(max = 255)
+    @NotBlank
+    @Size(max = 255)
     private String password;
 
     private int contractId;

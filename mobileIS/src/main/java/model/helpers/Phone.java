@@ -10,6 +10,6 @@ import javax.validation.constraints.Pattern;
 @Getter @Setter @NoArgsConstructor
 @Validated
 public class Phone {
-    @Pattern(regexp = "^[0-9]{10}",message = "{phone.phoneNumber.invalid}")
+    @Pattern(regexp = "^[0-9]{10}")
     String phoneNumber;
 }
