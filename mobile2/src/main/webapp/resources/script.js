@@ -26,7 +26,7 @@ function buildTariff(tariff){
     col.appendChild(panel);
 
     let panelHead=document.createElement("div");
-    panelHead.setAttribute("class","panel-heading");
+    panelHead.setAttribute("class", "panel-heading text-center");
     panelHead.innerText=tariff.name;
     panel.appendChild(panelHead);
 
