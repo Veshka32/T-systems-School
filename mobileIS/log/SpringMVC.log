@@ -1,37 +1,10 @@
-Root WebApplicationContext: initialization started
-Refreshing Root WebApplicationContext: startup date [Sat Nov 17 15:24:47 MSK 2018]; root of context hierarchy
-register messageSource bean
-HHH000412: Hibernate Core {5.2.17.Final}
-HHH000206: hibernate.properties not found
-HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
-HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-HHH000397: Using ASTQueryTranslatorFactory
-Using DataSource [org.jboss.as.connector.subsystems.datasources.WildFlyDataSource@53d3d9c] of Hibernate SessionFactory for HibernateTransactionManager
-register resourceHandler
-register validator factory
-Set view resolver
-register UserDetailsService bean
-configure Http security rules
-Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7c72f8c3, org.springframework.security.web.context.SecurityContextPersistenceFilter@2446c9fe, org.springframework.security.web.header.HeaderWriterFilter@1f172e49, org.springframework.security.web.csrf.CsrfFilter@5a18d06f, org.springframework.security.web.authentication.logout.LogoutFilter@1c0fbff2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2c17ae11, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@a0d920, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3eceb9ea, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1eee0adb, org.springframework.security.web.session.SessionManagementFilter@307e1f16, org.springframework.security.web.access.ExceptionTranslationFilter@5c7def82, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3d90b892]
-Root WebApplicationContext initialized in 3724 ms
-Initializing Servlet 'dispatcher'
-Refreshing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Sat Nov 17 15:24:51 MSK 2018]; parent: Root WebApplicationContext
-Completed initialization in 58 ms
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-/* from model.entity.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-/* from model.entity.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-send jms
-send jms
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-send jms
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-/* from model.entity.Option */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-send jms
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-send jms
-/* from model.entity.Tariff */ select tariff0_.id as id1_6_, tariff0_.description as descript2_6_, tariff0_.name as name3_6_, tariff0_.price as price4_6_ from Tariff tariff0_
-send jms
+2018-11-21 19:42:49 INFO  Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+2018-11-21 19:42:49 INFO  Environment:198 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.use_sql_comments=true, db.url=jdbc:mysql://localhost:3306/test, hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect, db.driver=com.mysql.jdbc.Driver, db.username=stas, hibernate.hbm2ddl.auto=update, hibernate.bytecode.use_reflection_optimizer=false, hibernate.driverClass=com.mysql.jdbc.Driver, db.password=test}
+2018-11-21 19:42:49 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-11-21 19:42:49 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2018-11-21 19:42:50 INFO  Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+2018-11-21 19:42:51 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-11-21 19:42:52 INFO  WebMvcConfigTest:53 - register resourceHandler
+2018-11-21 19:42:52 INFO  WebMvcConfigTest:43 - Set view resolver
+2018-11-21 19:42:52 DEBUG SQL:92 - /* insert model.entity.Option */ insert into option_ (description, name, price, subscribeCost) values (?, ?, ?, ?)
+2018-11-21 19:42:52 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?

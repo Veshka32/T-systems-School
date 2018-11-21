@@ -1,4 +1,4 @@
-package services.implementations;
+package services;
 
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.RelationDaoI;
@@ -6,6 +6,7 @@ import model.dto.OptionDTO;
 import model.entity.Option;
 import model.entity.OptionRelation;
 import model.helpers.PaginateHelper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import services.exceptions.ServiceException;
+import services.implementations.OptionService;
 
 import java.util.Collections;
 import java.util.List;
@@ -60,7 +62,7 @@ class OptionServiceTest {
 
         //create option with free name
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
-        assertDoesNotThrow(() -> optionService.create(dto));
+        Assertions.assertDoesNotThrow(() -> optionService.create(dto));
     }
 
     @Test
