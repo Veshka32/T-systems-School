@@ -1,7 +1,6 @@
 package services.interfaces;
 
 import model.dto.ContractDTO;
-import model.entity.Client;
 import model.entity.Contract;
 import model.entity.Option;
 import model.helpers.PaginateHelper;
@@ -18,7 +17,7 @@ public interface ContractServiceI {
      * @param phone phone number
      * @return client who has contract with specific phone number or {@code null} if there is no such a client
      */
-    Client findClientByPhone(long phone);
+    String findClientByPhone(String phone);
 
     /**
      * Return id of {@code Contract} with specific phone number

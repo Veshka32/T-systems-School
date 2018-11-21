@@ -1,5 +1,8 @@
 package services.implementations;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import dao.interfaces.ClientDaoI;
 import dao.interfaces.ContractDaoI;
 import model.dto.ClientDTO;
@@ -31,8 +34,25 @@ public class ClientService implements ClientServiceI {
     }
 
     @Override
-    public Client findByPassport(String passport){
-        return clientDAO.findByPassportId(passport);
+    public String findByPassport(String passport) {
+        Gson gson = new Gson();
+        JsonElement element = new JsonObject();
+
+        if (!passport.matches("^[0-9]{10}")) {
+            element.getAsJsonObject().addProperty("status", "error");
+            element.getAsJsonObject().addProperty("message", "must be 10 digits");
+        } else {
+            Client client = clientDAO.findByPassportId(passport);
+            if (client == null) {
+                element.getAsJsonObject().addProperty("status", "error");
+                element.getAsJsonObject().addProperty("message", "there is no such client");
+            } else {
+                ClientDTO dto = new ClientDTO(client);
+                element.getAsJsonObject().addProperty("status", "success");
+                element.getAsJsonObject().add("client", gson.toJsonTree(dto));
+            }
+        }
+        return gson.toJson(element);
     }
 
     @Override

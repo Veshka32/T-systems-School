@@ -35,7 +35,7 @@ public class ContractController {
 
     @GetMapping("management/findContract")
     @ResponseBody
-    public String findByAjax(@RequestParam(value = "phone", required = false) String phone) {
+    public String find(@RequestParam(value = "phone", required = false) String phone) {
         return contractService.getJson(phone);
     }
 

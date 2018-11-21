@@ -46,42 +46,16 @@ public class ClientController {
         return SAVE;
     }
 
-    @PostMapping("/management/findClientByPhone")
-    public String findByPhone(@Valid Phone phone, BindingResult result, Model model) {
-        if (result.hasErrors()){
-            buildModel(1, model);
-            model.addAttribute("phone", phone);
-            return MANAGEMENT;
-        }
-
-        Client client=contractService.findClientByPhone(Long.parseLong(phone.getPhoneNumber()));
-        if (client==null){
-            model.addAttribute(MODEL_MESSAGE,"phone number doesn't exist");
-            buildModel(1, model);
-            return MANAGEMENT;
-        }
-        model.addAttribute(CLIENT, client);
-        model.addAttribute(CONTRACTS, contractService.getAllClientContracts(client.getId()));
-        return SAVE;
+    @GetMapping("management/findClientByPhone")
+    @ResponseBody
+    public String findByPhone(@RequestParam(value = "phone", required = false) String phone) {
+        return contractService.findClientByPhone(phone);
     }
 
-    @PostMapping("/management/findClientByPassport")
-    public String findByPassport(@Valid Passport passport, BindingResult result, Model model) {
-        if (result.hasErrors()){
-            buildModel(1, model);
-            model.addAttribute("passport", passport);
-            return MANAGEMENT;
-        }
-
-        Client client = clientService.findByPassport(passport.getPassportNumber());
-        if (client==null){
-            model.addAttribute("message1", "passportNumber id doesn't exist");
-            buildModel(1, model);
-            return MANAGEMENT;
-        }
-        ClientDTO dto = clientService.getDTO(client.getId());
-        model.addAttribute(CLIENT, dto);
-        return SAVE;
+    @GetMapping("management/findClientByPassport")
+    @ResponseBody
+    public String findByPassport(@RequestParam(value = "passport", required = false) String phone) {
+        return clientService.findByPassport(phone);
     }
 
     @GetMapping("/management/createClient")

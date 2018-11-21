@@ -20,7 +20,7 @@ public interface ClientServiceI {
      * @param passport passport value
      * @return client with specific passport
      */
-    Client findByPassport(String passport);
+    String findByPassport(String passport);
 
     /**
      * Construct data transfer object for {@code Client} with specific id

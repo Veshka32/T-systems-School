@@ -1,8 +1,6 @@
-<%--suppress HtmlUnknownTarget --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page isELIgnored="false" %>
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="<c:url value="/resources/client-script.js"/>"></script>
 </head>
 <body>
 
@@ -25,22 +24,20 @@
 
 <div class="container">
     <h4>Find client by phone:</h4>
-    <p class="bg-danger">${message}</p>
-    <form:form method="POST" action="findClientByPhone" class="form-inline" modelAttribute="phone">
-        <form:input path="phoneNumber" class="form-control" placeholder="1234567890" type="number"/>
-        <input class="input-group btn btn-info" type="submit" value="Find"/><br>
-        <p class="bg-danger"><form:errors path="phoneNumber"/></p>
-    </form:form>
+    <p class="bg-danger" id="message"></p>
+    <form id="find" action="findClientByPhone" class="form-inline">
+        <input type="number" id="phoneNumber" class="form-control" placeholder="1234567890"/>
+        <input type="submit" class="input-group btn btn-info" value="Find"/><br>
+    </form>
     <br>
-
     <h4>Find client by passport id:</h4>
-    <p class="bg-danger">${message1}</p>
-    <form:form method="POST" action="findClientByPassport" class="form-inline" modelAttribute="passport">
-        <form:input path="passportNumber" class="form-control" placeholder="1234567890" type="number"/>
-        <input class="input-group btn btn-info" type="submit" value="Find"/><br>
-        <p class="bg-danger"><form:errors path="passportNumber"/></p>
-    </form:form>
+    <p class="bg-danger" id="message1"></p>
+    <form id="find1" action="findClientByPassport" class="form-inline">
+        <input type="number" id="passport" class="form-control" placeholder="1234567890"/>
+        <input type="submit" class="input-group btn btn-info" value="Find"/><br>
+    </form>
     <br>
+    <div id="result"></div>
 
     <h3>All clients</h3>
     <table class="table table-striped">
@@ -108,6 +105,5 @@
     <br>
 
     <a href="createClient" role="button" class="btn btn-success">Add new client</a><br></div>
-
 </body>
 </html>
