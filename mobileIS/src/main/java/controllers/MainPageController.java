@@ -1,6 +1,5 @@
 package controllers;
 
-import model.dto.AccountDTO;
 import model.stateful.CartInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +16,13 @@ public class MainPageController {
     @Autowired
     OptionServiceI optionServiceI;
 
-
     @Autowired
     CartInterface cartInterface;
 
     @RequestMapping({"/", "/index"})
     public String root(Model model) {
-        model.addAttribute("tariffs", tariffServiceI.getAll());
-        model.addAttribute("options", optionServiceI.getAll());
-        model.addAttribute("user", new AccountDTO());
+        model.addAttribute("tariffs", tariffServiceI.getLast(3));
+        model.addAttribute("options", optionServiceI.getPaginateData(1, 10).getItems());
         model.addAttribute("cart", cartInterface);
         return "index";
     }

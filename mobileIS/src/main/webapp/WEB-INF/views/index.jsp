@@ -97,13 +97,6 @@
 <div id="portfolio" class="container-fluid text-center bg-grey">
     <h2>Options</h2>
     <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
-        <%--<!-- Indicators -->--%>
-        <%--<ol class="carousel-indicators">--%>
-        <%--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>--%>
-        <%--<li data-target="#myCarousel" data-slide-to="1"></li>--%>
-        <%--<li data-target="#myCarousel" data-slide-to="2"></li>--%>
-        <%--</ol>--%>
-
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <c:forEach items="${options}" var="option" varStatus="status">
@@ -119,7 +112,6 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-
             </c:forEach>
         </div>
 
