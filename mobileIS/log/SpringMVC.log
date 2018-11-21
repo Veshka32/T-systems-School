@@ -1,10 +1,10 @@
-2018-11-21 19:42:49 INFO  Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
-2018-11-21 19:42:49 INFO  Environment:198 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.use_sql_comments=true, db.url=jdbc:mysql://localhost:3306/test, hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect, db.driver=com.mysql.jdbc.Driver, db.username=stas, hibernate.hbm2ddl.auto=update, hibernate.bytecode.use_reflection_optimizer=false, hibernate.driverClass=com.mysql.jdbc.Driver, db.password=test}
-2018-11-21 19:42:49 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
-2018-11-21 19:42:49 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2018-11-21 19:42:50 INFO  Version:21 - HV000001: Hibernate Validator 6.0.13.Final
-2018-11-21 19:42:51 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
-2018-11-21 19:42:52 INFO  WebMvcConfigTest:53 - register resourceHandler
-2018-11-21 19:42:52 INFO  WebMvcConfigTest:43 - Set view resolver
-2018-11-21 19:42:52 DEBUG SQL:92 - /* insert model.entity.Option */ insert into option_ (description, name, price, subscribeCost) values (?, ?, ?, ?)
-2018-11-21 19:42:52 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?
+2018-11-21 21:27:45 INFO  Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+2018-11-21 21:27:45 INFO  Environment:198 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.use_sql_comments=true, db.url=jdbc:mysql://localhost:3306/test, hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect, db.driver=com.mysql.jdbc.Driver, db.username=stas, hibernate.hbm2ddl.auto=update, hibernate.bytecode.use_reflection_optimizer=false, hibernate.driverClass=com.mysql.jdbc.Driver, db.password=test}
+2018-11-21 21:27:45 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-11-21 21:27:46 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2018-11-21 21:27:47 INFO  Version:21 - HV000001: Hibernate Validator 6.0.13.Final
+2018-11-21 21:27:48 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-11-21 21:27:49 INFO  WebMvcConfigTest:50 - register resourceHandler
+2018-11-21 21:27:49 INFO  WebMvcConfigTest:40 - Set view resolver
+2018-11-21 21:27:50 DEBUG SQL:92 - /* insert model.entity.Option */ insert into option_ (description, name, price, subscribeCost) values (?, ?, ?, ?)
+2018-11-21 21:27:50 DEBUG SQL:92 - /* find_by_name */ select option0_.id as id1_4_, option0_.description as descript2_4_, option0_.name as name3_4_, option0_.price as price4_4_, option0_.subscribeCost as subscrib5_4_ from option_ option0_ where option0_.name=?

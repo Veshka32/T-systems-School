@@ -44,7 +44,7 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public PaginateHelper<Tariff> getInRange(Integer currentPage, int rowPerPage) {
+    public PaginateHelper<Tariff> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, return first page
         if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
 

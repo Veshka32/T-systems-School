@@ -34,7 +34,7 @@ public class TariffController {
 
     @RequestMapping("/management/tariffs")
     public String showAll(@RequestParam(value = "page", required = false) Integer page, Model model) {
-        PaginateHelper<Tariff> helper = tariffService.getInRange(page, ROW_PER_PAGE);
+        PaginateHelper<Tariff> helper = tariffService.getPaginateData(page, ROW_PER_PAGE);
         model.addAttribute("allInPage", helper.getItems());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageTotal", helper.getTotal());

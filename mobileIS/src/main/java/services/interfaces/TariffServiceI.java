@@ -65,7 +65,7 @@ public interface TariffServiceI {
      * @return {@code PaginateHelper} with tariffs in specific range and additional info
      */
 
-    PaginateHelper<Tariff> getInRange(Integer currentPage, int rowPerPage);
+    PaginateHelper<Tariff> getPaginateData(Integer currentPage, int rowPerPage);
 
     List<Tariff> getLast(int count);
 }

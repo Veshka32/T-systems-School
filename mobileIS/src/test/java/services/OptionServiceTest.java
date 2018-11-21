@@ -73,10 +73,6 @@ class OptionServiceTest {
         OptionDTO dto = new OptionDTO();
         dto.setName(A);
         dto.setId(2);
-        Integer[] ids = new Integer[]{1};
-        Integer[] ids3 = new Integer[]{2};
-        Integer[] ids2 = new Integer[]{3};
-        List<String> names = Collections.singletonList(A);
 
         OptionRelation relation = new OptionRelation();
         Option a = new Option();
@@ -92,30 +88,30 @@ class OptionServiceTest {
         dto.getMandatory().add(1);
         dto.getIncompatible().add(1);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
-        when(optionDAO.getNamesByIds(ids)).thenReturn(names);
+        when(optionDAO.getNamesByIds(new Integer[]{1})).thenReturn(Collections.singletonList(A));
         ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible: " + names.toString());
+        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible: " + Collections.singletonList(A).toString());
 
         //check if mandatory relation is not bidirectional
         dto.getIncompatible().clear();
-        when(optionDAO.getMandatoryIdsFor(ids)).thenReturn(Collections.singletonList(2)); //1 requires dto
-        when(optionDAO.getNamesByIds(ids3)).thenReturn(names);
+        when(optionDAO.getMandatoryIdsFor(new Integer[]{1})).thenReturn(Collections.singletonList(dto.getId())); //1 requires dto
+        when(optionDAO.getNamesByIds(new Integer[]{dto.getId()})).thenReturn(Collections.singletonList(A));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + names.toString());
+        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Collections.singletonList(A).toString());
 
         //check if all from mandatory also have its' corresponding mandatory options
-        when(optionDAO.getMandatoryIdsFor(ids)).thenReturn(Collections.singletonList(3)); //1 requires 3
-        when(optionDAO.getNamesByIds(ids2)).thenReturn(names);
+        when(optionDAO.getMandatoryIdsFor(new Integer[]{1})).thenReturn(Collections.singletonList(3)); //1 requires 3
+        when(optionDAO.getNamesByIds(new Integer[]{3})).thenReturn(Collections.singletonList(A));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + names.toString());
-        dto.getMandatory().clear();
+        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList(A).toString());
 
         //check if mandatory options are incompatible with each other
+        dto.getIncompatible().clear();
         dto.getMandatory().add(3);
         relation.setOne(a);
         relation.setAnother(b); //1 incompatible with 3
-        when(optionDAO.getMandatoryIdsFor(ids2)).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelation(ids2)).thenReturn(Collections.singletonList(relation));
+        when(optionDAO.getMandatoryIdsFor(new Integer[]{1, 3})).thenReturn(Collections.emptyList());
+        when(optionDAO.getIncompatibleRelation(new Integer[]{1, 3})).thenReturn(Collections.singletonList(relation));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertTrue(e.getMessage().contains("a and b"));
     }

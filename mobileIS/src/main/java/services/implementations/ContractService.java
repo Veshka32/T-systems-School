@@ -259,11 +259,11 @@ public class ContractService implements ContractServiceI {
         Option option = optionDao.findOne(optionId);
 
         //check if option is mandatory for some other
-        Set<String> optionInContract = contract.getOptions().stream().map(Option::getName).collect(Collectors.toSet());
-        List<String> names = optionDao.getMandatoryNamesFor(optionId);
-        optionInContract.retainAll(names);
+        Set<Integer> optionInContract = contract.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
+        List<Integer> ids = optionDao.getMandatoryIdsFor(optionInContract.toArray(new Integer[]{}));
+        optionInContract.retainAll(ids);
         if (!optionInContract.isEmpty())
-            throw new ServiceException(MESSAGE + option.getName() + " is mandatory for other options: " + optionInContract.toString() + ". Delete them first");
+            throw new ServiceException(MESSAGE + optionDao.getNamesByIds(new Integer[]{optionId}).toString() + " is mandatory for other options: " + optionDao.getNamesByIds(optionInContract.toArray(new Integer[]{})).toString() + ". Delete them first");
         contract.getOptions().remove(option);
         contractDAO.update(contract);
     }
