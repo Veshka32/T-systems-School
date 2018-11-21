@@ -78,7 +78,6 @@ public class TariffService implements TariffServiceI {
             Option option = optionDAO.findOne(id);
             based.addOption(option);
         }
-
         return tariffDAO.save(based);
     }
 

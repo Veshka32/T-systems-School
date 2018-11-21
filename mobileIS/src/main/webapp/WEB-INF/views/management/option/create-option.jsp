@@ -71,15 +71,15 @@
 
         <c:if test="${not empty option.id}"><form:hidden path="id" value="${option.id}"/></c:if>
         <input type="submit" value="Save" class="btn btn-success"/>
-
-        <c:if test="${not empty option.id}">
-            <form action="deleteOption" method="post">
-                <input type="hidden" name="id" value=${option.id}>
-                <input type="submit" value="Delete option" class="btn btn-danger pull-right">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </form>
-        </c:if>
     </form:form>
+
+    <c:if test="${not empty option.id}">
+        <form action="deleteOption" method="post">
+            <input type="hidden" name="id" value=${option.id}>
+            <input type="submit" value="Delete option" class="btn btn-danger pull-right">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+    </c:if>
     <script>
         $("#mand").bootstrapDualListbox();
         $("#inc").bootstrapDualListbox();

@@ -56,6 +56,7 @@
         <form:hidden path="id" value="${tariff.id}"/>
     </c:if>
     <input type="submit" value="Save" class="btn btn-success"/>
+    </form:form>
 
     <c:if test="${not empty tariff.id}">
     <form action="deleteTariff" method="post">
@@ -64,8 +65,6 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
     </c:if>
-
-    </form:form>
 
     <script>
         $("#opt").bootstrapDualListbox();

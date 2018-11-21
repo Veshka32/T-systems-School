@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.exceptions.ServiceException;
+import services.interfaces.JmsSenderI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
@@ -28,6 +29,8 @@ public class TariffController {
     TariffServiceI tariffService;
     @Autowired
     OptionServiceI optionService;
+    @Autowired
+    JmsSenderI jmsSender;
 
     @RequestMapping("/management/tariffs")
     public String showAll(@RequestParam(value = "page", required = false) Integer page, Model model) {
@@ -58,6 +61,7 @@ public class TariffController {
         }
         try {
             attr.addAttribute("id", tariffService.create(dto));
+            jmsSender.sendData();
             return "redirect:/management/showTariff";
 
         } catch (ServiceException e) {
@@ -85,6 +89,7 @@ public class TariffController {
         try {
             tariffService.update(dto);
             attr.addAttribute("id", dto.getId());
+            jmsSender.sendData();
             return "redirect:/management/showTariff";
         } catch (ServiceException e) {
             buildModel(model, dto);

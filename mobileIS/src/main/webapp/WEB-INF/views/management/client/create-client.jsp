@@ -62,6 +62,8 @@
     </div>
         <form:hidden path="id" value="${client.id}"/>
     <input type="submit" value="Save" class="btn btn-success"/>
+    </form:form>
+
     <c:if test="${not empty client.id}">
     <form action="deleteClient" method="post">
         <input type="hidden" name="id" value=${client.id}>
@@ -69,7 +71,6 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/></form>
     </c:if>
 
-    </form:form>
     <br>
 
 </body>

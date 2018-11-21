@@ -9,9 +9,10 @@ function onMessage(event) {
     let data = JSON.parse(event.data);
 
     if (data.hasOwnProperty("tariffs")) {
+        $("#tariffs").empty();
         for (let k=0;k<data.tariffs.length;k++){
             let tariff=data.tariffs[k];
-            document.getElementById("tariffs").appendChild(buildTariff(tariff));
+            $("#tariffs").append(buildTariff(tariff));
         }
     }
 }
@@ -36,7 +37,7 @@ function buildTariff(tariff){
 
     let panelFooter=document.createElement("div");
     panelFooter.setAttribute("class","panel-footer");
-    panelFooter.innerText=tariff.price;
+    panelFooter.innerText = "$" + tariff.price;
     panel.appendChild(panelFooter);
     return col;
 }
