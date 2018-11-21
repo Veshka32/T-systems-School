@@ -7,7 +7,6 @@ import dao.interfaces.ClientDaoI;
 import dao.interfaces.ContractDaoI;
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
-import model.dto.ClientDTO;
 import model.dto.ContractDTO;
 import model.entity.*;
 import model.helpers.PaginateHelper;
@@ -50,48 +49,31 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public String findClientByPhone(String phone) {
+    public String getJsonByPhone(String phone) {
         Gson gson = new Gson();
         JsonElement element = new JsonObject();
-
-        if (!phone.matches("^[0-9]{10}")) {
+        try {
+            ContractDTO dto = getByPhone(phone);
+            if (dto == null) {
+                element.getAsJsonObject().addProperty("status", "error");
+                element.getAsJsonObject().addProperty("message", "there is no such contract");
+            } else {
+                element.getAsJsonObject().addProperty("status", "success");
+                element.getAsJsonObject().add("contract", gson.toJsonTree(dto));
+            }
+        } catch (NumberFormatException e) {
             element.getAsJsonObject().addProperty("status", "error");
             element.getAsJsonObject().addProperty("message", "must be 10 digits");
-        } else {
-            Client client = contractDAO.findClientByPhone(Long.parseLong(phone));
-            if (client == null) {
-                element.getAsJsonObject().addProperty("status", "error");
-                element.getAsJsonObject().addProperty("message", "there is no such client");
-            } else {
-                ClientDTO dto = new ClientDTO(client);
-                element.getAsJsonObject().addProperty("status", "success");
-                element.getAsJsonObject().add("client", gson.toJsonTree(dto));
-            }
         }
         return gson.toJson(element);
     }
 
     @Override
-    public String getJson(String phone) {
-        Gson gson = new Gson();
-        JsonElement element = new JsonObject();
-
-        if (!phone.matches("^[0-9]{10}")) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", "must be 10 digits");
-        } else {
-            Contract contract = contractDAO.findByPhone(Long.parseLong(phone));
-            if (contract == null) {
-                element.getAsJsonObject().addProperty("status", "error");
-                element.getAsJsonObject().addProperty("message", "there is no such contract");
-            } else {
-                ContractDTO dto = new ContractDTO(contract);
-                element.getAsJsonObject().addProperty("status", "success");
-                element.getAsJsonObject().add("contract", gson.toJsonTree(dto));
-            }
-        }
-
-        return gson.toJson(element);
+    public ContractDTO getByPhone(String phone) {
+        if (!phone.matches("^[0-9]{10}")) throw new NumberFormatException();
+        Contract contract = contractDAO.findByPhone(Long.parseLong(phone));
+        if (contract == null) return null;
+        else return new ContractDTO(contract);
     }
 
     @Override

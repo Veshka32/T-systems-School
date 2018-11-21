@@ -24,7 +24,6 @@ public class ClientController {
     private static final String CREATE = "management/client/create-client";
     private static final String MANAGEMENT="management/client/client-management";
     private static final String CLIENT = "client";
-    private static final String CONTRACTS = "clientContracts";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all clients
 
     @Autowired
@@ -49,13 +48,13 @@ public class ClientController {
     @GetMapping("management/findClientByPhone")
     @ResponseBody
     public String findByPhone(@RequestParam(value = "phone", required = false) String phone) {
-        return contractService.findClientByPhone(phone);
+        return clientService.getJsonByPhone(phone);
     }
 
     @GetMapping("management/findClientByPassport")
     @ResponseBody
     public String findByPassport(@RequestParam(value = "passport", required = false) String phone) {
-        return clientService.findByPassport(phone);
+        return clientService.getJsonByPassport(phone);
     }
 
     @GetMapping("/management/createClient")

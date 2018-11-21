@@ -36,7 +36,7 @@ public class ContractController {
     @GetMapping("management/findContract")
     @ResponseBody
     public String find(@RequestParam(value = "phone", required = false) String phone) {
-        return contractService.getJson(phone);
+        return contractService.getJsonByPhone(phone);
     }
 
     @RequestMapping("/management/contracts")

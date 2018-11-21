@@ -55,12 +55,12 @@ class UserServiceTest {
 
         //check if number exists
         when(userDAO.findByLogin(login)).thenReturn(null);
-        when(contractService.getJson(login)).thenReturn(null);
+        when(contractService.getJsonByPhone(login)).thenReturn(null);
         e = assertThrows(AccountCreateException.class, () -> userService.createAccount(dto));
         assertEquals(e.getMessage(), "There is no such a number");
 
         //check fields update
-        when(contractService.getJson(login)).thenReturn("");
+        when(contractService.getJsonByPhone(login)).thenReturn("");
         when(contractService.get(1)).thenReturn(new Contract());
         when(userDAO.save(new User())).thenReturn(1);
         assertDoesNotThrow(() -> userService.createAccount(dto));

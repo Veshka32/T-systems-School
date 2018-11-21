@@ -34,26 +34,62 @@ public class ClientService implements ClientServiceI {
     }
 
     @Override
-    public String findByPassport(String passport) {
+    public String getJsonByPassport(String passport) {
         Gson gson = new Gson();
         JsonElement element = new JsonObject();
-
-        if (!passport.matches("^[0-9]{10}")) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", "must be 10 digits");
-        } else {
-            Client client = clientDAO.findByPassportId(passport);
-            if (client == null) {
+        try {
+            ClientDTO dto = getByPassport(passport);
+            if (dto == null) {
                 element.getAsJsonObject().addProperty("status", "error");
                 element.getAsJsonObject().addProperty("message", "there is no such client");
             } else {
-                ClientDTO dto = new ClientDTO(client);
                 element.getAsJsonObject().addProperty("status", "success");
                 element.getAsJsonObject().add("client", gson.toJsonTree(dto));
             }
+        } catch (NumberFormatException e) {
+            element.getAsJsonObject().addProperty("status", "error");
+            element.getAsJsonObject().addProperty("message", "must be 10 digits");
         }
         return gson.toJson(element);
     }
+
+    @Override
+    public ClientDTO getByPassport(String passport) {
+        if (!passport.matches("^[0-9]{10}")) throw new NumberFormatException();
+        Client client = clientDAO.findByPassportId(passport);
+        if (client == null) return null;
+        else return new ClientDTO(client);
+    }
+
+    @Override
+    public String getJsonByPhone(String phone) {
+        Gson gson = new Gson();
+        JsonElement element = new JsonObject();
+        try {
+            ClientDTO dto = getByPhone(phone);
+            if (dto == null) {
+                element.getAsJsonObject().addProperty("status", "error");
+                element.getAsJsonObject().addProperty("message", "there is no such client");
+            } else {
+                element.getAsJsonObject().addProperty("status", "success");
+                element.getAsJsonObject().add("client", gson.toJsonTree(dto));
+            }
+        } catch (NumberFormatException e) {
+            element.getAsJsonObject().addProperty("status", "error");
+            element.getAsJsonObject().addProperty("message", "must be 10 digits");
+        } finally {
+            return gson.toJson(element);
+        }
+    }
+
+    @Override
+    public ClientDTO getByPhone(String phone) {
+        if (!phone.matches("^[0-9]{10}")) throw new NumberFormatException();
+        Client client = contractDaoI.findClientByPhone(Long.parseLong(phone));
+        if (client == null) return null;
+        else return new ClientDTO(client);
+    }
+
 
     @Override
     public void create(ClientDTO dto) throws ServiceException {

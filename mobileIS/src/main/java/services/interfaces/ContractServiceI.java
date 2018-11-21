@@ -11,13 +11,6 @@ import java.util.List;
 
 public interface ContractServiceI {
 
-    /**
-     * Return {@code Client} who is owner for {@code Contract} with specific phone number
-     *
-     * @param phone phone number
-     * @return client who has contract with specific phone number or {@code null} if there is no such a client
-     */
-    String findClientByPhone(String phone);
 
     /**
      * Return id of {@code Contract} with specific phone number
@@ -25,8 +18,15 @@ public interface ContractServiceI {
      * @param phone phone number
      * @return id of Contract or {@code null} if there is no such contract
      */
-    String getJson(String phone);
+    String getJsonByPhone(String phone);
 
+    /**
+     * Return id of {@code Contract} with specific phone number
+     *
+     * @param phone phone number
+     * @return id of Contract or {@code null} if there is no such contract
+     */
+    ContractDTO getByPhone(String phone) throws NumberFormatException;
 
 
     /**

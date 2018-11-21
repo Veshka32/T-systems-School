@@ -15,20 +15,21 @@ import services.exceptions.ServiceException;
 public interface ClientServiceI {
 
     /**
-     * Return unique {@code Client} with specific passport
-     *
-     * @param passport passport value
-     * @return client with specific passport
-     */
-    String findByPassport(String passport);
-
-    /**
      * Construct data transfer object for {@code Client} with specific id
      *
      * @param id client id in database
      * @return data transfer object contains client properties
      */
     ClientDTO getDTO(int id);
+
+    ClientDTO getByPhone(String phone);
+
+    String getJsonByPhone(String phone);
+
+    String getJsonByPassport(String passport);
+
+    ClientDTO getByPassport(String passport);
+
 
     /**
      * Create new {@code Client} based on dto properties
