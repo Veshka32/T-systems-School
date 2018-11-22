@@ -1,6 +1,5 @@
-package integration;
+package configForTest;
 
-import config.AppInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +18,8 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 @Profile("test")
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"dao", "services", "model"},
-        excludeFilters = {
-                @ComponentScan.Filter(type = ASSIGNABLE_TYPE,
-                        value = {
-                                JmsSenderI.class, AppInitializer.class, WebMvcConfigSpecial.class
-                        })
-        })
+@ComponentScan(basePackages = {"dao", "services", "model", "seleniumConfig", "configForTest"},
+        excludeFilters = {@ComponentScan.Filter(type = ASSIGNABLE_TYPE, value = {JmsSenderI.class})})
 public class WebMvcConfigSpecial implements WebMvcConfigurer {
 
 
