@@ -40,15 +40,12 @@ public class ClientService implements ClientServiceI {
         try {
             ClientDTO dto = getByPassport(passport);
             if (dto == null) {
-                element.getAsJsonObject().addProperty("status", "error");
-                element.getAsJsonObject().addProperty("message", "there is no such client");
+                setError(element, "there is no such client");
             } else {
-                element.getAsJsonObject().addProperty("status", "success");
-                element.getAsJsonObject().add("client", gson.toJsonTree(dto));
+                setsucces(element, gson.toJsonTree(dto));
             }
         } catch (NumberFormatException e) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", "must be 10 digits");
+            setError(element, "must be 10 digits");
         }
         return gson.toJson(element);
     }
@@ -68,18 +65,24 @@ public class ClientService implements ClientServiceI {
         try {
             ClientDTO dto = getByPhone(phone);
             if (dto == null) {
-                element.getAsJsonObject().addProperty("status", "error");
-                element.getAsJsonObject().addProperty("message", "there is no such client");
+                setError(element, "there is no such client");
             } else {
-                element.getAsJsonObject().addProperty("status", "success");
-                element.getAsJsonObject().add("client", gson.toJsonTree(dto));
+                setsucces(element, gson.toJsonTree(dto));
             }
         } catch (NumberFormatException e) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", "must be 10 digits");
-        } finally {
-            return gson.toJson(element);
+            setError(element, "must be 10 digits");
         }
+        return gson.toJson(element);
+    }
+
+    private void setError(JsonElement element, String message) {
+        element.getAsJsonObject().addProperty("status", "error");
+        element.getAsJsonObject().addProperty("message", message);
+    }
+
+    private void setsucces(JsonElement element, JsonElement tree) {
+        element.getAsJsonObject().addProperty("status", "success");
+        element.getAsJsonObject().add("client", tree);
     }
 
     @Override

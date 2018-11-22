@@ -55,17 +55,20 @@ public class ContractService implements ContractServiceI {
         try {
             ContractDTO dto = getByPhone(phone);
             if (dto == null) {
-                element.getAsJsonObject().addProperty("status", "error");
-                element.getAsJsonObject().addProperty("message", "there is no such contract");
+                setError(element, "there is no such contract");
             } else {
                 element.getAsJsonObject().addProperty("status", "success");
                 element.getAsJsonObject().add("contract", gson.toJsonTree(dto));
             }
         } catch (NumberFormatException e) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", "must be 10 digits");
+            setError(element, "must be 10 digits");
         }
         return gson.toJson(element);
+    }
+
+    private void setError(JsonElement element, String message) {
+        element.getAsJsonObject().addProperty("status", "error");
+        element.getAsJsonObject().addProperty("message", message);
     }
 
     @Override

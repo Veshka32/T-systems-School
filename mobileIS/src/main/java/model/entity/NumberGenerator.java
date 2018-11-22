@@ -1,13 +1,9 @@
-package model.helpers;
+package model.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
-public class NumberGenerator{
-
-    @Id
-    private int id;
+public class NumberGenerator extends AbstractEntity {
 
     private Long nextNumber;
 
