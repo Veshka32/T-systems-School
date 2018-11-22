@@ -37,6 +37,7 @@ public class OptionRelation extends AbstractEntity {
     }
 
     public OptionRelation() {
+        //no arg constructor
     }
 
     public Option getOne() {

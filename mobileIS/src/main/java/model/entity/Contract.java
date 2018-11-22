@@ -42,6 +42,7 @@ public class Contract extends AbstractEntity {
     }
 
     public Contract() {
+        //no arg constructor
     }
 
     @Override

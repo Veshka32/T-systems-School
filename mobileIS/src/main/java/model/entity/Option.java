@@ -30,6 +30,7 @@ public class Option extends AbstractEntity {
     private String description;
 
     public Option() {
+        //no arg constructor
     }
 
     @Override

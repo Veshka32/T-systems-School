@@ -41,6 +41,7 @@ public class Tariff extends AbstractEntity{
     }
 
     public Tariff() {
+        //no arg constructor
     }
 
     public void addOption(Option option) {

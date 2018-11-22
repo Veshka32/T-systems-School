@@ -76,17 +76,19 @@
                 <div class="panel-body">
 
                     <c:if test="${not empty message}">
-                        <div>${message}</div>
+                        <div id="error">${message}</div>
                     </c:if>
 
                     <form role="form" action="<c:url value='login' />" method='POST'>
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="9062107057" name="username" type="text"
+                                <input id="login" class="form-control" placeholder="9062107057" name="username"
+                                       type="text"
                                        autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="password" name="password" type="password"
+                                <input id="password" class="form-control" placeholder="password" name="password"
+                                       type="password"
                                        value="">
                             </div>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

@@ -1,12 +1,9 @@
 package integration;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -17,21 +14,17 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @Profile("test")
-@PropertySource("classpath:hibernate.properties")
-public class HibernateConfigurationForTest {
-
-    @Autowired
-    private Environment env;
+public class HibernateConfigSpecial {
 
     @Bean
     @Profile("test")
     public DataSource testingDataSource() {
 
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(env.getProperty("db.driver"));
-        dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUsername(env.getProperty("db.username"));
-        dataSource.setPassword(env.getProperty("db.password"));
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUsername("stas");
+        dataSource.setPassword("test");
         return dataSource;
 
     }

@@ -34,6 +34,7 @@ public class Client extends AbstractEntity{
     private Set<Contract> contracts=new HashSet<>();
 
     public Client() {
+        //no arg constructor
     }
 
     @Override

@@ -29,6 +29,7 @@ public class User extends AbstractEntity {
     private Contract contract;
 
     public User() {
+        //no arg constructor
     }
 
     public void setRole(Role role){

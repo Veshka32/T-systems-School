@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith({SpringExtension.class})
 @ActiveProfiles("test")
 @Transactional
-@ContextConfiguration(classes = {WebMvcConfigTest.class, HibernateConfigurationForTest.class})
+@ContextConfiguration(classes = {WebMvcConfigSpecial.class, HibernateConfigSpecial.class})
 @WebAppConfiguration
 class OptionDAOTest {
 

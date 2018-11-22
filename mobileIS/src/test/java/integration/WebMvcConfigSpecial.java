@@ -1,8 +1,6 @@
 package integration;
 
 import config.AppInitializer;
-import config.WebMvcConfig;
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +23,11 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
         excludeFilters = {
                 @ComponentScan.Filter(type = ASSIGNABLE_TYPE,
                         value = {
-                                JmsSenderI.class, AppInitializer.class, WebMvcConfig.class
+                                JmsSenderI.class, AppInitializer.class, WebMvcConfigSpecial.class
                         })
         })
-public class WebMvcConfigTest implements WebMvcConfigurer {
-    private static final Logger logger = Logger.getLogger(WebMvcConfigTest.class);
+public class WebMvcConfigSpecial implements WebMvcConfigurer {
+
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -37,7 +35,6 @@ public class WebMvcConfigTest implements WebMvcConfigurer {
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
-        logger.info("Set view resolver");
         return resolver;
     }
 
@@ -47,7 +44,6 @@ public class WebMvcConfigTest implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
-        logger.info("register resourceHandler");
     }
 
     @Bean
