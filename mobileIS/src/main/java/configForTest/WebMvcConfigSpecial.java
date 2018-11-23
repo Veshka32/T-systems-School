@@ -18,7 +18,7 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 @Profile("test")
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"dao", "services", "model", "seleniumConfig", "configForTest"},
+@ComponentScan(basePackages = {"dao", "services", "model", "configForTest"},
         excludeFilters = {@ComponentScan.Filter(type = ASSIGNABLE_TYPE, value = {JmsSenderI.class})})
 public class WebMvcConfigSpecial implements WebMvcConfigurer {
 
