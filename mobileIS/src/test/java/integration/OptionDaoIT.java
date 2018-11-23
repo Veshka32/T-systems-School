@@ -3,8 +3,7 @@ package integration;
 import config.AppInitializer;
 import config.HibernateConfiguration;
 import config.MyRequestListener;
-import configForTest.HibernateConfigSpecial;
-import configForTest.WebMvcConfigSpecial;
+import config.WebMvcConfigSpecial;
 import dao.interfaces.OptionDaoI;
 import model.entity.Option;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({SpringExtension.class})
 @ActiveProfiles("test")
-@ContextConfiguration(classes = {WebMvcConfigSpecial.class, HibernateConfiguration.class, HibernateConfigSpecial.class, AppInitializer.class, MyRequestListener.class})
+@ContextConfiguration(classes = {WebMvcConfigSpecial.class, HibernateConfiguration.class, AppInitializer.class, MyRequestListener.class})
 @WebAppConfiguration
 class OptionDaoIT {
 
@@ -54,6 +53,7 @@ class OptionDaoIT {
     }
 
     @Test
+    @Transactional
     void findByNameTest() {
         String name = "I love Pluto";
         assertEquals(optionDao.findByName(name).getName(), name);
