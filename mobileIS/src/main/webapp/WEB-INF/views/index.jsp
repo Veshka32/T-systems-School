@@ -10,11 +10,11 @@
     <title>Universe mobile</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css"/>">
-
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -67,12 +67,13 @@
 <div style="position: absolute; width: 100%">
     <div id="wrapper" style="position:relative;">
         <div class="jumbotron text-center">
-            <h1>Multiverse mobile</h1>
+            <h1><img src="<c:url value="/resources/spacelogo.jpg"/>" class="img-valign" width="150" height="120">Multiverse
+                mobile</h1>
             <p>Feel free to communicate through space and time</p>
         </div>
     </div>
 </div>
-<div id="particles-js"></div>
+<div id="particles-js" style="height: 350px;"></div>
 <script src="<c:url value="/resources/particles-js/particles.js"/>"></script>
 <script src="<c:url value="/resources/particles-js/app.js"/>"></script>
 

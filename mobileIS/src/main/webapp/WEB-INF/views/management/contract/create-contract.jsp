@@ -71,10 +71,10 @@
         </form:select>
     </div>
         <form:hidden path="ownerId" value="${contract.ownerId}"/>
+
     <c:if test="${not empty contract.id}">
         <form:hidden path="id" value="${contract.id}"/>
     </c:if>
-
     <input type="submit" value="Save" class="btn btn-success"/>
     </form:form>
 

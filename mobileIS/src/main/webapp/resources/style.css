@@ -4,12 +4,6 @@ canvas {
     vertical-align: bottom;
 }
 
-/* ---- particles.js container ---- */
-
-#particles-js {
-    height: 350px;
-}
-
 .jumbotron {
     padding: 100px 50px;
     background: none;
@@ -37,6 +31,10 @@ body {
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.login-panel {
+    background-color: #fff;
+}
+
 .panel-footer {
     background-color: #4E5D6C;
 }
@@ -62,12 +60,9 @@ body {
     font-size: 50px;
 }
 
-
 .carousel-control.right, .carousel-control.left {
     background-image: none;
 }
-
-
 
 .navbar {
     margin-bottom: 0;

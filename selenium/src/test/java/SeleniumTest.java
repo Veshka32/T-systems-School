@@ -17,26 +17,21 @@ class SeleniumTest {
         performer.openWindow();
         assertNotNull(performer.findElementByLink("SIGN IN"));
         assertNotNull(performer.findElementByLink("SIGN UP"));
-        //Thread.sleep(3000);
 
         //go to sign in page
         performer.clickLink("SIGN IN");
         assertEquals(performer.getTitle(), "Sign in");
-        //Thread.sleep(3000);
 
         //input in sign in wrong values
         performer.fieldForm("login", "badGuy");
         performer.fieldForm("password", "test");
-        //Thread.sleep(3000);
         performer.submit(performer.findElementByName("submit"));
         assertEquals(performer.getTitle(), "Sign in");
         assertNotNull(performer.findElementById("error"));
-        //Thread.sleep(3000);
 
         //input in sign with right values
         performer.fieldForm("login", "stas");
         performer.fieldForm("password", "test");
-        //Thread.sleep(3000);
         performer.submit(performer.findElementByName("submit"));
         assertEquals(performer.getTitle(), "Universe mobile");
         assertNotNull(performer.findElementByLink("MANAGEMENT"));
@@ -49,24 +44,18 @@ class SeleniumTest {
     @Test
     void optionTest() {
 
-        //Thread.sleep(3000);
+
         performer.clickLink("Options");
         assertEquals(performer.getTitle(), "Options");
-        //Thread.sleep(3000);
         performer.clickLink("2");
-        //Thread.sleep(3000);
         performer.clickLink("Next");
-        //Thread.sleep(3000);
 
         //see option details
         performer.submit(performer.findElementByClass("btn-info"));
-        //Thread.sleep(3000);
         assertEquals(performer.getTitle(), "Option");
-        //Thread.sleep(3000);
 
         //edit option
         performer.submit(performer.findElementByClass("btn-warning"));
-        //Thread.sleep(3000);
         assertEquals(performer.getTitle(), "Create option");
 
         //back to options
@@ -76,12 +65,10 @@ class SeleniumTest {
 
         //create new
         performer.clickLink("Create new option");
-        //Thread.sleep(3000);
         assertEquals(performer.getTitle(), "Create option");
 
         //try to create empty
         performer.scrollToElement(performer.findElementByClass("btn-success"));
-        //Thread.sleep(3000);
         performer.submit(performer.findElementByClass("btn-success"));
         assertEquals(performer.getTitle(), "Create option");
         assertNotNull(performer.findElementById("name.errors"));
@@ -93,9 +80,7 @@ class SeleniumTest {
         performer.fieldForm("price", "99.99");
         performer.fieldForm("cost", "10");
         performer.fieldForm("desc", "This is test option for presentation");
-        //Thread.sleep(3000);
         performer.selectAll("bootstrap-duallistbox-nonselected-list_mandatory"); //select all mandatory
-        ////Thread.sleep(3000);
         performer.submit(performer.findElementByClass("btn-success"));
         assertNotNull(performer.findElementByClass("bg-danger")); //error message
         performer.selectAll("bootstrap-duallistbox-selected-list_mandatory");
@@ -120,7 +105,7 @@ class SeleniumTest {
         performer.submit(performer.findElementById("find"));
         WebElement element = performer.findElementById("message");
         assertNotNull(element);
-        assertEquals(element.getAttribute("innerText"), "there is no such client");
+        assertEquals(element.getText(), "there is no such client");
         assertEquals(performer.findElementById("result").getText(), ""); //result is empty
         //*[@id="result"]/table
 
@@ -134,7 +119,6 @@ class SeleniumTest {
         performer.findElementById("phoneNumber").clear();
         performer.fieldForm("phoneNumber", "9990000011");
         performer.submit(performer.findElementById("find"));
-        assertNotEquals(performer.findElementById("result").getText(), "");
         List<WebElement> list = performer.findElementsByPath("//*[@id=\"result\"]/table/tbody/tr");
         assertEquals(list.size(), 1);
 

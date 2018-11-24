@@ -2,7 +2,7 @@ $(document).ready(function () {
     $("#find").submit(function (event) {
         event.preventDefault();
         $.ajax({
-            url: $(this).attr('action'),
+            url: 'findContract',
             data: {
                 "phone": $("#phoneNumber").val()
             },

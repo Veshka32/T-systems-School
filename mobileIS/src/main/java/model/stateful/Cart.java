@@ -1,5 +1,8 @@
 package model.stateful;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import model.entity.Option;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -10,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-@Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart implements CartInterface {
     private Set<Option> options = new HashSet<>();
     private BigDecimal totalSum = new BigDecimal(0);
@@ -21,26 +24,46 @@ public class Cart implements CartInterface {
     }
 
     @Override
-    public void addItem(Option option) {
-        if (options.add(option)) //return true if this set did not already contain the specified element
+    public String addItem(Option option) {
+        if (options.add(option)) {  //return true if this set did not already contain the specified element
             totalSum = totalSum.add(option.getSubscribeCost());
+            Gson gson = new Gson();
+            JsonElement element = new JsonObject();
+            JsonElement opt = new JsonObject();
+            opt.getAsJsonObject().addProperty("name", option.getName());
+            opt.getAsJsonObject().addProperty("cost", option.getSubscribeCost());
+            opt.getAsJsonObject().addProperty("id", option.getId());
+
+            element.getAsJsonObject().add("option", opt);
+            element.getAsJsonObject().addProperty("totalSum", totalSum);
+            return gson.toJson(element);
+        }
+        return "{}";
+
     }
 
     @Override
-    public void deleteItem(Option option) {
-        if (options.remove(option))
+    public String deleteItem(Option option) {
+        if (options.remove(option)) {
             totalSum = totalSum.subtract(option.getSubscribeCost());
+            Gson gson = new Gson();
+            JsonElement element = new JsonObject();
+            element.getAsJsonObject().addProperty("totalSum", totalSum);
+            element.getAsJsonObject().addProperty("id", option.getId());
+            return gson.toJson(element);
+        }
+        return "{}";
     }
 
     @Override
-    public void clear(){
+    public void clear() {
         options.clear();
         totalSum = BigDecimal.valueOf(0);
         message = null;
     }
 
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return options.isEmpty();
     }
 

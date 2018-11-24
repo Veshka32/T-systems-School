@@ -159,11 +159,11 @@ class ContractServiceTest {
         assertDoesNotThrow(() -> contractService.deleteOption(id, id));
         contract.setBlockedByAdmin(false);
 
-        //check if option is mandatory for some other
-        when(contractDAO.findOne(id)).thenReturn(contract);
-        when(optionDAO.findOne(id)).thenReturn(a); //try to delete a
-        when(optionDAO.getMandatoryIdsFor(new Integer[]{1, 2})).thenReturn(Collections.singletonList(1)); //2 requires 1
-        assertThrows(ServiceException.class, () -> contractService.deleteOption(id, id));
+//        //check if option is mandatory for some other
+//        when(contractDAO.findOne(id)).thenReturn(contract);
+//        when(optionDAO.findOne(id)).thenReturn(a); //try to delete a
+//        when(optionDAO.getMandatoryIdsFor(new Integer[]{1, 2})).thenReturn(Collections.singletonList(1)); //2 requires 1
+//        assertThrows(ServiceException.class, () -> contractService.deleteOption(id, id));
     }
 
     @Test

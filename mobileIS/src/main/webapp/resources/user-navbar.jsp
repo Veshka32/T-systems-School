@@ -7,7 +7,6 @@
     .navbar-custom ul li a {
         color: lightgrey;
     }
-
 </style>
 
 <nav class="navbar navbar-custom">

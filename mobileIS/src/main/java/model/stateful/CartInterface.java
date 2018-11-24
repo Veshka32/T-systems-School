@@ -3,9 +3,10 @@ package model.stateful;
 import model.entity.Option;
 
 public interface CartInterface {
-    void addItem(Option option);
 
-    void deleteItem(Option option);
+    String addItem(Option option);
+
+    String deleteItem(Option option);
 
     void clear();
 

@@ -20,7 +20,7 @@
 <div class="container">
     <h3>Find contract by phone:</h3>
     <p class="bg-danger" id="message"></p>
-    <form id="find" action="findContract" class="form-inline">
+    <form id="find" class="form-inline">
         <input type="number" id="phoneNumber" class="form-control" placeholder="1234567890"/>
     <input class="input-group btn btn-info" type="submit" value="Find"/><br>
     </form>
