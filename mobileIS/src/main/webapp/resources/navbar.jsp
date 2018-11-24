@@ -1,6 +1,6 @@
 <style>
     .navbar-custom {
-        background-color: #00284d !important;
+        background-color: #2B3E50 !important;
     }
 
     .navbar-custom ul li a {

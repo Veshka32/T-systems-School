@@ -11,8 +11,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css"/>">
@@ -64,14 +62,22 @@
     </div>
 </nav>
 
-<div class="jumbotron text-center">
-    <h1><img src="<c:url value="/resources/spacelogo.jpg"/>" class="img-valign" width="150" height="120">Multiverse
-        mobile</h1>
-    <p>Feel free to communicate through space and time</p>
-</div>
+<!-- Jumbotron -->
 
-<!-- Container (Services Section) -->
-<div id="services" class="container-fluid text-center">
+<div style="position: absolute; width: 100%">
+    <div id="wrapper" style="position:relative;">
+        <div class="jumbotron text-center">
+            <h1>Multiverse mobile</h1>
+            <p>Feel free to communicate through space and time</p>
+        </div>
+    </div>
+</div>
+<div id="particles-js"></div>
+<script src="<c:url value="/resources/particles-js/particles.js"/>"></script>
+<script src="<c:url value="/resources/particles-js/app.js"/>"></script>
+
+<!-- Services Section) -->
+<div class="container-light">
     <h2>We offer</h2>
     <br>
     <div class="row slideanim">
@@ -94,7 +100,7 @@
 </div>
 
 <!-- Options Section -->
-<div id="portfolio" class="container-fluid text-center bg-grey">
+<div class="container-dark">
     <h2>Options</h2>
     <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
         <!-- Wrapper for slides -->
@@ -127,15 +133,15 @@
     </div>
 </div>
 
-<!-- Tariffs Section) -->
-<div id="pricing" class="container-fluid">
+<!-- Tariffs Section -->
+<div class="container-light">
     <div class="text-center">
         <h2>Tariffs</h2>
     </div>
     <div class="row slideanim">
         <c:forEach items="${tariffs}" var="tariff">
             <div class="col-sm-4">
-                <div class="panel panel-default text-center">
+                <div class="panel">
                     <div class="panel-heading">
                         <h1>${tariff.name}</h1>
                     </div>
