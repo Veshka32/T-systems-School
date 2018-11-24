@@ -195,11 +195,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public List<Contract> getAllClientContracts(int clientId) {
-        return contractDAO.getClientContracts(clientId);
-    }
-
-    @Override
     public PaginateHelper<Contract> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
         if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
@@ -237,7 +232,7 @@ public class ContractService implements ContractServiceI {
         Integer[] params = options.stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
         List<OptionRelation> relations = optionDao.getMandatoryRelation(params);
         List<String> allMandatories = relations.stream()
-                .filter(relation -> !(optionInContract.contains(relation.getAnother()) || optionsInTariff.contains(relation.getAnother())))
+                .filter(relation -> !(optionInContract.contains(relation.getAnother()) || options.contains(relation.getAnother()) || optionsInTariff.contains(relation.getAnother())))
                 .map(relation -> relation.getAnother().getName())
                 .collect(Collectors.toList());
         if (!allMandatories.isEmpty()) {
@@ -269,6 +264,36 @@ public class ContractService implements ContractServiceI {
             throw new ServiceException(MESSAGE + optionDao.getNamesByIds(new Integer[]{optionId}).toString() + " is mandatory for other options: " + optionDao.getNamesByIds(optionInContract.toArray(new Integer[]{})).toString() + ". Delete them first");
         contract.getOptions().remove(option);
         contractDAO.update(contract);
+    }
+
+    @Override
+    public String deleteOptionJson(int id, int optionId) {
+        Contract contract = contractDAO.findOne(id);
+        Gson gson = new Gson();
+        JsonElement element = new JsonObject();
+        if (contract.isBlockedByAdmin()) {
+            element.getAsJsonObject().addProperty("status", "error");
+            element.getAsJsonObject().addProperty("message", "contract is blocked");
+            return gson.toJson(element);
+        }
+
+        Option option = optionDao.findOne(optionId);
+
+        //check if option is mandatory for some other
+        Set<Integer> optionInContract = contract.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
+        List<String> names = optionDao.getMandatoryForInRange(optionInContract.toArray(new Integer[]{}), optionId);
+        if (!names.isEmpty()) {
+            element.getAsJsonObject().addProperty("status", "error");
+            element.getAsJsonObject().addProperty("message", MESSAGE + optionDao.getNamesByIds(new Integer[]{optionId}).toString() + " is mandatory for other options: " + names.toString() + ". Delete them first");
+            element.getAsJsonObject().addProperty("id", optionId);
+            return gson.toJson(element);
+        }
+
+        contract.getOptions().remove(option);
+        contractDAO.update(contract);
+        element.getAsJsonObject().addProperty("status", "success");
+        element.getAsJsonObject().addProperty("id", optionId);
+        return gson.toJson(element);
     }
 
     @Override

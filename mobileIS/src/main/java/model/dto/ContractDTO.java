@@ -28,6 +28,10 @@ public class ContractDTO {
     private boolean isBlocked = false;
     private boolean isBlockedByAdmin = false;
 
+    public ContractDTO() {
+        //default constructor
+    }
+
     public ContractDTO(int clientId) {
         this.ownerId=clientId;
     }

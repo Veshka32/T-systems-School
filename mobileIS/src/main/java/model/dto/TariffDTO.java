@@ -2,7 +2,10 @@ package model.dto;
 
 import model.entity.Tariff;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,8 +20,7 @@ public class TariffDTO {
 
     @DecimalMin(value = "0.00")
     @Digits(integer = 6, fraction = 2)
-    @NotNull
-    private BigDecimal price;
+    private BigDecimal price = new BigDecimal(0);
 
     @Size(max = 255)
     private String description;
@@ -27,6 +29,7 @@ public class TariffDTO {
     private String optionsNames;
 
     public TariffDTO() {
+        //default constructor
     }
 
     public TariffDTO(Tariff tariff) {

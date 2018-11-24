@@ -68,6 +68,8 @@ public interface OptionDaoI extends IGenericDAO<Option> {
 
     List<Integer> getMandatoryIdsFor(Integer[] ids);
 
+    List<String> getMandatoryForInRange(Integer[] ids, int id);
+
     List<String> getNamesByIds(Integer[] ids);
 
 }

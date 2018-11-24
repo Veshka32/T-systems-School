@@ -7,7 +7,6 @@ import model.helpers.PaginateHelper;
 import services.exceptions.ServiceException;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ContractServiceI {
 
@@ -86,14 +85,6 @@ public interface ContractServiceI {
     void unblock(int id);
 
     /**
-     * Return all contracts from specific client
-     *
-     * @param clientId id of {@code Client}
-     * @return list of {@code Contract} which owner is specific {@code Client}
-     */
-    List<Contract> getAllClientContracts(int clientId);
-
-    /**
      * Return contract with eager fetched collection fields (no proxies)
      *
      * @param id id {@code Contract}
@@ -128,6 +119,8 @@ public interface ContractServiceI {
      */
     void deleteOption(int id, int optionId) throws ServiceException;
 
+    String deleteOptionJson(int id, int optionId);
+
     /**
      * Replace tariff in contract to the new one
      *
@@ -145,6 +138,4 @@ public interface ContractServiceI {
      * @return {@code PaginateHelper} with contracts in specific range and additional info
      */
     PaginateHelper<Contract> getPaginateData(Integer currentPage, int rowPerPage);
-
-
 }

@@ -81,6 +81,14 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
     }
 
     @Override
+    public List<String> getMandatoryForInRange(Integer[] ids, int id) {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_mandatoryFor_names", String.class)
+                .setParameterList("ids", ids)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    @Override
     public List<OptionRelation> getIncompatibleRelation(Integer[] ids) {
         return sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_for", OptionRelation.class)
                 .setParameterList("ids", ids)
