@@ -1,10 +1,13 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import model.entity.Contract;
 import model.entity.Option;
+import model.entity.Tariff;
+import model.helpers.PaginateHelper;
 import model.stateful.CartInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +19,7 @@ import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 public class UserCabinet {
@@ -39,6 +41,8 @@ public class UserCabinet {
     @Autowired
     CartInterface cartInterface;
 
+    private static final int ROW_PER_PAGE = 3;
+
     @RequestMapping("/user/cabinet")
     public String create(Model model, Principal user, @RequestParam(value = "message", required = false) String message) {
         Contract contract = contractService.getFullByPhone(Long.parseLong(user.getName()));
@@ -46,16 +50,33 @@ public class UserCabinet {
         model.addAttribute(CONTRACT, contract);
 
         if (!contract.isBlocked() && !contract.isBlockedByAdmin()) {
-            Set<Option> available = new HashSet<>(optionService.getAll());
-            available.removeAll(contract.getTariff().getOptions());
+            List<Option> available = optionService.getPaginateData(1, ROW_PER_PAGE).getItems();
             model.addAttribute(AVAILABLE_OPTIONS, available);
-            model.addAttribute("allTariffs", tariffService.getAll());
+            model.addAttribute("allTariffs", tariffService.getPaginateData(1, ROW_PER_PAGE).getItems());
         }
         if (message != null) model.addAttribute("message", message);
 
         model.addAttribute("cart", cartInterface);
         return CABINET;
     }
+
+    @GetMapping("/user/getMoreOptions")
+    @ResponseBody
+    public String showMoreOptions(@RequestParam("page") int page) {
+        Gson gson = new Gson();
+        PaginateHelper<Option> helper = optionService.getPaginateData(page, ROW_PER_PAGE);
+        return gson.toJson(helper);
+    }
+
+    @GetMapping("/user/getMoreTariffs")
+    @ResponseBody
+    public String showMoreTariffs(@RequestParam("page") int page) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        PaginateHelper<Tariff> helper = tariffService.getPaginateData(page, ROW_PER_PAGE);
+        String j = gson.toJson(helper);
+        return j;
+    }
+
 
     @GetMapping("/user/block")
     public String blockContract( Model model) {

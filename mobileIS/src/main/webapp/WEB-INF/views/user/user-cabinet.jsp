@@ -32,8 +32,9 @@
             <li>
                 <a class="nav-link" href="javascript:document.getElementById('logout').submit()"><span
                         class="glyphicon glyphicon-log-out"></span>LOG OUT</a>
-                <form id="logout" action="../logout" method="post">
-                    <input type="hidden" name="_csrf" value="fcf08ffd-4fc3-41c8-9676-a0423b9dfef4"/>
+                <c:url value="/logout" var="logoutUrl"/>
+                <form id="logout" action="${logoutUrl}" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </li>
         </ul>
@@ -86,24 +87,20 @@
                     <div class="text-right">
                         <button id="buy-button" onclick="buy()" class="btn btn-success">Buy</button>
                     </div>
-                    <c:if test="${cart.isEmpty()}">
+                    <c:if test="${cart.isEmpty() || contract.blockedByAdmin || contract.blocked}">
                         <script>
-                            $("#buy-button").addClass('disabled');
+                            $("#buy-button").attr('disabled', 'disabled');
                         </script>
                     </c:if>
                 </div>
             </div>
 
-            <div class="modal fade" id="cart-message">
-                <div class="modal-dialog">
+            <div id="cart-message" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <!-- Modal content-->
                     <div class="modal-content alert alert-dismissible alert-danger">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                        </div>
-
-
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="modal-body"></div>
                     </div>
                 </div>
             </div>
@@ -116,7 +113,7 @@
                 <a class="nav-link active" data-toggle="tab" href="#active-options">Active options</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" id="tab1" href="#options">Available options</a>
+                <a class="nav-link" data-toggle="tab" id="tab1" href="#available-options">Available options</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" id="tab2" href="#tariffs">Tariffs</a>
@@ -131,11 +128,11 @@
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="active-options">
                 <br>
-                <p class="bg-danger"></p>
-                <div class="row">
+                <div class="card-columns">
                     <c:forEach items="${contract.tariff.options}" var="option">
-                        <div class="col-sm-4">
-                            <div class="card border-success">
+
+                    <div class="card border-success id=" tariffOption
+                        ${option.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${option.name}</h4>
                                     <p class="card-text text-success"> ${option.description}</p>
@@ -143,13 +140,12 @@
                                 </div>
                                 <div class="card-footer">Can't be deactivated</div>
                             </div>
-                        </div>
+
                         <br>
                     </c:forEach>
 
                     <c:forEach items="${contract.options}" var="option">
-                        <div class="col-sm-4" id="option${option.id}">
-                            <div class="card border-warning">
+                        <div class="card border-warning" id="option${option.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${option.name}</h4>
                                     <p class="card-text text-warning">${option.description}</p>
@@ -165,19 +161,17 @@
                                     </c:if>
                                 </div>
                             </div>
-                        </div>
                         <br>
                     </c:forEach>
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="options">
+        <div class="tab-pane fade" id="available-options">
                 <br>
-                <div id="source-button" class="btn btn-primary btn-xs">More &gt;</div>
-                <div class="row">
+            <div class="card-columns">
                     <c:forEach items="${availableOptions}" var="option">
-                        <div class="col-sm-4" id="newOption${option.id}">
-                            <div class="card border-warning">
+
+                        <div class="card border-warning" id="newOption${option.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${option.name}</h4>
                                     <p class="card-text text-warning">${option.description}</p>
@@ -187,20 +181,27 @@
                                 <div class="card-footer">
                                     <button onclick="addToCart(${option.id})" class="btn btn-primary">Get</button>
                                 </div>
+                            <script>
+                                if ($('#optionInCart${option.id}').length > 0 || $('#tariffOption${option.id}').length > 0 || $('#option${option.id}').length > 0) {
+                                    $('#newOption${option.id}').find('button').attr('disabled', 'disabled');
+                                }
+                            </script>
                             </div>
-                        </div>
+
                     </c:forEach>
                 </div>
+            <button id="moreOptions" data-page=2 onclick="getMoreOptions()" class="btn btn-primary btn-xs center-block">
+                More &gt;
+            </button>
             </div>
 
 
             <div class="tab-pane fade" id="tariffs">
                 <br>
-                <p class="bg-danger"></p>
-                <div class="row">
+                <div class="card-columns">
                     <c:forEach items="${allTariffs}" var="tariff">
-                        <div class="col-sm-4">
-                            <div class="card border-warning">
+
+                        <div class="card border-warning" id="tariff${tariff.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${tariff.name}</h4>
                                     <p class="card-text text-warning">${tariff.description}</p>
@@ -211,10 +212,13 @@
                                         tariff</a>
                                 </div>
                             </div>
-                        </div>
                         <br>
                     </c:forEach>
                 </div>
+                <button id="moreTariffs" data-page=2 onclick="getMoreTariffs()"
+                        class="btn btn-primary btn-xs center-block">More &gt;
+                </button>
+
             </div>
         </div>
     </div>

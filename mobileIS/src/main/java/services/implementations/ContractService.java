@@ -223,6 +223,7 @@ public class ContractService implements ContractServiceI {
 
     @Override
     public void addOptions(int id, Collection<Option> options) throws ServiceException {
+        if (options.isEmpty()) throw new ServiceException("nothing to buy");
         Contract contract = contractDAO.findOne(id);
         if (contract.isBlockedByAdmin()) return;
         Set<Option> optionInContract = contract.getOptions();

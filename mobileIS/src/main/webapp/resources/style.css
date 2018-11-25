@@ -35,6 +35,10 @@ body {
     background-color: #fff;
 }
 
+.login-panel #error {
+    color: black;
+}
+
 .panel-footer {
     background-color: #4E5D6C;
 }

@@ -155,15 +155,14 @@ public class OptionService implements OptionServiceI {
             String s = relations1.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
         }
-
     }
 
     @Override
     public PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
         if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
-        List<Option> optionsForPage = optionDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int total = optionDAO.count().intValue();
+        List<Option> optionsForPage = optionDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
         int totalPage = total / rowPerPage;
         if (total % rowPerPage > 0) totalPage++;
         return new PaginateHelper<>(optionsForPage, totalPage);
