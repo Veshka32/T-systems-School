@@ -16,6 +16,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <style>
+        .card-body {
+            color: black;
+            background-color: lightgrey;
+        }
+    </style>
 </head>
 <body>
 
@@ -26,7 +32,6 @@
         </a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active"><a class="nav-link" href="cabinet">Cabinet</a></li>
-            <li class="nav-item"><a class="nav-link" href="showTariffs">Tariffs</a></li>
         </ul>
         <ul class="navbar-nav mr-right">
             <li>
@@ -41,7 +46,6 @@
     </div>
 </nav>
 
-
 <br>
 <div class="container">
     <div class="row">
@@ -54,9 +58,10 @@
                     </c:if>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">Tariff: ${contract.tariff.name}</h4>
-                    <p class="card-text text-success">${contract.tariff.description}</p>
-                    <h5 class="card-text font-italic">Cost: $${contract.tariff.price} per month</h5>
+                    <h4 class="card-title" id="tariffInfo" data-tariffId="tariff${contract.tariff.id}">
+                        Tariff: ${contract.tariff.name}</h4>
+                    <p class="card-text">${contract.tariff.description}</p>
+                    <h5 class="card-text text-secondary font-italic">Cost: $${contract.tariff.price} per month</h5>
                 </div>
                 <div class="card-footer">
                     <c:if test="${contract.blocked && !contract.blockedByAdmin}">
@@ -71,7 +76,7 @@
         </div>
         <!---Cart--->
         <div class="col-sm-4">
-            <div class="card border-success bg-light">
+            <div class="card border-success bg-dark">
                 <div class="card-header">Cart:</div>
                 <div class="card-body" id="cart-body">
                     <c:forEach items="${cart.options}" var="opt">
@@ -82,15 +87,11 @@
                         </p>
                     </c:forEach>
                 </div>
-                <div class="card-footer text-left">
-                    Total: $<span id="cart-sum">${cart.totalSum}</span>
-                    <div class="text-right">
-                        <button id="buy-button" onclick="buy()" class="btn btn-success">Buy</button>
-                    </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span id="cart-sum">Total: $${cart.totalSum}</span>
+                    <button id="buy-button" onclick="buy()" class="btn btn-success">Buy</button>
                     <c:if test="${cart.isEmpty() || contract.blockedByAdmin || contract.blocked}">
-                        <script>
-                            $("#buy-button").attr('disabled', 'disabled');
-                        </script>
+                        <script>$("#buy-button").attr('disabled', 'disabled');</script>
                     </c:if>
                 </div>
             </div>
@@ -125,31 +126,28 @@
                 $("#tab2").addClass('disabled');
             </script>
         </c:if>
-        <div id="myTabContent" class="tab-content">
+        <div class="tab-content">
             <div class="tab-pane fade active show" id="active-options">
                 <br>
                 <div class="card-columns">
                     <c:forEach items="${contract.tariff.options}" var="option">
-
                     <div class="card border-success id=" tariffOption
                         ${option.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${option.name}</h4>
-                                    <p class="card-text text-success"> ${option.description}</p>
-                                    <p>$${option.price} per month</p>
+                                    <p class="card-text"> ${option.description}</p>
+                                    <p class="text-secondary">$${option.price} per month</p>
                                 </div>
                                 <div class="card-footer">Can't be deactivated</div>
                             </div>
-
-                        <br>
                     </c:forEach>
 
                     <c:forEach items="${contract.options}" var="option">
                         <div class="card border-warning" id="option${option.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${option.name}</h4>
-                                    <p class="card-text text-warning">${option.description}</p>
-                                    <p>$${option.price} per month</p>
+                                    <p class="card-text">${option.description}</p>
+                                    <p class="text-secondary">$${option.price} per month</p>
                                 </div>
                                 <div class="card-footer">
                                     <c:if test="${!contract.blocked && !contract.blockedByAdmin}">
@@ -161,7 +159,6 @@
                                     </c:if>
                                 </div>
                             </div>
-                        <br>
                     </c:forEach>
                 </div>
             </div>
@@ -170,13 +167,12 @@
                 <br>
             <div class="card-columns">
                     <c:forEach items="${availableOptions}" var="option">
-
                         <div class="card border-warning" id="newOption${option.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${option.name}</h4>
-                                    <p class="card-text text-warning">${option.description}</p>
-                                    <p>$${option.price} per month</p>
-                                    <p>$${option.subscribeCost} for subscribe</p>
+                                    <p class="card-text">${option.description}</p>
+                                    <p class="text-secondary">$${option.price} per month</p>
+                                    <p class="text-secondary">$${option.subscribeCost} for subscribe</p>
                                 </div>
                                 <div class="card-footer">
                                     <button onclick="addToCart(${option.id})" class="btn btn-primary">Get</button>
@@ -187,25 +183,25 @@
                                 }
                             </script>
                             </div>
-
                     </c:forEach>
-                </div>
-            <button id="moreOptions" data-page=2 onclick="getMoreOptions()" class="btn btn-primary btn-xs center-block">
-                More &gt;
-            </button>
             </div>
-
+            <
+            <div class="text-center">
+                <button id="moreOptions" data-page=2 onclick="getMoreOptions()"
+                        class="btn btn-primary btn-xs center-block">Show more &gt;
+                </button>
+            </div>
+            </div>
 
             <div class="tab-pane fade" id="tariffs">
                 <br>
                 <div class="card-columns">
                     <c:forEach items="${allTariffs}" var="tariff">
-
                         <div class="card border-warning" id="tariff${tariff.id}">
                                 <div class="card-body">
                                     <h4 class="card-title">${tariff.name}</h4>
-                                    <p class="card-text text-warning">${tariff.description}</p>
-                                    <p>$${tariff.price} per month</p>
+                                    <p class="card-text">${tariff.description}</p>
+                                    <p class="text-secondary">$${tariff.price} per month</p>
                                 </div>
                                 <div class="card-footer">
                                     <a href="getTariff/${tariff.id}" role="button" class="btn btn-success">Get
@@ -215,10 +211,12 @@
                         <br>
                     </c:forEach>
                 </div>
-                <button id="moreTariffs" data-page=2 onclick="getMoreTariffs()"
-                        class="btn btn-primary btn-xs center-block">More &gt;
-                </button>
-
+                <script> filterTariff();</script>
+                <div class="text-center">
+                    <button id="moreTariffs" data-page=2 onclick="getMoreTariffs()" class="btn btn-primary btn-xs">Show
+                        more &gt;
+                    </button>
+                </div>
             </div>
         </div>
     </div>
