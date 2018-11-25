@@ -51,7 +51,7 @@ public class AuthController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject(MESSAGE, "Invalid credentials provided.");
+            model.addObject(MESSAGE, "Wrong login or password");
         }
         return model;
     }

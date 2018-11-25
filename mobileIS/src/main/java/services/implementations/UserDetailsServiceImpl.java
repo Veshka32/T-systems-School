@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 @EnableTransactionManagement
-@Transactional
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -26,9 +26,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDaoI userDAO;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(final String username) {
 
         User user = userDAO.findByLogin(username);
+
+        if (user == null) throw new UsernameNotFoundException("User not found by name: " + username);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }
