@@ -21,12 +21,14 @@ import services.interfaces.PhoneNumberServiceI;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @EnableTransactionManagement
 @Transactional
 public class ContractService implements ContractServiceI {
     private static final String MESSAGE = "Option ";
+    private static final String STATUS = "status";
 
     private ContractDaoI contractDAO;
     private TariffDaoI tariffDAO;
@@ -55,20 +57,15 @@ public class ContractService implements ContractServiceI {
         try {
             ContractDTO dto = getByPhone(phone);
             if (dto == null) {
-                setError(element, "there is no such contract");
+                setError(element, "There is no such contract");
             } else {
-                element.getAsJsonObject().addProperty("status", "success");
+                element.getAsJsonObject().addProperty(STATUS, "success");
                 element.getAsJsonObject().add("contract", gson.toJsonTree(dto));
             }
         } catch (NumberFormatException e) {
             setError(element, "must be 10 digits");
         }
         return gson.toJson(element);
-    }
-
-    private void setError(JsonElement element, String message) {
-        element.getAsJsonObject().addProperty("status", "error");
-        element.getAsJsonObject().addProperty("message", message);
     }
 
     @Override
@@ -94,6 +91,7 @@ public class ContractService implements ContractServiceI {
         return dto;
     }
 
+    @Override
     public void addData(ContractDTO dto) {
         Map<String, Integer> m = dto.getAllOptions();
         optionDao.getAllNamesAndIds().forEach(array -> m.put((String) array[1], (Integer) array[0]));
@@ -123,35 +121,39 @@ public class ContractService implements ContractServiceI {
 
     private void checkCompatibility(ContractDTO dto, Tariff tariff) throws ServiceException {
 
-        List<Integer> optionsInTariff = optionDao.getOptionsInTariffIds(tariff.getId());
-
         if (!dto.getOptionsIds().isEmpty()) {
 
             //get options in contract
             Set<Integer> optionsInContract = dto.getOptionsIds();
-            optionsInContract.removeAll(optionsInTariff); //remove all options that already in tariff
+            Set<Integer> optionsInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
+            optionsInContract.removeIf(optionsInTariffIds::contains); //remove all options that already in tariff
 
-            if (optionsInContract.isEmpty()) return;
+            if (optionsInContract.isEmpty()) return; //nothing to check
 
             //check if all options has its' mandatory
-            List<Integer> ids = optionDao.getMandatoryIdsFor(optionsInContract.toArray(new Integer[]{}));
-            List<Integer> allMandatories = ids.stream()
-                    .filter(id -> !(optionsInTariff.contains(id) || optionsInContract.contains(id)))
-                    .collect(Collectors.toList());
+            List<OptionRelation> relations = optionDao.getMandatoryRelation(optionsInContract.toArray(new Integer[]{}));
+            Set<String> requires = relations.stream()
+                    .filter(r -> !(tariff.getOptions().contains(r.getAnother()) || optionsInContract.contains(r.getAnother().getId())))
+                    .map(r -> r.getAnother().getName())
+                    .collect(Collectors.toSet());
 
-            if (!allMandatories.isEmpty())
-                throw new ServiceException("More options are required as mandatory: " + optionDao.getNamesByIds(allMandatories.toArray(new Integer[]{})).toString());
+            if (!requires.isEmpty())
+                throw new ServiceException("More options are required as mandatory: " + requires.stream().collect(Collectors.joining(", ")));
 
-            //check if all options are compatible with each other and with options in tariff
-            List<Integer> params = new ArrayList<>(optionsInContract);
-            params.addAll(optionsInTariff);
-            List<OptionRelation> relations = optionDao.getIncompatibleRelationInRange(params.toArray(new Integer[]{}));
+            //check if all options are compatible with each other
+            relations = optionDao.getIncompatibleRelationInRange(optionsInContract.toArray(new Integer[]{}));
             if (!relations.isEmpty()) {
                 String s = relations.stream()
                         .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
                         .collect(Collectors.joining(", "));
-                throw new ServiceException("Options " + s + " incompatible with each other");
+                throw new ServiceException(MESSAGE + s + " incompatible with each other");
             }
+
+            //check if all options are compatible with options in tariff
+            Integer[] optionInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
+            List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(optionsInContract.toArray(new Integer[]{}), optionInTariffIds);
+            if (!incompatibleWithTariff.isEmpty())
+                throw new ServiceException(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + "with tariff " + tariff.getName());
         }
     }
 
@@ -219,29 +221,39 @@ public class ContractService implements ContractServiceI {
         return getFull(id);
     }
 
-    //client's actions. Admin blocking check must be done before any actions
+    //<-----client's actions. Admin blocking check must be done before any actions----->
 
     @Override
     public void addOptions(int id, Collection<Option> options) throws ServiceException {
-        if (options.isEmpty()) throw new ServiceException("nothing to buy");
+        if (options.isEmpty()) throw new ServiceException("Nothing to buy");
+
         Contract contract = contractDAO.findOne(id);
-        if (contract.isBlockedByAdmin()) return;
-        Set<Option> optionInContract = contract.getOptions();
-        Set<Option> optionsInTariff = contract.getTariff().getOptions();
+        if (contract.isBlockedByAdmin()) throw new ServiceException("Contract is blocked");
 
         //check if all options has its' mandatory
-        Integer[] params = options.stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
-        List<OptionRelation> relations = optionDao.getMandatoryRelation(params);
-        List<String> allMandatories = relations.stream()
-                .filter(relation -> !(optionInContract.contains(relation.getAnother()) || options.contains(relation.getAnother()) || optionsInTariff.contains(relation.getAnother())))
+        Integer[] newOptionIds = options.stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
+        List<OptionRelation> relations = optionDao.getMandatoryRelation(newOptionIds);
+        List<String> required = relations.stream()
+                .filter(relation -> !(contract.getOptions().contains(relation.getAnother()) || options.contains(relation.getAnother()) || contract.getTariff().getOptions().contains(relation.getAnother())))
                 .map(relation -> relation.getAnother().getName())
                 .collect(Collectors.toList());
-        if (!allMandatories.isEmpty()) {
-            throw new ServiceException("More options are required as mandatory: " + allMandatories.toString());
+        if (!required.isEmpty()) {
+            throw new ServiceException("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
         }
 
-        //check if all options are compatible with each other
-        relations = optionDao.getIncompatibleRelationInRange(params);
+        //check if new options are compatible with tariff and options in contract
+        Integer[] existedOptionIds = Stream.concat(contract.getOptions().stream(), contract.getTariff().getOptions().stream())
+                .map(Option::getId)
+                .collect(Collectors.toList())
+                .toArray(new Integer[]{});
+
+        List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(newOptionIds, existedOptionIds);
+        if (!incompatibleWithTariff.isEmpty()) {
+            throw new ServiceException("Options " + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your contract");
+        }
+
+        //check if new options compatible with each other
+        relations = optionDao.getIncompatibleRelationInRange(newOptionIds);
         if (!relations.isEmpty()) {
             String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
@@ -254,45 +266,35 @@ public class ContractService implements ContractServiceI {
     @Override
     public void deleteOption(int id, int optionId) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
-        if (contract.isBlockedByAdmin()) return;
+        if (contract.isBlockedByAdmin()) throw new ServiceException("Contract is blocked");
+
         Option option = optionDao.findOne(optionId);
 
         //check if option is mandatory for some other
         Set<Integer> optionInContract = contract.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
-        List<Integer> ids = optionDao.getMandatoryIdsFor(optionInContract.toArray(new Integer[]{}));
-        optionInContract.retainAll(ids);
-        if (!optionInContract.isEmpty())
-            throw new ServiceException(MESSAGE + optionDao.getNamesByIds(new Integer[]{optionId}).toString() + " is mandatory for other options: " + optionDao.getNamesByIds(optionInContract.toArray(new Integer[]{})).toString() + ". Delete them first");
+        optionInContract.remove(optionId);
+        List<OptionRelation> required = optionDao.getMandatoryRelation(optionInContract.toArray(new Integer[]{}));
+        List<String> mandatoryFor = required.stream().filter(r -> r.getAnother().getId() == optionId).map(r -> r.getOne().getName()).collect(Collectors.toList());
+
+        if (!mandatoryFor.isEmpty())
+            throw new ServiceException(MESSAGE + option.getName() + " is mandatory for other options in your contract: " + mandatoryFor.stream().collect(Collectors.joining(", ")) + ". Delete them first");
+
         contract.getOptions().remove(option);
         contractDAO.update(contract);
     }
 
     @Override
     public String deleteOptionJson(int id, int optionId) {
-        Contract contract = contractDAO.findOne(id);
         Gson gson = new Gson();
         JsonElement element = new JsonObject();
-        if (contract.isBlockedByAdmin()) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", "contract is blocked");
-            return gson.toJson(element);
+
+        try {
+            deleteOption(id, optionId);
+        } catch (ServiceException e) {
+            setError(element, e.getMessage());
         }
 
-        Option option = optionDao.findOne(optionId);
-
-        //check if option is mandatory for some other
-        Set<Integer> optionInContract = contract.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
-        List<String> names = optionDao.getMandatoryForInRange(optionInContract.toArray(new Integer[]{}), optionId);
-        if (!names.isEmpty()) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", MESSAGE + optionDao.getNamesByIds(new Integer[]{optionId}).toString() + " is mandatory for other options: " + names.toString() + ". Delete them first");
-            element.getAsJsonObject().addProperty("id", optionId);
-            return gson.toJson(element);
-        }
-
-        contract.getOptions().remove(option);
-        contractDAO.update(contract);
-        element.getAsJsonObject().addProperty("status", "success");
+        element.getAsJsonObject().addProperty(STATUS, "success");
         element.getAsJsonObject().addProperty("id", optionId);
         return gson.toJson(element);
     }
@@ -301,9 +303,15 @@ public class ContractService implements ContractServiceI {
     public void setTariff(int id, int tariffId) {
         Contract contract = contractDAO.findOne(id);
         if (contract.isBlockedByAdmin()) return;
+
         Tariff tariff = tariffDAO.findOne(tariffId);
         contract.getOptions().clear();
         contract.setTariff(tariff);
         contractDAO.update(contract);
+    }
+
+    private void setError(JsonElement element, String message) {
+        element.getAsJsonObject().addProperty(STATUS, "error");
+        element.getAsJsonObject().addProperty("message", message);
     }
 }

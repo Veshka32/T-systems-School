@@ -1,4 +1,4 @@
-package services.implementations;
+package services;
 
 import dao.interfaces.ClientDaoI;
 import dao.interfaces.ContractDaoI;
@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import services.exceptions.ServiceException;
+import services.implementations.ClientService;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -63,13 +64,13 @@ class ClientServiceTest {
     void getJsonByPassportTest() {
         when(clientDaoI.findByPassportId(passport)).thenReturn(null);
         String result = clientService.getJsonByPassport(passport);
-        assertTrue(result.equals("{\"status\":\"error\",\"message\":\"there is no such client\"}"));
+        assertEquals(result, "{\"status\":\"error\",\"message\":\"there is no such client\"}");
         Client client = new Client();
         client.setName("test");
         client.setBirthday(LocalDate.of(2015, 1, 1));
         when(clientDaoI.findByPassportId(passport)).thenReturn(client);
         result = clientService.getJsonByPassport(passport);
-        assertTrue(result.equals("{\"status\":\"success\",\"client\":{\"id\":0,\"name\":\"test\",\"birthday\":{\"year\":2015,\"month\":1,\"day\":1}}}"));
+        assertEquals(result, "{\"status\":\"success\",\"client\":{\"id\":0,\"name\":\"test\",\"birthday\":{\"year\":2015,\"month\":1,\"day\":1}}}");
     }
 
 

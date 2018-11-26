@@ -6,7 +6,6 @@ import model.helpers.PaginateHelper;
 import services.exceptions.ServiceException;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TariffServiceI {
 
@@ -49,13 +48,6 @@ public interface TariffServiceI {
      * @return list with all {@code Tariff} from database
      */
     List<Tariff> getAll();
-
-    /**
-     * Build map from names and corresponding ids of all options in database
-     *
-     * @return names and corresponding ids of all {@code Option} in database
-     */
-    Map<String, Integer> getAllNamesWithIds();
 
     /**
      * Construct object contains tariffs in specific range from database and additional info

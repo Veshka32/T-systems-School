@@ -73,81 +73,27 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
                 .getResultList();
     }
 
+
     @Override
-    public List<Integer> getMandatoryIdsFor(Integer[] ids) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_mandatory_ids", Integer.class)
+    public List<OptionRelation> getIncompatibleRelationInRange(Integer[] ids) {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_for_in_range", OptionRelation.class)
                 .setParameterList("ids", ids)
                 .getResultList();
     }
 
     @Override
-    public List<String> getMandatoryForInRange(Integer[] ids, int id) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_mandatoryFor_names", String.class)
+    public List<Option> getIncompatibleWithTariff(Integer[] ids, Integer[] tariffIds) {
+        List<Option> oneSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible", Option.class)
                 .setParameterList("ids", ids)
-                .setParameter("id", id)
-                .getResultList();
-    }
-
-    @Override
-    public List<OptionRelation> getIncompatibleRelation(Integer[] ids) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_for", OptionRelation.class)
-                .setParameterList("ids", ids)
-                .getResultList();
-    }
-
-    @Override
-    public List<Integer> getIncompatibleIdsFor(Integer[] ids) {
-        List<Integer> oneSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_ids", Integer.class)
-                .setParameterList("ids", ids)
+                .setParameterList("ids2", tariffIds)
                 .getResultList();
 
-        List<Integer> anotherSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_ids_1", Integer.class)
-                .setParameterList("ids", ids)
+        List<Option> anotherSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible", Option.class)
+                .setParameterList("ids", tariffIds)
+                .setParameterList("ids2", ids)
                 .getResultList();
 
         anotherSide.addAll(oneSide);
         return anotherSide;
-    }
-
-
-    @Override
-    public List<String> getMandatoryNamesFor(int id) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_mandatory_names", String.class)
-                .setParameter("id", id)
-                .getResultList();
-    }
-
-    @Override
-    public List<String> getIncompatibleNamesFor(int id) {
-        List<String> oneSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_names", String.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        List<String> anotherSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_names_1", String.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        anotherSide.addAll(oneSide);
-        return anotherSide;
-    }
-
-    @Override
-    public List<Integer> getOptionsInTariffIds(int id) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_option_in_tariff_ids", Integer.class)
-                .setParameter("id", id)
-                .getResultList();
-    }
-
-    @Override
-    public List<String> getOptionsInTariffNames(int id) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_option_in_tariff_names", String.class)
-                .setParameter("id", id)
-                .getResultList();
-    }
-
-    public List<String> getNamesByIds(Integer[] ids) {
-        return sessionFactory.getCurrentSession().createNamedQuery("get_names_by_ids", String.class)
-                .setParameterList("ids", ids)
-                .getResultList();
     }
 }

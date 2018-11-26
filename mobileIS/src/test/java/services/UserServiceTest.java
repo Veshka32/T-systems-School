@@ -1,4 +1,4 @@
-package services.implementations;
+package services;
 
 import dao.interfaces.ContractDaoI;
 import dao.interfaces.UserDaoI;
@@ -17,6 +17,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import services.exceptions.AccountCreateException;
+import services.implementations.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
