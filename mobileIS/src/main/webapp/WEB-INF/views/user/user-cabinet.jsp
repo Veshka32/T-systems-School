@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/superhero/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/sketchy/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="<c:url value="/resources/usre-cabinet-scripts.js"/>"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
@@ -61,7 +61,7 @@
                     <h4 class="card-title" id="tariffInfo" data-tariffId="tariff${contract.tariff.id}">
                         Tariff: ${contract.tariff.name}</h4>
                     <p class="card-text">${contract.tariff.description}</p>
-                    <h5 class="card-text text-secondary font-italic">Cost: $${contract.tariff.price} per month</h5>
+                    <p class="card-text text-secondary">Cost: $${contract.tariff.price} per month</p>
                 </div>
                 <div class="card-footer">
                     <c:if test="${contract.blocked && !contract.blockedByAdmin}">
