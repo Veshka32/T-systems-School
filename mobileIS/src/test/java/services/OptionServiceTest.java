@@ -5,6 +5,7 @@ import dao.interfaces.RelationDaoI;
 import model.dto.OptionDTO;
 import model.entity.Option;
 import model.entity.OptionRelation;
+import model.enums.RELATION;
 import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +20,11 @@ import org.mockito.quality.Strictness;
 import services.exceptions.ServiceException;
 import services.implementations.OptionService;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
@@ -50,6 +54,39 @@ class OptionServiceTest {
     }
 
     @Test
+    void getDto() {
+        //set mocks
+        Option a = new Option();
+        a.setId(1);
+        a.setName("a");
+        Option b = new Option();
+        b.setId(2);
+        b.setName("b");
+        Option c = new Option();
+        c.setId(3);
+        c.setName("c");
+        Option d = new Option();
+        d.setId(4);
+        d.setName("d");
+
+        OptionRelation m = new OptionRelation(a, b, RELATION.MANDATORY);
+        OptionRelation i = new OptionRelation(c, a, RELATION.INCOMPATIBLE);
+        OptionRelation i1 = new OptionRelation(a, d, RELATION.INCOMPATIBLE);
+
+        when(optionDAO.findOne(1)).thenReturn(a);
+        when(optionDAO.getMandatoryRelation(new Integer[]{1})).thenReturn(Collections.singletonList(m));
+        when(optionDAO.getIncompatibleRelation(new Integer[]{1})).thenReturn(Arrays.asList(i, i1));
+        OptionDTO dto = optionService.getDto(1);
+        assertEquals(dto.getName(), a.getName());
+        assertEquals((int) dto.getId(), a.getId());
+        assertEquals(dto.getMandatory(), new HashSet<>(Arrays.asList(b.getId())));
+        assertEquals(dto.getMandatoryNames(), new HashSet<>(Arrays.asList(b.getName())).stream().collect(Collectors.joining(", ")));
+        assertEquals(dto.getIncompatible(), new HashSet<>(Arrays.asList(c.getId(), d.getId())));
+        assertEquals(dto.getIncompatibleNames(), new HashSet<>(Arrays.asList(c.getName(), d.getName())).stream().collect(Collectors.joining(", ")));
+    }
+
+
+    @Test
     void createTest() {
         //set mocks
         OptionDTO dto = new OptionDTO();
@@ -68,49 +105,43 @@ class OptionServiceTest {
     @Test
     void checkCompatibilityTest() {
         //set mocks
-        String A = "a";
-        String B = "b";
-        OptionDTO dto = new OptionDTO();
-        dto.setName(A);
-        dto.setId(2);
+        Option self = new Option();
+        self.setId(2);
+        self.setName("dto");
+        OptionDTO dto = new OptionDTO(self);
 
-        OptionRelation relation = new OptionRelation();
         Option a = new Option();
         a.setId(1);
-        a.setName(A);
+        a.setName("a");
         Option b = new Option();
         b.setId(3);
-        b.setName(B);
-        relation.setOne(a);
-        relation.setAnother(b); //a requires b
+        b.setName("b");
+        OptionRelation relation = new OptionRelation(a, b, RELATION.MANDATORY);  //a requires b
+        OptionRelation bi = new OptionRelation(a, self, RELATION.MANDATORY); //a requires dto
 
         //check if no option at the same time are mandatory and incompatible
         dto.getMandatory().add(1);
         dto.getIncompatible().add(1);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
-        when(optionDAO.getNamesByIds(new Integer[]{1})).thenReturn(Collections.singletonList(A));
+        when(optionDAO.findOne(1)).thenReturn(a);
         ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible: " + Collections.singletonList(A).toString());
+        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible: " + a.getName());
 
         //check if mandatory relation is not bidirectional
         dto.getIncompatible().clear();
-        when(optionDAO.getMandatoryIdsFor(new Integer[]{1})).thenReturn(Collections.singletonList(dto.getId())); //1 requires dto
-        when(optionDAO.getNamesByIds(new Integer[]{dto.getId()})).thenReturn(Collections.singletonList(A));
+        when(optionDAO.getMandatoryRelation(new Integer[]{1})).thenReturn(Collections.singletonList(bi)); //a requires dto
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + Collections.singletonList(A).toString());
+        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + a.getName());
 
         //check if all from mandatory also have its' corresponding mandatory options
-        when(optionDAO.getMandatoryIdsFor(new Integer[]{1})).thenReturn(Collections.singletonList(3)); //1 requires 3
-        when(optionDAO.getNamesByIds(new Integer[]{3})).thenReturn(Collections.singletonList(A));
+        when(optionDAO.getMandatoryRelation(new Integer[]{1})).thenReturn(Collections.singletonList(relation)); //1 requires 3
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList(A).toString());
+        assertEquals(e.getMessage(), "More options are required as mandatory: " + b.getName());
 
         //check if mandatory options are incompatible with each other
         dto.getIncompatible().clear();
         dto.getMandatory().add(3);
-        relation.setOne(a);
-        relation.setAnother(b); //1 incompatible with 3
-        when(optionDAO.getMandatoryIdsFor(new Integer[]{1, 3})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMandatoryRelation(new Integer[]{1, 3})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleRelation(new Integer[]{1, 3})).thenReturn(Collections.singletonList(relation));
         e = assertThrows(ServiceException.class, () -> optionService.create(dto));
         assertTrue(e.getMessage().contains("a and b"));

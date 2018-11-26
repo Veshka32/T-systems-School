@@ -106,10 +106,14 @@ public class OptionService implements OptionServiceI {
     public OptionDTO getDto(int id) {
         Option option = optionDAO.findOne(id);
         OptionDTO dto = new OptionDTO(option);
-        dto.setMandatoryNames(optionDAO.getMandatoryNamesFor(id).stream().collect(Collectors.joining(", ")));
-        dto.setIncompatibleNames(optionDAO.getIncompatibleNamesFor(id).stream().collect(Collectors.joining(", ")));
-        dto.getMandatory().addAll(optionDAO.getMandatoryIdsFor(new Integer[]{id}));
-        dto.getIncompatible().addAll(optionDAO.getIncompatibleIdsFor(new Integer[]{id}));
+        Integer[] ids = {dto.getId()};
+        List<OptionRelation> mandatory = optionDAO.getMandatoryRelation(ids);
+        List<OptionRelation> incompatible = optionDAO.getIncompatibleRelation(ids);
+
+        dto.setMandatoryNames(mandatory.stream().map(r -> r.getAnother().getName()).collect(Collectors.joining(", ")));
+        dto.setIncompatibleNames(incompatible.stream().map(r -> (r.getAnother().getId() == id ? r.getOne().getName() : r.getAnother().getName())).collect(Collectors.joining(", ")));
+        dto.getMandatory().addAll(mandatory.stream().map(r -> r.getAnother().getId()).collect(Collectors.toList()));
+        dto.getIncompatible().addAll(incompatible.stream().map(r -> (r.getAnother().getId() == id ? r.getOne().getId() : r.getAnother().getId())).collect(Collectors.toList()));
         return dto;
     }
 
@@ -125,27 +129,29 @@ public class OptionService implements OptionServiceI {
         //check if no option at the same time are mandatory and incompatible
         Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
         if (any.isPresent())
-            throw new ServiceException(ERROR_MESSAGE + optionDAO.getNamesByIds(new Integer[]{any.get()}).toString());
-
+            throw new ServiceException(ERROR_MESSAGE + optionDAO.findOne(any.get()).getName());
         if (dto.getMandatory().isEmpty()) return;
 
         //check if all from mandatory also have its' corresponding mandatory options
         Integer[] mandatoryIds = dto.getMandatory().toArray(new Integer[]{});
-        List<Integer> relations = optionDAO.getMandatoryIdsFor(mandatoryIds);
+        List<OptionRelation> relations = optionDAO.getMandatoryRelation(mandatoryIds);
 
         if (!relations.isEmpty()) {
             //check if mandatory relation is not bidirectional
-            List<Integer> mandatoryFor = relations.stream().
-                    filter(r -> r.equals(dto.getId()))
+            List<OptionRelation> selfPointer = relations.stream().
+                    filter(r -> r.getAnother().getId() == dto.getId())
                     .collect(Collectors.toList());
-            if (!mandatoryFor.isEmpty())
-                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + optionDAO.getNamesByIds(mandatoryFor.toArray(new Integer[]{})).toString());
+            if (!selfPointer.isEmpty())
+                throw new ServiceException(
+                        "Option " + dto.getName() + " is already mandatory itself for these options: " +
+                                selfPointer.stream().map(r -> r.getOne().getName()).collect(Collectors.joining(", ")));
 
-            Set<Integer> allMandatories = relations.stream()
-                    .filter(r -> !dto.getMandatory().contains(r))
+            Set<OptionRelation> allMandatories = relations.stream()
+                    .filter(r -> !dto.getMandatory().contains(r.getAnother().getId()))
                     .collect(Collectors.toSet());
             if (!allMandatories.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " + optionDAO.getNamesByIds(allMandatories.toArray(new Integer[]{})).toString());
+                throw new ServiceException("More options are required as mandatory: " +
+                        allMandatories.stream().map(r -> r.getAnother().getName()).collect(Collectors.joining(", ")));
             }
         }
 
