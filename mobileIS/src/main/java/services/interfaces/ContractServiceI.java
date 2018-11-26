@@ -127,7 +127,7 @@ public interface ContractServiceI {
      * @param id       id of {@code Contract}
      * @param tariffId id of {@code Tariff} to set
      */
-    void setTariff(int id, int tariffId);
+    void setTariff(int id, int tariffId) throws ServiceException;
 
 
     /**

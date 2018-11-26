@@ -27,8 +27,9 @@ import java.util.stream.Stream;
 @EnableTransactionManagement
 @Transactional
 public class ContractService implements ContractServiceI {
-    private static final String MESSAGE = "Option ";
+    private static final String MESSAGE = "Option(s) ";
     private static final String STATUS = "status";
+    private static final String BLOCKED = "Contract is blocked";
 
     private ContractDaoI contractDAO;
     private TariffDaoI tariffDAO;
@@ -128,8 +129,6 @@ public class ContractService implements ContractServiceI {
             Set<Integer> optionsInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
             optionsInContract.removeIf(optionsInTariffIds::contains); //remove all options that already in tariff
 
-            if (optionsInContract.isEmpty()) return; //nothing to check
-
             //check if all options has its' mandatory
             List<OptionRelation> relations = optionDao.getMandatoryRelation(optionsInContract.toArray(new Integer[]{}));
             Set<String> requires = relations.stream()
@@ -141,19 +140,28 @@ public class ContractService implements ContractServiceI {
                 throw new ServiceException("More options are required as mandatory: " + requires.stream().collect(Collectors.joining(", ")));
 
             //check if all options are compatible with each other
-            relations = optionDao.getIncompatibleRelationInRange(optionsInContract.toArray(new Integer[]{}));
-            if (!relations.isEmpty()) {
-                String s = relations.stream()
-                        .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
-                        .collect(Collectors.joining(", "));
-                throw new ServiceException(MESSAGE + s + " incompatible with each other");
-            }
+            checkIncompatibility(optionsInContract.toArray(new Integer[]{}));
 
-            //check if all options are compatible with options in tariff
+            //check if all options are compatible with options in tariff, throw exception if not
             Integer[] optionInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
-            List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(optionsInContract.toArray(new Integer[]{}), optionInTariffIds);
-            if (!incompatibleWithTariff.isEmpty())
-                throw new ServiceException(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + "with tariff " + tariff.getName());
+            checkIncompatibilityWithTariff(optionsInContract.toArray(new Integer[]{}), optionInTariffIds);
+        }
+    }
+
+    private void checkIncompatibilityWithTariff(Integer[] newIds, Integer[] existedIds) throws ServiceException {
+        List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(newIds, existedIds);
+        if (!incompatibleWithTariff.isEmpty()) {
+            throw new ServiceException(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your contract");
+        }
+    }
+
+    private void checkIncompatibility(Integer[] ids) throws ServiceException {
+        List<OptionRelation> relations = optionDao.getIncompatibleRelationInRange(ids);
+        if (!relations.isEmpty()) {
+            String s = relations.stream()
+                    .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
+                    .collect(Collectors.joining(", "));
+            throw new ServiceException(MESSAGE + s + " incompatible with each other");
         }
     }
 
@@ -228,7 +236,15 @@ public class ContractService implements ContractServiceI {
         if (options.isEmpty()) throw new ServiceException("Nothing to buy");
 
         Contract contract = contractDAO.findOne(id);
-        if (contract.isBlockedByAdmin()) throw new ServiceException("Contract is blocked");
+        if (contract.isBlockedByAdmin() || contract.isBlocked()) throw new ServiceException(BLOCKED);
+
+        List<Option> duplicate = options.stream().filter(o -> contract.getOptions().contains(o)).collect(Collectors.toList());
+        if (!duplicate.isEmpty())
+            throw new ServiceException("These options already included in your contract: " + duplicate.toString());
+
+        duplicate = options.stream().filter(o -> contract.getTariff().getOptions().contains(o)).collect(Collectors.toList());
+        if (!duplicate.isEmpty())
+            throw new ServiceException("These options already included in your tariff: " + duplicate.toString());
 
         //check if all options has its' mandatory
         Integer[] newOptionIds = options.stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
@@ -241,23 +257,16 @@ public class ContractService implements ContractServiceI {
             throw new ServiceException("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
         }
 
-        //check if new options are compatible with tariff and options in contract
+        //check if new options are compatible with tariff and options in contract, throw exception if not
         Integer[] existedOptionIds = Stream.concat(contract.getOptions().stream(), contract.getTariff().getOptions().stream())
                 .map(Option::getId)
                 .collect(Collectors.toList())
                 .toArray(new Integer[]{});
 
-        List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(newOptionIds, existedOptionIds);
-        if (!incompatibleWithTariff.isEmpty()) {
-            throw new ServiceException("Options " + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your contract");
-        }
+        checkIncompatibilityWithTariff(newOptionIds, existedOptionIds);
 
-        //check if new options compatible with each other
-        relations = optionDao.getIncompatibleRelationInRange(newOptionIds);
-        if (!relations.isEmpty()) {
-            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
-            throw new ServiceException("Options " + s + " incompatible with each other");
-        }
+        //check if new options compatible with each other, throw exception if not
+        checkIncompatibility(newOptionIds);
 
         contract.getOptions().addAll(options);
         contractDAO.update(contract);
@@ -266,7 +275,7 @@ public class ContractService implements ContractServiceI {
     @Override
     public void deleteOption(int id, int optionId) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
-        if (contract.isBlockedByAdmin()) throw new ServiceException("Contract is blocked");
+        if (contract.isBlockedByAdmin() || contract.isBlocked()) throw new ServiceException(BLOCKED);
 
         Option option = optionDao.findOne(optionId);
 
@@ -300,9 +309,9 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    public void setTariff(int id, int tariffId) {
+    public void setTariff(int id, int tariffId) throws ServiceException {
         Contract contract = contractDAO.findOne(id);
-        if (contract.isBlockedByAdmin()) return;
+        if (contract.isBlockedByAdmin() || contract.isBlocked()) throw new ServiceException(BLOCKED);
 
         Tariff tariff = tariffDAO.findOne(tariffId);
         contract.getOptions().clear();

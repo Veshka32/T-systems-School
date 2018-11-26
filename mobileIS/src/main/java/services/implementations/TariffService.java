@@ -14,9 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import services.exceptions.ServiceException;
 import services.interfaces.TariffServiceI;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,15 +70,19 @@ public class TariffService implements TariffServiceI {
         checkCompatibility(dto);
 
         //set plain fields
-        Tariff based = new Tariff();
-        updatePlainFields(dto, based);
+        Tariff tariff = new Tariff();
+        updatePlainFields(dto, tariff);
 
         //set complex fields
+        updateComplexFields(dto, tariff);
+        return tariffDAO.save(tariff);
+    }
+
+    private void updateComplexFields(TariffDTO dto, Tariff tariff) {
         for (Integer id : dto.getOptions()) {
             Option option = optionDAO.findOne(id);
-            based.addOption(option);
+            tariff.addOption(option);
         }
-        return tariffDAO.save(based);
     }
 
     @Override
@@ -100,10 +102,7 @@ public class TariffService implements TariffServiceI {
 
         //update complex fields
         tariff.getOptions().clear();
-        for (Integer id : dto.getOptions()) {
-            Option newOption = optionDAO.findOne(id);
-            tariff.addOption(newOption);
-        }
+        updateComplexFields(dto, tariff);
         tariffDAO.update(tariff);
     }
 
@@ -145,12 +144,4 @@ public class TariffService implements TariffServiceI {
     public List<Tariff> getAll() {
         return tariffDAO.findAll();
     }
-
-
-    @Override
-    public Map<String, Integer> getAllNamesWithIds() {
-        List<Object[]> all = tariffDAO.getAllNamesAndIds();
-        return all.stream().collect(HashMap::new, (m, array) -> m.put((String) array[1], (Integer) array[0]), Map::putAll);
-    }
-
 }

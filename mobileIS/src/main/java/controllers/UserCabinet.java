@@ -92,9 +92,14 @@ public class UserCabinet {
     }
 
     @GetMapping("/user/getTariff/{tariffId}")
-    public String getTariff(@PathVariable int tariffId) {
-        contractService.setTariff(cartInterface.getContractId(), tariffId);
-        return REDIRECT_CABINET;
+    public String getTariff(@PathVariable int tariffId, Model model) {
+        try {
+            contractService.setTariff(cartInterface.getContractId(), tariffId);
+            return REDIRECT_CABINET;
+        } catch (ServiceException e) {
+            model.addAttribute("error", e.getMessage());
+            return CABINET;
+        }
     }
 
     @PostMapping("/user/deleteOption")
