@@ -145,7 +145,7 @@ public class ContractService implements ContractServiceI {
             //check if all options are compatible with each other and with options in tariff
             List<Integer> params = new ArrayList<>(optionsInContract);
             params.addAll(optionsInTariff);
-            List<OptionRelation> relations = optionDao.getIncompatibleRelation(params.toArray(new Integer[]{}));
+            List<OptionRelation> relations = optionDao.getIncompatibleRelationInRange(params.toArray(new Integer[]{}));
             if (!relations.isEmpty()) {
                 String s = relations.stream()
                         .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
@@ -241,7 +241,7 @@ public class ContractService implements ContractServiceI {
         }
 
         //check if all options are compatible with each other
-        relations = optionDao.getIncompatibleRelation(params);
+        relations = optionDao.getIncompatibleRelationInRange(params);
         if (!relations.isEmpty()) {
             String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");

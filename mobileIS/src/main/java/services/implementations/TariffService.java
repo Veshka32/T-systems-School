@@ -17,6 +17,7 @@ import services.interfaces.TariffServiceI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,9 +38,10 @@ public class TariffService implements TariffServiceI {
     }
 
     public TariffDTO getDto(int id) {
-        TariffDTO dto = new TariffDTO(tariffDAO.findOne(id));
-        dto.getOptions().addAll(optionDAO.getOptionsInTariffIds(id));
-        dto.setOptionsNames(optionDAO.getOptionsInTariffNames(id).stream().collect(Collectors.joining(", ")));
+        Tariff tariff = tariffDAO.findOne(id);
+        TariffDTO dto = new TariffDTO(tariff);
+        dto.getOptions().addAll(tariff.getOptions().stream().map(Option::getId).collect(Collectors.toList()));
+        dto.setOptionsNames(tariff.getOptions().stream().map(Option::getName).collect(Collectors.joining(", ")));
         return dto;
     }
 
@@ -89,8 +91,7 @@ public class TariffService implements TariffServiceI {
         if (tariff != null && tariff.getId() != dto.getId())
             throw new ServiceException(NAME_ERROR_MESSAGE);
 
-        //check mandatory and incompatible options logic
-        //throws exception if something is wrong
+        //check mandatory and incompatible options logic, throws exception if something is wrong
         checkCompatibility(dto);
 
         //update plain fields
@@ -110,20 +111,20 @@ public class TariffService implements TariffServiceI {
         if (dto.getOptions().isEmpty()) return;
 
         //check if all from mandatory also have its' corresponding mandatory options
-        Integer[] names = dto.getOptions().toArray(new Integer[]{});
-        List<Integer> ids = optionDAO.getMandatoryIdsFor(names);
+        Integer[] ids = dto.getOptions().toArray(new Integer[]{});
+        List<OptionRelation> relation = optionDAO.getMandatoryRelation(ids);
 
-        if (!ids.isEmpty()) {
-            List<Integer> allMandatories = ids.stream().filter(name -> !dto.getOptions().contains(name)).collect(Collectors.toList());
-            if (!allMandatories.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " + optionDAO.getNamesByIds(allMandatories.toArray(new Integer[]{})).toString());
+        if (!relation.isEmpty()) {
+            Set<String> required = relation.stream().filter(r -> !dto.getOptions().contains(r.getAnother().getId())).map(r -> r.getAnother().getName()).collect(Collectors.toSet());
+            if (!required.isEmpty()) {
+                throw new ServiceException("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
             }
         }
 
         //check if mandatory options are incompatible with each other
-        List<OptionRelation> relations = optionDAO.getIncompatibleRelation(names);
-        if (!relations.isEmpty()) {
-            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+        relation = optionDAO.getIncompatibleRelationInRange(ids);
+        if (!relation.isEmpty()) {
+            String s = relation.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
         }
     }

@@ -1,4 +1,4 @@
-package services.implementations;
+package services;
 
 import dao.interfaces.OptionDaoI;
 import dao.interfaces.TariffDaoI;
@@ -6,6 +6,7 @@ import model.dto.TariffDTO;
 import model.entity.Option;
 import model.entity.OptionRelation;
 import model.entity.Tariff;
+import model.enums.RELATION;
 import model.helpers.PaginateHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import services.exceptions.ServiceException;
+import services.implementations.TariffService;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
@@ -62,37 +69,76 @@ class TariffServiceTest {
     }
 
     @Test
-    void testCheckCompatibility() {
+    void getDto() {
         //set mocks
-        String A = "a";
-        String B = "b";
-
-        TariffDTO dto = new TariffDTO();
-        OptionRelation relation = new OptionRelation();
+        Tariff t = new Tariff();
+        t.setId(1);
+        t.setName("test");
+        t.setPrice(BigDecimal.ZERO);
+        t.setDescription("description");
         Option a = new Option();
         a.setId(1);
-        a.setName(A);
+        a.setName("a");
         Option b = new Option();
-        b.setId(3);
-        b.setName(B);
-        relation.setOne(a);
-        relation.setAnother(b); //a requires b
+        b.setId(2);
+        b.setName("b");
+        t.getOptions().add(a);
+        t.getOptions().add(b);
+
+        when(tariffDAO.findOne(1)).thenReturn(t);
+        TariffDTO dto = tariffService.getDto(1);
+        assertEquals(t.getId(), (int) dto.getId());
+        assertEquals(t.getName(), dto.getName());
+        assertEquals(t.getDescription(), dto.getDescription());
+        assertEquals(dto.getOptions(), new HashSet<>(Arrays.asList(1, 2)));
+        assertEquals(dto.getOptionsNames(), Stream.of(a.getName(), b.getName()).collect(Collectors.joining(", ")));
+    }
+
+    @Test
+    void testCheckCompatibility() {
+        //set mocks
+        Tariff self = new Tariff();
+        self.setId(1);
+        self.setName("dto");
+        TariffDTO dto = new TariffDTO();
+        dto.setId(1);
+        dto.setName(self.getName());
+
+        Option a = new Option();
+        a.setId(1);
+        a.setName("a");
+        Option b = new Option();
+        b.setId(2);
+        b.setName("b");
+        Option c = new Option();
+        c.setId(3);
+        c.setName("c");
+
+        dto.getOptions().add(a.getId());
+        dto.getOptions().add(b.getId());
+
+        OptionRelation relation = new OptionRelation(a, c, RELATION.MANDATORY);  //a requires c
 
         //check if all from mandatory also have its' corresponding mandatory options
-        dto.getOptions().add(1);
-        when(optionDAO.getMandatoryIdsFor(new Integer[]{1})).thenReturn(Collections.singletonList(3)); //1 requires 3
-        when(optionDAO.getNamesByIds(new Integer[]{3})).thenReturn(Collections.singletonList(A));
+        when(tariffDAO.findByName(dto.getName())).thenReturn(null);
+        when(optionDAO.getMandatoryRelation((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation)); //a requires c
         ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + Collections.singletonList(A).toString());
+        assertEquals(e.getMessage(), "More options are required as mandatory: " + c.getName());
 
         //check if mandatory options are incompatible with each other
-        dto.getOptions().add(3);
         relation.setOne(a);
-        relation.setAnother(b); //1 incompatible with 3
-        when(optionDAO.getMandatoryIdsFor(new Integer[]{1, 3})).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelation(new Integer[]{1, 3})).thenReturn(Collections.singletonList(relation));
+        relation.setAnother(b);
+        relation.setRelation(RELATION.INCOMPATIBLE); //a incompatible with b
+        when(optionDAO.getMandatoryRelation((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.emptyList());
+        when(optionDAO.getIncompatibleRelationInRange((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
         e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
         assertTrue(e.getMessage().contains("a and b"));
+
+        //check if mandatory options are incompatible with each other
+        relation.setOne(b);
+        relation.setAnother(a);
+        e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
+        assertTrue(e.getMessage().contains("b and a"));
     }
 
     @Test

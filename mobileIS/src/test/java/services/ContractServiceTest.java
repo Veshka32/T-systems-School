@@ -84,7 +84,7 @@ class ContractServiceTest {
         //check if all options are compatible with each other
         when(optionDAO.getOptionsInTariffIds(tariff.getId())).thenReturn(Collections.emptyList());
         when(optionDAO.getMandatoryIdsFor(new Integer[]{2})).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelation(new Integer[]{2})).thenReturn(Collections.singletonList(relation)); //a is incompatible with b
+        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{2})).thenReturn(Collections.singletonList(relation)); //a is incompatible with b
         e = assertThrows(ServiceException.class, () -> contractService.create(dto));
         assertTrue(e.getMessage().contains("a and b"));
     }

@@ -108,7 +108,7 @@ public class OptionService implements OptionServiceI {
         OptionDTO dto = new OptionDTO(option);
         Integer[] ids = {dto.getId()};
         List<OptionRelation> mandatory = optionDAO.getMandatoryRelation(ids);
-        List<OptionRelation> incompatible = optionDAO.getIncompatibleRelation(ids);
+        List<OptionRelation> incompatible = optionDAO.getIncompatibleRelationInRange(ids);
 
         dto.setMandatoryNames(mandatory.stream().map(r -> r.getAnother().getName()).collect(Collectors.joining(", ")));
         dto.setIncompatibleNames(incompatible.stream().map(r -> (r.getAnother().getId() == id ? r.getOne().getName() : r.getAnother().getName())).collect(Collectors.joining(", ")));
@@ -132,33 +132,30 @@ public class OptionService implements OptionServiceI {
             throw new ServiceException(ERROR_MESSAGE + optionDAO.findOne(any.get()).getName());
         if (dto.getMandatory().isEmpty()) return;
 
-        //check if all from mandatory also have its' corresponding mandatory options
-        Integer[] mandatoryIds = dto.getMandatory().toArray(new Integer[]{});
-        List<OptionRelation> relations = optionDAO.getMandatoryRelation(mandatoryIds);
+        Integer[] ids = dto.getMandatory().toArray(new Integer[]{});
+        List<OptionRelation> relations = optionDAO.getMandatoryRelation(ids);
 
         if (!relations.isEmpty()) {
             //check if mandatory relation is not bidirectional
-            List<OptionRelation> selfPointer = relations.stream().
-                    filter(r -> r.getAnother().getId() == dto.getId())
+            List<OptionRelation> selfPointer = relations.stream()
+                    .filter(r -> r.getAnother().getId() == dto.getId())
                     .collect(Collectors.toList());
             if (!selfPointer.isEmpty())
-                throw new ServiceException(
-                        "Option " + dto.getName() + " is already mandatory itself for these options: " +
-                                selfPointer.stream().map(r -> r.getOne().getName()).collect(Collectors.joining(", ")));
+                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + selfPointer.stream().map(r -> r.getOne().getName()).collect(Collectors.joining(", ")));
 
-            Set<OptionRelation> allMandatories = relations.stream()
+            //check if all from mandatory set also have its' corresponding mandatory options
+            Set<String> required = relations.stream()
                     .filter(r -> !dto.getMandatory().contains(r.getAnother().getId()))
-                    .collect(Collectors.toSet());
-            if (!allMandatories.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " +
-                        allMandatories.stream().map(r -> r.getAnother().getName()).collect(Collectors.joining(", ")));
+                    .map(r -> r.getAnother().getName()).collect(Collectors.toSet());
+            if (!required.isEmpty()) {
+                throw new ServiceException("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
             }
         }
 
         //check if mandatory options are incompatible with each other
-        List<OptionRelation> relations1 = optionDAO.getIncompatibleRelation(mandatoryIds);
-        if (!relations1.isEmpty()) {
-            String s = relations1.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
+        relations = optionDAO.getIncompatibleRelationInRange(ids);
+        if (!relations.isEmpty()) {
+            String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             throw new ServiceException("Options " + s + " incompatible with each other");
         }
     }
