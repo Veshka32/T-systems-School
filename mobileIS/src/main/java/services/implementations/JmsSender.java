@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import services.interfaces.JmsSenderI;
 import services.interfaces.TariffServiceI;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.jms.*;
 import java.util.List;
@@ -27,6 +28,11 @@ public class JmsSender implements JmsSenderI {
     private static final Logger logger = Logger.getLogger(JmsSender.class);
     @Resource(lookup = "java:/mobile/MyQueue")
     private Destination destination;
+
+    @PostConstruct
+    public void postConstruct() {
+        sendData();
+    }
 
     @Override
     public void sendData(){

@@ -24,7 +24,7 @@ public class SessionHandler {
         }
     }
 
-    private void sendToSession(Session session, String message) {
+    void sendToSession(Session session, String message) {
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException ex) {

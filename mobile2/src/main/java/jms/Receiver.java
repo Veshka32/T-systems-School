@@ -1,5 +1,6 @@
 package jms;
 
+import websockets.Cash;
 import websockets.WebSocketServer;
 
 import javax.ejb.ActivationConfigProperty;
@@ -23,15 +24,19 @@ public class Receiver implements MessageListener {
     @Inject
     private WebSocketServer socketServer;
 
+    @Inject
+    private Cash cash;
+
     public void onMessage(Message message) {
         if (message instanceof TextMessage) {
             TextMessage textMessage = (TextMessage) message;
             try {
                 String messageText = textMessage.getText();
-                socketServer.send(messageText);
+                cash.update(messageText);
+                socketServer.sendToAll(messageText);
             } catch (JMSException ex) {
-                Logger.getLogger(Receiver.class.getName()).log(Level.SEVERE, null, ex);            }
-
+                Logger.getLogger(Receiver.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }
