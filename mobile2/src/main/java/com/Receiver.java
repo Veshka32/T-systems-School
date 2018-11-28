@@ -1,4 +1,4 @@
-package websockets;
+package com;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,10 +19,9 @@ import java.util.List;
         )
 })
 public class Receiver implements MessageListener {
-    //
-//    @Inject
-//    private WebSocketServer socketServer;
-    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Cash.class);
+
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Receiver.class);
+
     @Inject
     private Cash cash;
 
@@ -31,13 +30,11 @@ public class Receiver implements MessageListener {
             TextMessage textMessage = (TextMessage) message;
             try {
                 String messageText = textMessage.getText();
-                Gson gson = new Gson();
-                List<Tariff> tariffs = gson.fromJson(messageText, new TypeToken<List<Tariff>>() {
+                List<Tariff> tariffs = new Gson().fromJson(messageText, new TypeToken<List<Tariff>>() {
                 }.getType());
                 cash.setTariffs(tariffs);
                 logger.info("got jms message: " + messageText);
-                //socketServer.sendToAll(messageText);
-                cash.send(messageText);
+                cash.updateView();
 
             } catch (JMSException ex) {
                 logger.warn(ex.getMessage(), ex);

@@ -17,15 +17,17 @@ import java.util.List;
 @Service
 public class JmsSender implements JmsSenderI {
     private static final int COUNT = 3;
+    private static final Logger logger = Logger.getLogger(JmsSender.class);
+    private static final long TIME_TO_LIVE_MILLISEC = 30_000;
+
     @Resource(lookup = "java:/mobile/MyConnectionFactory")
     private ConnectionFactory connectionFactory;
 
-    @Autowired
-    TariffServiceI tariffServiceI;
-
-    private static final Logger logger = Logger.getLogger(JmsSender.class);
     @Resource(lookup = "java:/mobile/MyQueue")
     private Destination destination;
+
+    @Autowired
+    TariffServiceI tariffServiceI;
 
     @PostConstruct
     public void postConstruct() {
@@ -38,9 +40,11 @@ public class JmsSender implements JmsSenderI {
                 //Authentication info can be omitted if we are using in-vm
                 QueueConnection connection = (QueueConnection) connectionFactory.createConnection();
                 QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
-                MessageProducer producer = session.createProducer(destination)) {
+                MessageProducer producer = session.createProducer(destination)
+        ) {
             String jsonString=buildJson();
             TextMessage message = session.createTextMessage(jsonString);
+            producer.setTimeToLive(TIME_TO_LIVE_MILLISEC);
             producer.send(message);
             logger.info("send jms");
 

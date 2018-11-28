@@ -1,4 +1,4 @@
-package websockets;
+package com;
 
 import org.apache.log4j.Logger;
 
@@ -18,26 +18,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Named
 public class Cash {
     private static final String URI = "http://localhost:8080/mobile/hotTariffs";
+    private static final String URI_UNSUBSCRIBE = "http://localhost:8080/mobile/hotTariffsUnsubscribe";
+    private static final String AJAX_EVENT = "update";
 
     private static final Logger logger = org.apache.log4j.Logger.getLogger(Cash.class);
     private List<Tariff> tariffs = new CopyOnWriteArrayList<>();
+
     @Inject
     @Push
     private PushContext channel;
 
-    void send(String message) {
-        channel.send("update");
-        logger.info("channel send: " + "update");
-    }
-
-
     @PostConstruct
-    public void getData() {
-        askData();
-    }
-
-    public void log(String m) {
-        logger.info("log method fire: " + m);
+    public void askData() {
+        try {
+            URL url = new URL(URI);
+            HttpURLConnection connection = (HttpURLConnection) (url.openConnection());
+            int status = connection.getResponseCode();
+            logger.info("askData() response status: " + status);
+        } catch (IOException e) {
+            logger.warn(e.getMessage(), e);
+        }
     }
 
     public List<Tariff> getTariffs() {
@@ -49,20 +49,8 @@ public class Cash {
         this.tariffs.addAll(tariffs);
     }
 
-    boolean isEmpty() {
-        return tariffs.isEmpty();
-    }
-
-    private void askData() {
-
-        try {
-            URL url = new URL(URI);
-            HttpURLConnection connection = (HttpURLConnection) (url.openConnection());
-            int status = connection.getResponseCode();
-            logger.info("response status: " + status);
-        } catch (IOException e) {
-            logger.warn(e.getMessage(), e);
-        }
-
+    void updateView() {
+        channel.send(AJAX_EVENT);
+        logger.info("channel updateView: " + AJAX_EVENT);
     }
 }
