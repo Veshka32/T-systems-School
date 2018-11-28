@@ -8,11 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.exceptions.ServiceException;
-import services.interfaces.ClientServiceI;
 import services.interfaces.ContractServiceI;
-import services.interfaces.OptionServiceI;
-import services.interfaces.TariffServiceI;
+
+import java.util.Optional;
 
 @Controller
 public class ContractController {
@@ -26,12 +24,6 @@ public class ContractController {
 
     @Autowired
     ContractServiceI contractService;
-    @Autowired
-    TariffServiceI tariffService;
-    @Autowired
-    OptionServiceI optionService;
-    @Autowired
-    ClientServiceI clientService;
 
     @GetMapping("management/findContract")
     @ResponseBody
@@ -61,16 +53,16 @@ public class ContractController {
 
     @PostMapping("management/createContract")
     public String create(@ModelAttribute(CONTRACT) ContractDTO dto, Model model, RedirectAttributes attr) {
-        try {
-            attr.addAttribute("id", contractService.create(dto));
-            return REDIRECT_SHOW;
-
-        } catch (ServiceException e) {
-            model.addAttribute(MODEL_MESSAGE, e.getMessage());
+        Optional<String> error = contractService.create(dto);
+        if (error.isPresent()) {
+            model.addAttribute(MODEL_MESSAGE, error.get());
             contractService.addData(dto);
             model.addAttribute(CONTRACT, dto);
             return EDIT;
         }
+        attr.addAttribute("id", dto.getId());
+        return REDIRECT_SHOW;
+
     }
 
     @GetMapping("/management/editContract")
@@ -83,16 +75,18 @@ public class ContractController {
 
     @PostMapping("/management/editContract")
     public String edit(@ModelAttribute(CONTRACT) ContractDTO dto, Model model, RedirectAttributes attr) {
-        try {
-            contractService.update(dto);
-            attr.addAttribute("id", dto.getId());
-            return REDIRECT_SHOW;
-        } catch (ServiceException e) {
-            model.addAttribute(MODEL_MESSAGE,e.getMessage());
+        Optional<String> error = contractService.update(dto);
+        if (error.isPresent()) {
+            model.addAttribute(MODEL_MESSAGE, error.get());
             contractService.addData(dto);
             model.addAttribute(CONTRACT, dto);
             return EDIT;
         }
+
+        contractService.update(dto);
+        attr.addAttribute("id", dto.getId());
+        return REDIRECT_SHOW;
+
     }
 
     @PostMapping("/management/deleteContract")

@@ -11,11 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.exceptions.ServiceException;
 import services.interfaces.ClientServiceI;
-import services.interfaces.ContractServiceI;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class ClientController {
@@ -28,9 +27,6 @@ public class ClientController {
 
     @Autowired
     ClientServiceI clientService;
-
-    @Autowired
-    ContractServiceI contractService;
 
     @RequestMapping("/management/clients")
     public String show(@RequestParam(value = "page", required = false) Integer page, Model model) {
@@ -69,15 +65,15 @@ public class ClientController {
             model.addAttribute(CLIENT, dto);
             return CREATE;
         }
-        try {
-            clientService.create(dto);
-            model.addAttribute(CLIENT, dto);
-            return SAVE;
-        } catch (ServiceException e){
-            model.addAttribute(MODEL_MESSAGE,e.getMessage());
+
+        Optional<String> error = clientService.create(dto);
+        if (error.isPresent()) {
+            model.addAttribute(MODEL_MESSAGE, error.get());
             model.addAttribute(CLIENT, dto);
             return CREATE;
         }
+        model.addAttribute(CLIENT, dto);
+        return SAVE;
     }
 
     @GetMapping("/management/editClient")
@@ -92,15 +88,18 @@ public class ClientController {
             model.addAttribute(CLIENT, dto);
             return CREATE;
         }
-        try {
-            clientService.update(dto);
-            attr.addAttribute("id", dto.getId());
-            return "redirect:/management/showClient";
-        } catch (ServiceException e) {
+
+        Optional<String> error = clientService.update(dto);
+        if (error.isPresent()) {
             model.addAttribute(CLIENT, dto);
-            model.addAttribute(MODEL_MESSAGE,e.getMessage());
+            model.addAttribute(MODEL_MESSAGE, error.get());
             return CREATE;
         }
+
+
+        attr.addAttribute("id", dto.getId());
+        return "redirect:/management/showClient";
+
 
     }
 

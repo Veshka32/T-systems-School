@@ -63,10 +63,11 @@ public class OptionController {
             model.addAttribute(MODEL_MESSAGE, error.get());
             model.addAttribute("all", optionService.getAllNamesWithIds());
             return EDIT;
-        } else {
+        }
+
             attr.addAttribute("id", dto.getId());
             return "redirect:/management/showOption";
-        }
+
     }
 
     @GetMapping("/management/editOption")
@@ -93,10 +94,10 @@ public class OptionController {
             model.addAttribute(OPTION, dto);
             model.addAttribute("all", optionService.getAllNamesWithIds());
             return EDIT;
-        } else {
+        }
             attr.addAttribute("id", dto.getId());
             return "redirect:/management/showOption";
-        }
+
     }
 
     @PostMapping("/management/deleteOption")
@@ -106,8 +107,7 @@ public class OptionController {
             attr.addAttribute(ERROR_ATTRIBUTE, error.get());
             attr.addAttribute("id", id);
             return REDIRECT_EDIT;
-        } else {
-            return "redirect:/management/options";
         }
+            return "redirect:/management/options";
     }
 }

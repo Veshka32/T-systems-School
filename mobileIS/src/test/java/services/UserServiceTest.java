@@ -16,8 +16,9 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import services.exceptions.AccountCreateException;
 import services.implementations.UserService;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -26,12 +27,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
 class UserServiceTest {
+
     @Mock
     PasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @InjectMocks
     private UserService userService;
+
     @Mock
     private UserDaoI userDAO;
+
     @Mock
     private ContractDaoI contractDao;
 
@@ -51,17 +56,19 @@ class UserServiceTest {
 
         //check if login is reserved
         when(userDAO.findByLogin(login)).thenReturn(new User());
-        AccountCreateException e = assertThrows(AccountCreateException.class, () -> userService.createAccount(dto));
-        assertEquals(e.getMessage(), "This phone is already registered");
+        Optional<String> e = userService.createAccount(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "This phone is already registered");
 
         //check if number exists
         when(userDAO.findByLogin(login)).thenReturn(null);
         when(contractDao.findByPhone(Long.parseLong(login))).thenReturn(null);
-        e = assertThrows(AccountCreateException.class, () -> userService.createAccount(dto));
-        assertEquals(e.getMessage(), "There is no such a number");
+        e = userService.createAccount(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "There is no such a number");
 
         when(userDAO.findByLogin(login)).thenReturn(null);
         when(contractDao.findByPhone(Long.parseLong(login))).thenReturn(new Contract());
-        assertDoesNotThrow(() -> userService.createAccount(dto));
+        assertFalse(userService.createAccount(dto).isPresent());
     }
 }

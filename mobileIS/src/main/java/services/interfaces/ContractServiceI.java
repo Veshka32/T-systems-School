@@ -4,9 +4,11 @@ import model.dto.ContractDTO;
 import model.entity.Contract;
 import model.entity.Option;
 import model.helpers.PaginateHelper;
+import model.stateful.CartInterface;
 import services.exceptions.ServiceException;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface ContractServiceI {
 
@@ -18,15 +20,6 @@ public interface ContractServiceI {
      * @return id of Contract or {@code null} if there is no such contract
      */
     String getJsonByPhone(String phone);
-
-    /**
-     * Return id of {@code Contract} with specific phone number
-     *
-     * @param phone phone number
-     * @return id of Contract or {@code null} if there is no such contract
-     */
-    ContractDTO getByPhone(String phone) throws NumberFormatException;
-
 
     /**
      * Return contract with specific id
@@ -53,7 +46,7 @@ public interface ContractServiceI {
      * @return database id of newly created entity
      * @throws ServiceException if some values are invalid or some properties has conflict
      */
-    int create(ContractDTO dto) throws ServiceException;
+    Optional<String> create(ContractDTO dto);
 
     /**
      * Update all fields in corresponding {@code Contract} with field values from data transfer object
@@ -61,7 +54,7 @@ public interface ContractServiceI {
      * @param dto data transfer object contains contract id and properties
      * @throws ServiceException if some values are invalid or some properties has conflict
      */
-    void update(ContractDTO dto) throws ServiceException;
+    Optional<String> update(ContractDTO dto);
 
     /**
      * Delete {@code Contract} with specific id from database and its corresponding {@code User}
@@ -107,8 +100,9 @@ public interface ContractServiceI {
      * @param options collection of {@code Option} to add
      * @throws ServiceException if case of logic conflicts
      */
-    void addOptions(int id, Collection<Option> options) throws ServiceException;
+    Optional<String> addOptions(int id, Collection<Option> options);
 
+    String addOptionsToJson(CartInterface cart);
 
     /**
      * Delete option from specific contract
@@ -117,7 +111,7 @@ public interface ContractServiceI {
      * @param optionId id of {@code Option} to delete
      * @throws ServiceException if case of logic conflicts
      */
-    void deleteOption(int id, int optionId) throws ServiceException;
+    Optional<String> deleteOption(int id, int optionId);
 
     String deleteOptionJson(int id, int optionId);
 
@@ -127,7 +121,7 @@ public interface ContractServiceI {
      * @param id       id of {@code Contract}
      * @param tariffId id of {@code Tariff} to set
      */
-    void setTariff(int id, int tariffId) throws ServiceException;
+    Optional<String> setTariff(int id, int tariffId);
 
 
     /**

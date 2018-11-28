@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.exceptions.AccountCreateException;
 import services.interfaces.UserServiceI;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller
@@ -37,13 +37,16 @@ public class AuthController {
             model.addAttribute("user", dto);
             return SIGN_UP;
         }
-        try {
-            attr.addAttribute("id", userService.createAccount(dto));
-            return "redirect:/user/cabinet";
-        } catch (AccountCreateException e) {
-            model.addAttribute(MESSAGE, e.getMessage());
+
+        Optional<String> error = userService.createAccount(dto);
+        if (error.isPresent()) {
+            model.addAttribute(MESSAGE, error.get());
             return SIGN_UP;
         }
+
+        attr.addAttribute("id", dto.getId());
+            return "redirect:/user/cabinet";
+
     }
 
     @GetMapping(value = "/login")

@@ -2,8 +2,6 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import model.entity.Contract;
 import model.entity.Option;
 import model.entity.Tariff;
@@ -13,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import services.exceptions.ServiceException;
 import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserCabinet {
@@ -71,10 +69,9 @@ public class UserCabinet {
     @GetMapping("/user/getMoreTariffs")
     @ResponseBody
     public String showMoreTariffs(@RequestParam("page") int page) {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         PaginateHelper<Tariff> helper = tariffService.getPaginateData(page, ROW_PER_PAGE);
-        String j = gson.toJson(helper);
-        return j;
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(helper);
     }
 
 
@@ -93,13 +90,13 @@ public class UserCabinet {
 
     @GetMapping("/user/getTariff/{tariffId}")
     public String getTariff(@PathVariable int tariffId, Model model) {
-        try {
-            contractService.setTariff(cartInterface.getContractId(), tariffId);
-            return REDIRECT_CABINET;
-        } catch (ServiceException e) {
-            model.addAttribute("error", e.getMessage());
+        Optional<String> error = contractService.setTariff(cartInterface.getContractId(), tariffId);
+        if (error.isPresent()) {
+            model.addAttribute("error", error.get());
             return CABINET;
         }
+        return REDIRECT_CABINET;
+
     }
 
     @PostMapping("/user/deleteOption")
@@ -111,30 +108,18 @@ public class UserCabinet {
     @GetMapping("user/addToCart")
     @ResponseBody
     public String addOptionToCart(@RequestParam("id") int optionId) {
-        return cartInterface.addItem(optionService.get(optionId));
+        return cartInterface.addItemToJson(optionService.get(optionId));
     }
 
     @GetMapping("user/deleteFromCart")
     @ResponseBody
     public String deleteFromCart(@RequestParam("id") int optionId) {
-        return cartInterface.deleteItem(optionService.get(optionId));
+        return cartInterface.deleteItemToJson(optionService.get(optionId));
     }
 
     @ResponseBody
     @GetMapping("user/buy")
     public String buy() {
-        Gson gson = new Gson();
-        JsonElement element = new JsonObject();
-        try {
-            contractService.addOptions(cartInterface.getContractId(), cartInterface.getOptions());
-            cartInterface.clear();
-            element.getAsJsonObject().addProperty("status", "success");
-        } catch (ServiceException e) {
-            element.getAsJsonObject().addProperty("status", "error");
-            element.getAsJsonObject().addProperty("message", e.getMessage());
-        }
-        return gson.toJson(element);
+        return contractService.addOptionsToJson(cartInterface);
     }
-
-
 }

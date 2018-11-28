@@ -4,9 +4,9 @@ import model.entity.Option;
 
 public interface CartInterface {
 
-    String addItem(Option option);
+    String addItemToJson(Option option);
 
-    String deleteItem(Option option);
+    String deleteItemToJson(Option option);
 
     void clear();
 
@@ -17,8 +17,6 @@ public interface CartInterface {
     void setOptions(java.util.Set<Option> options);
 
     java.math.BigDecimal getTotalSum();
-
-    void setTotalSum(java.math.BigDecimal totalSum);
 
     int getContractId();
 

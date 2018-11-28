@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.exceptions.ServiceException;
 import services.interfaces.ClientServiceI;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @EnableTransactionManagement
@@ -95,32 +95,34 @@ public class ClientService implements ClientServiceI {
 
 
     @Override
-    public void create(ClientDTO dto) throws ServiceException {
+    public Optional<String> create(ClientDTO dto) {
         if (clientDAO.isPassportExist(dto.getPassportId()))
-            throw new ServiceException("passportId is reserved");
+            return Optional.of("passportId is reserved");
 
         if (clientDAO.isEmailExists(dto.getEmail()))
-            throw new ServiceException("email is reserved");
+            return Optional.of("email is reserved");
 
         Client client=new Client();
         updateFields(client,dto);
         clientDAO.save(client);
         dto.setId(client.getId());
+        return Optional.empty();
     }
 
     @Override
-    public void update(ClientDTO dto) throws ServiceException{
+    public Optional<String> update(ClientDTO dto) {
         Client client = clientDAO.findByPassportId(dto.getPassportId());
         if (client != null && client.getId() != dto.getId())  //check if passportId is unique
-            throw new ServiceException("passportId is reserved");
+            return Optional.of("passportId is reserved");
 
         client = clientDAO.findByEmail(dto.getEmail());
         if (client != null && client.getId() != dto.getId())  //check if email is unique
-            throw new ServiceException("email is reserved");
+            return Optional.of("email is reserved");
 
         client=clientDAO.findOne(dto.getId());
         updateFields(client,dto);
         clientDAO.update(client);
+        return Optional.empty();
     }
 
     @Override

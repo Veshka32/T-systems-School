@@ -11,8 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.exceptions.AccountCreateException;
 import services.interfaces.UserServiceI;
+
+import java.util.Optional;
 
 @Service
 @EnableTransactionManagement
@@ -29,14 +30,14 @@ public class UserService implements UserServiceI {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public int createAccount(AccountDTO dto) throws AccountCreateException {
+    public Optional<String> createAccount(AccountDTO dto) {
         //check if already exists
         User user = userDAO.findByLogin(dto.getLogin());
-        if (user != null) throw new AccountCreateException("This phone is already registered");
+        if (user != null) return Optional.of("This phone is already registered");
 
         //check if number exists
         Contract contract = contractDaoI.findByPhone(Long.parseLong(dto.getLogin()));
-        if (contract == null) throw new AccountCreateException("There is no such a number");
+        if (contract == null) return Optional.of("There is no such a number");
 
         user = new User();
         user.setRole(Role.ROLE_CLIENT);
@@ -46,6 +47,7 @@ public class UserService implements UserServiceI {
         userDAO.save(user);
 
         dto.setPassword(null);
-        return user.getId();
+        dto.setId(user.getId());
+        return Optional.empty();
     }
 }

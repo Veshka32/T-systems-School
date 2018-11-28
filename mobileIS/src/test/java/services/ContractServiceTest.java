@@ -17,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import services.exceptions.ServiceException;
 import services.implementations.ContractService;
 import services.implementations.PhoneNumberService;
 
@@ -85,20 +84,21 @@ class ContractServiceTest {
 
         //no options
         when(tariffDAO.findOne(1)).thenReturn(tariff);
-        assertDoesNotThrow(() -> contractService.create(dto));
+        assertFalse(contractService.create(dto).isPresent());
 
         //check if all options has its' mandatory
         dto.getOptionsIds().add(a.getId());
         when(optionDAO.getMandatoryRelation(new Integer[]{a.getId()})).thenReturn(Collections.singletonList(r)); // a requires d
-        ServiceException e = assertThrows(ServiceException.class, () -> contractService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + d.getName());
+        Optional<String> e = contractService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "More options are required as mandatory: " + d.getName());
 
         //mandatory is in tariff
         tariff.getOptions().add(d);
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{a.getId()}, new Integer[]{d.getId()})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId()})).thenReturn(Collections.emptyList());
         when(optionDAO.findByIds(new Integer[]{a.getId()})).thenReturn(new ArrayList<>());
-        assertDoesNotThrow(() -> contractService.create(dto));
+        assertFalse(contractService.create(dto).isPresent());
         tariff.getOptions().clear();
         contract.getOptions().clear();
 
@@ -107,7 +107,7 @@ class ContractServiceTest {
         when(optionDAO.getMandatoryRelation(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.singletonList(r)); // a requires d
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.emptyList());
         when(optionDAO.findByIds(new Integer[]{a.getId(), d.getId()})).thenReturn(new ArrayList<>());
-        assertDoesNotThrow(() -> contractService.create(dto));
+        assertFalse(contractService.create(dto).isPresent());
         dto.getOptionsIds().clear();
         contract.getOptions().clear();
 
@@ -116,15 +116,15 @@ class ContractServiceTest {
         dto.getOptionsIds().add(a.getId());
         dto.getOptionsIds().add(d.getId());
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.singletonList(r));
-        e = assertThrows(ServiceException.class, () -> contractService.create(dto));
-        assertEquals(e.getMessage(), "Option(s) " + a.getName() + " and " + d.getName() + " incompatible with each other");
+        e = contractService.create(dto);
+        assertEquals(e.get(), "Option(s) " + a.getName() + " and " + d.getName() + " incompatible with each other");
 
         //no mandatory, option incompatible with tariff
         tariff.getOptions().add(d);
         dto.getOptionsIds().remove(d.getId());
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{a.getId()}, new Integer[]{d.getId()})).thenReturn(Collections.singletonList(a));
-        e = assertThrows(ServiceException.class, () -> contractService.create(dto));
-        assertEquals(e.getMessage(), "Option(s) " + a.getName() + " incompatible with your contract");
+        e = contractService.create(dto);
+        assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your contract");
     }
 
     @Test
@@ -184,47 +184,48 @@ class ContractServiceTest {
         contract.setTariff(tariff);
 
         //add empty list
-        ServiceException e = assertThrows(ServiceException.class, () -> contractService.addOptions(1, Collections.emptyList()));
-        assertEquals(e.getMessage(), "Nothing to buy");
+        Optional<String> e = contractService.addOptions(1, Collections.emptyList());
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Nothing to buy");
 
         //contract blocked
         when(contractDAO.findOne(1)).thenReturn(contract);
         contract.setBlockedByAdmin(true);
-        e = assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
-        assertEquals(e.getMessage(), "Contract is blocked");
+        e = contractService.addOptions(1, options);
+        assertEquals(e.get(), "Contract is blocked");
         contract.setBlockedByAdmin(false);
         contract.setBlocked(true);
-        e = assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
-        assertEquals(e.getMessage(), "Contract is blocked");
+        e = contractService.addOptions(1, options);
+        assertEquals(e.get(), "Contract is blocked");
 
         //options already in contract
         contract.getOptions().add(a);
-        assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
+        assertTrue(contractService.addOptions(1, options).isPresent());
         contract.getOptions().clear();
 
         //options already in tariff
         tariff.getOptions().add(a);
-        assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
+        assertTrue(contractService.addOptions(1, options).isPresent());
         tariff.getOptions().clear();
 
         //check if all options has its' mandatory
         contract.setBlocked(false);
         when(optionDAO.getMandatoryRelation(new Integer[]{1, 2})).thenReturn(Collections.singletonList(r));
-        e = assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + d.getName()); //a requires d
+        e = contractService.addOptions(1, options);
+        assertEquals(e.get(), "More options are required as mandatory: " + d.getName()); //a requires d
 
         //everything is ok
         when(optionDAO.getMandatoryRelation(new Integer[]{1, 2})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{1, 2}, new Integer[]{})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{1, 2})).thenReturn(Collections.emptyList());
-        assertDoesNotThrow(() -> contractService.addOptions(1, options));
+        assertFalse(contractService.addOptions(1, options).isPresent());
         assertTrue(contract.getOptions().containsAll(options));
         contract.getOptions().clear();
 
         //mandatory is in tariff
         tariff.getOptions().add(d);
         when(optionDAO.getMandatoryRelation(new Integer[]{1, 2})).thenReturn(Collections.singletonList(r)); //a requires d
-        assertDoesNotThrow(() -> contractService.addOptions(1, options));
+        assertFalse(contractService.addOptions(1, options).isPresent());
         assertTrue(contract.getOptions().containsAll(options));
         contract.getOptions().clear();
         tariff.getOptions().clear();
@@ -232,7 +233,7 @@ class ContractServiceTest {
 
         //mandatory is in contract
         contract.getOptions().add(d);
-        assertDoesNotThrow(() -> contractService.addOptions(1, options));
+        assertFalse(contractService.addOptions(1, options).isPresent());
         assertTrue(contract.getOptions().containsAll(options));
         contract.getOptions().clear();
 
@@ -242,15 +243,17 @@ class ContractServiceTest {
         r.setRelation(RELATION.INCOMPATIBLE);//a incompatible with c
         when(optionDAO.getMandatoryRelation(new Integer[]{1, 2})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{1, 2}, new Integer[]{3})).thenReturn(Collections.singletonList(a));
-        e = assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
-        assertEquals(e.getMessage(), "Option(s) " + a.getName() + " incompatible with your contract");
+        e = contractService.addOptions(1, options);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your contract");
 
         //new options compatible with each other
         r.setAnother(b); // a incompatible with b
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{1, 2}, new Integer[]{3})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{1, 2})).thenReturn(Collections.singletonList(r));
-        e = assertThrows(ServiceException.class, () -> contractService.addOptions(1, options));
-        assertEquals(e.getMessage(), "Option(s) " + a.getName() + " and " + b.getName() + " incompatible with each other");
+        e = contractService.addOptions(1, options);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Option(s) " + a.getName() + " and " + b.getName() + " incompatible with each other");
 
     }
 
@@ -280,24 +283,27 @@ class ContractServiceTest {
         //check if contract is blocked
         when(contractDAO.findOne(1)).thenReturn(contract);
         contract.setBlockedByAdmin(true);
-        ServiceException e = assertThrows(ServiceException.class, () -> contractService.deleteOption(1, 1));
-        assertEquals(e.getMessage(), "Contract is blocked");
+        Optional<String> e = contractService.deleteOption(1, 1);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Contract is blocked");
         contract.setBlockedByAdmin(false);
         contract.setBlocked(true);
-        e = assertThrows(ServiceException.class, () -> contractService.deleteOption(1, 1));
-        assertEquals(e.getMessage(), "Contract is blocked");
+        e = contractService.deleteOption(1, 1);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Contract is blocked");
         contract.setBlocked(false);
 
         //check if option is mandatory for some other
         contract.getOptions().add(b);
         when(optionDAO.findOne(1)).thenReturn(a);
         when(optionDAO.getMandatoryRelation(new Integer[]{2})).thenReturn(Collections.singletonList(r)); //b requires a
-        e = assertThrows(ServiceException.class, () -> contractService.deleteOption(1, 1));
-        assertEquals(e.getMessage(), "Option(s) " + a.getName() + " is mandatory for other options in your contract: " + b.getName() + ". Delete them first");
+        e = contractService.deleteOption(1, 1);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Option(s) " + a.getName() + " is mandatory for other options in your contract: " + b.getName() + ". Delete them first");
 
         //success
         when(optionDAO.getMandatoryRelation(new Integer[]{2})).thenReturn(Collections.emptyList()); //b requires a, d reuires a, d not in contract//tariff
-        assertDoesNotThrow(() -> contractService.deleteOption(1, 1));
+        assertFalse(contractService.deleteOption(1, 1).isPresent());
         assertFalse(contract.getOptions().contains(a));
     }
 
@@ -309,17 +315,19 @@ class ContractServiceTest {
         //check if contract is blocked
         when(contractDAO.findOne(1)).thenReturn(contract);
         contract.setBlockedByAdmin(true);
-        ServiceException e = assertThrows(ServiceException.class, () -> contractService.setTariff(1, 1));
-        assertEquals(e.getMessage(), "Contract is blocked");
+        Optional e = contractService.setTariff(1, 1);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Contract is blocked");
         contract.setBlockedByAdmin(false);
         contract.setBlocked(true);
-        e = assertThrows(ServiceException.class, () -> contractService.deleteOption(1, 1));
-        assertEquals(e.getMessage(), "Contract is blocked");
+        e = contractService.deleteOption(1, 1);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Contract is blocked");
         contract.setBlocked(false);
 
         when(tariffDAO.findOne(1)).thenReturn(new Tariff());
         doNothing().when(contractDAO).update(contract);
-        assertDoesNotThrow(() -> contractService.setTariff(1, 1));
+        assertFalse(contractService.setTariff(1, 1).isPresent());
         assert contract.getOptions().isEmpty();
     }
 
@@ -380,7 +388,7 @@ class ContractServiceTest {
         //null result
         String phone1 = "1234567890";
         when(contractDAO.findByPhone(Long.parseLong(phone1))).thenReturn(null);
-        assertNull(contractService.getByPhone(phone1));
+        assertFalse(contractService.getByPhone(phone1).isPresent());
 
         //not null result
         when(contractDAO.findByPhone(Long.parseLong(phone1))).thenReturn(contract);

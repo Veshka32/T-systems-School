@@ -5,6 +5,8 @@ import model.entity.Client;
 import model.helpers.PaginateHelper;
 import services.exceptions.ServiceException;
 
+import java.util.Optional;
+
 /**
  * The {@code ClientServiceI} interface is a service-layer class for manipulating with {@code Client} entity.
  * <p>
@@ -37,7 +39,7 @@ public interface ClientServiceI {
      * @param dto data transfer object contains required properties
      * @throws ServiceException if some values are invalid
      */
-    void create(ClientDTO dto) throws ServiceException;
+    Optional<String> create(ClientDTO dto);
 
     /**
      * Update all fields in corresponding {@code Client} with field values from data transfer object
@@ -45,7 +47,7 @@ public interface ClientServiceI {
      * @param dto data transfer object contains client id and properties
      * @throws ServiceException if some values are invalid
      */
-    void update(ClientDTO dto) throws ServiceException;
+    Optional<String> update(ClientDTO dto);
 
     /**
      * Delete {@code Client} with specific id from database and all its corresponding {@code Contract} and {@code User}

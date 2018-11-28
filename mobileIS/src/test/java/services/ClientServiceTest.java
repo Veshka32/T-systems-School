@@ -14,12 +14,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import services.exceptions.ServiceException;
 import services.implementations.ClientService;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -88,13 +88,15 @@ class ClientServiceTest {
     void createTest() {
 
         when(clientDaoI.isPassportExist(passport)).thenReturn(true);
-        ServiceException e = assertThrows(ServiceException.class, () -> clientService.create(dto));
-        assertEquals(e.getMessage(), "passportId is reserved");
+        Optional<String> e = clientService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "passportId is reserved");
 
         when(clientDaoI.isPassportExist(passport)).thenReturn(false);
         when(clientDaoI.isEmailExists(email)).thenReturn(true);
-        e = assertThrows(ServiceException.class, () -> clientService.create(dto));
-        assertEquals(e.getMessage(), "email is reserved");
+        e = clientService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "email is reserved");
     }
 
     @Test
@@ -105,14 +107,16 @@ class ClientServiceTest {
 
         //client with such a passport already exists
         when(clientDaoI.findByPassportId(passport)).thenReturn(client);
-        ServiceException e = assertThrows(ServiceException.class, () -> clientService.update(dto));
-        assertEquals(e.getMessage(), "passportId is reserved");
+        Optional e = clientService.update(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "passportId is reserved");
 
         //passport is unique,but not email
         when(clientDaoI.findByPassportId(passport)).thenReturn(null);
         when(clientDaoI.findByEmail(email)).thenReturn(client);
-        e = assertThrows(ServiceException.class, () -> clientService.update(dto));
-        assertEquals(e.getMessage(), "email is reserved");
+        e = clientService.update(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "email is reserved");
     }
 
     @Test

@@ -24,7 +24,7 @@ public class Cart implements CartInterface {
     }
 
     @Override
-    public String addItem(Option option) {
+    public String addItemToJson(Option option) {
         if (options.add(option)) {  //return true if this set did not already contain the specified element
             totalSum = totalSum.add(option.getSubscribeCost());
             Gson gson = new Gson();
@@ -43,7 +43,7 @@ public class Cart implements CartInterface {
     }
 
     @Override
-    public String deleteItem(Option option) {
+    public String deleteItemToJson(Option option) {
         if (options.remove(option)) {
             totalSum = totalSum.subtract(option.getSubscribeCost());
             Gson gson = new Gson();
@@ -80,11 +80,6 @@ public class Cart implements CartInterface {
     @Override
     public BigDecimal getTotalSum() {
         return totalSum;
-    }
-
-    @Override
-    public void setTotalSum(BigDecimal totalSum) {
-        this.totalSum = totalSum;
     }
 
     @Override

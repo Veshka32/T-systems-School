@@ -1,7 +1,8 @@
 package services.interfaces;
 
 import model.dto.AccountDTO;
-import services.exceptions.AccountCreateException;
+
+import java.util.Optional;
 
 public interface UserServiceI {
     /**
@@ -11,5 +12,5 @@ public interface UserServiceI {
      * @return id of newly created {@code User}
      * @throws AccountCreateException if any data are invalid
      */
-    int createAccount(AccountDTO dto) throws AccountCreateException;
+    Optional<String> createAccount(AccountDTO dto);
 }

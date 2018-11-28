@@ -65,12 +65,12 @@ public class TariffController {
             buildModel(model, dto);
             model.addAttribute(MODEL_MESSAGE, error.get());
             return CREATE;
-        } else {
+        }
 
             attr.addAttribute("id", tariffService.create(dto));
             jmsSender.sendData();
             return "redirect:/management/showTariff";
-        }
+
     }
 
     @GetMapping("/management/editTariff")
@@ -93,12 +93,12 @@ public class TariffController {
             buildModel(model, dto);
             model.addAttribute(MODEL_MESSAGE, error.get());
             return CREATE;
-        } else {
+        }
             tariffService.update(dto);
             attr.addAttribute("id", dto.getId());
             jmsSender.sendData();
             return "redirect:/management/showTariff";
-        }
+
     }
 
     @PostMapping("/management/deleteTariff")
@@ -108,9 +108,9 @@ public class TariffController {
             attr.addAttribute(ERROR_ATTRIBUTE, error.get());
             attr.addAttribute("id", id);
             return REDIRECT_EDIT;
-        } else {
-            return "redirect:/management/tariffs";
         }
+            return "redirect:/management/tariffs";
+
     }
 
     private void buildModel(Model model, TariffDTO dto) {
