@@ -15,16 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import services.exceptions.ServiceException;
 import services.implementations.TariffService;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,7 +27,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class TariffServiceTest {
 
     @InjectMocks
@@ -61,11 +54,13 @@ class TariffServiceTest {
 
         //create tariff with reserved name
         when(tariffDAO.findByName(dto.getName())).thenReturn(new Tariff());
-        assertThrows(ServiceException.class, () -> tariffService.create(dto), "name is reserved");
+        Optional<String> e = tariffService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "name is reserved");
 
         //create tariff with free name
         when(tariffDAO.findByName(dto.getName())).thenReturn(null);
-        assertDoesNotThrow(() -> tariffService.create(dto));
+        assertFalse(tariffService.create(dto).isPresent());
     }
 
     @Test
@@ -122,8 +117,9 @@ class TariffServiceTest {
         //check if all from mandatory also have its' corresponding mandatory options
         when(tariffDAO.findByName(dto.getName())).thenReturn(null);
         when(optionDAO.getMandatoryRelation((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation)); //a requires c
-        ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + c.getName());
+        Optional<String> e = tariffService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "More options are required as mandatory: " + c.getName());
 
         //check if mandatory options are incompatible with each other
         relation.setOne(a);
@@ -131,14 +127,16 @@ class TariffServiceTest {
         relation.setRelation(RELATION.INCOMPATIBLE); //a incompatible with b
         when(optionDAO.getMandatoryRelation((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleRelationInRange((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
-        e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertTrue(e.getMessage().contains("a and b"));
+        e = tariffService.create(dto);
+        assertTrue(e.isPresent());
+        assertTrue(e.get().contains("a and b"));
 
         //check if mandatory options are incompatible with each other
         relation.setOne(b);
         relation.setAnother(a);
-        e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertTrue(e.getMessage().contains("b and a"));
+        e = tariffService.create(dto);
+        assertTrue(e.isPresent());
+        assertTrue(e.get().contains("b and a"));
     }
 
     @Test
@@ -153,26 +151,27 @@ class TariffServiceTest {
 
         //create tariff with reserved name
         when(tariffDAO.findByName(dto.getName())).thenReturn(old);
-        ServiceException e = assertThrows(ServiceException.class, () -> tariffService.create(dto));
-        assertEquals(e.getMessage(), "name is reserved");
+        Optional<String> e = tariffService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "name is reserved");
 
         //set new name same as old one
         old.setId(1);
         when(tariffDAO.findOne(1)).thenReturn(old);
         doNothing().when(tariffDAO).update(old);
-        assertDoesNotThrow(() -> tariffDAO.update(old));
+        assertFalse(tariffService.update(dto).isPresent());
 
         //set completely new name
         when(tariffDAO.findByName(dto.getName())).thenReturn(null);
         when(tariffDAO.findOne(1)).thenReturn(old);
         doNothing().when(tariffDAO).update(old);
-        assertDoesNotThrow(() -> tariffService.update(dto));
+        assertFalse(tariffService.update(dto).isPresent());
     }
 
     @Test
     void delete() {
         when(tariffDAO.isUsed(1)).thenReturn(true);
-        assertThrows(ServiceException.class, () -> tariffService.delete(1));
+        assertTrue(tariffService.delete(1).isPresent());
     }
 
     @Test

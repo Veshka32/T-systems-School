@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.exceptions.ServiceException;
 import services.interfaces.TariffServiceI;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,13 +61,13 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public int create(TariffDTO dto) throws ServiceException {
+    public Optional<String> create(TariffDTO dto) {
         if (tariffDAO.findByName(dto.getName()) != null)
-            throw new ServiceException(NAME_ERROR_MESSAGE);
+            return Optional.of(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic
-        //throws exception if something is wrong
-        checkCompatibility(dto);
+        Optional<String> error = checkCompatibility(dto);
+        if (error.isPresent()) return error;
 
         //set plain fields
         Tariff tariff = new Tariff();
@@ -75,7 +75,8 @@ public class TariffService implements TariffServiceI {
 
         //set complex fields
         updateComplexFields(dto, tariff);
-        return tariffDAO.save(tariff);
+        dto.setId(tariffDAO.save(tariff));
+        return Optional.empty();
     }
 
     private void updateComplexFields(TariffDTO dto, Tariff tariff) {
@@ -86,15 +87,16 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public void update(TariffDTO dto) throws ServiceException {
+    public Optional<String> update(TariffDTO dto) {
         Tariff tariff = tariffDAO.findByName(dto.getName());
 
         //check if there is another tariff with the same name in database
         if (tariff != null && tariff.getId() != dto.getId())
-            throw new ServiceException(NAME_ERROR_MESSAGE);
+            return Optional.of(NAME_ERROR_MESSAGE);
 
-        //check mandatory and incompatible options logic, throws exception if something is wrong
-        checkCompatibility(dto);
+        //check mandatory and incompatible options logic
+        Optional<String> error = checkCompatibility(dto);
+        if (error.isPresent()) return error;
 
         //update plain fields
         tariff = tariffDAO.findOne(dto.getId());
@@ -104,10 +106,12 @@ public class TariffService implements TariffServiceI {
         tariff.getOptions().clear();
         updateComplexFields(dto, tariff);
         tariffDAO.update(tariff);
+        return Optional.empty();
     }
 
-    private void checkCompatibility(TariffDTO dto) throws ServiceException {
-        if (dto.getOptions().isEmpty()) return;
+    private Optional<String> checkCompatibility(TariffDTO dto) {
+        //nothing to check
+        if (dto.getOptions().isEmpty()) return Optional.empty();
 
         //check if all from mandatory also have its' corresponding mandatory options
         Integer[] ids = dto.getOptions().toArray(new Integer[]{});
@@ -116,7 +120,7 @@ public class TariffService implements TariffServiceI {
         if (!relation.isEmpty()) {
             Set<String> required = relation.stream().filter(r -> !dto.getOptions().contains(r.getAnother().getId())).map(r -> r.getAnother().getName()).collect(Collectors.toSet());
             if (!required.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
+                return Optional.of("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
             }
         }
 
@@ -124,8 +128,10 @@ public class TariffService implements TariffServiceI {
         relation = optionDAO.getIncompatibleRelationInRange(ids);
         if (!relation.isEmpty()) {
             String s = relation.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
-            throw new ServiceException("Options " + s + " incompatible with each other");
+            return Optional.of("Options " + s + " incompatible with each other");
         }
+
+        return Optional.empty();
     }
 
     private void updatePlainFields(TariffDTO dto, Tariff based) {
@@ -135,9 +141,10 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
-    public void delete(int id) throws ServiceException {
-        if (tariffDAO.isUsed(id)) throw new ServiceException("tariff is used in some contracts");
+    public Optional<String> delete(int id) {
+        if (tariffDAO.isUsed(id)) return Optional.of("tariff is used in some contracts");
         tariffDAO.deleteById(id);
+        return Optional.empty();
     }
 
     @Override

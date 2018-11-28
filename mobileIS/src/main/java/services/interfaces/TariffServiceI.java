@@ -6,6 +6,7 @@ import model.helpers.PaginateHelper;
 import services.exceptions.ServiceException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TariffServiceI {
 
@@ -16,7 +17,7 @@ public interface TariffServiceI {
      * @return database id of newly created entity
      * @throws ServiceException if some values are invalid or some properties has conflict
      */
-    int create(TariffDTO dto) throws ServiceException;
+    Optional<String> create(TariffDTO dto);
 
     /**
      * Delete {@code Tariff} with specific id from database
@@ -24,7 +25,7 @@ public interface TariffServiceI {
      * @param id id of tariff to delete
      * @throws ServiceException if tariff is used in any database relations
      */
-    void delete(int id) throws ServiceException;
+    Optional<String> delete(int id);
 
     /**
      * Update all fields in corresponding {@code Tariff} with field values from data transfer object
@@ -32,7 +33,7 @@ public interface TariffServiceI {
      * @param dto data transfer object contains tariff id and properties
      * @throws ServiceException if some values are invalid or some properties has conflict
      */
-    void update(TariffDTO dto) throws ServiceException;
+    Optional<String> update(TariffDTO dto);
 
     /**
      * Build data transfer object for tariff with specific id

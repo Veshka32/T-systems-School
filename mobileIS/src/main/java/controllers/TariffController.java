@@ -9,17 +9,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.exceptions.ServiceException;
 import services.interfaces.JmsSenderI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class TariffController {
     private static final String ERROR_ATTRIBUTE = "error";
-    private static final String MODEL_MESSAGE="message";
+    private static final String MODEL_MESSAGE = "message";
     private static final String CREATE = "management/tariff/create-tariff";
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
     private static final String TARIFF = "tariff";
@@ -59,15 +59,17 @@ public class TariffController {
             buildModel(model, dto);
             return CREATE;
         }
-        try {
+
+        Optional<String> error = tariffService.create(dto);
+        if (error.isPresent()) {
+            buildModel(model, dto);
+            model.addAttribute(MODEL_MESSAGE, error.get());
+            return CREATE;
+        } else {
+
             attr.addAttribute("id", tariffService.create(dto));
             jmsSender.sendData();
             return "redirect:/management/showTariff";
-
-        } catch (ServiceException e) {
-            buildModel(model, dto);
-            model.addAttribute(MODEL_MESSAGE, e.getMessage());
-            return CREATE;
         }
     }
 
@@ -86,27 +88,28 @@ public class TariffController {
             buildModel(model, dto);
             return CREATE;
         }
-        try {
+        Optional<String> error = tariffService.update(dto);
+        if (error.isPresent()) {
+            buildModel(model, dto);
+            model.addAttribute(MODEL_MESSAGE, error.get());
+            return CREATE;
+        } else {
             tariffService.update(dto);
             attr.addAttribute("id", dto.getId());
             jmsSender.sendData();
             return "redirect:/management/showTariff";
-        } catch (ServiceException e) {
-            buildModel(model, dto);
-            model.addAttribute(MODEL_MESSAGE,e.getMessage());
-            return CREATE;
         }
     }
 
     @PostMapping("/management/deleteTariff")
     public String deleteTariff(@RequestParam("id") int id, RedirectAttributes attr) {
-        try {
-            tariffService.delete(id);
-            return "redirect:/management/tariffs";
-        } catch (ServiceException e) {
-            attr.addAttribute(ERROR_ATTRIBUTE,e.getMessage());
-            attr.addAttribute("id",id);
+        Optional<String> error = tariffService.delete(id);
+        if (error.isPresent()) {
+            attr.addAttribute(ERROR_ATTRIBUTE, error.get());
+            attr.addAttribute("id", id);
             return REDIRECT_EDIT;
+        } else {
+            return "redirect:/management/tariffs";
         }
     }
 

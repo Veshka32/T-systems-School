@@ -46,7 +46,7 @@ public class OptionService implements OptionServiceI {
         if (optionDAO.findByName(dto.getName()) != null)
             return Optional.of(NAME_ERROR_MESSAGE);
 
-        //check mandatory and incompatible options logic, throws exception if something is wrong
+        //check mandatory and incompatible options logic
         Optional<String> error = checkCompatibility(dto);
         if (error.isPresent()) return error;
 
@@ -69,7 +69,7 @@ public class OptionService implements OptionServiceI {
         if (option != null && option.getId() != dto.getId())
             return Optional.of(NAME_ERROR_MESSAGE);
 
-        //check mandatory and incompatible options logic, throws exception if something is wrong
+        //check mandatory and incompatible options logic
         Optional<String> error = checkCompatibility(dto);
         if (error.isPresent()) return error;
 
