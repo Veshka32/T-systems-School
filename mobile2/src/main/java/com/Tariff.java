@@ -1,9 +1,10 @@
 package com;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-
-public class Tariff {
+//must be serializable because is used in @applicationScoped bean
+public class Tariff implements Serializable {
 
     private String name;
 
