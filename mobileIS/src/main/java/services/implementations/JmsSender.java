@@ -57,9 +57,5 @@ public class JmsSender implements JmsSenderI {
         List<Tariff> tariffList = tariffServiceI.getLast(COUNT);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(tariffList);
-
-//        JsonElement element=new JsonObject();
-//        element.getAsJsonObject().add("tariffs", gson.toJsonTree(tariffList));
-//        return gson.toJson(element);
     }
 }
