@@ -87,16 +87,21 @@ class ClientServiceTest {
     @Test
     void createTest() {
 
-        when(clientDaoI.isPassportExist(passport)).thenReturn(true);
+        when(clientDaoI.findByPassportId(passport)).thenReturn(new Client());
         Optional<String> e = clientService.create(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "passportId is reserved");
 
-        when(clientDaoI.isPassportExist(passport)).thenReturn(false);
-        when(clientDaoI.isEmailExists(email)).thenReturn(true);
+        when(clientDaoI.findByPassportId(passport)).thenReturn(null);
+        when(clientDaoI.findByEmail(email)).thenReturn(new Client());
         e = clientService.create(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "email is reserved");
+
+        when(clientDaoI.findByPassportId(passport)).thenReturn(null);
+        when(clientDaoI.findByEmail(email)).thenReturn(null);
+        e = clientService.create(dto);
+        assertFalse(e.isPresent());
     }
 
     @Test

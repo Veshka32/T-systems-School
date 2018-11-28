@@ -27,12 +27,10 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
         excludeFilters = {@ComponentScan.Filter(type = ASSIGNABLE_TYPE, value = {JmsSenderI.class})})
 public class WebMvcConfigSpecial implements WebMvcConfigurer {
 
-    @Autowired
-    Environment env;
-
     @Bean
     @Profile("test")
-    public DataSource dataSource() {
+    @Autowired
+    public DataSource dataSource(Environment env) {
 
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
@@ -48,7 +46,6 @@ public class WebMvcConfigSpecial implements WebMvcConfigurer {
         resolver.setSuffix(".jsp");
         return resolver;
     }
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

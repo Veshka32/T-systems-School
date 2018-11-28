@@ -1,7 +1,7 @@
+import com.SeleniumPerformer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
-import seleniumConfig.SeleniumPerformer;
 
 import java.util.List;
 

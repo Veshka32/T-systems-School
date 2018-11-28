@@ -10,7 +10,6 @@ public interface UserServiceI {
      *
      * @param dto data transfer object contains new account properties
      * @return id of newly created {@code User}
-     * @throws AccountCreateException if any data are invalid
      */
     Optional<String> createAccount(AccountDTO dto);
 }

@@ -10,6 +10,7 @@ public class Passport {
     String passportNumber;
 
     public Passport() {
+        //default constructor
     }
 
     public @Pattern(regexp = "^[0-9]{10}") String getPassportNumber() {

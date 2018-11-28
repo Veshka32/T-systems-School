@@ -3,7 +3,6 @@ package services.interfaces;
 import model.dto.ClientDTO;
 import model.entity.Client;
 import model.helpers.PaginateHelper;
-import services.exceptions.ServiceException;
 
 import java.util.Optional;
 

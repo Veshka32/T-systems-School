@@ -21,6 +21,7 @@ public class Cart implements CartInterface {
     private String message;
 
     public Cart() {
+        //default constructor
     }
 
     @Override

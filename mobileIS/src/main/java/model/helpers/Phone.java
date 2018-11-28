@@ -10,6 +10,7 @@ public class Phone {
     String phoneNumber;
 
     public Phone() {
+        //default constructor
     }
 
     public @Pattern(regexp = "^[0-9]{10}") String getPhoneNumber() {

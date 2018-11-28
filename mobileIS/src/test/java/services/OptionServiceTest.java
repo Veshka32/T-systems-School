@@ -26,11 +26,12 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class OptionServiceTest {
-    @InjectMocks
-    private OptionService optionService;
 
     private String Z = "z";
     private int id = 1;
+
+    @InjectMocks
+    private OptionService optionService;
 
     @Mock
     private
@@ -86,13 +87,13 @@ class OptionServiceTest {
         dto.setName(Z);
 
         //create option with reserved name
-        when(optionDAO.findByName(dto.getName())).thenReturn(new Option());
+        when(optionDAO.findByName(dto.getName())).thenReturn(Optional.of(new Option()));
         Optional<String> e = optionService.create(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "name is reserved");
 
         //create option with free name
-        when(optionDAO.findByName(dto.getName())).thenReturn(null);
+        when(optionDAO.findByName(dto.getName())).thenReturn(Optional.empty());
         assertFalse(optionService.create(dto).isPresent());
     }
 
@@ -116,7 +117,7 @@ class OptionServiceTest {
         //check if no option at the same time are mandatory and incompatible
         dto.getMandatory().add(1);
         dto.getIncompatible().add(1);
-        when(optionDAO.findByName(dto.getName())).thenReturn(null);
+        when(optionDAO.findByName(dto.getName())).thenReturn(Optional.empty());
         when(optionDAO.findOne(1)).thenReturn(a);
         Optional<String> e = optionService.create(dto);
         assertTrue(e.isPresent());
@@ -156,7 +157,7 @@ class OptionServiceTest {
         old.setId(2);
 
         //createAccount option with reserved name
-        when(optionDAO.findByName(dto.getName())).thenReturn(old);
+        when(optionDAO.findByName(dto.getName())).thenReturn(Optional.of(old));
         Optional<String> e = optionService.create(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "name is reserved");
@@ -170,7 +171,7 @@ class OptionServiceTest {
         assertFalse(optionService.update(dto).isPresent());
 
         //set completely new name
-        when(optionDAO.findByName(dto.getName())).thenReturn(null);
+        when(optionDAO.findByName(dto.getName())).thenReturn(Optional.empty());
         when(optionDAO.findOne(id)).thenReturn(old);
         doNothing().when(relationDaoI).deleteAllIncompatible(id);
         doNothing().when(relationDaoI).deleteAllMandatory(id);

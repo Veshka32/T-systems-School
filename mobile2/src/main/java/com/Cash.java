@@ -18,7 +18,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Named
 public class Cash {
     private static final String URI = "http://localhost:8080/mobile/hotTariffs";
-    private static final String URI_UNSUBSCRIBE = "http://localhost:8080/mobile/hotTariffsUnsubscribe";
     private static final String AJAX_EVENT = "update";
 
     private static final Logger logger = org.apache.log4j.Logger.getLogger(Cash.class);

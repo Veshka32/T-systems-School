@@ -43,7 +43,7 @@ public class OptionService implements OptionServiceI {
     public Optional<String> create(OptionDTO dto) {
         //check name uniqueness
 
-        if (optionDAO.findByName(dto.getName()) != null)
+        if (optionDAO.findByName(dto.getName()).isPresent())
             return Optional.of(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic
@@ -63,10 +63,10 @@ public class OptionService implements OptionServiceI {
 
     @Override
     public Optional<String> update(OptionDTO dto) {
-        Option option = optionDAO.findByName(dto.getName());
+        Optional<Option> optional = optionDAO.findByName(dto.getName());
 
         //check if there is another option with the same name in database and it is not proceeded option
-        if (option != null && option.getId() != dto.getId())
+        if (optional.isPresent() && optional.get().getId() != dto.getId())
             return Optional.of(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic
@@ -74,7 +74,7 @@ public class OptionService implements OptionServiceI {
         if (error.isPresent()) return error;
 
         //update plain fields
-        option = optionDAO.findOne(dto.getId());
+        Option option = optionDAO.findOne(dto.getId());
         updatePlainFields(dto, option);
 
         //clear and set complex fields

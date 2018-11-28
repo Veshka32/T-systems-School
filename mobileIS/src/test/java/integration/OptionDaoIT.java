@@ -21,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.servlet.ServletContext;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +57,9 @@ class OptionDaoIT {
     @Transactional
     void findByNameTest() {
         String name = "I love Pluto";
-        assertEquals(optionDao.findByName(name).getName(), name);
+        Optional<Option> option = optionDao.findByName(name);
+        assertTrue(option.isPresent());
+        assertEquals(option.get().getName(), name);
     }
 
     @Test

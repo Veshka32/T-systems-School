@@ -96,10 +96,10 @@ public class ClientService implements ClientServiceI {
 
     @Override
     public Optional<String> create(ClientDTO dto) {
-        if (clientDAO.isPassportExist(dto.getPassportId()))
+        if (clientDAO.findByPassportId(dto.getPassportId()) != null)
             return Optional.of("passportId is reserved");
 
-        if (clientDAO.isEmailExists(dto.getEmail()))
+        if (clientDAO.findByEmail(dto.getEmail()) != null)
             return Optional.of("email is reserved");
 
         Client client=new Client();

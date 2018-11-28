@@ -1,4 +1,4 @@
-package seleniumConfig;
+package com;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
