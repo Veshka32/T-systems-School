@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
@@ -16,14 +17,14 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
     }
 
     @Override
-    public Option findByName(String name) {
+    public Optional<Option> findByName(String name) {
         try {
-            return sessionFactory.getCurrentSession()
+            return Optional.of(sessionFactory.getCurrentSession()
                     .createNamedQuery("find_by_name", Option.class)
                     .setParameter("name",name)
-                    .getSingleResult();
+                    .getSingleResult());
         } catch (NoResultException e){
-            return null;
+            return Optional.empty();
         }
     }
 

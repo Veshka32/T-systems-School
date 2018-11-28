@@ -14,6 +14,7 @@
         <sonar.tests>src/test</sonar.tests>
         <!-- Below property indicates the pattern of the test suite -->
         <runSuite>**/*Test.class</runSuite>
+        <runSuite1>**/*IT.class</runSuite1>
         <!-- Sonar-JaCoCo properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -70,6 +71,7 @@
                 <configuration>
                     <includes>
                         <include>${runSuite}</include>
+                        <include>${runSuite1}</include>
                     </includes>
                 </configuration>
                 <dependencies>
@@ -218,28 +220,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>3.12.0</version>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-htmlunit-driver</artifactId>-->
-        <!--<version>2.52.0</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
-        <!--&lt;!&ndash;<groupId>org.seleniumhq.selenium</groupId>&ndash;&gt;-->
-        <!--&lt;!&ndash;<artifactId>selenium-remote-driver</artifactId>&ndash;&gt;-->
-        <!--&lt;!&ndash;<version>2.52.0</version>&ndash;&gt;-->
-        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-api</artifactId>-->
-        <!--<version>3.141.59</version>-->
-        <!--</dependency>-->
-
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>5.0.6.RELEASE</version>
@@ -278,5 +258,13 @@
             <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.0.1.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

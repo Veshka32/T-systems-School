@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class OptionDTO {
 
-    private Integer id;
+    private int id;
 
     @NotBlank
     @Size(min = 3, max = 50)
@@ -47,11 +47,11 @@ public class OptionDTO {
         description = option.getDescription();
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

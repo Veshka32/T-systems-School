@@ -67,13 +67,13 @@ class SeleniumTest {
         performer.clickLink("Create new option");
         assertEquals(performer.getTitle(), "Create option");
 
-        //try to create empty
+        //try to create with errors
+        performer.fieldForm("price", "-5");
         performer.scrollToElement(performer.findElementByClass("btn-success"));
         performer.submit(performer.findElementByClass("btn-success"));
         assertEquals(performer.getTitle(), "Create option");
         assertNotNull(performer.findElementById("name.errors"));
         assertNotNull(performer.findElementById("price.errors"));
-        assertNotNull(performer.findElementById("subscribeCost.errors"));
 
         //fill with values
         performer.fieldForm("name", "Test option");

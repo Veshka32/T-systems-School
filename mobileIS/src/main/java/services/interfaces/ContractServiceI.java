@@ -5,7 +5,6 @@ import model.entity.Contract;
 import model.entity.Option;
 import model.helpers.PaginateHelper;
 import model.stateful.CartInterface;
-import services.exceptions.ServiceException;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -44,7 +43,6 @@ public interface ContractServiceI {
      *
      * @param dto data transfer object contains required properties
      * @return database id of newly created entity
-     * @throws ServiceException if some values are invalid or some properties has conflict
      */
     Optional<String> create(ContractDTO dto);
 
@@ -52,7 +50,6 @@ public interface ContractServiceI {
      * Update all fields in corresponding {@code Contract} with field values from data transfer object
      *
      * @param dto data transfer object contains contract id and properties
-     * @throws ServiceException if some values are invalid or some properties has conflict
      */
     Optional<String> update(ContractDTO dto);
 
@@ -98,7 +95,6 @@ public interface ContractServiceI {
      *
      * @param id      id of {@code Contract}
      * @param options collection of {@code Option} to add
-     * @throws ServiceException if case of logic conflicts
      */
     Optional<String> addOptions(int id, Collection<Option> options);
 
@@ -109,7 +105,6 @@ public interface ContractServiceI {
      *
      * @param id       id of {@code Contract}
      * @param optionId id of {@code Option} to delete
-     * @throws ServiceException if case of logic conflicts
      */
     Optional<String> deleteOption(int id, int optionId);
 

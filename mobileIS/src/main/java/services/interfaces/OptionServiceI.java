@@ -3,7 +3,6 @@ package services.interfaces;
 import model.dto.OptionDTO;
 import model.entity.Option;
 import model.helpers.PaginateHelper;
-import services.exceptions.ServiceException;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ public interface OptionServiceI {
      *
      * @param dto data transfer object contains required properties
      * @return database id of newly created entity
-     * @throws ServiceException if some values are invalid or some properties has conflict
      */
     Optional<String> create(OptionDTO dto);
 
@@ -32,7 +30,6 @@ public interface OptionServiceI {
      * Update all fields in corresponding {@code Option} with field values from data transfer object
      *
      * @param dto data transfer object contains option id and properties
-     * @throws ServiceException if some values are invalid or some properties has conflict
      */
     Optional<String> update(OptionDTO dto);
 
@@ -40,7 +37,6 @@ public interface OptionServiceI {
      * Delete {@code Option} with specific id from database and its corresponding {@code OptionRelation}
      *
      * @param id id of option to delete
-     * @throws ServiceException if option is used in any database relations
      */
     Optional<String> delete(int id);
 

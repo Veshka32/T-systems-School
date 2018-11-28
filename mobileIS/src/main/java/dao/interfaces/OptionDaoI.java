@@ -4,12 +4,13 @@ import model.entity.Option;
 import model.entity.OptionRelation;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OptionDaoI extends IGenericDAO<Option> {
 
     List<Object[]> getAllNamesAndIds();
 
-    Option findByName(String name);
+    Optional<Option> findByName(String name);
 
     List<Option> findByIds(Integer[] ids);
 

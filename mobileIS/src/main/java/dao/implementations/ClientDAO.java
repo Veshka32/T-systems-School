@@ -8,29 +8,6 @@ import javax.persistence.NoResultException;
 
 @Repository
 public class ClientDAO extends GenericDAO<Client> implements ClientDaoI {
-    @Override
-    public boolean isPassportExist(String id) {
-        try {
-            sessionFactory.getCurrentSession().createNamedQuery("is_passport_exists")
-                    .setParameter("id",id)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isEmailExists(String email) {
-        try {
-            sessionFactory.getCurrentSession().createNamedQuery("is_email_exists")
-                    .setParameter("email",email)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public Client findByPassportId(String passport){
