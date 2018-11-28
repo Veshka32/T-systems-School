@@ -1,11 +1,11 @@
 package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import services.interfaces.JmsSenderI;
 
-@Controller
+@RestController
 public class HotTariffController {
 
     @Autowired
@@ -14,6 +14,6 @@ public class HotTariffController {
     @GetMapping(value = "/hotTariffs")
     public String sendHot() {
         jmsSender.sendData();
-        return "blank";
+        return "";
     }
 }
