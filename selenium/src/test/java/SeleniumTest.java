@@ -33,7 +33,7 @@ class SeleniumTest {
         performer.fieldForm("login", "stas");
         performer.fieldForm("password", "test");
         performer.submit(performer.findElementByName("submit"));
-        assertEquals(performer.getTitle(), "Universe mobile");
+        assertEquals(performer.getTitle(), "Multiverse mobile");
         assertNotNull(performer.findElementByLink("MANAGEMENT"));
         assertNotNull(performer.findElementByLink("LOG OUT"));
         //go to manage cabinet->options

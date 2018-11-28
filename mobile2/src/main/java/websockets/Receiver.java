@@ -1,7 +1,7 @@
-package jms;
+package websockets;
 
-import websockets.Cash;
-import websockets.WebSocketServer;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -10,8 +10,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(
@@ -20,10 +19,10 @@ import java.util.logging.Logger;
         )
 })
 public class Receiver implements MessageListener {
-
-    @Inject
-    private WebSocketServer socketServer;
-
+    //
+//    @Inject
+//    private WebSocketServer socketServer;
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Cash.class);
     @Inject
     private Cash cash;
 
@@ -32,10 +31,16 @@ public class Receiver implements MessageListener {
             TextMessage textMessage = (TextMessage) message;
             try {
                 String messageText = textMessage.getText();
-                cash.update(messageText);
-                socketServer.sendToAll(messageText);
+                Gson gson = new Gson();
+                List<Tariff> tariffs = gson.fromJson(messageText, new TypeToken<List<Tariff>>() {
+                }.getType());
+                cash.setTariffs(tariffs);
+                logger.info("got jms message: " + messageText);
+                //socketServer.sendToAll(messageText);
+                cash.send(messageText);
+
             } catch (JMSException ex) {
-                Logger.getLogger(Receiver.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex.getMessage(), ex);
             }
         }
     }

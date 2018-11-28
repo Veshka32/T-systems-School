@@ -2,8 +2,6 @@ package services.implementations;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import model.entity.Tariff;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +52,10 @@ public class JmsSender implements JmsSenderI {
     private String buildJson(){
         List<Tariff> tariffList = tariffServiceI.getLast(COUNT);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(tariffList);
 
-        JsonElement element=new JsonObject();
-        element.getAsJsonObject().add("tariffs", gson.toJsonTree(tariffList));
-        return gson.toJson(element);
+//        JsonElement element=new JsonObject();
+//        element.getAsJsonObject().add("tariffs", gson.toJsonTree(tariffList));
+//        return gson.toJson(element);
     }
 }
