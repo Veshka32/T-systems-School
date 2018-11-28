@@ -7,7 +7,6 @@ import model.entity.Option;
 import model.entity.OptionRelation;
 import model.enums.RELATION;
 import model.helpers.PaginateHelper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,13 +16,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import services.exceptions.ServiceException;
 import services.implementations.OptionService;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,12 +90,13 @@ class OptionServiceTest {
 
         //create option with reserved name
         when(optionDAO.findByName(dto.getName())).thenReturn(new Option());
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "name is reserved");
+        Optional<String> e = optionService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "name is reserved");
 
         //create option with free name
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
-        Assertions.assertDoesNotThrow(() -> optionService.create(dto));
+        assertFalse(optionService.create(dto).isPresent());
     }
 
     @Test
@@ -125,27 +121,31 @@ class OptionServiceTest {
         dto.getIncompatible().add(1);
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
         when(optionDAO.findOne(1)).thenReturn(a);
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option must not be both mandatory and incompatible: " + a.getName());
+        Optional<String> e = optionService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Option must not be both mandatory and incompatible: " + a.getName());
 
         //check if mandatory relation is not bidirectional
         dto.getIncompatible().clear();
         when(optionDAO.getMandatoryRelation((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(bi)); //a requires dto
-        e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "Option " + dto.getName() + " is already mandatory itself for these options: " + a.getName());
+        e = optionService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Option " + dto.getName() + " is already mandatory itself for these options: " + a.getName());
 
         //check if all from mandatory also have its' corresponding mandatory options
         when(optionDAO.getMandatoryRelation((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation)); //1 requires 3
-        e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "More options are required as mandatory: " + b.getName());
+        e = optionService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "More options are required as mandatory: " + b.getName());
 
         //check if mandatory options are incompatible with each other
         dto.getIncompatible().clear();
         dto.getMandatory().add(3);
         when(optionDAO.getMandatoryRelation((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleRelationInRange((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
-        e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertTrue(e.getMessage().contains("a and b"));
+        e = optionService.create(dto);
+        assertTrue(e.isPresent());
+        assertTrue(e.get().contains("a and b"));
     }
 
     @Test
@@ -160,8 +160,9 @@ class OptionServiceTest {
 
         //createAccount option with reserved name
         when(optionDAO.findByName(dto.getName())).thenReturn(old);
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.create(dto));
-        assertEquals(e.getMessage(), "name is reserved");
+        Optional<String> e = optionService.create(dto);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "name is reserved");
 
         //set new name same as old one
         old.setId(id);
@@ -169,7 +170,7 @@ class OptionServiceTest {
         doNothing().when(relationDaoI).deleteAllIncompatible(id);
         doNothing().when(relationDaoI).deleteAllMandatory(id);
         doNothing().when(optionDAO).update(old);
-        assertDoesNotThrow(() -> optionService.update(dto));
+        assertFalse(optionService.update(dto).isPresent());
 
         //set completely new name
         when(optionDAO.findByName(dto.getName())).thenReturn(null);
@@ -177,20 +178,21 @@ class OptionServiceTest {
         doNothing().when(relationDaoI).deleteAllIncompatible(id);
         doNothing().when(relationDaoI).deleteAllMandatory(id);
         doNothing().when(optionDAO).update(old);
-        assertDoesNotThrow(() -> optionService.update(dto));
+        assertFalse(optionService.update(dto).isPresent());
     }
 
     @Test
     void testDelete() {
         when(optionDAO.notUsed(id)).thenReturn(false);
-        ServiceException e = assertThrows(ServiceException.class, () -> optionService.delete(id));
-        assertEquals(e.getMessage(), "Option is used in contracts/tariffs or is mandatory for another option");
+        Optional<String> e = optionService.delete(id);
+        assertTrue(e.isPresent());
+        assertEquals(e.get(), "Option is used in contracts/tariffs or is mandatory for another option");
 
         when(optionDAO.notUsed(id)).thenReturn(true);
         doNothing().when(relationDaoI).deleteAllIncompatible(id);
         doNothing().when(relationDaoI).deleteAllMandatory(id);
         doNothing().when(optionDAO).deleteById(id);
-        assertDoesNotThrow(() -> optionService.delete(id));
+        assertFalse(optionService.delete(id).isPresent());
     }
 
 

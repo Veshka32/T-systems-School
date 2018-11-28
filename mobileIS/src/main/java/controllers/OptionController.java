@@ -9,10 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.exceptions.ServiceException;
 import services.interfaces.OptionServiceI;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class OptionController {
@@ -56,14 +56,16 @@ public class OptionController {
             model.addAttribute("all", optionService.getAllNamesWithIds());
             return EDIT;
         }
-        try {
-            attr.addAttribute("id", optionService.create(dto));
-            return "redirect:/management/showOption";
-        } catch (ServiceException e) {
+
+        Optional<String> error = optionService.create(dto);
+        if (error.isPresent()) {
             model.addAttribute(OPTION, dto);
-            model.addAttribute(MODEL_MESSAGE, e.getMessage());
+            model.addAttribute(MODEL_MESSAGE, error.get());
             model.addAttribute("all", optionService.getAllNamesWithIds());
             return EDIT;
+        } else {
+            attr.addAttribute("id", dto.getId());
+            return "redirect:/management/showOption";
         }
     }
 
@@ -84,27 +86,28 @@ public class OptionController {
             model.addAttribute("all", optionService.getAllNamesWithIds());
             return EDIT;
         }
-        try {
-            optionService.update(dto);
-            attr.addAttribute("id", dto.getId());
-            return "redirect:/management/showOption";
-        } catch (ServiceException e) {
-            model.addAttribute(MODEL_MESSAGE, e.getMessage());
+
+        Optional<String> error = optionService.update(dto);
+        if (error.isPresent()) {
+            model.addAttribute(MODEL_MESSAGE, error.get());
             model.addAttribute(OPTION, dto);
             model.addAttribute("all", optionService.getAllNamesWithIds());
             return EDIT;
+        } else {
+            attr.addAttribute("id", dto.getId());
+            return "redirect:/management/showOption";
         }
     }
 
     @PostMapping("/management/deleteOption")
     public String deleteOption(@RequestParam("id") int id, RedirectAttributes attr) {
-        try {
-            optionService.delete(id);
-        } catch (ServiceException e) {
-            attr.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
+        Optional<String> error = optionService.delete(id);
+        if (error.isPresent()) {
+            attr.addAttribute(ERROR_ATTRIBUTE, error.get());
             attr.addAttribute("id", id);
             return REDIRECT_EDIT;
+        } else {
+            return "redirect:/management/options";
         }
-        return "redirect:/management/options";
     }
 }

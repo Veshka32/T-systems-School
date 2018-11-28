@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.exceptions.ServiceException;
 import services.interfaces.OptionServiceI;
 
 import java.util.*;
@@ -41,36 +40,38 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
-    public int create(OptionDTO dto) throws ServiceException {
+    public Optional<String> create(OptionDTO dto) {
         //check name uniqueness
+
         if (optionDAO.findByName(dto.getName()) != null)
-            throw new ServiceException(NAME_ERROR_MESSAGE);
+            return Optional.of(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic, throws exception if something is wrong
-        checkCompatibility(dto);
+        Optional<String> error = checkCompatibility(dto);
+        if (error.isPresent()) return error;
 
         //set plain fields
         Option based = new Option();
         updatePlainFields(dto, based);
 
-        optionDAO.save(based);
+        dto.setId(optionDAO.save(based));
 
         //set collections fields
         updateCollectionFields(dto, based);
-
-        return based.getId();
+        return Optional.empty();
     }
 
     @Override
-    public void update(OptionDTO dto) throws ServiceException {
+    public Optional<String> update(OptionDTO dto) {
         Option option = optionDAO.findByName(dto.getName());
 
         //check if there is another option with the same name in database and it is not proceeded option
         if (option != null && option.getId() != dto.getId())
-            throw new ServiceException(NAME_ERROR_MESSAGE);
+            return Optional.of(NAME_ERROR_MESSAGE);
 
         //check mandatory and incompatible options logic, throws exception if something is wrong
-        checkCompatibility(dto);
+        Optional<String> error = checkCompatibility(dto);
+        if (error.isPresent()) return error;
 
         //update plain fields
         option = optionDAO.findOne(dto.getId());
@@ -83,17 +84,18 @@ public class OptionService implements OptionServiceI {
 
         //save changes in db
         optionDAO.update(option);
+        return Optional.empty();
     }
 
     @Override
-    public void delete(int id) throws ServiceException {
+    public Optional<String> delete(int id) {
         //check if option has any relation with other options, tariffs or contract
         if (!optionDAO.notUsed(id))
-            throw new ServiceException("Option is used in contracts/tariffs or is mandatory for another option");
-
+            return Optional.of("Option is used in contracts/tariffs or is mandatory for another option");
         relationDaoI.deleteAllMandatory(id);
         relationDaoI.deleteAllIncompatible(id);
         optionDAO.deleteById(id);
+        return Optional.empty();
     }
 
     @Override
@@ -122,15 +124,16 @@ public class OptionService implements OptionServiceI {
         return optionDAO.findAll();
     }
 
-    private void checkCompatibility(OptionDTO dto) throws ServiceException {
+    private Optional<String> checkCompatibility(OptionDTO dto) {
         dto.getMandatory().remove(dto.getId());
         dto.getIncompatible().remove(dto.getId());
 
         //check if no option at the same time are mandatory and incompatible
         Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
-        if (any.isPresent())
-            throw new ServiceException(ERROR_MESSAGE + optionDAO.findOne(any.get()).getName());
-        if (dto.getMandatory().isEmpty()) return;
+        if (any.isPresent()) return Optional.of(ERROR_MESSAGE + optionDAO.findOne(any.get()).getName());
+
+        //nothing to check
+        if (dto.getMandatory().isEmpty()) return Optional.empty();
 
         Integer[] ids = dto.getMandatory().toArray(new Integer[]{});
         List<OptionRelation> relations = optionDAO.getMandatoryRelation(ids);
@@ -141,14 +144,14 @@ public class OptionService implements OptionServiceI {
                     .filter(r -> r.getAnother().getId() == dto.getId())
                     .collect(Collectors.toList());
             if (!selfPointer.isEmpty())
-                throw new ServiceException("Option " + dto.getName() + " is already mandatory itself for these options: " + selfPointer.stream().map(r -> r.getOne().getName()).collect(Collectors.joining(", ")));
+                return Optional.of("Option " + dto.getName() + " is already mandatory itself for these options: " + selfPointer.stream().map(r -> r.getOne().getName()).collect(Collectors.joining(", ")));
 
             //check if all from mandatory set also have its' corresponding mandatory options
             Set<String> required = relations.stream()
                     .filter(r -> !dto.getMandatory().contains(r.getAnother().getId()))
                     .map(r -> r.getAnother().getName()).collect(Collectors.toSet());
             if (!required.isEmpty()) {
-                throw new ServiceException("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
+                return Optional.of("More options are required as mandatory: " + required.stream().collect(Collectors.joining(", ")));
             }
         }
 
@@ -156,8 +159,9 @@ public class OptionService implements OptionServiceI {
         relations = optionDAO.getIncompatibleRelationInRange(ids);
         if (!relations.isEmpty()) {
             String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
-            throw new ServiceException("Options " + s + " incompatible with each other");
+            return Optional.of("Options " + s + " incompatible with each other");
         }
+        return Optional.empty();
     }
 
     @Override

@@ -7,6 +7,7 @@ import services.exceptions.ServiceException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface OptionServiceI {
 
@@ -17,7 +18,7 @@ public interface OptionServiceI {
      * @return database id of newly created entity
      * @throws ServiceException if some values are invalid or some properties has conflict
      */
-    int create(OptionDTO dto) throws ServiceException;
+    Optional<String> create(OptionDTO dto);
 
     /**
      * Build data transfer object for option with specific id
@@ -33,7 +34,7 @@ public interface OptionServiceI {
      * @param dto data transfer object contains option id and properties
      * @throws ServiceException if some values are invalid or some properties has conflict
      */
-    void update(OptionDTO dto) throws ServiceException;
+    Optional<String> update(OptionDTO dto);
 
     /**
      * Delete {@code Option} with specific id from database and its corresponding {@code OptionRelation}
@@ -41,7 +42,7 @@ public interface OptionServiceI {
      * @param id id of option to delete
      * @throws ServiceException if option is used in any database relations
      */
-    void delete(int id) throws ServiceException;
+    Optional<String> delete(int id);
 
     /**
      * Build map from names and corresponding ids of all options in database
