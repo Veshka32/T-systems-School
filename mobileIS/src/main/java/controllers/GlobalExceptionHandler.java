@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
     private static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({RuntimeException.class})
     public String handleException(HttpServletRequest request, Exception ex) {
         logger.error("Request occurred:: " + request.getRequestURL(), ex);
-        return "database-error";
+        return "error";
     }
 }

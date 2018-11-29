@@ -73,4 +73,12 @@ class OptionDaoIT {
         assertNotNull(id);
         assertNotNull(optionDao.findOne(id));
     }
+
+    @Test
+    @Transactional
+    void paginate() {
+        int size = optionDao.findAll().size();
+        optionDao.deleteById(1);
+        assertTrue(optionDao.findAll().size() < size);
+    }
 }

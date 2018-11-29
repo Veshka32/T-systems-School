@@ -3,6 +3,7 @@ package controllers;
 import model.dto.TariffDTO;
 import model.entity.Tariff;
 import model.helpers.PaginateHelper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import services.interfaces.JmsSenderI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -24,6 +26,8 @@ public class TariffController {
     private static final String REDIRECT_EDIT = "redirect:/management/editTariff";
     private static final String TARIFF = "tariff";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all tariffs
+
+    private static final Logger logger = Logger.getLogger(ClientController.class);
 
     @Autowired
     TariffServiceI tariffService;
@@ -116,5 +120,11 @@ public class TariffController {
     private void buildModel(Model model, TariffDTO dto) {
         model.addAttribute(TARIFF, dto);
         model.addAttribute("all", optionService.getAllNamesWithIds());
+    }
+
+    @ExceptionHandler({NullPointerException.class})
+    public String catchWrongId(HttpServletRequest request, Exception ex) {
+        logger.warn("Request: " + request.getRequestURL(), ex);
+        return "redirect:/management/tariffs";
     }
 }

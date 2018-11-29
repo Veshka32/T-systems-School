@@ -71,7 +71,7 @@
                 <configuration>
                     <includes>
                         <include>${runSuite}</include>
-                        <include>${runSuite1}</include>
+                        <!--<include>${runSuite1}</include>-->
                     </includes>
                 </configuration>
                 <dependencies>

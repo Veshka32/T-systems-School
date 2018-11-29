@@ -7,6 +7,7 @@ import model.entity.Option;
 import model.entity.Tariff;
 import model.helpers.PaginateHelper;
 import model.stateful.CartInterface;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import services.interfaces.ContractServiceI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,8 @@ public class UserCabinet {
     private static final String REDIRECT_CABINET="redirect:/user/cabinet";
     private static final String CONTRACT = "contract";
     private static final String AVAILABLE_OPTIONS = "availableOptions";
+
+    private static final Logger logger = Logger.getLogger(ClientController.class);
 
     @Autowired
     ContractServiceI contractService;
@@ -121,5 +125,11 @@ public class UserCabinet {
     @GetMapping("user/buy")
     public String buy() {
         return contractService.addOptionsToJson(cartInterface);
+    }
+
+    @ExceptionHandler({NullPointerException.class})
+    public String catchWrongId(HttpServletRequest request, Exception ex) {
+        logger.warn("Request: " + request.getRequestURL(), ex);
+        return "redirect:/index";
     }
 }

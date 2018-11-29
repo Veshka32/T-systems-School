@@ -10,6 +10,9 @@ import services.interfaces.TariffServiceI;
 
 @Controller
 public class MainPageController {
+    private static final int OPTION_ON_PAGE = 10;
+    private static final int TARIFF_ON_PAGE = 3;
+
     @Autowired
     TariffServiceI tariffServiceI;
 
@@ -21,8 +24,8 @@ public class MainPageController {
 
     @RequestMapping({"/", "/index"})
     public String root(Model model) {
-        model.addAttribute("tariffs", tariffServiceI.getLast(3));
-        model.addAttribute("options", optionServiceI.getPaginateData(1, 10).getItems());
+        model.addAttribute("tariffs", tariffServiceI.getLast(TARIFF_ON_PAGE));
+        model.addAttribute("options", optionServiceI.getPaginateData(1, OPTION_ON_PAGE).getItems());
         model.addAttribute("cart", cartInterface);
         return "index";
     }

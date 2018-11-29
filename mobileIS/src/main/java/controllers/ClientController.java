@@ -5,6 +5,7 @@ import model.entity.Client;
 import model.helpers.PaginateHelper;
 import model.helpers.Passport;
 import model.helpers.Phone;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,20 +14,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.interfaces.ClientServiceI;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
 public class ClientController {
-    private static final String MODEL_MESSAGE="message";
-    private static final String SAVE="management/client/show-client";
+    private static final String MODEL_MESSAGE = "message";
+    private static final String SAVE = "management/client/show-client";
     private static final String CREATE = "management/client/create-client";
-    private static final String MANAGEMENT="management/client/client-management";
+    private static final String MANAGEMENT = "management/client/client-management";
     private static final String CLIENT = "client";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all clients
 
+    private static final Logger logger = Logger.getLogger(ClientController.class);
+
     @Autowired
     ClientServiceI clientService;
+
 
     @RequestMapping("/management/clients")
     public String show(@RequestParam(value = "page", required = false) Integer page, Model model) {
@@ -61,7 +66,7 @@ public class ClientController {
 
     @PostMapping("/management/createClient")
     public String create(@ModelAttribute(CLIENT) @Valid ClientDTO dto, BindingResult result, Model model) {
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute(CLIENT, dto);
             return CREATE;
         }
@@ -95,12 +100,8 @@ public class ClientController {
             model.addAttribute(MODEL_MESSAGE, error.get());
             return CREATE;
         }
-
-
         attr.addAttribute("id", dto.getId());
         return "redirect:/management/showClient";
-
-
     }
 
     @PostMapping("/management/deleteClient")
@@ -116,5 +117,11 @@ public class ClientController {
         model.addAttribute("pageTotal", helper.getTotal());
         model.addAttribute("phone", new Phone());
         model.addAttribute("passport", new Passport());
+    }
+
+    @ExceptionHandler({NullPointerException.class})
+    public String catchWrongId(HttpServletRequest request, Exception ex) {
+        logger.warn("Request: " + request.getRequestURL(), ex);
+        return "redirect:/management/clients";
     }
 }

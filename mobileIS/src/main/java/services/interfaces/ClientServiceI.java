@@ -36,7 +36,6 @@ public interface ClientServiceI {
      * Create new {@code Client} based on dto properties
      *
      * @param dto data transfer object contains required properties
-     * @throws ServiceException if some values are invalid
      */
     Optional<String> create(ClientDTO dto);
 
@@ -44,7 +43,6 @@ public interface ClientServiceI {
      * Update all fields in corresponding {@code Client} with field values from data transfer object
      *
      * @param dto data transfer object contains client id and properties
-     * @throws ServiceException if some values are invalid
      */
     Optional<String> update(ClientDTO dto);
 

@@ -3,6 +3,7 @@ package controllers;
 import model.dto.OptionDTO;
 import model.entity.Option;
 import model.helpers.PaginateHelper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import services.interfaces.OptionServiceI;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class OptionController {
     private static final String MODEL_MESSAGE = "message";
     private static final String OPTION = "option";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all options
+
+    private static final Logger logger = Logger.getLogger(ClientController.class);
 
     @Autowired
     OptionServiceI optionService;
@@ -109,5 +113,11 @@ public class OptionController {
             return REDIRECT_EDIT;
         }
             return "redirect:/management/options";
+    }
+
+    @ExceptionHandler({NullPointerException.class})
+    public String catchWrongId(HttpServletRequest request, Exception ex) {
+        logger.warn("Request: " + request.getRequestURL(), ex);
+        return "redirect:/management/options";
     }
 }
