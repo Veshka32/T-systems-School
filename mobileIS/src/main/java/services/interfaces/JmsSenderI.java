@@ -1,5 +1,5 @@
 package services.interfaces;
 
 public interface JmsSenderI {
-    void sendData();
+    void sendData(String jsonData);
 }

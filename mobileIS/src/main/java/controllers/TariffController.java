@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import services.interfaces.JmsSenderI;
+import services.interfaces.HotTariffServiceI;
 import services.interfaces.OptionServiceI;
 import services.interfaces.TariffServiceI;
 
@@ -31,10 +31,12 @@ public class TariffController {
 
     @Autowired
     TariffServiceI tariffService;
+
     @Autowired
     OptionServiceI optionService;
+
     @Autowired
-    JmsSenderI jmsSender;
+    HotTariffServiceI hotTariffService;
 
     @RequestMapping("/management/tariffs")
     public String showAll(@RequestParam(value = "page", required = false) Integer page, Model model) {
@@ -72,7 +74,7 @@ public class TariffController {
         }
 
             attr.addAttribute("id", tariffService.create(dto));
-            jmsSender.sendData();
+        hotTariffService.pushHots();
             return "redirect:/management/showTariff";
 
     }
@@ -100,7 +102,7 @@ public class TariffController {
         }
             tariffService.update(dto);
             attr.addAttribute("id", dto.getId());
-            jmsSender.sendData();
+        hotTariffService.pushIfHots(dto.getId());
             return "redirect:/management/showTariff";
 
     }
@@ -113,6 +115,7 @@ public class TariffController {
             attr.addAttribute("id", id);
             return REDIRECT_EDIT;
         }
+        hotTariffService.pushIfHots(id);
             return "redirect:/management/tariffs";
 
     }
