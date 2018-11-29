@@ -38,6 +38,17 @@ public class Client extends AbstractEntity{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Client)) return false;
+        return id == (((Client) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
     public String toString(){
         return name+" "+surname;
     }

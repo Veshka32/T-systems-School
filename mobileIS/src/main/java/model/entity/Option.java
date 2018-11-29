@@ -2,7 +2,6 @@ package model.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 
 @Entity
@@ -38,12 +37,12 @@ public class Option extends AbstractEntity {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Option)) return false;
-        return name.equals(((Option) o).name);
+        return id == (((Option) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return id;
     }
 
     public String getName() {

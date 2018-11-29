@@ -35,6 +35,22 @@ public class OptionRelation extends AbstractEntity {
         //no arg constructor
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof OptionRelation)) return false;
+        return id == (((OptionRelation) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return one + " to " + another + ": " + relation;
+    }
+
     public Option getOne() {
         return this.one;
     }

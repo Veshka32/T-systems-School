@@ -52,6 +52,17 @@ public class Tariff extends AbstractEntity{
         return name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Tariff)) return false;
+        return id == (((Tariff) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
     public String getName() {
         return this.name;
     }

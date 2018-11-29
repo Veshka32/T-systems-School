@@ -13,7 +13,7 @@ import java.util.Set;
 @NamedQuery(name = "find_user_by_login", query = "from User u where u.login=:login")
 public class User extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
 
     @Column(nullable = false)
@@ -30,6 +30,22 @@ public class User extends AbstractEntity {
 
     public User() {
         //no arg constructor
+    }
+
+    @Override
+    public String toString() {
+        return login;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof User)) return false;
+        return id == (((User) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 
     public void setRole(Role role){
