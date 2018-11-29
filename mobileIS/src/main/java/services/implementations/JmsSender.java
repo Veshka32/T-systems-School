@@ -11,7 +11,7 @@ import javax.jms.*;
 @Service
 public class JmsSender implements JmsSenderI {
     private static final Logger logger = Logger.getLogger(JmsSender.class);
-    private static final long TIME_TO_LIVE_MILLISEC = 30_000;
+    private static final long TIME_TO_LIVE_MILLISEC = 30_000; //messages older than that won't be delivered to destination
 
     @Resource(lookup = "java:/mobile/MyConnectionFactory")
     private ConnectionFactory connectionFactory;
@@ -35,7 +35,7 @@ public class JmsSender implements JmsSenderI {
             logger.info("send jms");
 
         } catch (JMSException ex) {
-            logger.error(ex.getMessage(),ex);
+            logger.error(ex.getMessage(), ex);
         }
     }
 
