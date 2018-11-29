@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.entity.Tariff;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import services.interfaces.HotTariffServiceI;
 import services.interfaces.JmsSenderI;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@DependsOn("jmsSender")
 public class HotTariffService implements HotTariffServiceI {
 
     @Autowired

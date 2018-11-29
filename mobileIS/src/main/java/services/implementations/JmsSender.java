@@ -2,6 +2,7 @@ package services.implementations;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import services.aspects.Loggable;
 import services.interfaces.JmsSenderI;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ public class JmsSender implements JmsSenderI {
     private Destination destination;
 
     @Override
+    @Loggable
     public void sendData(String jsonData) {
         try (
                 //Authentication info can be omitted if we are using in-vm

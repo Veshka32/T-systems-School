@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import services.aspects.Loggable;
 import services.interfaces.OptionServiceI;
 
 import java.util.*;
@@ -40,6 +41,7 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    @Loggable
     public Optional<String> create(OptionDTO dto) {
         //check name uniqueness
 
@@ -62,6 +64,7 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    @Loggable
     public Optional<String> update(OptionDTO dto) {
         Optional<Option> optional = optionDAO.findByName(dto.getName());
 
@@ -88,6 +91,7 @@ public class OptionService implements OptionServiceI {
     }
 
     @Override
+    @Loggable
     public Optional<String> delete(int id) {
         //check if option has any relation with other options, tariffs or contract
         if (!optionDAO.notUsed(id))

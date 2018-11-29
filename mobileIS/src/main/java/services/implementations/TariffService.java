@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import services.aspects.Loggable;
 import services.interfaces.TariffServiceI;
 
 import java.util.List;
@@ -61,6 +62,7 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
+    @Loggable
     public Optional<String> create(TariffDTO dto) {
         if (tariffDAO.findByName(dto.getName()) != null)
             return Optional.of(NAME_ERROR_MESSAGE);
@@ -87,6 +89,7 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
+    @Loggable
     public Optional<String> update(TariffDTO dto) {
         Tariff tariff = tariffDAO.findByName(dto.getName());
 
@@ -141,6 +144,7 @@ public class TariffService implements TariffServiceI {
     }
 
     @Override
+    @Loggable
     public Optional<String> delete(int id) {
         if (tariffDAO.isUsed(id)) return Optional.of("tariff is used in some contracts");
         tariffDAO.deleteById(id);
