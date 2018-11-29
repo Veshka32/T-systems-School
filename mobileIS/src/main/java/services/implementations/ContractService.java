@@ -327,7 +327,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public String deleteOptionJson(int id, int optionId) {
         Gson gson = new Gson();
         JsonElement element = new JsonObject();
