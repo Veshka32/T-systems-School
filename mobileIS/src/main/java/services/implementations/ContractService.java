@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.aspects.Loggable;
 import services.interfaces.ContractServiceI;
 import services.interfaces.PhoneNumberServiceI;
 
@@ -99,7 +98,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public Optional<String> create(ContractDTO dto) {
         //get tariff and it's options
         Tariff tariff = tariffDAO.findOne(dto.getTariffId());
@@ -173,7 +171,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public Optional<String> update(ContractDTO dto) {
         Tariff tariff = tariffDAO.findOne(dto.getTariffId());
         Optional<String> error = checkCompatibility(dto, tariff);
@@ -196,13 +193,11 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public void delete(int id) {
         contractDAO.deleteById(id);
     }
 
     @Override
-    @Loggable
     public void block(int id) {
         Contract contract = contractDAO.findOne(id);
         if (!contract.isBlocked() && !contract.isBlockedByAdmin())
@@ -210,7 +205,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public void unblock(int id) {
         Contract contract = contractDAO.findOne(id);
         if (!contract.isBlockedByAdmin() && contract.isBlocked())
@@ -245,7 +239,6 @@ public class ContractService implements ContractServiceI {
     //<-----client's actions. Admin blocking check must be done before any actions----->
 
     @Override
-    @Loggable
     public Optional<String> addOptions(int id, Collection<Option> options) {
         if (options.isEmpty()) return Optional.of("Nothing to buy");
 
@@ -305,7 +298,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public Optional<String> deleteOption(int id, int optionId) {
         Contract contract = contractDAO.findOne(id);
         if (contract.isBlockedByAdmin() || contract.isBlocked()) return Optional.of(BLOCKED);
@@ -342,7 +334,6 @@ public class ContractService implements ContractServiceI {
     }
 
     @Override
-    @Loggable
     public Optional<String> setTariff(int id, int tariffId) {
         Contract contract = contractDAO.findOne(id);
         if (contract.isBlockedByAdmin() || contract.isBlocked()) return Optional.of(BLOCKED);

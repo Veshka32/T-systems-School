@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.aspects.Loggable;
 import services.interfaces.UserServiceI;
 
 import java.util.Optional;
@@ -31,7 +30,6 @@ public class UserService implements UserServiceI {
     PasswordEncoder passwordEncoder;
 
     @Override
-    @Loggable
     public Optional<String> createAccount(AccountDTO dto) {
         //check if already exists
         User user = userDAO.findByLogin(dto.getLogin());

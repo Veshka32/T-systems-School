@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import services.aspects.Loggable;
 import services.interfaces.ClientServiceI;
 
 import java.util.List;
@@ -96,7 +95,6 @@ public class ClientService implements ClientServiceI {
 
 
     @Override
-    @Loggable
     public Optional<String> create(ClientDTO dto) {
         if (clientDAO.findByPassportId(dto.getPassportId()) != null)
             return Optional.of("passportId is reserved");
@@ -112,7 +110,6 @@ public class ClientService implements ClientServiceI {
     }
 
     @Override
-    @Loggable
     public Optional<String> update(ClientDTO dto) {
         Client client = clientDAO.findByPassportId(dto.getPassportId());
         if (client != null && client.getId() != dto.getId())  //check if passportId is unique
@@ -129,7 +126,6 @@ public class ClientService implements ClientServiceI {
     }
 
     @Override
-    @Loggable
     public void delete(int id){
         clientDAO.deleteById(id);
     }

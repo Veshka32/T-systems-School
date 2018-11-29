@@ -25,7 +25,7 @@ public class OptionController {
     private static final String OPTION = "option";
     private static final int ROW_PER_PAGE = 3; //specific number of rows per page in the table with all options
 
-    private static final Logger logger = Logger.getLogger(ClientController.class);
+    private static final Logger logger = Logger.getLogger(OptionController.class);
 
     @Autowired
     OptionServiceI optionService;

@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 @Validated
 public class Passport {
     @Pattern(regexp = "^[0-9]{10}")
-    String passportNumber;
+    private String passportNumber;
 
     public Passport() {
         //default constructor

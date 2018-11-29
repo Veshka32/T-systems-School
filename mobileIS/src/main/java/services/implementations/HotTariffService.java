@@ -24,8 +24,6 @@ public class HotTariffService implements HotTariffServiceI {
     @Autowired
     TariffServiceI tariffService;
 
-
-    @Override
     @PostConstruct
     public void postConstruct() {
         pushHots();

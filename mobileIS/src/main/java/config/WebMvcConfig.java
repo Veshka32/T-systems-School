@@ -1,6 +1,5 @@
 package config;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {"controllers", "dao", "services", "model", "config"})
 public class WebMvcConfig implements WebMvcConfigurer {
-    private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
 
     @Bean
     public InternalResourceViewResolver resolver() {
@@ -24,7 +22,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
-        logger.info("Set view resolver");
         return resolver;
     }
 
@@ -34,6 +31,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
-        logger.info("register resourceHandler");
     }
 }

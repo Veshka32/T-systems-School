@@ -29,7 +29,7 @@ public class UserCabinet {
     private static final String CONTRACT = "contract";
     private static final String AVAILABLE_OPTIONS = "availableOptions";
 
-    private static final Logger logger = Logger.getLogger(ClientController.class);
+    private static final Logger logger = Logger.getLogger(UserCabinet.class);
 
     @Autowired
     ContractServiceI contractService;

@@ -1,6 +1,5 @@
 package config;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @ComponentScan(basePackages = {"services", "dao", "config"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final Logger logger = Logger.getLogger(WebMvcConfig.class);
 
     @Autowired
     UserDetailsService userDetailsService;
@@ -25,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        logger.info("register UserDetailsService bean");
     }
 
     @Override
@@ -43,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/");
-        logger.info("configure Http security rules");
     }
 
     @Bean
