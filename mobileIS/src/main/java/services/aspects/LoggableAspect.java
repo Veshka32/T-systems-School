@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Aspect
 @Component
-public class OptionAspect {
+public class LoggableAspect {
 
     @AfterReturning(value = "@annotation(Loggable)", returning = "returnValue")
     public void deleteLog1(JoinPoint point, Object returnValue) {
