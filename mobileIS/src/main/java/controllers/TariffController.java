@@ -73,7 +73,7 @@ public class TariffController {
             return CREATE;
         }
 
-            attr.addAttribute("id", tariffService.create(dto));
+        attr.addAttribute("id", dto.getId());
         hotTariffService.pushHots();
             return "redirect:/management/showTariff";
 
