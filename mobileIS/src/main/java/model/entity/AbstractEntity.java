@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int id;
+    int id;
 
     public int getId() {
         return id;

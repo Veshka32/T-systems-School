@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 @Validated
 public class Phone {
     @Pattern(regexp = "^[0-9]{10}")
-    String phoneNumber;
+    private String phoneNumber;
 
     public Phone() {
         //default constructor
