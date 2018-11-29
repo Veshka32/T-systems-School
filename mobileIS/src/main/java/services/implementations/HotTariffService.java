@@ -17,6 +17,7 @@ import java.util.Optional;
 @Service
 @DependsOn("jmsSender")
 public class HotTariffService implements HotTariffServiceI {
+    private static final int NUMBER_OF_HOT = 3;
 
     @Autowired
     JmsSenderI jmsSender;
