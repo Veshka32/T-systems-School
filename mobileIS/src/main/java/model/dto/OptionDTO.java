@@ -47,6 +47,11 @@ public class OptionDTO {
         description = option.getDescription();
     }
 
+    @Override
+    public String toString() {
+        return "id: " + id + ", name: " + name;
+    }
+
     public int getId() {
         return id;
     }

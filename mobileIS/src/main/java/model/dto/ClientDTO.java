@@ -50,6 +50,11 @@ public class ClientDTO{
         address=client.getAddress();
     }
 
+    @Override
+    public String toString() {
+        return name + ", " + surname + ", " + email + ", passport: " + passportId;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -36,6 +36,11 @@ public class ContractDTO {
         this.ownerId=clientId;
     }
 
+    @Override
+    public String toString() {
+        return "id: " + id + ", " + number + ", ownerId: " + ownerId;
+    }
+
     public ContractDTO(Contract contract){
         this.id=contract.getId();
         this.number=contract.getNumber()+"";
@@ -141,10 +146,5 @@ public class ContractDTO {
 
     public void setBlockedByAdmin(boolean blockedByAdmin) {
         isBlockedByAdmin = blockedByAdmin;
-    }
-
-    @Override
-    public String toString() {
-        return "number: " + number;
     }
 }

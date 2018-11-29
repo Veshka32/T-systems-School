@@ -19,6 +19,11 @@ public class AccountDTO {
 
     private int contractId;
 
+    @Override
+    public String toString() {
+        return login;
+    }
+
     public String getLogin() {
         return login;
     }
