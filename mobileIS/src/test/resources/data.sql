@@ -36,7 +36,7 @@ INSERT INTO contract (id, isBlocked, isBlockedByAdmin, number, owner_id, tariff_
 INSERT INTO contract (id, isBlocked, isBlockedByAdmin, number, owner_id, tariff_id) VALUES (default, false, false, 9990000005, 3, 2);
 INSERT INTO contract (id, isBlocked, isBlockedByAdmin, number, owner_id, tariff_id) VALUES (default, false, false, 9990000006, 3, 1);
 
-INSERT INTO contract_option (contract_id, option_id) VALUES (1, 2);
+INSERT INTO contract_option (contract_id, option_id) VALUES (1, 5);
 INSERT INTO contract_option (contract_id, option_id) VALUES (2, 8);
 INSERT INTO contract_option (contract_id, option_id) VALUES (3, 3);
 INSERT INTO contract_option (contract_id, option_id) VALUES (3, 4);

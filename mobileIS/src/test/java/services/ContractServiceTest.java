@@ -117,6 +117,7 @@ class ContractServiceTest {
         dto.getOptionsIds().add(d.getId());
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.singletonList(r));
         e = contractService.create(dto);
+        assertTrue(e.isPresent());
         assertEquals(e.get(), "Option(s) " + a.getName() + " and " + d.getName() + " incompatible with each other");
 
         //no mandatory, option incompatible with tariff
@@ -124,6 +125,7 @@ class ContractServiceTest {
         dto.getOptionsIds().remove(d.getId());
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{a.getId()}, new Integer[]{d.getId()})).thenReturn(Collections.singletonList(a));
         e = contractService.create(dto);
+        assertTrue(e.isPresent());
         assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your contract");
     }
 
@@ -192,10 +194,12 @@ class ContractServiceTest {
         when(contractDAO.findOne(1)).thenReturn(contract);
         contract.setBlockedByAdmin(true);
         e = contractService.addOptions(1, options);
+        assertTrue(e.isPresent());
         assertEquals(e.get(), "Contract is blocked");
         contract.setBlockedByAdmin(false);
         contract.setBlocked(true);
         e = contractService.addOptions(1, options);
+        assertTrue(e.isPresent());
         assertEquals(e.get(), "Contract is blocked");
 
         //options already in contract
@@ -212,6 +216,7 @@ class ContractServiceTest {
         contract.setBlocked(false);
         when(optionDAO.getMandatoryRelation(new Integer[]{1, 2})).thenReturn(Collections.singletonList(r));
         e = contractService.addOptions(1, options);
+        assertTrue(e.isPresent());
         assertEquals(e.get(), "More options are required as mandatory: " + d.getName()); //a requires d
 
         //everything is ok

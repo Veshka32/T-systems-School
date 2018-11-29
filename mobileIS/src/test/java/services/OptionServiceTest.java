@@ -72,7 +72,7 @@ class OptionServiceTest {
         when(optionDAO.getIncompatibleRelationInRange(new Integer[]{1})).thenReturn(Arrays.asList(i, i1));
         OptionDTO dto = optionService.getDto(1);
         assertEquals(dto.getName(), a.getName());
-        assertEquals((int) dto.getId(), a.getId());
+        assertEquals(dto.getId(), a.getId());
         assertEquals(dto.getMandatory(), new HashSet<>(Collections.singletonList(b.getId())));
         assertEquals(dto.getMandatoryNames(), Stream.of(b.getName()).collect(Collectors.joining(", ")));
         assertEquals(dto.getIncompatible(), new HashSet<>(Arrays.asList(c.getId(), d.getId())));
