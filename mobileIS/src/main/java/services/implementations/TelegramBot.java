@@ -4,6 +4,8 @@ import model.entity.Option;
 import model.entity.Tariff;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import services.interfaces.ClientServiceI;
@@ -21,14 +23,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 @Component
+@PropertySource("classpath:telegram.properties")
 public class TelegramBot implements TelegramBotI {
 
-    private static final String URL = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
-    private static final String API_TOKEN = "694707256:AAGUOh-rjaC2GN9d8EbGDpd10AZar-Vhwp8";
-    private static final String CHANNEL_ID = "@MultiverseMobile";
-    private static final String PROXY_IP = "86.57.223.177";
-    private static final int PROXY_PORT = 41096;
-    private static final int MILLISEC = 120_000;
+    @Autowired
+    Environment env;
     @Autowired
     OptionServiceI optionService;
     @Autowired
@@ -37,7 +36,7 @@ public class TelegramBot implements TelegramBotI {
     ClientServiceI clientServiceI;
 
     @Override
-    @Scheduled(fixedRate = MILLISEC)
+    @Scheduled(fixedRate = 120_000)
     public void generateNews() {
         int newsNum = ThreadLocalRandom.current().nextInt(1, 4); //return 1, 2 or 3
         String message = "";
@@ -61,17 +60,19 @@ public class TelegramBot implements TelegramBotI {
 
     @Override
     public int sendMsg(String message) {
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(PROXY_IP, PROXY_PORT));
-        String urlString = String.format(URL, API_TOKEN, CHANNEL_ID, message);
+        String channel = env.getProperty("CHANNEL_ID");
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(env.getProperty("PROXY_IP"), Integer.parseInt(env.getProperty("PROXY_PORT"))));
+        String urlString = String.format(env.getProperty("URL"), env.getProperty("API_TOKEN"), channel, message);
+
         int status = 500;
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) (url.openConnection(proxy));
             status = connection.getResponseCode();
-            Logger.getLogger(TelegramBot.class).info("send message to channel: " + CHANNEL_ID + " with response code: " + status);
+            Logger.getLogger(TelegramBot.class).info("send message to channel: " + channel + " with response code: " + status);
 
         } catch (IOException e) {
-            Logger.getLogger(TelegramBot.class).info("failed on send message to channel: " + CHANNEL_ID);
+            Logger.getLogger(TelegramBot.class).info("failed on send message to channel: " + channel);
         }
         return status;
 

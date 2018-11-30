@@ -1,3 +1,35 @@
-2018-11-29 23:11:03 INFO  HibernateConfiguration$$EnhancerBySpringCGLIB$$a27d58f8:41 - Initialized config bean: sessionFactory
-2018-11-29 23:11:03 INFO  HibernateConfiguration$$EnhancerBySpringCGLIB$$a27d58f8:41 - Initialized config bean: sessionFactory
-2018-11-29 23:11:04 INFO  HibernateConfiguration$$EnhancerBySpringCGLIB$$a27d58f8:41 - Initialized config bean: sessionFactory
+2018-11-30 23:41:01 INFO  ContextLoader:270 - Root WebApplicationContext: initialization started
+2018-11-30 23:41:02 INFO  AnnotationConfigWebApplicationContext:589 - Refreshing Root WebApplicationContext: startup date [Fri Nov 30 23:41:02 MSK 2018]; root of context hierarchy
+2018-11-30 23:41:03 INFO  HibernateConfiguration$$EnhancerBySpringCGLIB$$e4261156:40 - Initialized config bean: dataSource
+2018-11-30 23:41:03 INFO  HibernateConfiguration$$EnhancerBySpringCGLIB$$e4261156:40 - Initialized config bean: sessionFactory
+2018-11-30 23:41:03 INFO  Version:45 - HHH000412: Hibernate Core {5.2.17.Final}
+2018-11-30 23:41:03 INFO  Environment:198 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect, hibernate.driverClass=com.mysql.jdbc.Driver, hibernate.bytecode.use_reflection_optimizer=false, hibernate.hbm2ddl.auto=update, hibernate.use_sql_comments=true}
+2018-11-30 23:41:03 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2018-11-30 23:41:03 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2018-11-30 23:41:05 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2018-11-30 23:41:05 INFO  HibernateConfiguration$$EnhancerBySpringCGLIB$$e4261156:40 - Initialized config bean: hibernateTransactionManager
+2018-11-30 23:41:05 INFO  HibernateTransactionManager:378 - Using DataSource [org.jboss.as.connector.subsystems.datasources.WildFlyDataSource@9cad2a3] of Hibernate SessionFactory for HibernateTransactionManager
+2018-11-30 23:41:05 INFO  JmsSender:33 - send jms:[{"name":"Hot tariff5","description":"hot taaaaarif!!!!","price":200.00},{"name":"Home planet","description":"Unlimited calls and messages within the orbit of specific planet","price":99.99},{"name":"Star trek","description":"Calls and messages within the visible part of Universe","price":1701.00}]
+2018-11-30 23:41:05 INFO  SecurityConfig$$EnhancerBySpringCGLIB$$1dc967f4:40 - Initialized config bean: passwordEncoder
+2018-11-30 23:41:06 INFO  WebMvcConfig$$EnhancerBySpringCGLIB$$7d9949da:46 - Excecute config method: addResourceHandlers
+2018-11-30 23:41:06 INFO  WebMvcConfig$$EnhancerBySpringCGLIB$$7d9949da:40 - Initialized config bean: resolver
+2018-11-30 23:41:06 INFO  DefaultSecurityFilterChain:43 - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1c123dee, org.springframework.security.web.context.SecurityContextPersistenceFilter@6b8b95c7, org.springframework.security.web.header.HeaderWriterFilter@565580e4, org.springframework.security.web.csrf.CsrfFilter@71e2af27, org.springframework.security.web.authentication.logout.LogoutFilter@1bd13d89, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@305f5ad3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3e5bed05, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@74bd6e17, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@21a46488, org.springframework.security.web.session.SessionManagementFilter@3bb6560a, org.springframework.security.web.access.ExceptionTranslationFilter@29ce3911, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@39fdf0df]
+2018-11-30 23:41:06 INFO  ScheduledAnnotationBeanPostProcessor:273 - No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2018-11-30 23:41:06 INFO  ContextLoader:306 - Root WebApplicationContext initialized in 4664 ms
+2018-11-30 23:41:06 INFO  DispatcherServlet:521 - Initializing Servlet 'dispatcher'
+2018-11-30 23:41:06 INFO  AnnotationConfigWebApplicationContext:589 - Refreshing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Fri Nov 30 23:41:06 MSK 2018]; parent: Root WebApplicationContext
+2018-11-30 23:41:06 INFO  DispatcherServlet:543 - Completed initialization in 47 ms
+2018-11-30 23:41:07 INFO  TelegramBot:74 - send message to channel: @MultiverseMobile with response code: 200
+2018-11-30 23:42:26 INFO  TelegramBot:74 - send message to channel: @MultiverseMobile with response code: 200
+2018-11-30 23:43:07 INFO  TelegramBot:74 - send message to channel: @MultiverseMobile with response code: 200
+2018-11-30 23:45:07 INFO  TelegramBot:74 - send message to channel: @MultiverseMobile with response code: 200
+2018-11-30 23:47:07 INFO  TelegramBot:74 - send message to channel: @MultiverseMobile with response code: 200
+2018-11-30 23:49:06 INFO  TelegramBot:77 - failed on send message to channel: @MultiverseMobile
+2018-11-30 23:51:09 INFO  TelegramBot:74 - send message to channel: @MultiverseMobile with response code: 200
+2018-11-30 23:53:06 INFO  TelegramBot:77 - failed on send message to channel: @MultiverseMobile
+2018-11-30 23:54:46 INFO  AnnotationConfigWebApplicationContext:989 - Closing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Fri Nov 30 23:41:06 MSK 2018]; parent: Root WebApplicationContext
+2018-11-30 23:54:46 INFO  AnnotationConfigWebApplicationContext:989 - Closing Root WebApplicationContext: startup date [Fri Nov 30 23:41:02 MSK 2018]; root of context hierarchy
+INFO  servlet:364 - Initializing Spring root WebApplicationContext
+2018-11-30 23:41:06 INFO  servlet:364 - Initializing Spring DispatcherServlet 'dispatcher'
+2018-11-30 23:54:46 INFO  servlet:364 - Destroying Spring FrameworkServlet 'dispatcher'
+2018-11-30 23:54:46 INFO  servlet:364 - Closing Spring root WebApplicationContext
