@@ -1,6 +1,6 @@
 package services.implementations;
 
-import dao.interfaces.IGenericDAO;
+import dao.interfaces.PhoneNumberDaoI;
 import model.entity.NumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,18 +12,18 @@ import services.interfaces.PhoneNumberServiceI;
 @EnableTransactionManagement
 @Transactional
 public class PhoneNumberService implements PhoneNumberServiceI {
-    private IGenericDAO<NumberGenerator> numberGeneratorDAO;
+    private PhoneNumberDaoI numberGeneratorDAO;
     private static final int GENERATOR_ID=1;
 
     @Autowired
-    public void setNumberGeneratorDAO(IGenericDAO<NumberGenerator> numberGeneratorDAO) {
+    public void setNumberGeneratorDAO(PhoneNumberDaoI numberGeneratorDAO) {
         this.numberGeneratorDAO=numberGeneratorDAO;
         this.numberGeneratorDAO.setClass(NumberGenerator.class);
     }
 
     @Override
     public long getNext(){
-        NumberGenerator generator=numberGeneratorDAO.findOne(GENERATOR_ID);
+        NumberGenerator generator = numberGeneratorDAO.getForUpdate(GENERATOR_ID); //with LockMode.Pessimistic_Write
         long phone=generator.getNextNumber();
         numberGeneratorDAO.update(generator);
         return phone;

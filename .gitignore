@@ -12,3 +12,4 @@ selenium/target
 /target
 /out
 .log
+/mobileIS/log/SpringMVC.log
