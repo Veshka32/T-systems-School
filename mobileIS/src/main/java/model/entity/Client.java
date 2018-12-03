@@ -7,6 +7,7 @@ import java.util.Set;
 
 @SuppressWarnings("ALL")
 @Entity
+@Table(name = "client")
 @NamedQueries({
         @NamedQuery(name="is_passport_exists",query = "select c.passportId from Client c where c.passportId=:id"),
         @NamedQuery(name="is_email_exists",query = "select c.email from Client c where c.email=:email"),

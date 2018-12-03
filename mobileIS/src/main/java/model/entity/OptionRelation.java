@@ -5,7 +5,7 @@ import model.enums.RELATION;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "OptionRelation")
+@Table(name = "optionrelation")
 @NamedQueries({
         @NamedQuery(name = "delete_incompatible", query = "delete from OptionRelation r where (r.one.id=:id or r.another.id=:id) and r.relation='INCOMPATIBLE'"),
         @NamedQuery(name = "delete_mandatory", query = "delete from OptionRelation r where r.one.id=:id  and r.relation='MANDATORY'"),
