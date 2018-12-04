@@ -27,13 +27,6 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('CLIENT')">
                     <li><a href="user/cabinet">Cabinet</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cart<span class="glyphicon glyphicon-shopping-cart"></span>
-                        </a>
-                    </li>
-
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
                     <li><a href="login">SIGN IN<span class="glyphicon glyphicon-log-in"></span></a></li>
@@ -72,19 +65,19 @@
                     <div class="panel-body">
 
                         <c:if test="${not empty message}">
-                            <div class="bg-danger">${message}</div>
+                            <div id="error">${message}</div>
                         </c:if>
                         <form:form method='POST' modelAttribute="user">
                             <fieldset>
                                 <div class="form-group">
                                     <form:input type="number" path="login" class="form-control"
                                                 placeholder="9062107057"/>
-                                    <p class="bg-danger"><form:errors path="login"/></p>
+                                    <p><form:errors path="login"/></p>
                                 </div>
                                 <div class="form-group">
                                     <form:input type="password" path="password" class="form-control"
                                                 placeholder="password"/>
-                                    <p class="bg-danger"><form:errors path="password"/></p>
+                                    <p><form:errors path="password"/></p>
                                 </div>
                                 <input class="btn btn-lg btn-success btn-block" type="submit"
                                        value="Sign up"/>

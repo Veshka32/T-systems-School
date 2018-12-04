@@ -28,13 +28,6 @@
                 </sec:authorize>
                 <sec:authorize access="hasRole('CLIENT')">
                     <li><a href="user/cabinet">Cabinet</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cart<span class="glyphicon glyphicon-shopping-cart"></span>
-                        </a>
-                    </li>
-
                 </sec:authorize>
                 <sec:authorize access="isAnonymous()">
                     <li><a href="login">SIGN IN<span class="glyphicon glyphicon-log-in"></span></a></li>
