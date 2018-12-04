@@ -42,14 +42,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
-                <configuration>
-                    <!--<archive>-->
-                    <!--<manifest>-->
-                    <!--<addClasspath>true</addClasspath>-->
-                    <!--<classpathPrefix>lib/</classpathPrefix>-->
-                    <!--</manifest>-->
-                    <!--</archive>-->
-                </configuration>
             </plugin>
 
             <!--Unit tests with Jacoco code coverage analysis and Sonar graduate. Package phase-->
@@ -262,6 +254,7 @@
             <groupId>io.brachu</groupId>
             <artifactId>johann</artifactId>
             <version>0.8.0</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
