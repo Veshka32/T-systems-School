@@ -13,3 +13,4 @@ selenium/target
 /out
 .log
 /mobileIS/log/SpringMVC.log
+/mobileIS/src/test/resources/mobile/mobile.war
