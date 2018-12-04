@@ -12,13 +12,10 @@
     <properties>
         <sonar.sources>src/main</sonar.sources>
         <sonar.tests>src/test</sonar.tests>
-        <!-- Below property indicates the pattern of the test suite -->
-        <runSuite>**/*Test.class</runSuite>
-        <runSuite1>**/*IT.class</runSuite1>
         <!-- Sonar-JaCoCo properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>C:/Public/mobileIS/target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>${project.build.directory}/target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
     </properties>
 
@@ -55,16 +52,14 @@
                 </configuration>
             </plugin>
 
+            <!--Unit tests with Jacoco code coverage analysis and Sonar graduate. Package phase-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.21.0</version>
+                <!-- By default scan for test classes whose names match the patterns of **/*Test.java -->
                 <configuration>
                     <skipTests>true</skipTests>
-                    <includes>
-                        <include>${runSuite}</include>
-                        <include>${runSuite1}</include>
-                    </includes>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -85,7 +80,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
@@ -97,6 +91,44 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.4.0.905</version>
+            </plugin>
+
+            <!--UI testing with docker, firesafe plugin, antrun plugin . Verify phase-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <skipTests>false</skipTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Copy war to test-resources for build docker-compose containers-->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/${project.build.finalName}.war"
+                                      todir="${project.basedir}/src/test/resources/mobile"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -118,6 +150,7 @@
             <artifactId>spring-webmvc</artifactId>
             <version>5.1.1.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
@@ -166,6 +199,7 @@
             <version>1.9.1</version>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjtools</artifactId>
@@ -175,7 +209,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.18</version>
+            <version>8.0.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
         </dependency>
 
         <dependency>
@@ -216,6 +256,21 @@
         </dependency>
 
         <!--Testing-->
+
+        <!--docker-compose up and down-->
+        <dependency>
+            <groupId>io.brachu</groupId>
+            <artifactId>johann</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.12.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -228,12 +283,6 @@
             <artifactId>spring-test</artifactId>
             <version>5.0.6.RELEASE</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
         </dependency>
 
         <dependency>
@@ -251,22 +300,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mockrunner</groupId>
-            <artifactId>mockrunner-jms</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
 

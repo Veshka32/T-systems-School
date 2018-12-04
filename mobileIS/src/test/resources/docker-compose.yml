@@ -1,0 +1,17 @@
+version: '3'
+services:
+  web:
+    build: C:\Public\mobileIS\mobileIS\src\test\resources\mobile
+    ports:
+     - "8080:8080"
+    links:
+     - db
+  db:
+    build: C:\Public\mobileIS\mobileIS\src\test\resources\mysql
+    ports:
+     - "3306:3306"
+    environment:
+       MYSQL_ROOT_PASSWORD: test
+       MYSQL_DATABASE: test
+       MYSQL_USER: stas
+       MYSQL_PASSWORD: test
