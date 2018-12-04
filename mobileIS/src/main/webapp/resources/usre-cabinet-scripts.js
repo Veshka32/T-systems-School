@@ -131,18 +131,25 @@ function getMoreTariffs() {
 }
 
 function showTariffs(data) {
+    let currentTariffId = $('#tariffInfo').attr('data-tariffId');
     for (let k = 0; k < data.length; k++) {
         let tariff = data[k];
-        let id = tariff.id;
-        if ($('tariff' + id).length > 0) continue; //skip tariff in contract
+        if (tariff.id == currentTariffId) continue; //skip tariff in contract
         let card = $($(TARIFFS_SELECTOR).find($('.card'))[0]).clone().appendTo($(TARIFFS_SELECTOR).find($('.card-columns')));
         card.attr('id', 'tariff' + tariff.id);
         card.find($('.card-title')).text(tariff.name);
-        card.find('p')[0].innerText = option.description;
-        card.find('p')[1].innerText = '$' + option.price + ' per month';
-        card.find('a')[0].setAttribute('href', '"getTariff/' + tariff.id + '"');
-        filterTariff();
+        card.find('p')[0].innerText = tariff.description;
+        card.find('p')[1].innerText = '$' + tariff.price + ' per month';
+        //get tariff or current tariff
+        let $button = $('<a/>', {
+            class: "btn btn-success",
+            text: 'Get tariff',
+            href: "getTariff/" + tariff.id,
+            role: "button"
+        });
+        card.find($(".card-footer")).empty().append($button);
     }
+
 }
 
 function buildOptionInCart(data) {
