@@ -173,7 +173,7 @@ function buildOptionInCart(data) {
 
         $p.append($button);
         $('#cart-body').append($p);
-        $("#cart-sum").text(data.totalSum);
+        $("#cart-sum").text("Total: $" + data.totalSum);
         $("#buy-button").removeAttr(DISABLED);
         $('#newOption' + id).find('button').attr(DISABLED, DISABLED); //remove from available
     }
