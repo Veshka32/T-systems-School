@@ -10,8 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="<c:url value="/resources/telegram.js"/>"></script>
-
-
 </head>
 <body>
 <%@include file="/resources/navbar.jsp" %>
@@ -44,7 +42,7 @@
                     </div>
                     <input class="input-group btn btn-success" type="submit" value="Send"/>
                 </form>
-                <span class="btn btn-success" id="result"></span>
+                <span class="btn" style="display: none;" id="result"></span>
 
             </ul>
         </div>

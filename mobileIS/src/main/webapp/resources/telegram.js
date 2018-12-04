@@ -7,10 +7,14 @@ $(document).ready(function () {
                 "message": $("#message").val()
             },
             success: function (result) {
-                if (JSON.parse(result) == "200")
-                    $("#result").html("Successful!").fadeIn('fast').delay(4000).fadeOut('slow');
-                else
-                    $("#result").html("Failed!").fadeIn('fast').delay(4000).fadeOut('slow');
+                if (JSON.parse(result) == "200") {
+                    $("result").addClass("btn-success").html("Successful!").fadeIn('slow').delay(4000).fadeOut('slow');
+                }
+
+                else {
+                    $("result").addClass("btn-danger").html("Failed!").fadeIn('slow').delay(4000).fadeOut('slow');
+                }
+
             }
         });
     });
