@@ -39,7 +39,7 @@ public class SeleniumPerformer {
     }
 
     public void closeWindow() {
-        this.driver.close();
+        this.driver.quit();
     }
 
     public String getTitle() {
@@ -54,7 +54,17 @@ public class SeleniumPerformer {
         builder.moveToElement(element)
                 .build()
                 .perform();
-        driver.findElement(By.linkText(linkText)).click();
+        element.click();
+    }
+
+    void clickButton(String id) {
+        Actions builder = new Actions(driver);
+        WebElement element = this.driver
+                .findElement(By.id(id));
+        builder.moveToElement(element)
+                .build()
+                .perform();
+        element.click();
     }
 
     public void submit(WebElement element) {
@@ -76,6 +86,10 @@ public class SeleniumPerformer {
 
     public WebElement findElementByClass(String cl) {
         return driver.findElement(By.className(cl));
+    }
+
+    public List<WebElement> findElementsByClass(String cl) {
+        return driver.findElements(By.className(cl));
     }
 
     public WebElement findElementByName(String name) {
