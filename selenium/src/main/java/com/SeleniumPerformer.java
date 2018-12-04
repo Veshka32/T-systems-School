@@ -19,13 +19,12 @@ public class SeleniumPerformer {
 
     JavascriptExecutor js;
     private WebDriver driver;
-    private String url = "http://localhost:8080/mobile";
+    private String url = "http://192.168.99.100:8080/mobile";
 
     public SeleniumPerformer() {
 
         ChromeOptions options = new ChromeOptions();
-        WebDriver dr = new ChromeDriver(options);
-        this.driver = dr;
+        this.driver =new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         js = (JavascriptExecutor) driver;
     }
