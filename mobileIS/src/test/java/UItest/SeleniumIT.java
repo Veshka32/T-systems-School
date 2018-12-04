@@ -221,31 +221,28 @@ class SeleniumIT {
 
         //check tariffs
         performer.clickLink("Tariffs");
-        List<WebElement> tariffs = performer.findElementsByPath("//*[@id=\"tariffs\"]/div[1]");
+        List<WebElement> tariffs = performer.findElementsByPath("//*[@id=\"tariffs\"]/div[1]/div");
         assertEquals(tariffs.size(), 3);
         performer.clickButton("moreTariffs");
-        tariffs = performer.findElementsByPath("//*[@id=\"tariffs\"]/div[1]");
+        tariffs = performer.findElementsByPath("//*[@id=\"tariffs\"]/div[1]/div");
         assertEquals(tariffs.size(), 4);
 
         //check available options
         performer.clickLink("Available options");
-        List<WebElement> options = performer.findElementsByPath("//*[@id=\"available-options\"]/div[1]");
+        List<WebElement> options = performer.findElementsByPath("//*[@id=\"available-options\"]/div[1]/div");
         assertEquals(options.size(), 3);
         performer.clickButton("moreOptions");
-        tariffs = performer.findElementsByPath("//*[@id=\"available-options\"]/div[1]");
+        tariffs = performer.findElementsByPath("//*[@id=\"available-options\"]/div[1]/div");
         assertEquals(tariffs.size(), 6);
 
         //block number
         performer.clickLink("Block number");
-        assertNotNull(performer.findElementByClass("badge badge-pill badge-danger")); //block badge
-        List<WebElement> tabs = performer.findElementsByClass("nav-link disabled");
-        assertEquals(tabs.size(), 2); //to tabs must be disabled
+        assertNotNull(performer.findElementByClass("badge-danger")); //block badge
+        assertTrue(performer.findElementById("tab1").getAttribute("class").contains("disabled"));
 
         //unblock number
-        performer.clickLink("Unlock number");
-        assertNull(performer.findElementByClass("badge badge-pill badge-danger")); //block badge
-        tabs = performer.findElementsByClass("nav-link disabled");
-        assertEquals(tabs.size(), 0); //to tabs must be disabled
+        performer.clickLink("Unblock number");
+        assertFalse(performer.findElementById("tab1").getAttribute("class").contains("disabled"));
     }
 
 

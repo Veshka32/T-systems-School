@@ -1,9 +1,5 @@
 package UItest;
 
-import io.brachu.johann.DockerCompose;
-import io.brachu.johann.DownConfig;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
@@ -11,7 +7,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,15 +69,12 @@ class SeleniumITReal {
 
             //block number
             performer.clickLink("Block number");
-            assertNotNull(performer.findElementByClass("badge badge-pill badge-danger")); //block badge
-            List<WebElement> tabs=performer.findElementsByClass("nav-link disabled");
-            assertEquals(tabs.size(),2); //to tabs must be disabled
+        assertNotNull(performer.findElementByClass("badge-danger")); //block badge
+        assertTrue(performer.findElementById("tab1").getAttribute("class").contains("disabled"));
 
-            //unblock number
-            performer.clickLink("Unlock number");
-            assertNull(performer.findElementByClass("badge badge-pill badge-danger")); //block badge
-            tabs=performer.findElementsByClass("nav-link disabled");
-            assertEquals(tabs.size(),0); //to tabs must be disabled
-        }
+        //unblock number
+        performer.clickLink("Unblock number");
+        assertFalse(performer.findElementById("tab1").getAttribute("class").contains("disabled"));
+    }
 
 }
