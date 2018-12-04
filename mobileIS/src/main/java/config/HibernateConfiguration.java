@@ -1,6 +1,7 @@
 package config;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Configuration
 @EnableTransactionManagement
@@ -32,11 +35,16 @@ public class HibernateConfiguration {
 
     @Bean
     public DataSource dataSource() {
-//        JndiDataSourceLookup jndiDataSourceLookup = new JndiDataSourceLookup();
-//        return jndiDataSourceLookup.getDataSource("java:/mysql");
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
-        dataSource.setUrl(env.getProperty("db.url"));
+        String param = "db.url";
+        try {
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            if (!ip.equals("192.168.99.1")) param = "db.url1";
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(HibernateConfiguration.class).warn(ex);
+        }
+        dataSource.setUrl(env.getProperty(param));
         dataSource.setUsername(env.getProperty("db.username"));
         dataSource.setPassword(env.getProperty("db.password"));
         return dataSource;
