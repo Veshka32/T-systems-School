@@ -160,7 +160,7 @@ function buildOptionInCart(data) {
         let cost = option['cost'];
         let $button = $('<button/>', {
             class: "badge-danger badge-pill",
-            text: '  X  '
+            text: '  X  ',
         });
         $button.click(function () {
             deleteFromCart(id);
