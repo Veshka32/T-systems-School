@@ -306,7 +306,7 @@ public class ContractService implements ContractServiceI {
 
         //check if option is mandatory for some other
         Set<Integer> optionInContract = contract.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
-        optionInContract.remove(optionId);
+        optionInContract.remove(optionId); //don't search mandatory relation for target option
         List<OptionRelation> required = optionDao.getMandatoryRelation(optionInContract.toArray(new Integer[]{}));
         List<String> mandatoryFor = required.stream().filter(r -> r.getAnother().getId() == optionId).map(r -> r.getOne().getName()).collect(Collectors.toList());
 
