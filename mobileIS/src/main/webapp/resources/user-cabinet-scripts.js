@@ -25,8 +25,7 @@ $(document).ready(function () {
                     $("#cart-message").modal();
                 }
                 if (data.status == SUCCESS) {
-                    $('#option' + data.id).remove();
-                    $(".modal-dialog").empty();
+                    location.reload(false);
                 }
             }
         });
