@@ -1,13 +1,13 @@
 version: '3'
 services:
   web:
-    build: src/test/resources/mobile
+    build: mobile
     ports:
      - "8080:8080"
     links:
      - db
   db:
-    build: src\test\resources\mysql
+    build: mysql
     ports:
      - "3306:3306"
     environment:

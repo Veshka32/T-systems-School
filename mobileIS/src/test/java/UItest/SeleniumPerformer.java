@@ -7,7 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -46,34 +48,30 @@ public class SeleniumPerformer {
         return this.driver.getTitle();
     }
 
-
-    public void clickLink(String linkText) {
+    public void clickElement(WebElement element) {
         Actions builder = new Actions(driver);
-        WebElement element = this.driver
-                .findElement(By.linkText(linkText));
         builder.moveToElement(element)
                 .build()
                 .perform();
         element.click();
     }
 
-    void clickButton(String id) {
+    public void submitById(String id) {
         Actions builder = new Actions(driver);
-        WebElement element = this.driver
-                .findElement(By.id(id));
-        builder.moveToElement(element)
-                .build()
-                .perform();
-        element.click();
-    }
-
-    public void submit(WebElement element) {
-        Actions builder = new Actions(driver);
+        WebElement element = driver.findElement(By.id(id));
         builder.moveToElement(element)
                 .build()
                 .perform();
         element.submit();
+    }
 
+    public void refresh() {
+        driver.navigate().refresh();
+    }
+
+    void waitForModalClose(String id) {
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
     }
 
     public WebElement findElementByLink(String linkText) {
@@ -86,10 +84,6 @@ public class SeleniumPerformer {
 
     public WebElement findElementByClass(String cl) {
         return driver.findElement(By.className(cl));
-    }
-
-    public List<WebElement> findElementsByClass(String cl) {
-        return driver.findElements(By.className(cl));
     }
 
     public WebElement findElementByName(String name) {
@@ -117,5 +111,10 @@ public class SeleniumPerformer {
     public void fieldForm(String fieldId, String text) {
         WebElement element = driver.findElement(By.id(fieldId));
         element.sendKeys(text);
+    }
+
+    public void waitForAjax() {
+        WebDriverWait wait = new WebDriverWait(driver, 3);
+        wait.until(d -> js.executeScript("return jQuery.active == 0"));
     }
 }
