@@ -21,8 +21,6 @@ import java.net.UnknownHostException;
 @EnableTransactionManagement
 @PropertySource("classpath:hibernate.properties")
 public class HibernateConfiguration {
-    @Autowired
-    Environment env;
 
     @Bean
     @Autowired
@@ -34,7 +32,8 @@ public class HibernateConfiguration {
     }
 
     @Bean
-    public DataSource dataSource() {
+    @Autowired
+    public DataSource dataSource(Environment env) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
         String param = "db.url";
