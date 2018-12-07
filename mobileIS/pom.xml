@@ -15,7 +15,7 @@
         <!-- Sonar-JaCoCo properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.build.directory}/target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
     </properties>
 
@@ -45,21 +45,11 @@
             </plugin>
 
             <!--Unit tests with Jacoco code coverage analysis and Sonar graduate. Package phase-->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.21.0</version>
-                <!-- By default scan for test classes whose names match the patterns of **/*Test.java -->
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.2.0</version>
-                    </dependency>
-                </dependencies>
+                <version>3.0.0-M1</version>
             </plugin>
 
             <plugin>
@@ -92,7 +82,6 @@
                 <version>3.0.0-M1</version>
                 <configuration>
                     <skipTests>false</skipTests>
-                    <runOrder>alphabetical</runOrder>
                 </configuration>
                 <executions>
                     <execution>
@@ -202,13 +191,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
+            <version>8.0.13</version>
         </dependency>
 
         <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.5.0</version>
         </dependency>
 
         <dependency>
@@ -249,15 +238,6 @@
         </dependency>
 
         <!--Testing-->
-
-        <!--docker-compose up and down-->
-        <dependency>
-            <groupId>io.brachu</groupId>
-            <artifactId>johann</artifactId>
-            <version>0.8.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -271,7 +251,6 @@
             <version>1.4.197</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
