@@ -9,7 +9,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SeleniumIT {
@@ -18,19 +24,40 @@ class SeleniumIT {
     private static DockerRunner dockerRunner = new DockerRunner();
 
     @BeforeAll
-    public static void upDocker() throws IOException {
+    public static void upDocker() throws IOException, InterruptedException {
         dockerRunner.run("src\\test\\resources");
 
-        int status = 400;
-        while (status != 200) {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        CountDownLatch downLatch = new CountDownLatch(1);
+        Callable<Integer> request = () -> {
+            URL url = new URL(homePage);
             try {
-                URL url = new URL(homePage);
                 HttpURLConnection connection = (HttpURLConnection) (url.openConnection());
-                status = connection.getResponseCode();
+                return connection.getResponseCode();
             } catch (IOException e) {
+                return 400;
             }
-        }
+        };
 
+        final int[] statuses = new int[1];
+
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                statuses[0] = request.call(); //update current status
+                if (statuses[0] == 200) {
+                    downLatch.countDown();
+                    scheduler.shutdownNow();
+                }
+            } catch (Exception e) {
+                //do nothing
+            }
+        }, 30, 10, SECONDS); //30 sec start delay, repeat every 5 sec
+
+        downLatch.await(5, MINUTES); //wait no longer than 15 sec
+        scheduler.shutdownNow(); //stop executor immediately after timeout
+        assertEquals(statuses[0], 200); // throw exception if response status not 200;
+
+        //run selenium if webapp in docker is available
         performer = new SeleniumPerformer();
         performer.openHomePage(homePage);
     }

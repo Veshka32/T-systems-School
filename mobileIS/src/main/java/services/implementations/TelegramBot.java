@@ -75,31 +75,6 @@ public class TelegramBot implements TelegramBotI {
             Logger.getLogger(TelegramBot.class).info("failed on send message to channel: " + channel);
         }
         return status;
-
-
-//        String urlString=String.format(URL,API_TOKEN);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-//
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(urlString)
-//                .queryParam("chat_id", CHANNEL_ID)
-//                .queryParam("text", "Stas, Hello!");
-//        HttpEntity<String> entity = new HttpEntity<>(headers);
-//
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                builder.toUriString(),
-//                HttpMethod.GET,
-//                entity,
-//                String.class);
-//
-//            if ((response).getStatusCode().equals(HttpStatus.OK))
-//                Logger.getLogger(TelegramBot.class).info("Message was successfully sent to telegram channel "+ CHANNEL_ID);
-//            else
-//                Logger.getLogger(TelegramBot.class).warn("Message was sent with response status: "+response.getStatusCode());
-//        }
-//        ResponseEntity<String> responseEntity = restTemplate.getForEntity("https://api.telegram.org/bot694707256:AAGUOh-rjaC2GN9d8EbGDpd10AZar-Vhwp8/sendMessage?chat_id=@MultiverseMobile&text=TEST", String.class);
-
-
     }
 }
 
