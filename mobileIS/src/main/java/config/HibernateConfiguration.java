@@ -39,7 +39,7 @@ public class HibernateConfiguration {
         String param = "db.url";
         try {
             String ip = InetAddress.getLocalHost().getHostAddress();
-            if (!ip.equals("192.168.99.1")) param = "db.url1";
+            if (!ip.equals(env.getProperty("db.localhost"))) param = "db.url1";
         } catch (UnknownHostException ex) {
             Logger.getLogger(HibernateConfiguration.class).warn(ex);
         }
