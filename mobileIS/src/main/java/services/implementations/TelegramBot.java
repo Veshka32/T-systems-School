@@ -54,6 +54,8 @@ public class TelegramBot implements TelegramBotI {
             case 3:
                 int number = 1000 * clientServiceI.getPaginateData(1, 1).getTotal();
                 message = "Wow! Already " + number + "clients have joined us!";
+                break;
+            default:
         }
         sendMsg(message);
     }
