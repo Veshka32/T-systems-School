@@ -32,22 +32,30 @@ $(document).ready(function () {
     });
 });
 
-function buy() {
-    $.ajax({
-        url: 'buy',
-        success: function (result) {
-            var data = JSON.parse(result);
-            if (data.status == ERROR) {
-                $(".modal-body").text(data.message);
-                $("#cart-message").modal();
-            }
-            if (data.status == SUCCESS) {
-                location.reload(false);
-            }
+$(document).ready(function () {
+    $('#buy-button').submit(function (event) {
+        event.preventDefault();
+        let csrfValue = $(this).children('input:hidden').attr('value');
+        $.ajax({
+            url: 'buy',
+            data: {
+                '_csrf': csrfValue
+            },
+            type: "post",
+            success: function (result) {
+                var data = JSON.parse(result);
+                if (data.status == ERROR) {
+                    $(".modal-body").text(data.message);
+                    $("#cart-message").modal();
+                }
+                if (data.status == SUCCESS) {
+                    location.reload(false);
+                }
 
-        }
-    })
-}
+            }
+        })
+    });
+});
 
 function addToCart(id) {
     $.ajax({
@@ -88,7 +96,6 @@ function getMoreOptions() {
             } else {
                 $(MORE_OPTIONS_SELECTOR).attr(DISABLED, DISABLED);
             }
-
             showOptions(data.items);
         }
     })
@@ -99,8 +106,8 @@ function showOptions(data) {
     for (let k = 0; k < data.length; k++) {
         let option = data[k];
         let id = option.id;
-        if ($('option' + id).length > 0) continue; //skip option in contract
-        if ($('tariffOption' + id).length > 0) continue; //skip option in tariff
+        if ($('#option' + id).length > 0) continue; //skip option in contract
+        if ($('#tariffOption' + id).length > 0) continue; //skip option in tariff
         let card = $($('#available-options').find($('.card'))[0]).clone().appendTo($('#available-options').find($('.card-columns')));
         card.attr('id', 'newOption' + option.id);
         card.find($('.card-title')).text(option.name);

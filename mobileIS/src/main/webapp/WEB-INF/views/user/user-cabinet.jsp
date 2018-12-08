@@ -89,7 +89,11 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <span id="cart-sum">Total: $${cart.totalSum}</span>
-                    <button id="buy-button" onclick="buy()" class="btn btn-success">Buy</button>
+                    <form method="post" id="buy-button">
+                        <input type="submit" value="Buy" class="btn btn-success">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+
                     <c:if test="${cart.isEmpty() || contract.blockedByAdmin || contract.blocked}">
                         <script>$("#buy-button").attr('disabled', 'disabled');</script>
                     </c:if>

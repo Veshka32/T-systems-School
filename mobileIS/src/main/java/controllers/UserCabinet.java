@@ -122,7 +122,7 @@ public class UserCabinet {
     }
 
     @ResponseBody
-    @GetMapping("user/buy")
+    @PostMapping("user/buy")
     public String buy() {
         return contractService.addOptionsToJson(cartInterface);
     }
