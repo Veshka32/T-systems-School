@@ -43,21 +43,24 @@ public class TelegramBot implements TelegramBotI {
         switch (newsNum) {
             case 1:
                 List<Tariff> tariffs = tariffServiceI.getPaginateData(1, 10).getItems();
-                Tariff tariff = tariffs.get(ThreadLocalRandom.current().nextInt(0, tariffs.size()));
-                message = "Super-duper tariff waiting for you! \nTariff " + tariff.getName() + ": " + tariff.getDescription();
+                if (!tariffs.isEmpty()) {
+                    Tariff tariff = tariffs.get(ThreadLocalRandom.current().nextInt(0, tariffs.size()));
+                    message = "Super-duper tariff waiting for you! \nTariff " + tariff.getName() + ": " + tariff.getDescription();
+                }
                 break;
             case 2:
                 List<Option> options = optionService.getPaginateData(1, 10).getItems();
-                Option option = options.get(ThreadLocalRandom.current().nextInt(0, options.size()));
-                message = "Mega-cool option waiting for you! \nOption " + option.getName() + ": " + option.getDescription();
+                if (!options.isEmpty()) {
+                    Option option = options.get(ThreadLocalRandom.current().nextInt(0, options.size()));
+                    message = "Mega-cool option waiting for you! \nOption " + option.getName() + ": " + option.getDescription();
+                }
                 break;
             case 3:
                 int number = 1000 * clientServiceI.getPaginateData(1, 1).getTotal();
                 message = "Wow! Already " + number + "clients have joined us!";
                 break;
-            default:
         }
-        sendMsg(message);
+        if (!message.isEmpty()) sendMsg(message);
     }
 
     @Override
