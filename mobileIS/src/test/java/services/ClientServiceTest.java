@@ -85,6 +85,15 @@ class ClientServiceTest {
     }
 
     @Test
+    void getJsonByPhone() {
+        assertEquals(clientService.getJsonByPhone("123457890"), "{\"status\":\"error\",\"message\":\"must be 10 digits\"}");
+        when(contractDaoI.findClientByPhone(Long.parseLong(passport))).thenReturn(null);
+        assertEquals(clientService.getJsonByPhone(passport), "{\"status\":\"error\",\"message\":\"there is no such client\"}");
+        when(contractDaoI.findClientByPhone(Long.parseLong(passport))).thenReturn(new Client());
+        assertEquals(clientService.getJsonByPhone(passport), "{\"status\":\"success\",\"client\":{\"id\":0}}");
+    }
+
+    @Test
     void createTest() {
 
         when(clientDaoI.findByPassportId(passport)).thenReturn(new Client());
