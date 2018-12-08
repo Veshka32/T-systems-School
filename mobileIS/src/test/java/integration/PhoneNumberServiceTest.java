@@ -46,16 +46,14 @@ class PhoneNumberServiceTest {
     @Test
     @Transactional
     void getTest() throws InterruptedException, java.util.concurrent.ExecutionException {
+        //set up task and executor
         int threadsNumber = 50;
-        Set<Long> numbers = new HashSet<>();
-        Callable<Long> task = () -> {
-            System.out.println(Thread.currentThread().getId());
-            return service.getNext();
-        };
+        Set<Long> generatedNumbers = new HashSet<>();
+        Callable<Long> task = () -> service.getNext();
         List<Callable<Long>> tasks = new ArrayList<>(threadsNumber);
         IntStream.rangeClosed(1, threadsNumber).forEach(n -> tasks.add(task)); //populate tasks list
-
         ExecutorService executor = Executors.newFixedThreadPool(threadsNumber);
+
         long startTime = System.currentTimeMillis();
         List<Future<Long>> results = executor.invokeAll(tasks);
         long endTime = System.currentTimeMillis();
@@ -64,8 +62,8 @@ class PhoneNumberServiceTest {
 
         for (Future<Long> result : results) {
             Long aLong = result.get();
-            numbers.add(aLong);
+            generatedNumbers.add(aLong);
         }
-        assertEquals(numbers.size(), results.size()); //mean all long values are unique
+        assertEquals(generatedNumbers.size(), results.size()); //mean all long values are unique
     }
 }
