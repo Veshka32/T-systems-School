@@ -5,13 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import services.implementations.TelegramBot;
+import services.interfaces.TelegramBotI;
 
 @Controller
 public class ManagerCabinet {
 
     @Autowired
-    TelegramBot telegramBot;
+    TelegramBotI telegramBot;
 
     @RequestMapping("/management/cabinet")
     public String cabinet() {
