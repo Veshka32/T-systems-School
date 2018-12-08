@@ -36,12 +36,18 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.2.0.Final</version>
+                <configuration>
+                    <targetDir>src/test/resources/mobile/</targetDir>
+                </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
+                <configuration>
+                    <outputDirectory>src/test/resources/mobile/</outputDirectory>
+                </configuration>
             </plugin>
 
             <!--Unit tests with Jacoco code coverage analysis and Sonar graduate. Package phase-->
@@ -75,7 +81,7 @@
                 <version>3.4.0.905</version>
             </plugin>
 
-            <!--UI testing with docker, firesafe plugin, antrun plugin . Verify phase-->
+            <!--UI testing with docker and firesafe plugin. Verify phase-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -93,25 +99,7 @@
                 </executions>
             </plugin>
 
-            <!--Copy war to test-resources for build docker-compose containers-->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <target>
-                                <copy file="${project.build.directory}/${project.build.finalName}.war"
-                                      todir="${project.basedir}/src/test/resources/mobile"/>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 
