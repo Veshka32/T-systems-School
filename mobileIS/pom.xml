@@ -10,9 +10,9 @@
     <packaging>war</packaging>
 
     <properties>
+        <!-- Sonar properties properties -->
         <sonar.sources>src/main</sonar.sources>
         <sonar.tests>src/test</sonar.tests>
-        <!-- Sonar-JaCoCo properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
@@ -51,7 +51,6 @@
             </plugin>
 
             <!--Unit tests with Jacoco code coverage analysis and Sonar graduate. Package phase-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -81,7 +80,7 @@
                 <version>3.4.0.905</version>
             </plugin>
 
-            <!--UI testing with docker and firesafe plugin. Verify phase-->
+            <!--==UI testing with docker and firesafe plugin. Verify phase==-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -98,8 +97,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
         </plugins>
     </build>
 
