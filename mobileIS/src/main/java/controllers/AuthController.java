@@ -38,7 +38,7 @@ public class AuthController {
             return SIGN_UP;
         }
 
-        Optional<String> error = userService.createAccount(dto);
+        Optional<String> error = userService.createClientAccount(dto);
         if (error.isPresent()) {
             model.addAttribute(MESSAGE, error.get());
             return SIGN_UP;

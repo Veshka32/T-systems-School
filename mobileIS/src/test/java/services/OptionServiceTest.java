@@ -156,7 +156,7 @@ class OptionServiceTest {
         old.setName(Z);
         old.setId(2);
 
-        //createAccount option with reserved name
+        //createClientAccount option with reserved name
         when(optionDAO.findByName(dto.getName())).thenReturn(Optional.of(old));
         Optional<String> e = optionService.create(dto);
         assertTrue(e.isPresent());

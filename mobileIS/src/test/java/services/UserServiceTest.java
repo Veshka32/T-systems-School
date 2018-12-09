@@ -56,19 +56,19 @@ class UserServiceTest {
 
         //check if login is reserved
         when(userDAO.findByLogin(login)).thenReturn(new User());
-        Optional<String> e = userService.createAccount(dto);
+        Optional<String> e = userService.createClientAccount(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "This phone is already registered");
 
         //check if number exists
         when(userDAO.findByLogin(login)).thenReturn(null);
         when(contractDao.findByPhone(Long.parseLong(login))).thenReturn(null);
-        e = userService.createAccount(dto);
+        e = userService.createClientAccount(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "There is no such a number");
 
         when(userDAO.findByLogin(login)).thenReturn(null);
         when(contractDao.findByPhone(Long.parseLong(login))).thenReturn(new Contract());
-        assertFalse(userService.createAccount(dto).isPresent());
+        assertFalse(userService.createClientAccount(dto).isPresent());
     }
 }
