@@ -1,3 +1,10 @@
+/**
+ * This class implements {@code ClientServiceI} interface.
+ * It is a service-layer class for manipulating with {@code Client} entities.
+ * <p>
+ *
+ * @author Natalia Makarchuk
+ */
 package services.implementations;
 
 import com.google.gson.Gson;
@@ -33,6 +40,11 @@ public class ClientService implements ClientServiceI {
         contractDaoI.setClass(Contract.class);
     }
 
+    /**Returns json representation of {@code Client} with specific passport (passport supposed to be unique)
+     *
+     * @param passport unique passport value  of desired client
+     * @return String in json format
+     */
     @Override
     public String getJsonByPassport(String passport) {
         Gson gson = new Gson();
@@ -42,7 +54,7 @@ public class ClientService implements ClientServiceI {
             if (dto == null) {
                 setError(element, "there is no such client");
             } else {
-                setsucces(element, gson.toJsonTree(dto));
+                setSuccess(element, gson.toJsonTree(dto));
             }
         } catch (NumberFormatException e) {
             setError(element, "must be 10 digits");
@@ -50,6 +62,11 @@ public class ClientService implements ClientServiceI {
         return gson.toJson(element);
     }
 
+    /**Returns data transfer object contains public properties of {@code Client} with specific passport (passport supposed to be unique)
+     *
+     * @param passport unique passport value  of desired client
+     * @return data transfer object
+     */
     @Override
     public ClientDTO getByPassport(String passport) {
         if (!passport.matches("^[0-9]{10}")) throw new NumberFormatException();
@@ -58,6 +75,11 @@ public class ClientService implements ClientServiceI {
         else return new ClientDTO(client);
     }
 
+    /**Returns json representation of {@code Client} who has {@code Contract} defined by specific phone number (phone supposed to be unique)
+     *
+     * @param phone unique phone number
+     * @return String in json format
+     */
     @Override
     public String getJsonByPhone(String phone) {
         Gson gson = new Gson();
@@ -67,7 +89,7 @@ public class ClientService implements ClientServiceI {
             if (dto == null) {
                 setError(element, "there is no such client");
             } else {
-                setsucces(element, gson.toJsonTree(dto));
+                setSuccess(element, gson.toJsonTree(dto));
             }
         } catch (NumberFormatException e) {
             setError(element, "must be 10 digits");
@@ -75,16 +97,12 @@ public class ClientService implements ClientServiceI {
         return gson.toJson(element);
     }
 
-    private void setError(JsonElement element, String message) {
-        element.getAsJsonObject().addProperty("status", "error");
-        element.getAsJsonObject().addProperty("message", message);
-    }
-
-    private void setsucces(JsonElement element, JsonElement tree) {
-        element.getAsJsonObject().addProperty("status", "success");
-        element.getAsJsonObject().add("client", tree);
-    }
-
+    /**Returns data transfer object contains public properties of {@code Client}
+     * who has {@code Contract} with specific phone number (phone number supposed to be unique)
+     *
+     * @param phone unique phone number value of desired client
+     * @return data transfer object
+     */
     @Override
     public ClientDTO getByPhone(String phone) {
         if (!phone.matches("^[0-9]{10}")) throw new NumberFormatException();
@@ -93,6 +111,12 @@ public class ClientService implements ClientServiceI {
         else return new ClientDTO(client);
     }
 
+    /**
+     * Create new {@code Client} based on dto properties
+     *
+     * @param dto data transfer object contains required properties
+     * @return empty Optional if client is successfully created or error message if not
+     */
 
     @Override
     public Optional<String> create(ClientDTO dto) {
@@ -108,6 +132,13 @@ public class ClientService implements ClientServiceI {
         dto.setId(client.getId());
         return Optional.empty();
     }
+
+    /**
+     * Update all fields in corresponding {@code Client}  with values from data transfer object
+     *
+     * @param dto data transfer object contains client id and properties
+     * @return empty Optional if client is successfully updated or error message if not
+     */
 
     @Override
     public Optional<String> update(ClientDTO dto) {
@@ -125,17 +156,36 @@ public class ClientService implements ClientServiceI {
         return Optional.empty();
     }
 
+    /**
+     * Delete {@code Client} with specific id from database and all its corresponding {@code Contract} and {@code User}
+     *
+     * @param id id of client to delete
+     */
     @Override
     public void delete(int id){
         clientDAO.deleteById(id);
     }
 
+    /**
+     * Construct data transfer object for {@code Client} with specific id, including list with client's contracts
+     *
+     * @param id client id in database
+     * @return data transfer object contains client properties
+     */
     @Override
     public ClientDTO getDTO(int id){
         ClientDTO dto = new ClientDTO(clientDAO.findOne(id));
         dto.setContractsList(contractDaoI.getClientContracts(id));
         return dto;
     }
+
+    /**
+     * Construct object contains clients in specific range from database and additional info (total number of clients in database)
+     *
+     * @param currentPage current page on view to build
+     * @param rowPerPage  number of items for one page (equals total number of items in {@code PaginateHelper}
+     * @return {@code PaginateHelper} with clients in specific range and additional info
+     */
 
     @Override
     public PaginateHelper<Client> getPaginateData(Integer currentPage, int rowPerPage) {
@@ -156,5 +206,21 @@ public class ClientService implements ClientServiceI {
         client.setSurname(dto.getSurname());
         client.setPassportId(dto.getPassportId());
         client.setBirthday(dto.getBirthday());
+    }
+
+    /*
+     * set error status and error message into json String
+     */
+    private void setError(JsonElement element, String message) {
+        element.getAsJsonObject().addProperty("status", "error");
+        element.getAsJsonObject().addProperty("message", message);
+    }
+
+    /*
+     * set success status and desired value into json String
+     */
+    private void setSuccess(JsonElement element, JsonElement tree) {
+        element.getAsJsonObject().addProperty("status", "success");
+        element.getAsJsonObject().add("client", tree);
     }
 }

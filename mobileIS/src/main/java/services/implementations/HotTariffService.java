@@ -1,3 +1,12 @@
+/**
+ * The {@code HotTariffService} implements {@code HotTariffServiceI} interface.
+ * It is a service-layer class defining what tariffs consider as "hot" and how to represent them
+ * <p>
+ * This service send initial info about hot tariffs into jms queue immediately after bean is initialized
+ * just in case some receivers are already waiting for it. Therefore, this bean depends on Jms Service initialization;
+ *
+ * @author Natalia Makarchuk
+ */
 package services.implementations;
 
 import com.google.gson.Gson;
@@ -17,7 +26,8 @@ import java.util.Optional;
 @Service
 @DependsOn("jmsSender")
 public class HotTariffService implements HotTariffServiceI {
-    private static final int NUMBER_OF_HOT = 3;
+
+    private static final int NUMBER_OF_HOT = 3; //define number of hot tariffs to send
 
     @Autowired
     JmsSenderI jmsSender;
@@ -30,6 +40,9 @@ public class HotTariffService implements HotTariffServiceI {
         pushHots();
     }
 
+    /**
+     * Send json representation of hot tariffs info into jms queue
+     */
     @Override
     public void pushHots() {
         jmsSender.sendData(buildJson());
@@ -41,6 +54,11 @@ public class HotTariffService implements HotTariffServiceI {
         return gson.toJson(tariffList);
     }
 
+    /**
+     * Consider if specific tatiff is hot.
+     * If true, send message to jms queue with fresh data about this tariff and other hot tariffs
+     * @param tariffId if of tariff to consider
+     */
     @Override
     public void pushIfHots(int tariffId) {
         List<Tariff> tariffList = tariffService.getLast(NUMBER_OF_HOT);

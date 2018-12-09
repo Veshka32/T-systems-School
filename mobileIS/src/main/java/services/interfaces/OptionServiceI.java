@@ -4,7 +4,6 @@ import model.dto.OptionDTO;
 import model.entity.Option;
 import model.helpers.PaginateHelper;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,12 +45,6 @@ public interface OptionServiceI {
      * @return names and corresponding ids of all {@code Option} in database
      */
     Map<String, Integer> getAllNamesWithIds();
-
-    /**
-     * @return all {@code Option} from database
-     */
-
-    List<Option> getAll();
 
     /**
      * Find option with specific id

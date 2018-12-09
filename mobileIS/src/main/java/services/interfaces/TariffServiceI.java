@@ -40,13 +40,6 @@ public interface TariffServiceI {
     TariffDTO getDto(int id);
 
     /**
-     * Get all tariffs from database
-     *
-     * @return list with all {@code Tariff} from database
-     */
-    List<Tariff> getAll();
-
-    /**
      * Construct object contains tariffs in specific range from database and additional info
      *
      * @param currentPage current page on view to build

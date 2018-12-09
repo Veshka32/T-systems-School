@@ -35,6 +35,12 @@ public class TariffService implements TariffServiceI {
         this.optionDAO.setClass(Option.class);
     }
 
+    /**
+     * Build data transfer object for {@code Contract} with specific id, including initialized contained options
+     *
+     * @param id database id of desired {@code Contract} object
+     * @return {@code ContractDTO} object contains contract properties
+     */
     public TariffDTO getDto(int id) {
         Tariff tariff = tariffDAO.findOne(id);
         TariffDTO dto = new TariffDTO(tariff);
@@ -43,6 +49,13 @@ public class TariffService implements TariffServiceI {
         return dto;
     }
 
+    /**
+     * Construct object contains tariffs in specific range from database and additional info (total number of tariffs in database)
+     *
+     * @param currentPage current page on view to build
+     * @param rowPerPage  number of items for one page (equals total number of items in {@code PaginateHelper}
+     * @return {@code PaginateHelper} with tariffs in specific range and additional info
+     */
     @Override
     public PaginateHelper<Tariff> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, return first page
@@ -55,11 +68,23 @@ public class TariffService implements TariffServiceI {
         return new PaginateHelper<>(tariffsForPage, totalPage);
     }
 
+    /**
+     * Retrieve last n tariffs from database ordered by id
+     *
+     * @param count desired number of tariffs
+     * @return list with tariffs of specific size (or less if there are no so many in database)
+     */
     @Override
     public List<Tariff> getLast(int count) {
         return tariffDAO.getLast(count);
     }
 
+    /**
+     * Create new {@code Tariff} based on dto properties
+     *
+     * @param dto data transfer object contains required properties
+     * @return empty Optional if tariff is successfully created or error message if not
+     */
     @Override
     public Optional<String> create(TariffDTO dto) {
         if (tariffDAO.findByName(dto.getName()) != null)
@@ -79,13 +104,13 @@ public class TariffService implements TariffServiceI {
         return Optional.empty();
     }
 
-    private void updateComplexFields(TariffDTO dto, Tariff tariff) {
-        for (Integer id : dto.getOptions()) {
-            Option option = optionDAO.findOne(id);
-            tariff.addOption(option);
-        }
-    }
 
+    /**
+     * Update all fields in corresponding {@code Tariff}  with values from data transfer object
+     *
+     * @param dto data transfer object contains option id and properties
+     * @return empty Optional if tariff is successfully updated or error message if not
+     */
     @Override
     public Optional<String> update(TariffDTO dto) {
         Tariff tariff = tariffDAO.findByName(dto.getName());
@@ -109,6 +134,24 @@ public class TariffService implements TariffServiceI {
         return Optional.empty();
     }
 
+
+    /**
+     * Delete {@code Option} with specific id from database if it is not used in any tariff, contract or if it is not mandatory for any option.
+     *
+     * @param id id of client to delete
+     * @return empty Optional if option is successfully deleted or error message if not
+     */
+    @Override
+    public Optional<String> delete(int id) {
+        if (tariffDAO.isUsed(id)) return Optional.of("tariff is used in some contracts");
+        tariffDAO.deleteById(id);
+        return Optional.empty();
+    }
+
+    /*
+     * Check compatibility of options included in target tariff.
+     * Return either Optional with error message or empty Optional if logic is ok
+     */
     private Optional<String> checkCompatibility(TariffDTO dto) {
         //nothing to check
         if (dto.getOptions().isEmpty()) return Optional.empty();
@@ -140,15 +183,10 @@ public class TariffService implements TariffServiceI {
         based.setDescription(dto.getDescription());
     }
 
-    @Override
-    public Optional<String> delete(int id) {
-        if (tariffDAO.isUsed(id)) return Optional.of("tariff is used in some contracts");
-        tariffDAO.deleteById(id);
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Tariff> getAll() {
-        return tariffDAO.findAll();
+    private void updateComplexFields(TariffDTO dto, Tariff tariff) {
+        for (Integer id : dto.getOptions()) {
+            Option option = optionDAO.findOne(id);
+            tariff.addOption(option);
+        }
     }
 }

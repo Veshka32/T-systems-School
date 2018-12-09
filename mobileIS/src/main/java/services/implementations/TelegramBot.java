@@ -1,3 +1,11 @@
+/**
+ * This class implements {@code TelegramBotI} interface.
+ * It performs sending specified message to Telegram channel using TelegramBot API.
+ * It also auto generates messages based on data retrieved from database and sends its on schedule.
+ * <p>
+ *
+ * @author Natalia Makarchuk
+ */
 package services.implementations;
 
 import model.entity.Option;
@@ -35,6 +43,11 @@ public class TelegramBot implements TelegramBotI {
     @Autowired
     ClientServiceI clientServiceI;
 
+    /**
+     * Auto generate message one of three types: about option, tariff or number of clients.
+     * Type is picked up by random. If message is not empty, send it to telegram channel.
+     * Method executes every 2 minutes.
+     */
     @Override
     @Scheduled(fixedRate = 120_000)
     public void generateNews() {
@@ -63,6 +76,11 @@ public class TelegramBot implements TelegramBotI {
         if (!message.isEmpty()) sendMsg(message);
     }
 
+    /**
+     * Send text message to company official Telegram channel using TelegramBot API and proxy server.
+     * @param message text to be sent
+     * @return status code of server response
+     */
     @Override
     public int sendMsg(String message) {
         String channel = env.getProperty("CHANNEL_ID");

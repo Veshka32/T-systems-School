@@ -11,5 +11,5 @@ public interface UserServiceI {
      * @param dto data transfer object contains new account properties
      * @return id of newly created {@code User}
      */
-    Optional<String> createAccount(AccountDTO dto);
+    Optional<String> createClientAccount(AccountDTO dto);
 }

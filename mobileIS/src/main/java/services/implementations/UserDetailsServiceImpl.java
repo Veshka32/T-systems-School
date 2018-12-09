@@ -1,3 +1,6 @@
+/**
+ * This class implements {@code UserDetailService} interface used in SpringSecurity module
+ */
 package services.implementations;
 
 import dao.interfaces.UserDaoI;
@@ -25,6 +28,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserDaoI userDAO;
 
+    /**
+     * Return UserDetails of a user specified by username if such a user exists,
+     * contains his granted authorities, login and hashed password
+     *
+     * @param username username of desired user
+     * @return UserDetails object
+     * @throws UsernameNotFoundException if there is no user with such a username
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String username) {
@@ -51,6 +62,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new ArrayList<>(setAuths);
     }
-
-
 }

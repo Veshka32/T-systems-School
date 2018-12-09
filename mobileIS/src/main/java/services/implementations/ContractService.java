@@ -1,3 +1,10 @@
+/**
+ * This class implements {@code ContractServiceI} interface.
+ * It is a service-layer class for manipulating with {@code Contract} entities.
+ * <p>
+ *
+ * @author Natalia Makarchuk
+ */
 package services.implementations;
 
 import com.google.gson.Gson;
@@ -50,6 +57,12 @@ public class ContractService implements ContractServiceI {
         this.clientDAO.setClass(Client.class);
     }
 
+    /**
+     * Returns json representation of {@code Contract} with specific phone number (phone supposed to be unique)
+     *
+     * @param phone unique phone number
+     * @return String in json format
+     */
     @Override
     public String getJsonByPhone(String phone) {
         Gson gson = new Gson();
@@ -68,17 +81,36 @@ public class ContractService implements ContractServiceI {
         return gson.toJson(element);
     }
 
+    /**
+     * Build data transfer object for {@code Contract} with specific phone number (supposed to be unique)
+     * or empty if such a contract doesn't exist
+     *
+     * @param phone unique phone number
+     * @return Optional contains contract properties or empty Optional
+     */
     public Optional<ContractDTO> getByPhone(String phone) {
         if (!phone.matches("^[0-9]{10}")) throw new NumberFormatException();
         Contract contract = contractDAO.findByPhone(Long.parseLong(phone));
         return contract == null ? Optional.empty() : Optional.of(new ContractDTO(contract));
     }
 
+    /**
+     * Return contract with specific id
+     *
+     * @param id database id of contract
+     * @return {@code Contract} with specific id
+     */
     @Override
     public Contract get(int id) {
         return contractDAO.findOne(id);
     }
 
+    /**
+     * Build data transfer object for {@code Contract} with specific id, including fields of type collection (initialized)
+     *
+     * @param id database id of desired {@code Contract} object
+     * @return {@code ContractDTO} object contains contract properties
+     */
     @Override
     public ContractDTO getDTO(int id) {
         Contract contract = contractDAO.findOne(id);
@@ -89,6 +121,11 @@ public class ContractService implements ContractServiceI {
         return dto;
     }
 
+    /**
+     * Add additional data into contract data transfer object
+     *
+     * @param dto data transfer object keeps desired data
+     */
     @Override
     public void addData(ContractDTO dto) {
         Map<String, Integer> m = dto.getAllOptions();
@@ -97,6 +134,12 @@ public class ContractService implements ContractServiceI {
         tariffDAO.getAllNamesAndIds().forEach(array -> m1.put((String) array[1], (Integer) array[0]));
     }
 
+    /**
+     * Create new {@code Contract} based on dto properties
+     *
+     * @param dto data transfer object contains required properties
+     * @return empty Optional if contract is successfully created or error message if not
+     */
     @Override
     public Optional<String> create(ContractDTO dto) {
         //get tariff and it's options
@@ -120,56 +163,12 @@ public class ContractService implements ContractServiceI {
         return Optional.empty();
     }
 
-    private Optional<String> checkCompatibility(ContractDTO dto, Tariff tariff) {
-
-        if (!dto.getOptionsIds().isEmpty()) {
-
-            //get options in contract
-            Set<Integer> optionsInContract = dto.getOptionsIds();
-            Set<Integer> optionsInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
-            optionsInContract.removeIf(optionsInTariffIds::contains); //remove all options that already in tariff
-
-            //check if all options has its' mandatory
-            List<OptionRelation> relations = optionDao.getMandatoryRelation(optionsInContract.toArray(new Integer[]{}));
-            Set<String> requires = relations.stream()
-                    .filter(r -> !(tariff.getOptions().contains(r.getAnother()) || optionsInContract.contains(r.getAnother().getId())))
-                    .map(r -> r.getAnother().getName())
-                    .collect(Collectors.toSet());
-
-            if (!requires.isEmpty())
-                return Optional.of("More options are required as mandatory: " + requires.stream().collect(Collectors.joining(", ")));
-
-            //check if all options are compatible with each other
-            Optional<String> error = checkIncompatibility(optionsInContract.toArray(new Integer[]{}));
-            if (error.isPresent()) return error;
-
-            //check if all options are compatible with options in tariff, throw exception if not
-            Integer[] optionInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
-            error = checkIncompatibilityWithTariff(optionsInContract.toArray(new Integer[]{}), optionInTariffIds);
-            if (error.isPresent()) return error;
-        }
-        return Optional.empty();
-    }
-
-    private Optional<String> checkIncompatibilityWithTariff(Integer[] newIds, Integer[] existedIds) {
-        List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(newIds, existedIds);
-        if (!incompatibleWithTariff.isEmpty()) {
-            return Optional.of(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your contract");
-        }
-        return Optional.empty();
-    }
-
-    private Optional<String> checkIncompatibility(Integer[] ids) {
-        List<OptionRelation> relations = optionDao.getIncompatibleRelationInRange(ids);
-        if (!relations.isEmpty()) {
-            String s = relations.stream()
-                    .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
-                    .collect(Collectors.joining(", "));
-            return Optional.of(MESSAGE + s + " incompatible with each other");
-        }
-        return Optional.empty();
-    }
-
+    /**
+     * Update all fields in corresponding {@code Contract} with field values from data transfer object
+     *
+     * @param dto data transfer object contains contract id and properties
+     * @return either empty Optional if contract is successfully updated or error message if not
+     */
     @Override
     public Optional<String> update(ContractDTO dto) {
         Tariff tariff = tariffDAO.findOne(dto.getTariffId());
@@ -192,11 +191,21 @@ public class ContractService implements ContractServiceI {
         return Optional.empty();
     }
 
+    /**
+     * Delete {@code Contract} with specific id from database and its corresponding {@code User}
+     *
+     * @param id id of contract to delete
+     */
     @Override
     public void delete(int id) {
         contractDAO.deleteById(id);
     }
 
+    /**
+     * Set block property of specific contract to true;
+     *
+     * @param id id of {@code Contract} to block
+     */
     @Override
     public void block(int id) {
         Contract contract = contractDAO.findOne(id);
@@ -204,6 +213,11 @@ public class ContractService implements ContractServiceI {
             contract.setBlocked(true);
     }
 
+    /**
+     * Set block property of specific contract to false;
+     *
+     * @param id id of {@code Contract}  to unblock
+     */
     @Override
     public void unblock(int id) {
         Contract contract = contractDAO.findOne(id);
@@ -211,6 +225,13 @@ public class ContractService implements ContractServiceI {
             contract.setBlocked(false);
     }
 
+    /**
+     * Construct object contains contract in specific range from database and additional info (total number of contracts in database)
+     *
+     * @param currentPage current page on view to build
+     * @param rowPerPage  number of items for one page (equals total number of items in {@code PaginateHelper}
+     * @return {@code PaginateHelper} with contracts in specific range and additional info
+     */
     @Override
     public PaginateHelper<Contract> getPaginateData(Integer currentPage, int rowPerPage) {
         if (currentPage == null) currentPage = 1;  //if no page specified, show first page
@@ -222,6 +243,12 @@ public class ContractService implements ContractServiceI {
         return new PaginateHelper<>(optionsForPage, totalPage);
     }
 
+    /**
+     * Return contract with eager fetched collection fields (no proxies)
+     *
+     * @param id id {@code Contract}
+     * @return {@code Contract} with fully loaded fields from database
+     */
     @Override
     public Contract getFull(int id) {
         Contract contract = contractDAO.findOne(id);
@@ -230,6 +257,12 @@ public class ContractService implements ContractServiceI {
         return contract;
     }
 
+    /**
+     * Return contract with eager fetched collection fields (no proxies)
+     *
+     * @param phone phone number
+     * @return {@code Contract} with fully loaded fields from database
+     */
     @Override
     public Contract getFullByPhone(long phone) {
         Integer id = contractDAO.getIdByPhone(phone);
@@ -238,6 +271,13 @@ public class ContractService implements ContractServiceI {
 
     //<-----client's actions. Admin blocking check must be done before any actions----->
 
+    /**
+     * Add new options into the specific contract
+     *
+     * @param id      id of {@code Contract}
+     * @param options collection of {@code Option} to add
+     * @return either empty Optional if contract is successfully updated or error message if not
+     */
     @Override
     public Optional<String> addOptions(int id, Collection<Option> options) {
         if (options.isEmpty()) return Optional.of("Nothing to buy");
@@ -283,6 +323,12 @@ public class ContractService implements ContractServiceI {
         return Optional.empty();
     }
 
+    /**
+     * Add new options from cart into specific contract
+     *
+     * @param cart      {@code CartInterface} session stateful object
+     * @return json formatted String contains result of the action
+     */
     @Override
     public String addOptionsToJson(CartInterface cart) {
         Gson gson = new Gson();
@@ -296,6 +342,14 @@ public class ContractService implements ContractServiceI {
         }
         return gson.toJson(element);
     }
+
+    /**
+     * Delete specific option from specific contract
+     *
+     * @param id       id of {@code Contract}
+     * @param optionId id of {@code Option} to delete
+     * @return either empty Optional if option is successfully deleted or error message if not
+     */
 
     @Override
     public Optional<String> deleteOption(int id, int optionId) {
@@ -318,6 +372,13 @@ public class ContractService implements ContractServiceI {
         return Optional.empty();
     }
 
+    /**
+     * Delete specific option from specific contract
+     *
+     * @param id       id of {@code Contract}
+     * @param optionId id of {@code Option} to delete
+     * @return json formatted String contains result of the action
+     */
     @Override
     public String deleteOptionJson(int id, int optionId) {
         Gson gson = new Gson();
@@ -333,6 +394,13 @@ public class ContractService implements ContractServiceI {
         return gson.toJson(element);
     }
 
+    /**
+     * Replace tariff in contract to the new one
+     *
+     * @param id       id of {@code Contract}
+     * @param tariffId id of {@code Tariff} to set
+     * @return either empty Optional if tariff is successfully changed or error message if not
+     */
     @Override
     public Optional<String> setTariff(int id, int tariffId) {
         Contract contract = contractDAO.findOne(id);
@@ -342,6 +410,71 @@ public class ContractService implements ContractServiceI {
         contract.getOptions().clear();
         contract.setTariff(tariff);
         contractDAO.update(contract);
+        return Optional.empty();
+    }
+
+    /*
+     * Check compatibility of options in contract.
+     * Return either Optional with error message or empty Optional if logic is ok
+     */
+    private Optional<String> checkCompatibility(ContractDTO dto, Tariff tariff) {
+
+        if (!dto.getOptionsIds().isEmpty()) {
+
+            //get options in contract
+            Set<Integer> optionsInContract = dto.getOptionsIds();
+            Set<Integer> optionsInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
+            optionsInContract.removeIf(optionsInTariffIds::contains); //remove all options that already in tariff
+
+            //check if all options has its' mandatory
+            List<OptionRelation> relations = optionDao.getMandatoryRelation(optionsInContract.toArray(new Integer[]{}));
+            Set<String> requires = relations.stream()
+                    .filter(r -> !(tariff.getOptions().contains(r.getAnother()) || optionsInContract.contains(r.getAnother().getId())))
+                    .map(r -> r.getAnother().getName())
+                    .collect(Collectors.toSet());
+
+            if (!requires.isEmpty())
+                return Optional.of("More options are required as mandatory: " + requires.stream().collect(Collectors.joining(", ")));
+
+            //check if all options are compatible with each other
+            Optional<String> error = checkIncompatibility(optionsInContract.toArray(new Integer[]{}));
+            if (error.isPresent()) return error;
+
+            //check if all options are compatible with options in tariff, throw exception if not
+            Integer[] optionInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
+            error = checkIncompatibilityWithTariff(optionsInContract.toArray(new Integer[]{}), optionInTariffIds);
+            if (error.isPresent()) return error;
+        }
+        return Optional.empty();
+    }
+
+    /*
+     * Check if specific options are compatible with options in specific tariff
+     * @param newIds options' ids
+     * @param existedIds options in tariff ids
+     * @return either Optional with error message or empty Optional if logic is ok
+     */
+    private Optional<String> checkIncompatibilityWithTariff(Integer[] newIds, Integer[] existedIds) {
+        List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(newIds, existedIds);
+        if (!incompatibleWithTariff.isEmpty()) {
+            return Optional.of(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your contract");
+        }
+        return Optional.empty();
+    }
+
+    /*
+     * Check if specific options are compatible with each other
+     * @param ids options for checking
+     * @return either Optional with error message or empty Optional if logic is ok
+     */
+    private Optional<String> checkIncompatibility(Integer[] ids) {
+        List<OptionRelation> relations = optionDao.getIncompatibleRelationInRange(ids);
+        if (!relations.isEmpty()) {
+            String s = relations.stream()
+                    .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())
+                    .collect(Collectors.joining(", "));
+            return Optional.of(MESSAGE + s + " incompatible with each other");
+        }
         return Optional.empty();
     }
 

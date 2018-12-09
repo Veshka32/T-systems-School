@@ -1,3 +1,12 @@
+/**
+ * Implements {@code JmsSenderI} interface.
+ * It is a service-layer class for sending messages via Java Message Service, using JNDI destination and ConnectionFactory
+ * Messages are sent to queue with certain expiration.
+ * <p>
+ *
+ * @author Natalia Makarchuk
+ */
+
 package services.implementations;
 
 import org.apache.log4j.Logger;
@@ -9,8 +18,8 @@ import javax.jms.*;
 
 @Service
 public class JmsSender implements JmsSenderI {
-    private static final Logger logger = Logger.getLogger(JmsSender.class);
-    private static final long TIME_TO_LIVE_MILLISEC = 30_000; //messages older than that won't be delivered to destination
+
+    private static final long TIME_TO_LIVE_MILLISEC = 30_000; //messages older than that value won't be delivered to destination
 
     @Resource(lookup = "java:/mobile/MyConnectionFactory")
     private ConnectionFactory connectionFactory;
@@ -18,10 +27,14 @@ public class JmsSender implements JmsSenderI {
     @Resource(lookup = "java:/mobile/MyQueue")
     private Destination destination;
 
+    /**
+     * Send message to JMS queue
+     *
+     * @param jsonData message content in json formatted String
+     */
     @Override
     public void sendData(String jsonData) {
         try (
-                //Authentication info can be omitted if we are using in-vm
                 QueueConnection connection = (QueueConnection) connectionFactory.createConnection();
                 QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
                 MessageProducer producer = session.createProducer(destination)
@@ -30,12 +43,10 @@ public class JmsSender implements JmsSenderI {
             TextMessage message = session.createTextMessage(jsonData);
             producer.setTimeToLive(TIME_TO_LIVE_MILLISEC);
             producer.send(message);
-            logger.info("send jms:" + jsonData);
+            Logger.getLogger(JmsSender.class).info("send jms:" + jsonData);
 
         } catch (JMSException ex) {
-            logger.error(ex.getMessage(), ex);
+            Logger.getLogger(JmsSender.class).error(ex.getMessage(), ex);
         }
     }
-
-
 }

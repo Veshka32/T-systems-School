@@ -1,3 +1,10 @@
+/**
+ * This class implements {@code OptionServiceI} interface.
+ * It is a service-layer class for manipulating with {@code Option} entities.
+ * <p>
+ *
+ * @author Natalia Makarchuk
+ */
 package services.implementations;
 
 import dao.interfaces.OptionDaoI;
@@ -34,15 +41,27 @@ public class OptionService implements OptionServiceI {
         this.relationDaoI.setClass(OptionRelation.class);
     }
 
+    /**
+     * Find option by its id
+     *
+     * @param id id of {@code Option}
+     * @return {@code Option} with specific id
+     */
     @Override
     public Option get(int id) {
         return optionDAO.findOne(id);
     }
 
+    /**
+     * Create new {@code Option} based on dto properties
+     *
+     * @param dto data transfer object contains required properties
+     * @return empty Optional if option is successfully created or error message if not
+     */
     @Override
     public Optional<String> create(OptionDTO dto) {
-        //check name uniqueness
 
+        //check name uniqueness
         if (optionDAO.findByName(dto.getName()).isPresent())
             return Optional.of(NAME_ERROR_MESSAGE);
 
@@ -61,6 +80,12 @@ public class OptionService implements OptionServiceI {
         return Optional.empty();
     }
 
+    /**
+     * Update all fields in corresponding {@code Option}  with values from data transfer object
+     *
+     * @param dto data transfer object contains option id and properties
+     * @return empty Optional if option is successfully updated or error message if not
+     */
     @Override
     public Optional<String> update(OptionDTO dto) {
         Optional<Option> optional = optionDAO.findByName(dto.getName());
@@ -87,6 +112,7 @@ public class OptionService implements OptionServiceI {
         return Optional.empty();
     }
 
+
     @Override
     public Optional<String> delete(int id) {
         //check if option has any relation with other options, tariffs or contract
@@ -98,12 +124,24 @@ public class OptionService implements OptionServiceI {
         return Optional.empty();
     }
 
+    /**
+     * Retrieve from database all existed options' ids with corresponding names
+     * @return map with options' names as keys and corresponding ids as values;
+     */
     @Override
     public Map<String, Integer> getAllNamesWithIds() {
 
         return optionDAO.getAllNamesAndIds().stream().collect(HashMap::new, (m, array) -> m.put((String) array[1], (Integer) array[0]), Map::putAll);
     }
 
+    /**
+     * Construct data transfer object for {@code Option} with specific id,
+     * including options names that are mandatory for this option
+     * and option names that are incompatible with this option.
+     *
+     * @param id option id in database
+     * @return data transfer object contains option properties
+     */
     @Override
     public OptionDTO getDto(int id) {
         Option option = optionDAO.findOne(id);
@@ -119,11 +157,28 @@ public class OptionService implements OptionServiceI {
         return dto;
     }
 
+    /**
+     * Construct object contains options in specific range from database and additional  (total number of options in database)
+     *
+     * @param currentPage current page on view to build
+     * @param rowPerPage  number of items for one page (equals total number of items in {@code PaginateHelper}
+     * @return {@code PaginateHelper} with options in specific range and additional info
+     */
     @Override
-    public List<Option> getAll() {
-        return optionDAO.findAll();
+    public PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage) {
+        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
+        if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
+        int total = optionDAO.count().intValue();
+        List<Option> optionsForPage = optionDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
+        int totalPage = total / rowPerPage;
+        if (total % rowPerPage > 0) totalPage++;
+        return new PaginateHelper<>(optionsForPage, totalPage);
     }
 
+    /*
+     * Check compatibility of options specified as incompatible with or mandatory for target option.
+     * Return either Optional with error message or empty Optional if logic is ok
+     */
     private Optional<String> checkCompatibility(OptionDTO dto) {
         dto.getMandatory().remove(dto.getId());
         dto.getIncompatible().remove(dto.getId());
@@ -162,17 +217,6 @@ public class OptionService implements OptionServiceI {
             return Optional.of("Options " + s + " incompatible with each other");
         }
         return Optional.empty();
-    }
-
-    @Override
-    public PaginateHelper<Option> getPaginateData(Integer currentPage, int rowPerPage) {
-        if (currentPage == null) currentPage = 1;  //if no page specified, show first page
-        if (currentPage < 1 || rowPerPage < 0) throw new IllegalArgumentException();
-        int total = optionDAO.count().intValue();
-        List<Option> optionsForPage = optionDAO.allInRange((currentPage - 1) * rowPerPage, rowPerPage);
-        int totalPage = total / rowPerPage;
-        if (total % rowPerPage > 0) totalPage++;
-        return new PaginateHelper<>(optionsForPage, totalPage);
     }
 
     private void updatePlainFields(OptionDTO dto, Option based) {

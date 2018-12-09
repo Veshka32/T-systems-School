@@ -38,12 +38,7 @@ public interface ContractServiceI {
 
     void addData(ContractDTO dto);
 
-    /**
-     * Create new {@code Contract} based on dto properties
-     *
-     * @param dto data transfer object contains required properties
-     * @return database id of newly created entity
-     */
+
     Optional<String> create(ContractDTO dto);
 
     /**
@@ -85,7 +80,7 @@ public interface ContractServiceI {
     /**
      * Return contract with eager fetched collection fields (no proxies)
      *
-     * @param id id {@code Contract}
+     * @param phone phone number
      * @return {@code Contract} with fully loaded fields from database
      */
     Contract getFullByPhone(long phone);
