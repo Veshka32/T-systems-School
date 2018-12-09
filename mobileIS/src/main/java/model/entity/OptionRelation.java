@@ -1,4 +1,10 @@
 package model.entity;
+/**
+ * This class represent logic relation between to {@code Option} entity.
+ * Relation can be non-direct (like INCOMPATIBLE) or direct (like MANDATORY), but can not be self-referenced.
+ * In case of MANDATORY relation, OptionRelation.one requires OptionRelation.another.
+ * Each option can be part of many OptionRelation.
+ */
 
 import model.enums.RELATION;
 

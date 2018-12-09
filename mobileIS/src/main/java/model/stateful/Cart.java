@@ -1,3 +1,8 @@
+/**
+ * This class represent shop cart to keep user purchase during session.
+ * It keeps user contract id (unique phone number) in order to quickly identify user.
+ * It keeps {@code Options} added on cart, total sum of them add possible info message.
+ */
 package model.stateful;
 
 import com.google.gson.Gson;
@@ -24,6 +29,12 @@ public class Cart implements CartInterface {
         //default constructor
     }
 
+    /**
+     * Add option to cart, calculate total sum and return json representation of cart current state
+     *
+     * @param option option recently added to cart
+     * @return json representation of cart
+     */
     @Override
     public String addItemToJson(Option option) {
         if (options.add(option)) {  //return true if this set did not already contain the specified element
@@ -43,6 +54,11 @@ public class Cart implements CartInterface {
 
     }
 
+    /**
+     * Delete option from cart, update total sum and return json representation of cart current state
+     * @param option option recently deleted from cart
+     * @return json representation of cart
+     */
     @Override
     public String deleteItemToJson(Option option) {
         if (options.remove(option)) {
@@ -56,6 +72,9 @@ public class Cart implements CartInterface {
         return "{}";
     }
 
+    /**
+     * Delete all purchase from cart, set total sum to 0, clear message.
+     */
     @Override
     public void clear() {
         options.clear();
@@ -63,6 +82,10 @@ public class Cart implements CartInterface {
         message = null;
     }
 
+    /**
+     * Check if there is any purchase in cart
+     * @return true if cart is empty, false if not
+     */
     @Override
     public boolean isEmpty() {
         return options.isEmpty();

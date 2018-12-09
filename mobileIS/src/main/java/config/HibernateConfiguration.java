@@ -31,6 +31,11 @@ public class HibernateConfiguration {
         return sessionFactory;
     }
 
+    /*
+     * Create datasource based on runtime environment: if localhost, connect to the  real mysql database,
+     * if not - consider docker is running and connect to the docker image og mysql database.
+     * Use hibernate.properties file in classpath
+     */
     @Bean
     @Autowired
     public DataSource dataSource(Environment env) {

@@ -1,3 +1,7 @@
+/**
+ * This class is used to validate passport format on view using spring validation.
+ * It must be exactly 10 digits.
+ */
 package model.helpers;
 
 import org.springframework.validation.annotation.Validated;
