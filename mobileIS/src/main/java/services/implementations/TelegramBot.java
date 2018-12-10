@@ -74,7 +74,7 @@ public class TelegramBot implements TelegramBotI {
                 PaginateHelper<Client> helper = clientServiceI.getPaginateData(1, 1);
                 if (helper.getTotal() > 0) {
                     int number = 1000 * helper.getTotal();
-                    message = "Wow! Already " + number + "clients have joined us!";
+                    message = "Wow! Already " + number + " clients have joined us!";
                     break;
                 }
         }
