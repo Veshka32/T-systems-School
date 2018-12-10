@@ -35,7 +35,7 @@ class SeleniumIT {
                 HttpURLConnection connection = (HttpURLConnection) (url.openConnection());
                 return connection.getResponseCode();
             } catch (IOException e) {
-                return 400;
+                return HttpURLConnection.HTTP_INTERNAL_ERROR;
             }
         };
 
@@ -44,7 +44,7 @@ class SeleniumIT {
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 statuses[0] = request.call(); //update current status
-                if (statuses[0] == 200) {
+                if (statuses[0] == HttpURLConnection.HTTP_OK) {
                     downLatch.countDown();
                     scheduler.shutdownNow();
                 }
@@ -55,7 +55,7 @@ class SeleniumIT {
 
         downLatch.await(5, MINUTES); //wait no longer than 15 sec
         scheduler.shutdownNow(); //stop executor immediately after timeout
-        assertEquals(statuses[0], 200); // throw exception if response status not 200;
+        assertEquals(statuses[0], HttpURLConnection.HTTP_OK); // throw exception if response status not 200;
 
         //run selenium if webapp in docker is available
         performer = new SeleniumPerformer();
