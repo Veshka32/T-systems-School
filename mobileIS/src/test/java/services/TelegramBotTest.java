@@ -48,14 +48,18 @@ class TelegramBotTest {
         //because of random flow of method
     void generateNews() {
 
+        //check with empty lists
         PaginateHelper<Tariff> helper = new PaginateHelper<>(new ArrayList<>(), 10);
         when(tariffServiceI.getPaginateData(1, 10)).thenReturn(helper);
         PaginateHelper<Option> helper1 = new PaginateHelper<>(new ArrayList<>(), 10);
         when(optionService.getPaginateData(1, 10)).thenReturn(helper1);
-        PaginateHelper<Client> helper2 = new PaginateHelper<>(new ArrayList<>(), 10);
+        PaginateHelper<Client> helper2 = new PaginateHelper<>(new ArrayList<>(), 0);
         when(clientServiceI.getPaginateData(1, 1)).thenReturn(helper2);
         assertDoesNotThrow(() -> bot.generateNews());
 
+        //check with non-empty lists
+        PaginateHelper<Client> helper3 = new PaginateHelper<>(new ArrayList<>(), 1);
+        when(clientServiceI.getPaginateData(1, 1)).thenReturn(helper3);
         helper.getItems().add(new Tariff());
         helper1.getItems().add(new Option());
         helper2.getItems().add(new Client());
