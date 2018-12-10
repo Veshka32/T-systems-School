@@ -8,8 +8,10 @@
  */
 package services.implementations;
 
+import model.entity.Client;
 import model.entity.Option;
 import model.entity.Tariff;
+import model.helpers.PaginateHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -58,20 +60,23 @@ public class TelegramBot implements TelegramBotI {
                 List<Tariff> tariffs = tariffServiceI.getPaginateData(1, 10).getItems();
                 if (!tariffs.isEmpty()) {
                     Tariff tariff = tariffs.get(ThreadLocalRandom.current().nextInt(0, tariffs.size()));
-                    message = "Super-duper tariff waiting for you! \nTariff " + tariff.getName() + ": " + tariff.getDescription();
+                    message = "Super-duper tariff waiting for you! Tariff " + tariff.getName() + ": " + tariff.getDescription();
                 }
                 break;
             case 2:
                 List<Option> options = optionService.getPaginateData(1, 10).getItems();
                 if (!options.isEmpty()) {
                     Option option = options.get(ThreadLocalRandom.current().nextInt(0, options.size()));
-                    message = "Mega-cool option waiting for you! \nOption " + option.getName() + ": " + option.getDescription();
+                    message = "Mega-cool option waiting for you! Option " + option.getName() + ": " + option.getDescription();
                 }
                 break;
             case 3:
-                int number = 1000 * clientServiceI.getPaginateData(1, 1).getTotal();
-                message = "Wow! Already " + number + "clients have joined us!";
-                break;
+                PaginateHelper<Client> helper = clientServiceI.getPaginateData(1, 1);
+                if (helper.getTotal() > 0) {
+                    int number = 1000 * helper.getTotal();
+                    message = "Wow! Already " + number + "clients have joined us!";
+                    break;
+                }
         }
         if (!message.isEmpty()) sendMsg(message);
     }
