@@ -4,8 +4,9 @@ services:
     build: mobile
     ports:
      - "8080:8080"
-    links:
-     - db
+# in version 3, no more need in "links:db". Network created by default
+#and containers accessible by its' names by default
+
   db:
     build: mysql
     ports:
