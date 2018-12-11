@@ -10,22 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/superhero/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/flatly/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="<c:url value="/resources/user-cabinet-scripts.js"/>"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <style>
-        .card-body {
-            color: black;
-            background-color: lightgrey;
-        }
-    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="collapse navbar-collapse" id="navbarColor02">
         <a class="navbar-left" href="../">
             <img src="<c:url value="/resources/spacelogo.jpg"/>" width="50" height="40" alt="">
@@ -76,7 +70,7 @@
         </div>
         <!---Cart--->
         <div class="col-sm-4">
-            <div class="card border-success bg-dark">
+            <div class="card border-success">
                 <div class="card-header">Cart:</div>
                 <div class="card-body" id="cart-body">
                     <c:forEach items="${cart.options}" var="opt">
@@ -179,7 +173,7 @@
                                 <p class="text-secondary">$${option.subscribeCost} for subscribe</p>
                             </div>
                             <div class="card-footer">
-                                <button onclick="addToCart(${option.id})" class="btn btn-primary">Get</button>
+                                <button onclick="addToCart(${option.id})" class="btn btn-warning">Get</button>
                             </div>
                             <script>
                                 if ($('#optionInCart${option.id}').length > 0 || $('#tariffOption${option.id}').length > 0 || $('#option${option.id}').length > 0) {
@@ -192,7 +186,7 @@
                 <
                 <div class="text-center">
                     <button id="moreOptions" data-page=2 onclick="getMoreOptions()"
-                            class="btn btn-primary btn-xs center-block">Show more &gt;
+                            class="btn btn-outline-primary btn-xs center-block">Show more &gt;
                     </button>
                 </div>
             </div>
@@ -217,7 +211,8 @@
                 </div>
                 <script> filterTariff();</script>
                 <div class="text-center">
-                    <button id="moreTariffs" data-page=2 onclick="getMoreTariffs()" class="btn btn-primary btn-xs">
+                    <button id="moreTariffs" data-page=2 onclick="getMoreTariffs()"
+                            class="btn btn-outline-primary btn-xs">
                         Show
                         more &gt;
                     </button>

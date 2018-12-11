@@ -83,17 +83,17 @@
     <br>
     <div class="row slideanim">
         <div class="col-sm-4">
-            <span class="glyphicon glyphicon-map-marker logo-small"></span>
+            <span class="glyphicon glyphicon-map-marker logo-small green"></span>
             <h4>Any destination</h4>
             <p>Calls without time-lag to/from all over the existing universe</p>
         </div>
         <div class="col-sm-4">
-            <span class="glyphicon glyphicon-lock logo-small"></span>
+            <span class="glyphicon glyphicon-lock logo-small green"></span>
             <h4>Safety</h4>
             <p>We provide reliable service of time-paradox defence</p>
         </div>
         <div class="col-sm-4">
-            <span class="glyphicon glyphicon-time logo-small"></span>
+            <span class="glyphicon glyphicon-time logo-small green"></span>
             <h4>No time limitation</h4>
             <p>Call to the past or future with our tachyon-tunnel technology</p>
         </div>
@@ -101,8 +101,9 @@
 </div>
 
 <!-- Options Section -->
-<div class="container-dark">
+<div class="container-light" style="background-color: rgba(43,62,80,0.2)">
     <h2>Options</h2>
+    <br>
     <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
@@ -110,12 +111,14 @@
                 <c:choose>
                     <c:when test="${status.first}">
                         <div class="item active">
-                            <h4>${option.name}</h4><span>${option.description}</span>
+                            <h3>${option.name}</h3>
+                            <p>${option.description}</p>
                         </div>
                     </c:when>
                     <c:otherwise>
                         <div class="item">
-                            <h4>${option.name}</h4><span>${option.description}</span>
+                            <h3>${option.name}</h3>
+                            <p>${option.description}</p>
                         </div>
                     </c:otherwise>
                 </c:choose>
@@ -137,20 +140,20 @@
 <!-- Tariffs Section -->
 <div class="container-light">
     <div class="text-center">
-        <h2>Tariffs</h2>
+        <h2>Tariffs</h2><br>
     </div>
     <div class="row slideanim">
         <c:forEach items="${tariffs}" var="tariff">
             <div class="col-sm-4">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h1>${tariff.name}</h1>
+                        <h2>${tariff.name}</h2>
                     </div>
                     <div class="panel-body">
                         <p>${tariff.description}</p>
                     </div>
                     <div class="panel-footer">
-                        <h3>$${tariff.price}</h3>
+                        <h4>$${tariff.price}</h4>
                         <span>per month</span>
                     </div>
                 </div>

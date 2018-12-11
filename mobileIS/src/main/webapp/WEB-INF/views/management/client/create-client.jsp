@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Client details</title>
+    <title>Client editor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -20,7 +20,7 @@
 
 <div class="container">
     <span class="pull-right"><a href="clients" class="btn btn-info" role="button">Back to clients</a></span>
-    <h3>Create client</h3>
+    <h3>Client details</h3>
     <p class="bg-danger">${message}</p>
     <form:form method="POST" modelAttribute="client">
 

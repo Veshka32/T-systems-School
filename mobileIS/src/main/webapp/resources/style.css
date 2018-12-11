@@ -1,7 +1,7 @@
-
 canvas {
     display: block;
     vertical-align: bottom;
+    background-color: #2B3E50
 }
 
 .jumbotron {
@@ -11,24 +11,21 @@ canvas {
 }
 
 body {
-    color: #EBEBEB;
+    color: #2B3E50;
     text-align: center;
-    background-color: #2B3E50;
 }
 
 .panel {
-    border-color: #f0ad4e !important;
+    border-color: #2B3E50 !important;
     border-radius: 0px;
     border-width: 1px;
     text-align: center;
-    background-color: #4E5D6C;
 }
 
 .panel-heading {
     border-radius: 0px;
-
-    background-color: #2B3E50;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: #149a80;
+    color: #fff;
 }
 
 .login-panel {
@@ -39,32 +36,29 @@ body {
     color: black;
 }
 
-.panel-footer {
-    background-color: #4E5D6C;
-}
-
-
 .img-valign {
     vertical-align: bottom;
 }
 
 .container-light {
-    background-color: #4E5D6C;
-    padding: 40px 40px;
-    text-align: center;
-}
-
-.container-dark {
-    background: none;
-    padding: 40px 40px;
+    margin: 30px;
+    padding: 20px 20px;
     text-align: center;
 }
 
 .logo-small {
     font-size: 50px;
+    color: #149a80;
+}
+
+hr {
+    border-color: #149a80;
+    border-width: 2px;
+    width: 90%;
 }
 
 .carousel-control.right, .carousel-control.left {
+    color: #149a80;
     background-image: none;
 }
 
@@ -93,25 +87,17 @@ footer .glyphicon {
     margin-bottom: 20px;
 }
 
-.glyphicon {
+.navbar .glyphicon {
     color: #f0ad4e;
 }
 
-.navbar-default .navbar-toggle {
+.navbar-default {
     border-color: transparent;
 }
 
-.open .dropdown-toggle {
+.open {
     color: #2B3E50;
     background-color: white !important;
-}
-
-.dropdown-menu {
-    color: #2B3E50 !important;
-    min-width: 200px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    font-size: 14px;
 }
 
 .dropdown-menu a {
@@ -159,4 +145,3 @@ footer .glyphicon {
         margin: 25px 0;
     }
 }
-
