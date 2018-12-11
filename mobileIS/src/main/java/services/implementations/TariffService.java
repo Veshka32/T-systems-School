@@ -156,7 +156,7 @@ public class TariffService implements TariffServiceI {
         //nothing to check
         if (dto.getOptions().isEmpty()) return Optional.empty();
 
-        //check if all from mandatory also have its' corresponding mandatory options
+        //check if all options also have its' corresponding mandatory options
         Integer[] ids = dto.getOptions().toArray(new Integer[]{});
         List<OptionRelation> relation = optionDAO.getMandatoryRelation(ids);
 
@@ -167,8 +167,8 @@ public class TariffService implements TariffServiceI {
             }
         }
 
-        //check if mandatory options are incompatible with each other
-        relation = optionDAO.getIncompatibleRelationInRange(ids);
+        //check if any options are incompatible with each other
+        relation = optionDAO.getMutuallyIncompatible(ids);
         if (!relation.isEmpty()) {
             String s = relation.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             return Optional.of("Options " + s + " incompatible with each other");

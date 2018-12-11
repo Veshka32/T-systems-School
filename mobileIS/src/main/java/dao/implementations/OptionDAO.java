@@ -69,6 +69,12 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
         return (notUsed && notUsed1 && notMandatory);
     }
 
+    /**
+     * Get all MANDATORY options for input options ids
+     *
+     * @param ids option ids
+     * @return list of option pairs
+     */
     @Override
     public List<OptionRelation> getMandatoryRelation(Integer[] ids) {
         if (ids.length == 0) return Collections.emptyList();
@@ -77,15 +83,42 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
                 .getResultList();
     }
 
+    /**
+     * Get all INCOMPATIBLE options for one option specified by id
+     *
+     * @param id id of option
+     * @return pairs of incompatible options
+     */
 
     @Override
-    public List<OptionRelation> getIncompatibleRelationInRange(Integer[] ids) {
+    public List<OptionRelation> getIncompatibleRelation(int id) {
+        return sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_for", OptionRelation.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    /**
+     * Get mutual OptionRelation of type INCOMPATIBLE for input option ids
+     *
+     * @param ids ids of options
+     * @return list of option pairs
+     */
+
+    @Override
+    public List<OptionRelation> getMutuallyIncompatible(Integer[] ids) {
         if (ids.length == 0) return Collections.emptyList();
-        return sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_for_in_range", OptionRelation.class)
+        return sessionFactory.getCurrentSession().createNamedQuery("get_mutual_incompatible", OptionRelation.class)
                 .setParameterList("ids", ids)
                 .getResultList();
     }
 
+    /**
+     * Get options from specific range that are incompatible with options in tariff
+     *
+     * @param ids       ids of option from range
+     * @param tariffIds ids of option in tariff
+     * @return list of options
+     */
     @Override
     public List<Option> getIncompatibleWithTariff(Integer[] ids, Integer[] tariffIds) {
         List<Option> oneSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible", Option.class)
@@ -93,9 +126,9 @@ public class OptionDAO extends GenericDAO<Option> implements OptionDaoI {
                 .setParameterList("ids2", tariffIds)
                 .getResultList();
 
-        List<Option> anotherSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible", Option.class)
-                .setParameterList("ids", tariffIds)
-                .setParameterList("ids2", ids)
+        List<Option> anotherSide = sessionFactory.getCurrentSession().createNamedQuery("get_incompatible_another", Option.class)
+                .setParameterList("ids", ids)
+                .setParameterList("ids2", tariffIds)
                 .getResultList();
 
         anotherSide.addAll(oneSide);

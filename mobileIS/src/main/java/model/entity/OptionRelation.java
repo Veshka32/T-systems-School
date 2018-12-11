@@ -13,11 +13,20 @@ import javax.persistence.*;
 @Entity
 @Table(name = "optionrelation")
 @NamedQueries({
-        @NamedQuery(name = "delete_incompatible", query = "delete from OptionRelation r where (r.one.id=:id or r.another.id=:id) and r.relation='INCOMPATIBLE'"),
-        @NamedQuery(name = "delete_mandatory", query = "delete from OptionRelation r where r.one.id=:id  and r.relation='MANDATORY'"),
-        @NamedQuery(name = "get_mandatory_for", query = "from OptionRelation r where  r.relation='MANDATORY' and r.one.id in (:ids)"),
-        @NamedQuery(name = "get_incompatible_for_in_range", query = "from OptionRelation r where (r.one.id in (:ids) and r.another.id in (:ids)) and r.relation='INCOMPATIBLE'"),
-        @NamedQuery(name = "get_incompatible", query = "select r.one from OptionRelation r where r.relation='INCOMPATIBLE' and r.one.id in(:ids) and r.another.id in (:ids2)"),
+        @NamedQuery(name = "delete_incompatible",
+                query = "delete from OptionRelation r where (r.one.id=:id or r.another.id=:id) and r.relation='INCOMPATIBLE'"),
+        @NamedQuery(name = "delete_mandatory",
+                query = "delete from OptionRelation r where r.one.id=:id  and r.relation='MANDATORY'"),
+        @NamedQuery(name = "get_mandatory_for",
+                query = "from OptionRelation r where  r.relation='MANDATORY' and r.one.id in (:ids)"),
+        @NamedQuery(name = "get_incompatible_for",
+                query = "from OptionRelation r where (r.one.id =:id or r.another.id =:id) and r.relation='INCOMPATIBLE'"),
+        @NamedQuery(name = "get_mutual_incompatible",
+                query = "from OptionRelation r where r.one.id in (:ids) and r.another.id in (:ids) and r.relation='INCOMPATIBLE'"),
+        @NamedQuery(name = "get_incompatible",
+                query = "select r.one from OptionRelation r where r.relation='INCOMPATIBLE' and r.one.id in(:ids) and r.another.id in (:ids2)"),
+        @NamedQuery(name = "get_incompatible_another",
+                query = "select r.another from OptionRelation r where r.relation='INCOMPATIBLE' and r.another.id in(:ids) and r.one.id in (:ids2)"),
 }
 )
 public class OptionRelation extends AbstractEntity {

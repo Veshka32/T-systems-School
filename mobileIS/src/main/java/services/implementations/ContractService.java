@@ -269,7 +269,7 @@ public class ContractService implements ContractServiceI {
         return getFull(id);
     }
 
-    //<-----client's actions. Admin blocking check must be done before any actions----->
+    /*<-----client's actions. Admin blocking check must be done before any actions----->*/
 
     /**
      * Add new options into the specific contract
@@ -358,7 +358,7 @@ public class ContractService implements ContractServiceI {
 
         Option option = optionDao.findOne(optionId);
 
-        //check if option is mandatory for some other
+        //check if option is mandatory for any other option
         Set<Integer> optionInContract = contract.getOptions().stream().map(Option::getId).collect(Collectors.toSet());
         optionInContract.remove(optionId); //don't search mandatory relation for target option
         List<OptionRelation> required = optionDao.getMandatoryRelation(optionInContract.toArray(new Integer[]{}));
@@ -440,7 +440,7 @@ public class ContractService implements ContractServiceI {
             Optional<String> error = checkIncompatibility(optionsInContract.toArray(new Integer[]{}));
             if (error.isPresent()) return error;
 
-            //check if all options are compatible with options in tariff, throw exception if not
+            //check if all options are compatible with options in tariff
             Integer[] optionInTariffIds = tariff.getOptions().stream().map(Option::getId).collect(Collectors.toList()).toArray(new Integer[]{});
             error = checkIncompatibilityWithTariff(optionsInContract.toArray(new Integer[]{}), optionInTariffIds);
             if (error.isPresent()) return error;
@@ -449,7 +449,7 @@ public class ContractService implements ContractServiceI {
     }
 
     /*
-     * Check if specific options are compatible with options in specific tariff
+     * Check if input options are compatible with options in tariff
      * @param newIds options' ids
      * @param existedIds options in tariff ids
      * @return either Optional with error message or empty Optional if logic is ok
@@ -457,7 +457,7 @@ public class ContractService implements ContractServiceI {
     private Optional<String> checkIncompatibilityWithTariff(Integer[] newIds, Integer[] existedIds) {
         List<Option> incompatibleWithTariff = optionDao.getIncompatibleWithTariff(newIds, existedIds);
         if (!incompatibleWithTariff.isEmpty()) {
-            return Optional.of(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your contract");
+            return Optional.of(MESSAGE + incompatibleWithTariff.stream().map(Option::getName).collect(Collectors.joining(", ")) + " incompatible with your tariff");
         }
         return Optional.empty();
     }
@@ -468,7 +468,7 @@ public class ContractService implements ContractServiceI {
      * @return either Optional with error message or empty Optional if logic is ok
      */
     private Optional<String> checkIncompatibility(Integer[] ids) {
-        List<OptionRelation> relations = optionDao.getIncompatibleRelationInRange(ids);
+        List<OptionRelation> relations = optionDao.getMutuallyIncompatible(ids);
         if (!relations.isEmpty()) {
             String s = relations.stream()
                     .map(r -> r.getOne().getName() + " and " + r.getAnother().getName())

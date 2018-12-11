@@ -148,7 +148,7 @@ public class OptionService implements OptionServiceI {
         OptionDTO dto = new OptionDTO(option);
         Integer[] ids = {dto.getId()};
         List<OptionRelation> mandatory = optionDAO.getMandatoryRelation(ids);
-        List<OptionRelation> incompatible = optionDAO.getIncompatibleRelationInRange(ids);
+        List<OptionRelation> incompatible = optionDAO.getIncompatibleRelation(id);
 
         dto.setMandatoryNames(mandatory.stream().map(r -> r.getAnother().getName()).collect(Collectors.joining(", ")));
         dto.setIncompatibleNames(incompatible.stream().map(r -> (r.getAnother().getId() == id ? r.getOne().getName() : r.getAnother().getName())).collect(Collectors.joining(", ")));
@@ -180,6 +180,7 @@ public class OptionService implements OptionServiceI {
      * Return either Optional with error message or empty Optional if logic is ok
      */
     private Optional<String> checkCompatibility(OptionDTO dto) {
+        //prevent self-reference
         dto.getMandatory().remove(dto.getId());
         dto.getIncompatible().remove(dto.getId());
 
@@ -187,7 +188,7 @@ public class OptionService implements OptionServiceI {
         Optional<Integer> any = dto.getIncompatible().stream().filter(id -> dto.getMandatory().contains(id)).findFirst();
         if (any.isPresent()) return Optional.of(ERROR_MESSAGE + optionDAO.findOne(any.get()).getName());
 
-        //nothing to check
+        //if no mandatory, there is nothing to check
         if (dto.getMandatory().isEmpty()) return Optional.empty();
 
         Integer[] ids = dto.getMandatory().toArray(new Integer[]{});
@@ -211,7 +212,7 @@ public class OptionService implements OptionServiceI {
         }
 
         //check if mandatory options are incompatible with each other
-        relations = optionDAO.getIncompatibleRelationInRange(ids);
+        relations = optionDAO.getMutuallyIncompatible(ids);
         if (!relations.isEmpty()) {
             String s = relations.stream().map(r -> r.getOne().getName() + " and " + r.getAnother().getName()).collect(Collectors.joining(", "));
             return Optional.of("Options " + s + " incompatible with each other");

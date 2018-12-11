@@ -20,18 +20,10 @@ public interface OptionDaoI extends IGenericDAO<Option> {
 
     List<Option> getIncompatibleWithTariff(Integer[] ids, Integer[] tariffIds);
 
-    /**
-     * @param ids
-     * @return Return list of incompatible options pairs with ids in specific range
-     */
-    List<OptionRelation> getIncompatibleRelationInRange(Integer[] ids);
+    List<OptionRelation> getIncompatibleRelation(int id);
 
-
-    /**
-     * Get all OptionRelation of type MANDATORY where OptionRelation.one id in specific range
-     *
-     * @param ids
-     * @return
-     */
     List<OptionRelation> getMandatoryRelation(Integer[] ids);
+
+    List<OptionRelation> getMutuallyIncompatible(Integer[] ids);
+
 }
