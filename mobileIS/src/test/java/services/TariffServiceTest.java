@@ -126,7 +126,7 @@ class TariffServiceTest {
         relation.setAnother(b);
         relation.setRelation(RELATION.INCOMPATIBLE); //a incompatible with b
         when(optionDAO.getMandatoryRelation((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelationInRange((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
+        when(optionDAO.getMutuallyIncompatible((dto.getOptions().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
         e = tariffService.create(dto);
         assertTrue(e.isPresent());
         assertTrue(e.get().contains("a and b"));

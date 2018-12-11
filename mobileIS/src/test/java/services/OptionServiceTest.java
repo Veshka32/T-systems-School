@@ -69,7 +69,7 @@ class OptionServiceTest {
 
         when(optionDAO.findOne(1)).thenReturn(a);
         when(optionDAO.getMandatoryRelation(new Integer[]{1})).thenReturn(Collections.singletonList(m));
-        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{1})).thenReturn(Arrays.asList(i, i1));
+        when(optionDAO.getIncompatibleRelation(1)).thenReturn(Arrays.asList(i, i1));
         OptionDTO dto = optionService.getDto(1);
         assertEquals(dto.getName(), a.getName());
         assertEquals(dto.getId(), a.getId());
@@ -140,7 +140,7 @@ class OptionServiceTest {
         dto.getIncompatible().clear();
         dto.getMandatory().add(3);
         when(optionDAO.getMandatoryRelation((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelationInRange((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
+        when(optionDAO.getMutuallyIncompatible((dto.getMandatory().toArray(new Integer[]{})))).thenReturn(Collections.singletonList(relation));
         e = optionService.create(dto);
         assertTrue(e.isPresent());
         assertTrue(e.get().contains("a and b"));

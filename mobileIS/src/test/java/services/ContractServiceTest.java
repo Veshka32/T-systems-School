@@ -96,7 +96,7 @@ class ContractServiceTest {
         //mandatory is in tariff
         tariff.getOptions().add(d);
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{a.getId()}, new Integer[]{d.getId()})).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId()})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMutuallyIncompatible(new Integer[]{a.getId()})).thenReturn(Collections.emptyList());
         when(optionDAO.findByIds(new Integer[]{a.getId()})).thenReturn(new ArrayList<>());
         assertFalse(contractService.create(dto).isPresent());
         tariff.getOptions().clear();
@@ -105,7 +105,7 @@ class ContractServiceTest {
         //mandatory is in list
         dto.getOptionsIds().add(d.getId());
         when(optionDAO.getMandatoryRelation(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.singletonList(r)); // a requires d
-        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMutuallyIncompatible(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.emptyList());
         when(optionDAO.findByIds(new Integer[]{a.getId(), d.getId()})).thenReturn(new ArrayList<>());
         assertFalse(contractService.create(dto).isPresent());
         dto.getOptionsIds().clear();
@@ -115,7 +115,7 @@ class ContractServiceTest {
         r.setRelation(RELATION.INCOMPATIBLE); //a incompatible with d
         dto.getOptionsIds().add(a.getId());
         dto.getOptionsIds().add(d.getId());
-        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.singletonList(r));
+        when(optionDAO.getMutuallyIncompatible(new Integer[]{a.getId(), d.getId()})).thenReturn(Collections.singletonList(r));
         e = contractService.create(dto);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "Option(s) " + a.getName() + " and " + d.getName() + " incompatible with each other");
@@ -126,7 +126,7 @@ class ContractServiceTest {
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{a.getId()}, new Integer[]{d.getId()})).thenReturn(Collections.singletonList(a));
         e = contractService.create(dto);
         assertTrue(e.isPresent());
-        assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your contract");
+        assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your tariff");
     }
 
     @Test
@@ -222,7 +222,7 @@ class ContractServiceTest {
         //everything is ok
         when(optionDAO.getMandatoryRelation(new Integer[]{1, 2})).thenReturn(Collections.emptyList());
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{1, 2}, new Integer[]{})).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{1, 2})).thenReturn(Collections.emptyList());
+        when(optionDAO.getMutuallyIncompatible(new Integer[]{1, 2})).thenReturn(Collections.emptyList());
         assertFalse(contractService.addOptions(1, options).isPresent());
         assertTrue(contract.getOptions().containsAll(options));
         contract.getOptions().clear();
@@ -250,12 +250,12 @@ class ContractServiceTest {
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{1, 2}, new Integer[]{3})).thenReturn(Collections.singletonList(a));
         e = contractService.addOptions(1, options);
         assertTrue(e.isPresent());
-        assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your contract");
+        assertEquals(e.get(), "Option(s) " + a.getName() + " incompatible with your tariff");
 
         //new options compatible with each other
         r.setAnother(b); // a incompatible with b
         when(optionDAO.getIncompatibleWithTariff(new Integer[]{1, 2}, new Integer[]{3})).thenReturn(Collections.emptyList());
-        when(optionDAO.getIncompatibleRelationInRange(new Integer[]{1, 2})).thenReturn(Collections.singletonList(r));
+        when(optionDAO.getMutuallyIncompatible(new Integer[]{1, 2})).thenReturn(Collections.singletonList(r));
         e = contractService.addOptions(1, options);
         assertTrue(e.isPresent());
         assertEquals(e.get(), "Option(s) " + a.getName() + " and " + b.getName() + " incompatible with each other");

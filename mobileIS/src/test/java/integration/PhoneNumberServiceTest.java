@@ -1,8 +1,15 @@
 package integration;
 
+import config.AppInitializer;
+import config.HibernateConfiguration;
+import config.MyRequestListener;
+import dao.implementations.PhoneNumberDAO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,6 +17,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import services.implementations.PhoneNumberService;
 import services.interfaces.PhoneNumberServiceI;
 
 import javax.servlet.ServletContext;
@@ -23,7 +33,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = WebMvcConfigSpecial.class)
+@ContextConfiguration(classes = PhoneNumberServiceTest.WebMvcConfigSpecial.class)
 @PropertySource("classpath:hibernate.properties")
 @WebAppConfiguration
 class PhoneNumberServiceTest {
@@ -33,6 +43,21 @@ class PhoneNumberServiceTest {
 
     @Autowired
     private WebApplicationContext wac;
+
+    @Configuration
+    @EnableWebMvc
+    @ComponentScan(basePackages = {"config", "model", "services", "dao"},
+            useDefaultFilters = false,
+            includeFilters = {@ComponentScan.Filter(
+                    type = FilterType.ASSIGNABLE_TYPE,
+                    value = {AppInitializer.class,
+                            HibernateConfiguration.class,
+                            PhoneNumberService.class,
+                            MyRequestListener.class,
+                            PhoneNumberDAO.class})}
+    )
+    public static class WebMvcConfigSpecial implements WebMvcConfigurer {
+    }
 
     @Test
     void startupTest() {

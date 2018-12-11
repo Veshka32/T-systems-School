@@ -53,7 +53,7 @@ class SeleniumIT {
             }
         }, 60, 10, SECONDS); //30 sec start delay, repeat every 5 sec
 
-        downLatch.await(5, MINUTES); //wait no longer than 15 sec
+        downLatch.await(5, MINUTES); //wait no longer than 5 minutes
         scheduler.shutdownNow(); //stop executor immediately after timeout
         assertEquals(statuses[0], HttpURLConnection.HTTP_OK); // throw exception if response status not 200;
 
@@ -243,7 +243,7 @@ class SeleniumIT {
         performer.clickElement(performer.findElementById("moreOptions"));
         performer.waitForAjax();
         tariffs = performer.findElementsByPath("//*[@id=\"available-options\"]/div[1]/div");
-        assertEquals(tariffs.size(), 6);
+        assertEquals(tariffs.size(), 5);
 
         //block number
         performer.clickElement(performer.findElementByLink("Block number"));
