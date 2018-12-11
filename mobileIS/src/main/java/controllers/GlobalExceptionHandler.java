@@ -3,16 +3,21 @@ package controllers;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ControllerAdvice(("controllers"))
+@ControllerAdvice
 public class GlobalExceptionHandler {
-    private static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler({RuntimeException.class})
+    @ExceptionHandler(RuntimeException.class)
     public String handleException(HttpServletRequest request, Exception ex) {
-        logger.error("Request occurred:: " + request.getRequestURL(), ex);
+        Logger.getLogger(GlobalExceptionHandler.class).error("Error occurred:: " + request.getRequestURL(), ex);
         return "error";
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public String handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        return "404";
     }
 }

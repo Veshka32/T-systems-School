@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Error page</title>
+    <title>Page not found</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -15,7 +15,7 @@
 <div style="position: absolute; width: 100%">
     <div style="position:relative;">
         <div class="jumbotron text-center">
-            <h2>Ooops, it looks like something goes wrong</h2>
+            <h2>This page does not exist in your version of reality</h2>
             <p><a href="/index" style="color: white">Go to main page</a></p>
         </div>
     </div>
