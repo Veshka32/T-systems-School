@@ -24,10 +24,9 @@ import services.interfaces.TariffServiceI;
 import services.interfaces.TelegramBotI;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URL;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -51,7 +50,7 @@ public class TelegramBot implements TelegramBotI {
      * Method executes every 2 minutes.
      */
     @Override
-    @Scheduled(fixedRate = 120_000)
+    @Scheduled(fixedRate = 300_000)
     public void generateNews() {
         int newsNum = ThreadLocalRandom.current().nextInt(1, 4); //return 1, 2 or 3
         String message = "";
@@ -90,17 +89,21 @@ public class TelegramBot implements TelegramBotI {
     public int sendMsg(String message) {
         String channel = env.getProperty("CHANNEL_ID");
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(env.getProperty("PROXY_IP"), Integer.parseInt(env.getProperty("PROXY_PORT"))));
-        String urlString = String.format(env.getProperty("URL"), env.getProperty("API_TOKEN"), channel, message);
+
 
         int status = 500;
         try {
+            String encoded = URLEncoder.encode(message, StandardCharsets.UTF_8.toString());
+            String urlString = String.format(env.getProperty("URL"), env.getProperty("API_TOKEN"), channel, encoded);
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) (url.openConnection(proxy));
             status = connection.getResponseCode();
             Logger.getLogger(TelegramBot.class).info("send message to channel: " + channel + " with response code: " + status);
 
+        } catch (UnsupportedEncodingException e) {
+            Logger.getLogger(TelegramBot.class).warn("failed on encoding message: " + message);
         } catch (IOException e) {
-            Logger.getLogger(TelegramBot.class).info("failed on send message to channel: " + channel);
+            Logger.getLogger(TelegramBot.class).warn("failed on send message to channel: " + channel);
         }
         return status;
     }
