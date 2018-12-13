@@ -65,6 +65,7 @@ class SeleniumIT {
     @AfterAll
     public static void test9_downDocker() throws IOException {
         performer.closeWindow();
+        dockerRunner.copyLog();
         dockerRunner.down();
     }
 
@@ -106,7 +107,7 @@ class SeleniumIT {
 
         //edit option
         performer.clickElement(performer.findElementByClass("btn-warning"));
-        assertEquals(performer.getTitle(), "Create option");
+        assertEquals(performer.getTitle(), "Option editor");
 
         //back to options
         performer.clickElement(performer.findElementByLink("Back to options"));
@@ -115,13 +116,13 @@ class SeleniumIT {
 
         //create new
         performer.clickElement(performer.findElementByLink("Create new option"));
-        assertEquals(performer.getTitle(), "Create option");
+        assertEquals(performer.getTitle(), "Option editor");
 
         //try to create with errors
         performer.fieldForm("price", "-5");
         performer.scrollToElement(performer.findElementByClass("btn-success"));
         performer.clickElement(performer.findElementByClass("btn-success"));
-        assertEquals(performer.getTitle(), "Create option");
+        assertEquals(performer.getTitle(), "Option editor");
         assertNotNull(performer.findElementById("name.errors"));
         assertNotNull(performer.findElementById("price.errors"));
 
@@ -178,7 +179,7 @@ class SeleniumIT {
 
         //click create contract
         performer.clickElement(performer.findElementsByPath("/html/body/div/form[2]/input[2]").get(0));
-        assertEquals(performer.getTitle(), "Edit contract");
+        assertEquals(performer.getTitle(), "Contract editor");
         performer.selectAll("bootstrap-duallistbox-nonselected-list_optionsIds"); //select all options
         performer.clickElement(performer.findElementByClass("btn-success"));
         assertNotNull(performer.findElementByClass("bg-danger")); //error message
