@@ -77,7 +77,7 @@ function deleteFromCart(id) {
             $('#newOption' + data.id).find('button').removeAttr(DISABLED); //remove from available
             $("#cart-sum").text('Total: $' + data.totalSum);
             if ($('#cart-body').children().length < 1) {
-                $("#buy-button").attr(DISABLED, DISABLED);
+                $("#buy-button").find(':submit').attr(DISABLED, DISABLED);
             }
         }
     })
@@ -114,7 +114,7 @@ function showOptions(data) {
         card.find('p')[0].innerText = option.description;
         card.find('p')[1].innerText = '$' + option.price + ' per month';
         card.find('p')[2].innerText = '$' + option.subscribeCost + ' for subscribe';
-        card.find('button').attr('onclick', 'addToCart(' + option.id + ')');
+        card.find('button').attr('onclick', 'addToCart(' + option.id + ')').removeAttr(DISABLED); //in case of copying disabled option
     }
 }
 
@@ -180,7 +180,7 @@ function buildOptionInCart(data) {
         $p.append($button);
         $('#cart-body').append($p);
         $("#cart-sum").text("Total: $" + data.totalSum);
-        $("#buy-button").removeAttr(DISABLED);
+        $("#buy-button").find(':submit').removeAttr(DISABLED);
         $('#newOption' + id).find('button').attr(DISABLED, DISABLED); //remove from available
     }
 }

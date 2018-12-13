@@ -90,7 +90,8 @@
                     </form>
 
                     <c:if test="${cart.isEmpty() || contract.blockedByAdmin || contract.blocked}">
-                        <script>$("#buy-button").attr('disabled', 'disabled');</script>
+                        <script>
+                            $("#buy-button").find(':submit').attr('disabled', 'disabled');</script>
                     </c:if>
                 </div>
             </div>
@@ -109,9 +110,6 @@
         <div class="col-sm-4">
             <iframe src="https://tgwidget.com/widget/count/?id=5c01817b83ba8802548b4567" frameborder="0" scrolling="no"
                     horizontalscrolling="no" verticalscrolling="no" width="160px" height="50px" async></iframe>
-            <br>
-            <iframe src="https://tgwidget.com/widget/btn/?id=5c01817b83ba8802548b4567" frameborder="0" scrolling="no"
-                    horizontalscrolling="no" verticalscrolling="no" width="250px" height="50px" async></iframe>
         </div>
     </div>
     <br>
