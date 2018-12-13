@@ -50,7 +50,7 @@ public class TelegramBot implements TelegramBotI {
      * Method executes every 2 minutes.
      */
     @Override
-    @Scheduled(fixedRate = 300_000)
+    @Scheduled(initialDelay = 60_000, fixedRate = 300_000)
     public void generateNews() {
         int newsNum = ThreadLocalRandom.current().nextInt(1, 4); //return 1, 2 or 3
         String message = "";
