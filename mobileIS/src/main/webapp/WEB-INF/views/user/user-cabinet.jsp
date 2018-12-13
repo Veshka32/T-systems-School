@@ -77,7 +77,8 @@
                         <p class="card-text d-flex justify-content-between align-items-center"
                            id="optionInCart${opt.id}">
                                 ${opt.name}: $${opt.subscribeCost}
-                            <button class="badge-danger badge-pill" onclick="deleteFromCart(${opt.id})"> X</button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteFromCart(${opt.id})"> X
+                            </button>
                         </p>
                     </c:forEach>
                 </div>
@@ -103,6 +104,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!--widgets-->
+        <div class="col-sm-4">
+            <iframe src="https://tgwidget.com/widget/count/?id=5c01817b83ba8802548b4567" frameborder="0" scrolling="no"
+                    horizontalscrolling="no" verticalscrolling="no" width="160px" height="50px" async></iframe>
+            <br>
+            <iframe src="https://tgwidget.com/widget/btn/?id=5c01817b83ba8802548b4567" frameborder="0" scrolling="no"
+                    horizontalscrolling="no" verticalscrolling="no" width="250px" height="50px" async></iframe>
         </div>
     </div>
     <br>

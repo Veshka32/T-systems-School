@@ -16,7 +16,7 @@
     <div style="position:relative;">
         <div class="jumbotron text-center">
             <h2>This page does not exist in your version of reality</h2>
-            <p><a href="/index" style="color: white">Go to main page</a></p>
+            <p><a href="/mobile/index" style="color: white">Go to main page</a></p>
         </div>
     </div>
 </div>

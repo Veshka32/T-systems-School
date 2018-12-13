@@ -165,7 +165,7 @@ function buildOptionInCart(data) {
         let id = option['id'];
         let cost = option['cost'];
         let $button = $('<button/>', {
-            class: "badge-danger badge-pill",
+            class: "btn btn-sm btn-outline-danger",
             text: '  X  ',
         });
         $button.click(function () {

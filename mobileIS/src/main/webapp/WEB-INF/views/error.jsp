@@ -16,7 +16,7 @@
     <div style="position:relative;">
         <div class="jumbotron text-center">
             <h2>Ooops, it looks like something goes wrong</h2>
-            <p><a href="/index" style="color: white">Go to main page</a></p>
+            <p><a href="/mobile/index" style="color: white">Go to main page</a></p>
         </div>
     </div>
 </div>
