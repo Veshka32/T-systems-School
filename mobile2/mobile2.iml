@@ -132,5 +132,6 @@
     <orderEntry type="library" name="Maven: com.sun.faces:jsf-impl:2.3.5.SP2" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.spec.javax.faces:jboss-jsf-api_2.3_spec:2.3.5.SP1" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" name="Maven: javax:javaee-api:8.0" level="project" />
   </component>
 </module>
