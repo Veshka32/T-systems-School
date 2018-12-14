@@ -2,7 +2,6 @@ package integration;
 
 import config.AppInitializer;
 import config.HibernateConfiguration;
-import config.MyRequestListener;
 import dao.implementations.PhoneNumberDAO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +52,6 @@ class PhoneNumberServiceTest {
                     value = {AppInitializer.class,
                             HibernateConfiguration.class,
                             PhoneNumberService.class,
-                            MyRequestListener.class,
                             PhoneNumberDAO.class})}
     )
     public static class WebMvcConfigSpecial implements WebMvcConfigurer {
@@ -71,6 +69,7 @@ class PhoneNumberServiceTest {
     @Test
     @Transactional
     void getTest() throws InterruptedException, java.util.concurrent.ExecutionException {
+
         //set up task and executor
         int threadsNumber = 50;
         Set<Long> generatedNumbers = new HashSet<>();
@@ -89,6 +88,6 @@ class PhoneNumberServiceTest {
             Long aLong = result.get();
             generatedNumbers.add(aLong);
         }
-        assertEquals(generatedNumbers.size(), results.size()); //mean all long values are unique
+        assertEquals(generatedNumbers.size(), results.size()); //it means all numbers are unique
     }
 }
