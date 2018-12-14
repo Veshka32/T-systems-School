@@ -51,7 +51,7 @@ class SeleniumIT {
             } catch (Exception e) {
                 //do nothing
             }
-        }, 60, 10, SECONDS); //30 sec start delay, repeat every 5 sec
+        }, 60, 10, SECONDS); //60 sec start delay, repeat every 10 sec
 
         downLatch.await(5, MINUTES); //wait no longer than 5 minutes
         scheduler.shutdownNow(); //stop executor immediately after timeout
